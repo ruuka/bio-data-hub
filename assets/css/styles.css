@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Variables */
+
+@layer base {
+
+}
+
+:root {
+  --black: rgba(0, 0, 0, 1);
+  --mine-shaft: rgba(51, 51, 51, 1);
+  --dotted-stroke: rgba(60, 60, 60, 0.302);
+  --masala: rgba(60, 60, 60, 0.8);
+  --scarpa-flow: rgba(84, 86, 91, 1);
+  --stack: rgba(142, 142, 142, 1);
+  --gilead-red-10: rgba(197, 31, 63, 0.102);
+  --cardinal-2: rgba(197, 31, 63, 0.502);
+  --cardinal: rgba(197, 31, 63, 1);
+  --bon-jour: rgba(225, 225, 225, 1);
+  --white: rgba(255, 255, 255, 1);
+
+  --font-size-m: 12px;
+  --font-size-l: 14px;
+  --font-size-xl: 16px;
+  --font-size-xxl: 18px;
+  --font-size-xxxl: 20px;
+  --font-size-xxxxl: 27px;
+  --font-size-xxxxxl: 48px;
+
+  --font-family-font_awesome_5_pro-regular: "Font Awesome 5 Pro-Regular";
+  --font-family-font_awesome_6_pro-regular: "Font Awesome 6 Pro-Regular";
+  --font-family-inter: "Inter";
+  --font-family-manrope: "Manrope";
+}
