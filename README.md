@@ -1,4 +1,4 @@
-# bioinformatics-data-hub
+# new project
 
 ## Build Setup
 
