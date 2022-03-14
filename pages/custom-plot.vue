@@ -272,18 +272,43 @@
                 <div class="px-2 py-2 bg-white sm:p-6">
                   <div class="flex flex-col w-full">
                     <selectFilter ref="selectFilter" />
+
+                    <div
+                      v-for="(axisFilter, idx) in allAxisFilters"
+                      :key="axisFilter.name"
+                      class="flex flex-row mb-4"
+                    >
+                      <div class="px-2 py-2 mt-2">
+                        <p>{{ axisFilter.name }}</p>
+                      </div>
+                      <select-input
+                        :disabled-row-indices="wholeRowDisabledIndices"
+                        :filter-index="idx"
+                        :filter="axisFilter"
+                        @ON_SELECT_CHANGE="handleOnSelectChange"
+                      />
+                    </div>
+
                     <!--                      <div class="divider"></div>-->
                     <div class="flex flex-row">
-                      <div class="px-2 py-2 mt-2">
+                      <!-- <div class="px-2 py-2 mt-2">
                         <p>Study ID</p>
-                      </div>
+                      </div> -->
 
                       <div class="px-2 py-2 form-control">
-                          <!-- <selectInput></selectInput>-->
-                          <select v-model="studySelection.selectedStudy" class="select select-bordered">
-                            <option disabled selected>- Select Study ID -</option>
-                            <option v-for="carrier in carriers" :value="{id: carrier.id, name: carrier.name}">{{ carrier.name }}</option>
-                          </select>
+                        <select
+                          v-model="studySelection.selectedStudy"
+                          class="select select-bordered"
+                        >
+                          <option disabled selected>- Select Study ID -</option>
+                          <option
+                            v-for="carrier in carriers"
+                            :key="carrier.name"
+                            :value="{ id: carrier.id, name: carrier.name }"
+                          >
+                            {{ carrier.name }}
+                          </option>
+                        </select>
                       </div>
 
                       <div
@@ -322,9 +347,9 @@
                     <div class="divider"></div>
 
                     <div class="flex flex-row">
-                      <div class="px-2 py-2 mt-2">
+                      <!-- <div class="px-2 py-2 mt-2">
                         <p>Horizontal Axis</p>
-                      </div>
+                      </div> -->
 
                       <!--                        <div class="px-2 py-2 form-control">-->
                       <!--                          <select class="select select-bordered">-->
@@ -399,9 +424,9 @@
                     <div class="divider"></div>
 
                     <div class="flex flex-row">
-                      <div class="px-2 py-2 m-2">
+                      <!-- <div class="px-2 py-2 m-2">
                         <p>Vertical Axis</p>
-                      </div>
+                      </div> -->
 
                       <div
                         v-if="
@@ -443,9 +468,8 @@
                   </div>
 
                   <button
-                  type="submit"
+                    type="submit"
                     class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-700 border border-transparent rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-
                   >
                     Save Filters
                   </button>
@@ -486,10 +510,11 @@ export default {
   components: {
     NewBoxPlot,
     selectInput,
-    selectFilter
+    selectFilter,
   },
   asyncData() {
     return {
+      localStorageFilterKey: 'bioinformatics-data-hub-filters',
       therapeuticAreaOptions: ['Inflammation', 'Oncology', 'Virology'],
       studyOptions: [
         {
@@ -630,6 +655,245 @@ export default {
         { id: 2, name: 'Biomarker' },
         { id: 3, name: 'Gene Expression' },
       ],
+
+      // my own (perhaps temporary) variables to render the select dropdowns,
+      // didn't want to delete your previous variables, so creating a separate one
+
+      // didn't know what to name for this variable lol
+
+      // for example, "Study","Horizontal Axis","Vertical Axis"
+      axisFilters: [
+        {
+          name: 'Study Id',
+          id: 'study-id',
+        },
+        {
+          name: 'Horizontal Axis',
+          id: 'horizontal-axis',
+        },
+        {
+          name: 'Vertical Axis',
+          id: 'vertical-axis',
+        },
+      ],
+
+      // these are the select dropdowns under the main axisFilters names
+      // for example, for "Horizontal Axis", these would include the dropdowns for "Gene Expression","Filgotinib, 200mg" etc
+      // parent filter is referenced by a variable parentId
+      axisFilterOptions: [
+        // for study id
+        {
+          id: 'study-type',
+          name: 'Study Type',
+          parentId: 'study-id',
+          label: 'Select Study Type',
+          selectedValue: '',
+          options: [
+            {
+              name: 'GS-US-321-0105',
+              value: 'gs-us-321-0105',
+            },
+            {
+              name: 'GS-US-321-0106',
+              value: 'gs-us-321-0106',
+            },
+            {
+              name: 'GS-US-321-0106',
+              value: 'gs-us-321-0107',
+            },
+            {
+              name: 'GS-US-321-0106',
+              value: 'gs-us-321-0108',
+            },
+          ],
+        },
+        {
+          id: 'timepoints',
+          name: 'Timepoints',
+          parentId: 'study-id',
+          label: 'Select Timepoints',
+          selectedValue: '',
+          options: [
+            {
+              name: 'Baseline',
+              value: 'baseline',
+            },
+            {
+              name: '48 Weeks',
+              value: '48-weeks',
+            },
+            {
+              name: '96 Weeks',
+              value: '96-weeks',
+            },
+          ],
+        },
+        {
+          id: 'ethnicity',
+          name: 'Ethnicity',
+          parentId: 'study-id',
+          label: 'Select Ethnicity',
+          selectedValue: '',
+          options: [
+            {
+              name: 'Swedish',
+              value: 'swedish',
+            },
+            {
+              name: 'Polish',
+              value: 'polish',
+            },
+            {
+              name: 'Norwegian',
+              value: 'norwegian',
+            },
+          ],
+        },
+
+        // end for study id
+
+        // for horizontal axis
+        {
+          id: 'data-type',
+          name: 'Data Type',
+          parentId: 'horizontal-axis',
+          label: 'Select Data Type',
+          selectedValue: '',
+          options: [
+            {
+              name: 'Gene Expression',
+              value: 'gene-expression',
+            },
+            {
+              name: 'Clinical Attribute',
+              value: 'clinical-attribute',
+            },
+            {
+              name: 'Biomarker',
+              value: 'biomarker',
+            },
+          ],
+        },
+        {
+          id: 'blood-cell',
+          name: 'Blood Cell',
+          parentId: 'horizontal-axis',
+          label: 'Select Blood Cell',
+          selectedValue: '',
+          options: [
+            {
+              name: 'Red Blood Cell',
+              value: 'red-blood-cell',
+            },
+            {
+              name: 'White Blood Cell',
+              value: 'white-blood-cell',
+            },
+          ],
+        },
+        {
+          id: 'age-range',
+          name: 'Age Range',
+          parentId: 'horizontal-axis',
+          label: 'Select Age Range',
+          selectedValue: '',
+          options: [
+            {
+              name: '1 Years Old',
+              value: '1-year',
+            },
+            {
+              name: '10 Years Old',
+              value: '10-years',
+            },
+            {
+              name: '20 Years Old',
+              value: '20-years',
+            },
+            {
+              name: '30 Years Old',
+              value: '30-years',
+            },
+            {
+              name: '40 Years Old',
+              value: '40-years',
+            },
+          ],
+        },
+
+        // end  for horizontal axis
+
+        // for vertical axis
+        {
+          id: 'data-type-vertical',
+          name: 'Data Type',
+          parentId: 'vertical-axis',
+          label: 'Select Data Type',
+          selectedValue: '',
+          options: [
+            {
+              name: 'Gene Expression',
+              value: 'gene-expression',
+            },
+            {
+              name: 'Clinical Attribute',
+              value: 'clinical-attribute',
+            },
+            {
+              name: 'Biomarker',
+              value: 'biomarker',
+            },
+          ],
+        },
+        {
+          id: 'sex',
+          name: 'Sex',
+          parentId: 'vertical-axis',
+          label: 'Select Sex',
+          selectedValue: '',
+          options: [
+            {
+              name: 'Male',
+              value: 'male',
+            },
+            {
+              name: 'Female',
+              value: 'female',
+            },
+            {
+              name: 'Other',
+              value: 'other',
+            },
+          ],
+        },
+        {
+          id: 'income-level',
+          name: 'Income Level',
+          parentId: 'vertical-axis',
+          label: 'Select Income Level',
+          selectedValue: '',
+          options: [
+            {
+              name: 'Low',
+              value: 'low',
+            },
+            {
+              name: 'Lower Middle',
+              value: 'lower-middle',
+            },
+            {
+              name: 'Upper Middle',
+              value: 'upper-middle',
+            },
+            {
+              name: 'High',
+              value: 'high',
+            },
+          ],
+        },
+
+        // end for vertical axis
+      ],
     }
   },
   head() {
@@ -646,14 +910,83 @@ export default {
       ],
     }
   },
+  computed: {
+    allAxisFilters() {
+      return this.axisFilters.map((af) => ({
+        ...af,
+        axisSubFilters: this.axisFilterOptions.filter(
+          (sub) => sub.parentId === af.id
+        ),
+      }))
+    },
+    wholeRowDisabledIndices() {
+      // holds the indices of the rows that are disabled in an array
+      // like initially, all row except the first will be disabled
+
+      const filterIds = this.axisFilters.map((f, i) => ({ index: i, id: f.id }))
+
+      const disabledIndices = []
+
+      // starting from 1 since for the first row (0), it won't ever be fully disabled
+      for (let i = 1; i < filterIds.length; i++) {
+        // by for this, i mean the previous row options
+        const axisFilterOptionsForThisIdx = this.axisFilterOptions.filter(
+          (sub) => sub.parentId === filterIds[i - 1].id
+        )
+
+        // if not all select dropdown has their respective select dropdown value, then, this whole row is disabled
+        if (!axisFilterOptionsForThisIdx.every((opt) => opt.selectedValue)) {
+          disabledIndices.push(i)
+        }
+      }
+
+      return disabledIndices
+    },
+  },
   watch: {
     isLog() {
       // this.sendUpdateFilter()
     },
   },
+  mounted() {
+    this.getLocalStorageAxisFilters()
+  },
   methods: {
+    getLocalStorageAxisFilters() {
+      const localStorageFilters = localStorage.getItem(
+        this.localStorageFilterKey
+      )
+      if (!localStorageFilters) return
+
+      const parsed = JSON.parse(localStorageFilters)
+      const axisFilters = parsed?.axisFilters
+
+      this.axisFilterOptions = axisFilters
+        ? [...axisFilters]
+        : this.axisFilterOptions
+    },
+    handleOnSelectChange({ value, subFilterId }) {
+      this.axisFilterOptions = this.axisFilterOptions.map((sub) =>
+        sub.id === subFilterId
+          ? {
+              ...sub,
+              selectedValue: value,
+            }
+          : sub
+      )
+    },
     handleSaveFilters() {
-      this.$refs.selectFilter.saveFilters()
+      const filters = this.$refs.selectFilter.getFilters()
+      const axisFilters = this.axisFilterOptions
+
+      const stringifiedFilters = JSON.stringify({
+        filters,
+        axisFilters,
+      })
+
+      localStorage.setItem(this.localStorageFilterKey, stringifiedFilters)
+
+      // this.$refs.selectFilter.saveFilters()
     },
     updatePlotData(object) {
       this.plotSetupDict = object

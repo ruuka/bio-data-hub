@@ -30,8 +30,9 @@
       >
         <template v-if="filter.isActive">
           <label
+            :class="{ hidden: !filter.isActive }"
             tabindex="0"
-            class="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1 pl-3 pr-2.5 py-2 rounded-lg bg-rose-50 font-medium text-xs hover:bg-rose-100  hover:cursor-pointer"
+            class="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1 pl-3 pr-2.5 py-2 rounded-lg bg-rose-50 font-medium text-xs hover:bg-rose-100 hover:cursor-pointer"
           >
             <span>{{ filter.name }}:&nbsp; </span>
             <!-- again, because of a conflict in my vs code and eslint i think, i can't use v-for loop and key property inside template -->
@@ -167,6 +168,7 @@
             <div
               v-for="filter in allFilters"
               :key="'add-filter-' + filter.id"
+              :class="{ hidden: !filter.isActive }"
               class="flex justify-center items-center gap-2 px-3 py-2 rounded bg-white border border-[#d9d8ff]"
             >
               <!-- currently lint and (my vs code extension?) are conflicting so i can't use key in template tag -->
@@ -416,7 +418,10 @@ export default {
     const localStorageFilters = localStorage.getItem(this.localStorageFilterKey)
 
     if (localStorageFilters) {
-      this.activeFilters = JSON.parse(localStorageFilters)
+      const parsed = JSON.parse(localStorageFilters)
+
+      const filters = parsed?.filters
+      this.activeFilters = filters || []
     } else {
       this.activeFilters = []
     }
@@ -426,12 +431,11 @@ export default {
       this.activeFilters = this.activeFilters.map((f) =>
         f.id === filter.id
           ? {
-            ...f,
-            filterOptions: [...newTags],
-          }
+              ...f,
+              filterOptions: [...newTags],
+            }
           : f
       )
-      this.saveFilters()
     },
     getAutocompleteItems(id) {
       // need to query initialFilters since it has every options
@@ -444,6 +448,12 @@ export default {
           ?.toLowerCase()
           .includes(this.searchText.toString()?.toLowerCase())
       )
+    },
+    getFilters() {
+      // now, the parent is responsible for saving filter since there is another thing to save
+      // i.e. need to save the "Study Id", "Horizontal Axis", "Vertical Axis"  stuff, whatever it is called
+
+      return this.activeFilters
     },
     saveFilters() {
       const stringifiedFilters = JSON.stringify(this.activeFilters)
@@ -465,8 +475,6 @@ export default {
           isActive: true,
         })
       }
-
-      this.saveFilters()
     },
     onChangeCheckbox(filter, option) {
       // if there exists this optino in the filter, remove it
@@ -494,9 +502,9 @@ export default {
       const withOptionToggled = filter.filterOptions.map((opt) =>
         opt.id === option.id
           ? {
-            ...opt,
-            isActive: !opt.isActive,
-          }
+              ...opt,
+              isActive: !opt.isActive,
+            }
           : opt
       )
 
