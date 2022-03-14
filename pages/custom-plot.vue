@@ -271,28 +271,19 @@
               <div class="overflow-hidden shadow sm:rounded-md">
                 <div class="px-2 py-2 bg-white sm:p-6">
                   <div class="flex flex-col w-full">
-                    <SelectInput ref="selectInput" />
+                    <selectFilter ref="selectFilter" />
                     <!--                      <div class="divider"></div>-->
                     <div class="flex flex-row">
                       <div class="px-2 py-2 mt-2">
                         <p>Study ID</p>
                       </div>
 
-                      <!--                        <div class="px-2 py-2 form-control">-->
-                      <!--                          <select class="select select-bordered">-->
-                      <!--                            <option disabled selected>- Select Data Type -</option>-->
-                      <!--                            <option>Clinical Attribute</option>-->
-                      <!--                            <option>Biomarker</option>-->
-                      <!--                            <option>Gene Expression</option>-->
-                      <!--                          </select>-->
-                      <!--                        </div>-->
-
                       <div class="px-2 py-2 form-control">
-                        <!--                          <select v-model="studySelection.selectedStudy" class="select select-bordered">-->
-                        <!--                            <option disabled selected>- Select Study ID -</option>-->
-                        <!--                            <option v-for="carrier in carriers" :value="{id: carrier.id, name: carrier.name}">{{ carrier.name }}</option>-->
-                        <!--                          </select>-->
-                        <!-- <SelectInput></SelectInput> -->
+                          <!-- <selectInput></selectInput>-->
+                          <select v-model="studySelection.selectedStudy" class="select select-bordered">
+                            <option disabled selected>- Select Study ID -</option>
+                            <option v-for="carrier in carriers" :value="{id: carrier.id, name: carrier.name}">{{ carrier.name }}</option>
+                          </select>
                       </div>
 
                       <div
@@ -450,11 +441,11 @@
                       />
                     </label>
                   </div>
-                  
+
                   <button
                   type="submit"
                     class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-700 border border-transparent rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                    
+
                   >
                     Save Filters
                   </button>
@@ -487,12 +478,15 @@
 <script>
 // import APIService from '~/services/APIService'
 import NewBoxPlot from '../components/plotly_components/NewBoxPlot'
-import SelectInput from '../components/layout_components/SelectInput'
+import selectInput from '../components/layout_components/selectInput'
+import selectFilter from '../components/layout_components/selectFilter'
+
 export default {
-  name: 'custom-plot',
+  name: 'CustomPlot',
   components: {
     NewBoxPlot,
-    SelectInput,
+    selectInput,
+    selectFilter
   },
   asyncData() {
     return {
@@ -638,199 +632,6 @@ export default {
       ],
     }
   },
-  watch: {
-    mainSelection() {
-      this.isLog = false
-      this.subSelection = null
-      this.selectedTimePoint = null
-      this.selectedTreatment = null
-      this.metadataOptions = null
-      this.selectedTissue = null
-      this.data = null
-      if (this.mainSelection === 'Gene Expression') {
-        APIService.getGeneMetadataOptions(this.$axios, [
-          this.$props.study,
-        ]).then((response) => {
-          this.metadataOptions = response.data
-          this.tissueOptions = [
-            ...new Set(this.metadataOptions.map((x) => x.tissue_source)),
-          ]
-          this.selectedTissue = this.tissueOptions[0]
-          console.log(this.metadataOptions)
-          this.treatmentOptions = [
-            ...new Set(this.metadataOptions.map((x) => x.treatment)),
-          ]
-          this.treatmentOptions.push('All')
-          this.selectedTreatment = this.treatmentOptions[0]
-        })
-      } else if (this.mainSelection === 'Biomarker') {
-        APIService.getBiomarkerMetadataOptions(this.$axios, [
-          this.$props.study,
-        ]).then((response) => {
-          this.metadataOptions = response.data
-          this.treatmentOptions = [
-            ...new Set(this.metadataOptions.map((x) => x.preferred_name)),
-          ]
-          this.treatmentOptions.push('All')
-          this.selectedTreatment = this.treatmentOptions[0]
-        })
-      }
-      this.sendUpdateFilter()
-    },
-    subSelection() {
-      if (
-        this.selectedTimePoint !== null &&
-        this.mainSelection !== 'Clinical Attribute'
-      ) {
-        this.downloadData()
-      } else if (this.mainSelection === 'Clinical Attribute') {
-        if (['Treatment', 'Week'].includes(this.subSelection)) {
-          APIService.getDemographicMetadataData(this.$axios, {
-            studyList: this.$props.study,
-          }).then((response) => {
-            this.data = response.data
-            this.$nextTick(() => {
-              this.$emit('update-filter', {
-                mainSelection: this.mainSelection,
-                subSelection: this.subSelection,
-                axis: this.$props.axisText,
-                isLog: this.isLog,
-                unit: this.calculateUnit,
-                data: this.data,
-              })
-            })
-          })
-        } else {
-          APIService.getDemographicAndID(this.$axios, {
-            studyList: this.$props.study,
-            sexList: 'All',
-            ageList: 'All',
-            raceList: 'All',
-            ethnicityList: 'All',
-          }).then((response) => {
-            this.data = response.data
-            this.$nextTick(() => {
-              this.$emit('update-filter', {
-                mainSelection: this.mainSelection,
-                subSelection: this.subSelection,
-                axis: this.$props.axisText,
-                isLog: this.isLog,
-                unit: this.calculateUnit,
-                data: this.data,
-              })
-            })
-          })
-        }
-        this.$nextTick(() => {
-          this.$emit('update-filter', {
-            mainSelection: this.mainSelection,
-            subSelection: this.subSelection,
-            axis: this.$props.axisText,
-            isLog: this.isLog,
-            unit: this.calculateUnit,
-            data: this.data,
-          })
-        })
-      }
-      this.sendUpdateFilter()
-    },
-    isLog() {
-      this.sendUpdateFilter()
-    },
-    selectedTissue() {
-      this.data = null
-      if (this.selectedTissue !== null) {
-        this.treatmentOptions = [
-          ...new Set(
-            this.metadataOptions
-              .filter((x) => x.tissue_source === this.selectedTissue)
-              .map((x) => x.treatment)
-          ),
-        ]
-        this.treatmentOptions.push('All')
-      }
-    },
-    selectedTreatment() {
-      this.data = null
-      this.selectedTimePoint = null
-      if (this.mainSelection !== 'Gene Expression') {
-        if (this.selectedTreatment !== null) {
-          if (this.selectedTreatment !== 'All') {
-            this.timeOptions = [
-              ...new Set(
-                this.metadataOptions
-                  .filter((x) => x.preferred_name === this.selectedTreatment)
-                  .map((x) => x.time_point)
-              ),
-            ].sort((a, b) => a - b)
-          } else {
-            this.timeOptions = [
-              ...new Set(this.metadataOptions.map((x) => x.time_point)),
-            ].sort((a, b) => a - b)
-          }
-          this.selectedTimePoint = this.timeOptions[0]
-        }
-      } else if (this.mainSelection === 'Gene Expression') {
-        if (this.selectedTreatment !== null) {
-          if (this.selectedTreatment !== 'All') {
-            this.timeOptions = [
-              ...new Set(
-                this.metadataOptions
-                  .filter((x) => x.treatment === this.selectedTreatment)
-                  .filter((x) => x.tissue_source === this.selectedTissue)
-                  .map((x) => x.time_point)
-              ),
-            ].sort((a, b) => a - b)
-          } else {
-            this.timeOptions = [
-              ...new Set(
-                this.metadataOptions
-                  .filter((x) => x.tissue_source === this.selectedTissue)
-                  .map((x) => x.time_point)
-              ),
-            ].sort((a, b) => a - b)
-          }
-          this.selectedTimePoint = this.timeOptions[0]
-        }
-      }
-
-      if (this.selectedTimePoint !== null) {
-        if (this.subSelection !== null) {
-          this.downloadData()
-        }
-        this.sendUpdateFilter()
-      }
-    },
-    selectedTimePoint() {
-      this.data = null
-      if (this.selectedTimePoint !== null) {
-        if (this.subSelection !== null) {
-          this.downloadData()
-        }
-        this.sendUpdateFilter()
-      }
-    },
-    study() {
-      APIService.getBiomarkerPlotOptions(this.$axios, [this.$props.study]).then(
-        (response) => {
-          this.biomarkerChoices = response.data.map((x) => x.name)
-          this.biomarkerInfo = response.data
-        }
-      )
-    },
-  },
-  methods: {
-    handleSaveFilters() {
-      this.$refs.selectInput.saveFilters()
-    },
-    updatePlotData(object) {
-      this.plotSetupDict = object
-    },
-    updateFilter(object) {
-      this.primaryFilter = object.primaryFilter
-      this.secondaryFilter = object.secondaryFilter
-    },
-  },
   head() {
     const title = 'Custom Plots'
     return {
@@ -844,6 +645,23 @@ export default {
         },
       ],
     }
+  },
+  watch: {
+    isLog() {
+      // this.sendUpdateFilter()
+    },
+  },
+  methods: {
+    handleSaveFilters() {
+      this.$refs.selectFilter.saveFilters()
+    },
+    updatePlotData(object) {
+      this.plotSetupDict = object
+    },
+    updateFilter(object) {
+      this.primaryFilter = object.primaryFilter
+      this.secondaryFilter = object.secondaryFilter
+    },
   },
 }
 </script>

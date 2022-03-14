@@ -2,14 +2,10 @@
   <div class="flex w-full">
     <div class="w-full h-full overflow-y-auto px-2 py-4">
     <Breadcrumb title="breadcrumb"/>
-      <!-- <div class="flex flex-col w-full">
-        <div class="divider">Clinical Bioinformatics</div>
-      </div> -->
 
     <div class="bg-white shadow-sm w-full rounded mt-2">
         <h4 class="text-xl lg:text-2xl px-3 py-2 leading-tight text-black">New Publications</h4>
     </div>
-
 
        <!-- START CAROUSEL -->
        <div class="flex flex-wrap flex-col lg:flex-row mt-4">
@@ -33,21 +29,16 @@
 
   <!-- END PUBLICATIONS SECTION -->
 
-
     </div>
   </div>
 
 </template>
-
 
 <script>
 import  Carousel from '../components/publication_components/Carousel.vue'
 import  WhatsTrending from '../components/publication_components/WhatsTrending.vue'
 import  publicationsCard from '../components/publication_components/publicationsCard.vue'
 import  Breadcrumb from '../components/publication_components/Breadcrumb.vue'
-
-
-
 
 export default {
   name: 'ClinicalBioinformatics',
@@ -56,7 +47,6 @@ export default {
     WhatsTrending,
     publicationsCard,
     Breadcrumb
-
   },
   data() {
     return {

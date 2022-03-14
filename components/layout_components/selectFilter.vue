@@ -31,7 +31,7 @@
         <template v-if="filter.isActive">
           <label
             tabindex="0"
-            class="m-1 text-xs font-medium text-left text-[#54565b] cursor-pointer flex items-center"
+            class="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1 pl-3 pr-2.5 py-2 rounded-lg bg-rose-50 font-medium text-xs hover:bg-rose-100  hover:cursor-pointer"
           >
             <span>{{ filter.name }}:&nbsp; </span>
             <!-- again, because of a conflict in my vs code and eslint i think, i can't use v-for loop and key property inside template -->
@@ -69,8 +69,7 @@
           </label>
 
           <div
-            style="min-height: 300px; min-width: 300px"
-            class="flex flex-col items-start justify-start p-2 shadow filter-dropdown-content dropdown-content menu bg-base-100 rounded-box w-52"
+            class="flex flex-col items-start justify-start p-2 shadow filter-dropdown-content dropdown-content menu bg-base-100 rounded-box w-300"
           >
             <h4 class="mb-2 text-xs font-semibold">
               Filtering: {{ filter.name }}
@@ -149,7 +148,7 @@
         class="rounded shadow compact dropdown-content bg-base-100"
       >
         <div
-          class="flex flex-col justify-center items-center w-[243px] relative gap-1 p-2.5 rounded-[10px] bg-white"
+          class="flex flex-col justify-center items-center w-350 relative gap-1 p-2.5 rounded bg-white"
         >
           <div class="relative self-stretch flex-grow-0 flex-shrink-0 h-4">
             <div
@@ -176,7 +175,7 @@
               <!-- reference here - https://eslint.vuejs.org/rules/no-v-for-template-key.html -->
               <template v-if="filter.isActive">
                 <p
-                  class="flex-grow-0 flex-shrink-0 text-xs font-medium text-left text-[#54565b]"
+                  class="flex-grow-0 flex-shrink-0 text-xs font-medium text-left text-grey-500"
                 >
                   {{ filter.name }}
                 </p>
@@ -200,7 +199,7 @@
             </div>
           </div>
           <div
-            class="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 w-[223px] rounded"
+            class="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 w-[300px] rounded"
           >
             <div
               v-for="filter in allFilters"
@@ -234,7 +233,7 @@ export default {
       initialFilters: [
         {
           id: 1,
-          name: 'Age Range',
+          name: 'Age',
           isActive: false,
           searchText: '',
           filterOptions: [
@@ -242,50 +241,50 @@ export default {
               id: '0-18',
               name: '0-18',
               text: '0-18',
-              description: 'This is a general description for 0-18',
               isActive: true,
             },
             {
               id: '19-35',
               name: '19-35',
               text: '19-35',
-              description: 'This is a general description for 19-35',
               isActive: true,
             },
             {
               id: '36-55',
               name: '36-55',
               text: '36-55',
-              description: 'This is a general description for 36-55',
               isActive: true,
             },
             {
               id: '56+',
               name: '56+',
               text: '56+',
-              description: 'This is a general description for 56+',
               isActive: true,
             },
           ],
         },
         {
           id: 2,
-          name: 'Baseline',
+          name: 'Time',
           isActive: false,
           searchText: '',
           filterOptions: [
             {
+              id: 'Baseline',
+              name: 'Baseline',
+              text: 'Baseline',
+              isActive: true,
+            },
+            {
               id: '48weeks',
               name: '48weeks',
               text: '48weeks',
-              description: 'This is a general description for 48 weeks',
               isActive: true,
             },
             {
               id: '96weeks',
-              name: '48weeks',
+              name: '96weeks',
               text: '96weeks',
-              description: 'This is a general description for 96 weeks',
               isActive: true,
             },
           ],
@@ -300,21 +299,12 @@ export default {
               id: 'male',
               name: 'Male',
               text: 'Male',
-              description: 'This is a general description for male',
               isActive: true,
             },
             {
               id: 'female',
               name: 'Female',
               text: 'Female',
-              description: 'This is a general description for female',
-              isActive: true,
-            },
-            {
-              id: 'other',
-              name: 'Other',
-              text: 'Other',
-              description: 'This is a general description for other',
               isActive: true,
             },
           ],
@@ -329,21 +319,18 @@ export default {
               id: 'swedish',
               name: 'Swedish',
               text: 'Swedish',
-              description: 'This is a general description for swedish',
               isActive: true,
             },
             {
               id: 'german',
               name: 'German',
               text: 'German',
-              description: 'This is a general description for german',
               isActive: true,
             },
             {
               id: 'polish',
               name: 'Polish',
               text: 'Polish',
-              description: 'This is a general description for polish',
               isActive: true,
             },
           ],
@@ -358,21 +345,21 @@ export default {
               id: 'asian',
               name: 'Asian',
               text: 'Asian',
-              description: 'This is a general description for asian',
+              // description: 'This is a general description for asian',
               isActive: true,
             },
             {
               id: 'african-american',
               name: 'African American',
               text: 'African American',
-              description: 'This is a general description for african american',
+              // description: 'This is a general description for african american',
               isActive: true,
             },
             {
               id: 'white',
               name: 'White',
               text: 'White',
-              description: 'This is a general description for white',
+              // description: 'This is a general description for white',
               isActive: true,
             },
           ],
@@ -439,9 +426,9 @@ export default {
       this.activeFilters = this.activeFilters.map((f) =>
         f.id === filter.id
           ? {
-              ...f,
-              filterOptions: [...newTags],
-            }
+            ...f,
+            filterOptions: [...newTags],
+          }
           : f
       )
       this.saveFilters()
@@ -507,9 +494,9 @@ export default {
       const withOptionToggled = filter.filterOptions.map((opt) =>
         opt.id === option.id
           ? {
-              ...opt,
-              isActive: !opt.isActive,
-            }
+            ...opt,
+            isActive: !opt.isActive,
+          }
           : opt
       )
 
