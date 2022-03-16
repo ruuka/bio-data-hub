@@ -5,11 +5,16 @@
       :key="subFilter.label + idx + subFilter.parentId"
       v-model="filterSearchTextObj[subFilter.id]"
       :max-tags="subFilter.isMultipleSelect ? maxLengthForMultipleSelect : 1"
-      :disabled="isDisabled(idx)"
+      :disabled="
+        !deselectedDropdownIds.includes(subFilter.id) && isDisabled(idx)
+      "
       :tags="getTagsForSubFilter(subFilter)"
       :autocomplete-items="getAutocompleteItems(subFilter.id)"
       class="tags-input"
-      :class="{ 'is-filled': isInputFilled(subFilter) }"
+      :class="{
+        'is-filled': isInputFilled(subFilter),
+        'is-error': deselectedDropdownIds.includes(subFilter.id),
+      }"
       :placeholder="getPlaceholder(idx)"
       :autocomplete-always-open="true"
       :add-only-from-autocomplete="true"
@@ -69,6 +74,10 @@ export default {
       required: true,
     },
     disabledRowIndices: {
+      type: Array,
+      required: true,
+    },
+    deselectedDropdownIds: {
       type: Array,
       required: true,
     },
@@ -282,5 +291,9 @@ export default {
 
 .vue-tags-input.is-filled .ti-input .ti-tags .ti-new-tag-input-wrapper {
   display: none;
+}
+
+.vue-tags-input.is-error .ti-input {
+  border: 1px solid red;
 }
 </style>

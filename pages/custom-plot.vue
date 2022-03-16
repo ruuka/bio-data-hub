@@ -288,6 +288,7 @@
                           :disabled-row-indices="wholeRowDisabledIndices"
                           :filter-index="idx"
                           :filter="axisFilter"
+                          :deselected-dropdown-ids="deselectedDropdownIds"
                           @ON_SELECT_CHANGE="handleOnSelectChange"
                         />
                       </div>
@@ -932,6 +933,53 @@ export default {
           })),
       }))
     },
+
+    deselectedDropdownIds() {
+      // returns the ids of the select dropdowns that are invalid
+      // happens when user deselects a dropdown that is placed before other subsequent already selected dropdowns
+
+      // general idea for the following code is -
+      // 1. start from the end dropdown for a row
+      // 2. if an item in the loop is empty, then gather the rest of the previous dropdown items in an array
+      // 3. loop through the array and check if at least one item has a selected value (Array.some)
+      // 4. it at least one dropdown is selected, that means, all the dropdowns which don't have anything selected before this current item in the loop should show an error border
+
+      const deselectedIds = []
+
+      for (let i = 0; i < this.allAxisFilters.length; i++) {
+        const axisSubFilters = this.allAxisFilters[i]?.axisSubFilters
+        for (let j = axisSubFilters.length - 1; j >= 0; j--) {
+          const currentSubFilter = axisSubFilters[j]
+          if (currentSubFilter.selectedValue.length === 0) {
+            const nextRowSubfilters = this.allAxisFilters[i + 1]?.axisSubFilters
+            if (!nextRowSubfilters) break
+
+            if (nextRowSubfilters) {
+              if (nextRowSubfilters.some((s) => s.selectedValue.length > 0)) {
+                deselectedIds.push(currentSubFilter.id)
+              }
+            }
+          }
+
+          const allPrevSubFiltersLength = j
+          const allPrevSubfilters = Array.from(
+            Array(allPrevSubFiltersLength).keys()
+          ).map((x) => axisSubFilters[x])
+
+          if (allPrevSubfilters.some((s) => s.selectedValue.length === 0)) {
+            allPrevSubfilters.forEach((s) => {
+              if (s.selectedValue.length === 0) {
+                if (deselectedIds.includes(s.id)) return
+                deselectedIds.push(s.id)
+              }
+            })
+          }
+        }
+      }
+
+      return deselectedIds
+    },
+
     wholeRowDisabledIndices() {
       // holds the indices of the rows that are disabled in an array
       // like initially, all row except the first will be disabled
@@ -1009,6 +1057,12 @@ export default {
       )
     },
     handleSaveFilters() {
+      if (this.deselectedDropdownIds.length > 0) {
+        // invalid data - some the subsequent dropdowns are selected without the precedent dropdown items being selected
+        alert('Please select valid filters')
+        return
+      }
+
       const filters = this.$refs.selectFilter.getFilters()
       const axisFilters = this.axisFilterOptions
 
