@@ -271,23 +271,28 @@
               <div class="overflow-hidden shadow sm:rounded-md">
                 <div class="px-2 py-2 bg-white sm:p-6">
                   <div class="flex flex-col w-full">
-                    <selectFilter ref="selectFilter" />
+                    <client-only>
+                      <selectFilter ref="selectFilter" />
+                    </client-only>
 
-                    <div
-                      v-for="(axisFilter, idx) in allAxisFilters"
-                      :key="axisFilter.name"
-                      class="flex flex-row mb-4"
-                    >
-                      <div class="px-2 py-2 mt-2">
-                        <p>{{ axisFilter.name }}</p>
+                    <client-only>
+                      <div
+                        v-for="(axisFilter, idx) in allAxisFilters"
+                        :key="axisFilter.name"
+                        class="flex flex-row mb-4"
+                      >
+                        <div class="px-2 py-2 mt-2">
+                          <p>{{ axisFilter.name }}</p>
+                        </div>
+                        <select-input
+                          :disabled-row-indices="wholeRowDisabledIndices"
+                          :filter-index="idx"
+                          :filter="axisFilter"
+                          :deselected-dropdown-ids="deselectedDropdownIds"
+                          @ON_SELECT_CHANGE="handleOnSelectChange"
+                        />
                       </div>
-                      <select-input
-                        :disabled-row-indices="wholeRowDisabledIndices"
-                        :filter-index="idx"
-                        :filter="axisFilter"
-                        @ON_SELECT_CHANGE="handleOnSelectChange"
-                      />
-                    </div>
+                    </client-only>
 
                     <!--                      <div class="divider"></div>-->
                     <div class="flex flex-row">
@@ -687,7 +692,8 @@ export default {
           name: 'Study Type',
           parentId: 'study-id',
           label: 'Select Study Type',
-          selectedValue: '',
+          selectedValue: [],
+          isMultipleSelect: true,
           options: [
             {
               name: 'GS-US-321-0105',
@@ -712,7 +718,7 @@ export default {
           name: 'Timepoints',
           parentId: 'study-id',
           label: 'Select Timepoints',
-          selectedValue: '',
+          selectedValue: [],
           options: [
             {
               name: 'Baseline',
@@ -733,7 +739,7 @@ export default {
           name: 'Ethnicity',
           parentId: 'study-id',
           label: 'Select Ethnicity',
-          selectedValue: '',
+          selectedValue: [],
           options: [
             {
               name: 'Swedish',
@@ -758,7 +764,7 @@ export default {
           name: 'Data Type',
           parentId: 'horizontal-axis',
           label: 'Select Data Type',
-          selectedValue: '',
+          selectedValue: [],
           options: [
             {
               name: 'Gene Expression',
@@ -779,7 +785,7 @@ export default {
           name: 'Blood Cell',
           parentId: 'horizontal-axis',
           label: 'Select Blood Cell',
-          selectedValue: '',
+          selectedValue: [],
           options: [
             {
               name: 'Red Blood Cell',
@@ -796,7 +802,8 @@ export default {
           name: 'Age Range',
           parentId: 'horizontal-axis',
           label: 'Select Age Range',
-          selectedValue: '',
+          selectedValue: [],
+          isMultipleSelect: true,
           options: [
             {
               name: '1 Years Old',
@@ -829,7 +836,7 @@ export default {
           name: 'Data Type',
           parentId: 'vertical-axis',
           label: 'Select Data Type',
-          selectedValue: '',
+          selectedValue: [],
           options: [
             {
               name: 'Gene Expression',
@@ -850,7 +857,7 @@ export default {
           name: 'Sex',
           parentId: 'vertical-axis',
           label: 'Select Sex',
-          selectedValue: '',
+          selectedValue: [],
           options: [
             {
               name: 'Male',
@@ -871,7 +878,7 @@ export default {
           name: 'Income Level',
           parentId: 'vertical-axis',
           label: 'Select Income Level',
-          selectedValue: '',
+          selectedValue: [],
           options: [
             {
               name: 'Low',
@@ -914,11 +921,65 @@ export default {
     allAxisFilters() {
       return this.axisFilters.map((af) => ({
         ...af,
-        axisSubFilters: this.axisFilterOptions.filter(
-          (sub) => sub.parentId === af.id
-        ),
+        axisSubFilters: this.axisFilterOptions
+          .filter((sub) => sub.parentId === af.id)
+          .map((sub) => ({
+            ...sub,
+            text: sub.name, // the vue-tags-input library requires a text field
+            options: sub.options.map((opt) => ({
+              ...opt,
+              text: opt.name, // the vue-tags-input library requires a text field
+            })),
+          })),
       }))
     },
+
+    deselectedDropdownIds() {
+      // returns the ids of the select dropdowns that are invalid
+      // happens when user deselects a dropdown that is placed before other subsequent already selected dropdowns
+
+      // general idea for the following code is -
+      // 1. start from the end dropdown for a row
+      // 2. if an item in the loop is empty, then gather the rest of the previous dropdown items in an array
+      // 3. loop through the array and check if at least one item has a selected value (Array.some)
+      // 4. it at least one dropdown is selected, that means, all the dropdowns which don't have anything selected before this current item in the loop should show an error border
+
+      const deselectedIds = []
+
+      for (let i = 0; i < this.allAxisFilters.length; i++) {
+        const axisSubFilters = this.allAxisFilters[i]?.axisSubFilters
+        for (let j = axisSubFilters.length - 1; j >= 0; j--) {
+          const currentSubFilter = axisSubFilters[j]
+          if (currentSubFilter.selectedValue.length === 0) {
+            const nextRowSubfilters = this.allAxisFilters[i + 1]?.axisSubFilters
+            if (!nextRowSubfilters) break
+
+            if (nextRowSubfilters) {
+              if (nextRowSubfilters.some((s) => s.selectedValue.length > 0)) {
+                deselectedIds.push(currentSubFilter.id)
+              }
+            }
+          }
+
+          const allPrevSubFiltersLength = j
+          const allPrevSubfilters = Array.from(
+            Array(allPrevSubFiltersLength).keys()
+          ).map((x) => axisSubFilters[x])
+
+          if (allPrevSubfilters.some((s) => s.selectedValue.length === 0)) {
+            allPrevSubfilters.forEach((s) => {
+              if (s.selectedValue.length === 0) {
+                if (deselectedIds.includes(s.id)) return
+                deselectedIds.push(s.id)
+              }
+            })
+          }
+        }
+      }
+
+      return deselectedIds
+    },
+
     wholeRowDisabledIndices() {
       // holds the indices of the rows that are disabled in an array
       // like initially, all row except the first will be disabled
@@ -929,13 +990,33 @@ export default {
 
       // starting from 1 since for the first row (0), it won't ever be fully disabled
       for (let i = 1; i < filterIds.length; i++) {
-        // by for this, i mean the previous row options
-        const axisFilterOptionsForThisIdx = this.axisFilterOptions.filter(
+        const axisFilterOptionsForPrevIdx = this.axisFilterOptions.filter(
           (sub) => sub.parentId === filterIds[i - 1].id
         )
 
-        // if not all select dropdown has their respective select dropdown value, then, this whole row is disabled
-        if (!axisFilterOptionsForThisIdx.every((opt) => opt.selectedValue)) {
+        // if every dropdown in previous row does not have their value selected,
+        // it means there are two cases
+
+        // i: initially, the previous row were all selected, but later on one select dropdown was deselected, in which case, the row after that must not be fully disabled
+        // ii: the usual case where not every dropdown in previous row were selected, and nothing in the next row is selected, so disable this whole next row
+
+        if (
+          !axisFilterOptionsForPrevIdx.every(
+            (opt) => opt.selectedValue.length > 0
+          )
+        ) {
+          const axisFilterOptionsForCurrentIdx = this.axisFilterOptions.filter(
+            (sub) => sub.parentId === filterIds[i].id
+          )
+
+          if (
+            axisFilterOptionsForCurrentIdx.some(
+              (opt) => opt.selectedValue.length > 0
+            )
+          ) {
+            break
+          }
+
           disabledIndices.push(i)
         }
       }
@@ -976,6 +1057,12 @@ export default {
       )
     },
     handleSaveFilters() {
+      if (this.deselectedDropdownIds.length > 0) {
+        // invalid data - some the subsequent dropdowns are selected without the precedent dropdown items being selected
+        alert('Please select valid filters')
+        return
+      }
+
       const filters = this.$refs.selectFilter.getFilters()
       const axisFilters = this.axisFilterOptions
 
