@@ -1,19 +1,27 @@
 <template>
-  <div class="flex w-full">
+      <!-- START MAIN SECTION -->
+    <main class="bg-gray-100 pt-6 px-4 w-full">
 
-    <div class="w-full h-full overflow-y-auto p-10">
+<index-hero />
+<index-details />
 
-      <img src="~static/datahub-home.png">
+    </main>
 
-    </div>
-  </div>
+
+      <!-- END MAIN SECTION -->
 
 </template>
 
 
 <script>
+import IndexDetails from '~/components/home_components/IndexDetails.vue'
+import  IndexHero from '~/components/home_components/IndexHero.vue'
 export default {
   name: 'Index',
+  components: {
+    IndexHero,
+    IndexDetails
+  },
   data() {
     return {
       pageTitle: 'Bioinformatics Data Hub',
