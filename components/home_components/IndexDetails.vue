@@ -1,5 +1,5 @@
 <template>
-  <section class="w-7/12 card   flex flex-col space-y-6  pb-4 -mt-32 pl-20  ">
+  <section class="w-7/12 card   flex flex-col space-y-6  pb-4 -mt-32 2xl:-mt-0 pl-12 2xl:pl-[13rem] ">
 
     <div class="h-[10rem] w-full rounded-2xl z-50 bg-white p-4  shadow-sm ">
 <div class="flex justify-between align-top">
