@@ -966,7 +966,13 @@ export default {
             Array(allPrevSubFiltersLength).keys()
           ).map((x) => axisSubFilters[x])
 
-          if (allPrevSubfilters.some((s) => s.selectedValue.length === 0)) {
+          if (
+            !allPrevSubfilters.every((s) => s.selectedValue.length === 0) &&
+            allPrevSubfilters.some((s) => s.selectedValue.length === 0)
+          ) {
+            // above if condition means if every input field to the left of it is empty, then, no need to show error, it'll be disabled instead
+            // if at least one field is selected but some might be empty, the empty ones would show an error border
+
             allPrevSubfilters.forEach((s) => {
               if (s.selectedValue.length === 0) {
                 if (deselectedIds.includes(s.id)) return
