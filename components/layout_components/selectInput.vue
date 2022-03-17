@@ -211,6 +211,17 @@ export default {
       if (!subFilter) return []
 
       if (
+        !this.deselectedDropdownIds.includes(subFilter.id) &&
+        this.isDisabled(
+          this.filter.axisSubFilters.findIndex((s) => s.id === subFilterId)
+        )
+      ) {
+        return []
+        // if its disabled, set an empty array so that the autocomplete dropdown won't show up,
+        //  otherwise, looks weird since you can't get rid of it because its disabled
+      }
+
+      if (
         (subFilter.isMultipleSelect !== undefined ||
           subFilter?.isMultipleSelect) &&
         subFilter.selectedValue.length === this.maxLengthForMultipleSelect

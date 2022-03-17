@@ -142,7 +142,7 @@
         </div>
       </div>
       <a
-        class="flex items-center justify-center w-full h-16 mt-auto bg-gray-200 rounded hover:bg-rose-50"
+        class="flex items-center justify-start w-full h-16 pl-6 mt-auto bg-gray-200 rounded hover:bg-rose-50"
       >
         <svg
           class="w-6 h-6 stroke-current"

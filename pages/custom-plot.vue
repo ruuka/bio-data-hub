@@ -955,6 +955,11 @@ export default {
             if (!nextRowSubfilters) break
 
             if (nextRowSubfilters) {
+              if (
+                nextRowSubfilters.every((s) => s.selectedValue.length === 0)
+              ) {
+                break
+              }
               if (nextRowSubfilters.some((s) => s.selectedValue.length > 0)) {
                 deselectedIds.push(currentSubFilter.id)
               }
