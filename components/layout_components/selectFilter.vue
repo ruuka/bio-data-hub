@@ -231,7 +231,6 @@ export default {
 
   data() {
     return {
-      localStorageFilterKey: 'bioinformatics-data-hub-filters',
       initialFilters: [
         {
           id: 1,
@@ -318,21 +317,15 @@ export default {
           searchText: '',
           filterOptions: [
             {
-              id: 'swedish',
-              name: 'Swedish',
-              text: 'Swedish',
+              id: 'hispanic',
+              name: 'Hispanic',
+              text: 'Hispanic',
               isActive: true,
             },
             {
-              id: 'german',
-              name: 'German',
-              text: 'German',
-              isActive: true,
-            },
-            {
-              id: 'polish',
-              name: 'Polish',
-              text: 'Polish',
+              id: 'nonhispanic',
+              name: 'Non-Hispanic',
+              text: 'Non-Hispanic',
               isActive: true,
             },
           ],

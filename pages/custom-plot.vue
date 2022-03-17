@@ -271,186 +271,29 @@
               <div class="overflow-hidden shadow sm:rounded-md">
                 <div class="px-2 py-2 bg-white sm:p-6">
                   <div class="flex flex-col w-full">
-                    <selectFilter ref="selectFilter" />
+                    <client-only>
+                      <selectFilter ref="selectFilter" />
+                    </client-only>
 
-                    <div
-                      v-for="(axisFilter, idx) in allAxisFilters"
-                      :key="axisFilter.name"
-                      class="flex flex-row mb-4"
-                    >
-                      <div class="px-2 py-2 mt-2">
-                        <p>{{ axisFilter.name }}</p>
-                      </div>
-                      <select-input
-                        :disabled-row-indices="wholeRowDisabledIndices"
-                        :filter-index="idx"
-                        :filter="axisFilter"
-                        @ON_SELECT_CHANGE="handleOnSelectChange"
-                      />
-                    </div>
-
-                    <!--                      <div class="divider"></div>-->
-                    <div class="flex flex-row">
-                      <!-- <div class="px-2 py-2 mt-2">
-                        <p>Study ID</p>
-                      </div> -->
-
-                      <div class="px-2 py-2 form-control">
-                        <select
-                          v-model="studySelection.selectedStudy"
-                          class="select select-bordered"
-                        >
-                          <option disabled selected>- Select Study ID -</option>
-                          <option
-                            v-for="carrier in carriers"
-                            :key="carrier.name"
-                            :value="{ id: carrier.id, name: carrier.name }"
-                          >
-                            {{ carrier.name }}
-                          </option>
-                        </select>
-                      </div>
-
+                    <client-only>
                       <div
-                        v-if="studySelection.selectedStudy.id === 1"
-                        class="px-2 py-2 form-control"
+                        v-for="(axisFilter, idx) in allAxisFilters"
+                        :key="axisFilter.name"
+                        class="flex flex-row mb-4"
                       >
-                        <select
-                          v-model="timepointSelection.selectedtimepoint"
-                          class="select select-bordered"
-                        >
-                          <option disabled selected>
-                            - Select Time Point -
-                          </option>
-                          <option
-                            v-for="timepoint in timepoints"
-                            :value="{ id: timepoint.id, name: timepoint.name }"
-                          >
-                            {{ timepoint.name }}
-                          </option>
-                        </select>
+                        <div class="px-2 py-2 mt-2 mr-2">
+                          <p>{{ axisFilter.name }}</p>
+                        </div>
+                        <select-input
+                          :disabled-row-indices="wholeRowDisabledIndices"
+                          :filter-index="idx"
+                          :filter="axisFilter"
+                          :deselected-dropdown-ids="deselectedDropdownIds"
+                          @ON_SELECT_CHANGE="handleOnSelectChange"
+                        />
                       </div>
+                    </client-only>
 
-                      <!--                        <div class="dropdown" v-if="studySelection.selectedStudy.id === 1">-->
-                      <!--                          <label tabindex="0" class="m-2 cursor-pointer btn">- Select Time Point -</label>-->
-                      <!--                          <ul tabindex="0" class="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52">-->
-
-                      <!--                            <li><a><input type="checkbox" checked="checked" class="gap-2 checkbox checkbox-primary checkbox-sm"> Baseline</a></li>-->
-                      <!--                            <li><a><input type="checkbox" checked="checked" class="gap-2 checkbox checkbox-primary checkbox-sm"> 48 Weeks</a></li>-->
-                      <!--                            <li><a><input type="checkbox" checked="checked" class="gap-2 checkbox checkbox-primary checkbox-sm"> 96 Weeks</a></li>-->
-                      <!--                          </ul>-->
-                      <!--                        </div>-->
-
-                      <!--                        <span>{{ studySelection.selectedStudy }}</span>-->
-                    </div>
-
-                    <div class="divider"></div>
-
-                    <div class="flex flex-row">
-                      <!-- <div class="px-2 py-2 mt-2">
-                        <p>Horizontal Axis</p>
-                      </div> -->
-
-                      <!--                        <div class="px-2 py-2 form-control">-->
-                      <!--                          <select class="select select-bordered">-->
-                      <!--                            <option disabled selected>- Select Data Type -</option>-->
-                      <!--                            <option>Clinical Attribute</option>-->
-                      <!--                            <option>Biomarker</option>-->
-                      <!--                            <option>Gene Expression</option>-->
-                      <!--                          </select>-->
-                      <!--                        </div>-->
-
-                      <div
-                        v-if="timepointSelection.selectedtimepoint.id === 1"
-                        class="px-2 py-2 form-control"
-                      >
-                        <select
-                          v-model="dataTypeSelection.selectedDataType"
-                          class="select select-bordered"
-                        >
-                          <option disabled selected>
-                            - Select Data Type -
-                          </option>
-                          <option
-                            v-for="dataType in dataTypes"
-                            :value="{ id: dataType.id, name: dataType.name }"
-                          >
-                            {{ dataType.name }}
-                          </option>
-                        </select>
-                      </div>
-
-                      <div
-                        v-if="timepointSelection.selectedtimepoint.id === 1"
-                        class="px-2 py-2 form-control"
-                      >
-                        <select
-                          v-model="dataTypeSelection.selectedDataType"
-                          class="select select-bordered"
-                        >
-                          <option disabled selected>
-                            - Select Value from Data Type -
-                          </option>
-                          <option
-                            v-for="dataType in dataTypes"
-                            :value="{ id: dataType.id, name: dataType.name }"
-                          >
-                            {{ dataType.name }}
-                          </option>
-                        </select>
-                      </div>
-
-                      <div
-                        v-if="timepointSelection.selectedtimepoint.id === 1"
-                        class="px-2 py-2 form-control"
-                      >
-                        <select
-                          v-model="dataTypeSelection.selectedDataType"
-                          class="select select-bordered"
-                        >
-                          <option disabled selected>
-                            - Select Treatment Option -
-                          </option>
-                          <option
-                            v-for="dataType in dataTypes"
-                            :value="{ id: dataType.id, name: dataType.name }"
-                          >
-                            {{ dataType.name }}
-                          </option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div class="divider"></div>
-
-                    <div class="flex flex-row">
-                      <!-- <div class="px-2 py-2 m-2">
-                        <p>Vertical Axis</p>
-                      </div> -->
-
-                      <div
-                        v-if="
-                          timepointSelection.selectedtimepoint.id === 1 ||
-                          timepointSelection.selectedtimepoint.id === 2
-                        "
-                        class="px-2 py-2 form-control"
-                      >
-                        <select
-                          v-model="dataTypeSelection.selectedDataType"
-                          class="select select-bordered"
-                        >
-                          <option disabled selected>
-                            - Select Data Type -
-                          </option>
-                          <option
-                            v-for="dataType in dataTypes"
-                            :value="{ id: dataType.id, name: dataType.name }"
-                          >
-                            {{ dataType.name }}
-                          </option>
-                        </select>
-                      </div>
-                    </div>
                   </div>
                 </div>
                 <div class="px-4 py-3 text-right bg-gray-50 sm:px-6">
@@ -514,7 +357,6 @@ export default {
   },
   asyncData() {
     return {
-      localStorageFilterKey: 'bioinformatics-data-hub-filters',
       therapeuticAreaOptions: ['Inflammation', 'Oncology', 'Virology'],
       studyOptions: [
         {
@@ -615,56 +457,11 @@ export default {
       plotSetupDict: {},
       pageTitle: 'Bioinformatics Data Hub - Custom Plot',
       pageSubTitle: "A portal to access and analyze Gilead's molecular data.",
-      chartTitle: 'Liver ERBB2 Expression',
-      studyID: '',
-      studySelection: {
-        selectedStudy: {
-          id: 0,
-          name: '',
-        },
-      },
-      customCarrierName: '- Select Study ID -',
-      carriers: [
-        { id: 1, name: 'GS-US-321-0105' },
-        { id: 2, name: 'GS-US-321-0106' },
-        { id: 3, name: 'GS-US-321-0107' },
-      ],
-      timepointID: '',
-      timepointSelection: {
-        selectedtimepoint: {
-          id: 0,
-          name: '',
-        },
-      },
-      customtimepointName: '- Select Time Point -',
-      timepoints: [
-        { id: 1, name: 'Baseline' },
-        { id: 2, name: '48 Weeks' },
-        { id: 3, name: '96 Weeks' },
-      ],
-      dataTypeID: '',
-      dataTypeSelection: {
-        selectedDataType: {
-          id: 0,
-          name: '',
-        },
-      },
-      customDataTypeName: '- Select Data Type -',
-      dataTypes: [
-        { id: 1, name: 'Clinical Attribute' },
-        { id: 2, name: 'Biomarker' },
-        { id: 3, name: 'Gene Expression' },
-      ],
 
-      // my own (perhaps temporary) variables to render the select dropdowns,
-      // didn't want to delete your previous variables, so creating a separate one
-
-      // didn't know what to name for this variable lol
-
-      // for example, "Study","Horizontal Axis","Vertical Axis"
+      // Axis Labels
       axisFilters: [
         {
-          name: 'Study Id',
+          name: 'Study ID',
           id: 'study-id',
         },
         {
@@ -686,24 +483,29 @@ export default {
           id: 'study-type',
           name: 'Study Type',
           parentId: 'study-id',
-          label: 'Select Study Type',
-          selectedValue: '',
+          label: '- Select Study -',
+          selectedValue: [],
+          isMultipleSelect: false,
           options: [
             {
               name: 'GS-US-321-0105',
               value: 'gs-us-321-0105',
+              description: 'SIM F3 Nash Trial (Ph. 2)'
             },
             {
               name: 'GS-US-321-0106',
               value: 'gs-us-321-0106',
+              description: 'SIM F3 Nash Trial (Ph. 2)'
             },
             {
-              name: 'GS-US-321-0106',
+              name: 'GS-US-321-0107',
               value: 'gs-us-321-0107',
+              description: 'SIM F3 Nash Trial (Ph. 2)'
             },
             {
-              name: 'GS-US-321-0106',
+              name: 'GS-US-321-0108',
               value: 'gs-us-321-0108',
+              description: 'SIM F3 Nash Trial (Ph. 2)'
             },
           ],
         },
@@ -711,8 +513,9 @@ export default {
           id: 'timepoints',
           name: 'Timepoints',
           parentId: 'study-id',
-          label: 'Select Timepoints',
-          selectedValue: '',
+          label: '- Select Timepoints -',
+          selectedValue: [],
+          isMultipleSelect: true,
           options: [
             {
               name: 'Baseline',
@@ -728,27 +531,6 @@ export default {
             },
           ],
         },
-        {
-          id: 'ethnicity',
-          name: 'Ethnicity',
-          parentId: 'study-id',
-          label: 'Select Ethnicity',
-          selectedValue: '',
-          options: [
-            {
-              name: 'Swedish',
-              value: 'swedish',
-            },
-            {
-              name: 'Polish',
-              value: 'polish',
-            },
-            {
-              name: 'Norwegian',
-              value: 'norwegian',
-            },
-          ],
-        },
 
         // end for study id
 
@@ -757,8 +539,8 @@ export default {
           id: 'data-type',
           name: 'Data Type',
           parentId: 'horizontal-axis',
-          label: 'Select Data Type',
-          selectedValue: '',
+          label: '- Select Data Type -',
+          selectedValue: [],
           options: [
             {
               name: 'Gene Expression',
@@ -775,48 +557,74 @@ export default {
           ],
         },
         {
-          id: 'blood-cell',
-          name: 'Blood Cell',
+          id: 'gene',
+          name: 'Gene',
           parentId: 'horizontal-axis',
-          label: 'Select Blood Cell',
-          selectedValue: '',
+          label: '- Select Gene(s) -',
+          selectedValue: [],
+          isMultipleSelect: true,
           options: [
             {
-              name: 'Red Blood Cell',
-              value: 'red-blood-cell',
+              name: 'ERBB1',
+              value: 'erbb1',
+              description: 'Alternative names: HER3'
             },
             {
-              name: 'White Blood Cell',
-              value: 'white-blood-cell',
+              name: 'ERBB2',
+              value: 'erbb2',
+              description: 'Alternative names: HER3'
+            },
+            {
+              name: 'ERBB3',
+              value: 'erbb3',
+              description: 'Alternative names: HER3'
             },
           ],
         },
         {
-          id: 'age-range',
-          name: 'Age Range',
+          id: 'treatment',
+          name: 'Treatment',
           parentId: 'horizontal-axis',
-          label: 'Select Age Range',
-          selectedValue: '',
+          label: '- Select Treatment -',
+          selectedValue: [],
+          isMultipleSelect: true,
           options: [
             {
-              name: '1 Years Old',
-              value: '1-year',
+              name: 'Placebo',
+              value: 'placebo',
             },
             {
-              name: '10 Years Old',
-              value: '10-years',
+              name: 'Filgotinib, 200mg',
+              value: 'filgotinib-200mg',
             },
             {
-              name: '20 Years Old',
-              value: '20-years',
+              name: 'Selonsertib, 18mg',
+              value: 'selonsertib-18mg',
+            },
+          ],
+        },
+        {
+          id: 'tissue-type',
+          name: 'Tissue Type',
+          parentId: 'horizontal-axis',
+          label: '- Select Tissue Type -',
+          selectedValue: [],
+          options: [
+            {
+              name: 'Brain',
+              value: 'brain',
             },
             {
-              name: '30 Years Old',
-              value: '30-years',
+              name: 'Liver',
+              value: 'liver',
             },
             {
-              name: '40 Years Old',
-              value: '40-years',
+              name: 'Whole Blood',
+              value: 'whole-blood',
+            },
+            {
+              name: 'Kidney',
+              value: 'kidney',
             },
           ],
         },
@@ -828,8 +636,8 @@ export default {
           id: 'data-type-vertical',
           name: 'Data Type',
           parentId: 'vertical-axis',
-          label: 'Select Data Type',
-          selectedValue: '',
+          label: '- Select Data Type -',
+          selectedValue: [],
           options: [
             {
               name: 'Gene Expression',
@@ -846,48 +654,74 @@ export default {
           ],
         },
         {
-          id: 'sex',
-          name: 'Sex',
+          id: 'gene-vertical',
+          name: 'Gene',
           parentId: 'vertical-axis',
-          label: 'Select Sex',
-          selectedValue: '',
+          label: '- Select Gene(s) -',
+          selectedValue: [],
+          isMultipleSelect: true,
           options: [
             {
-              name: 'Male',
-              value: 'male',
+              name: 'ERBB1',
+              value: 'erbb1',
+              description: 'Alternative names: HER3'
             },
             {
-              name: 'Female',
-              value: 'female',
+              name: 'ERBB2',
+              value: 'erbb2',
+              description: 'Alternative names: HER3'
             },
             {
-              name: 'Other',
-              value: 'other',
+              name: 'ERBB3',
+              value: 'erbb3',
+              description: 'Alternative names: HER3'
             },
           ],
         },
         {
-          id: 'income-level',
-          name: 'Income Level',
+          id: 'treatment-vertical',
+          name: 'Treatment',
           parentId: 'vertical-axis',
-          label: 'Select Income Level',
-          selectedValue: '',
+          label: '- Select Treatment -',
+          selectedValue: [],
+          isMultipleSelect: true,
           options: [
             {
-              name: 'Low',
-              value: 'low',
+              name: 'Placebo',
+              value: 'placebo',
             },
             {
-              name: 'Lower Middle',
-              value: 'lower-middle',
+              name: 'Filgotinib, 200mg',
+              value: 'filgotinib-200mg',
             },
             {
-              name: 'Upper Middle',
-              value: 'upper-middle',
+              name: 'Selonsertib, 18mg',
+              value: 'selonsertib-18mg',
+            },
+          ],
+        },
+        {
+          id: 'tissue-type-vertical',
+          name: 'Tissue Type',
+          parentId: 'vertical-axis',
+          label: '- Select Tissue Type -',
+          selectedValue: [],
+          options: [
+            {
+              name: 'Brain',
+              value: 'brain',
             },
             {
-              name: 'High',
-              value: 'high',
+              name: 'Liver',
+              value: 'liver',
+            },
+            {
+              name: 'Whole Blood',
+              value: 'whole-blood',
+            },
+            {
+              name: 'Kidney',
+              value: 'kidney',
             },
           ],
         },
@@ -914,11 +748,76 @@ export default {
     allAxisFilters() {
       return this.axisFilters.map((af) => ({
         ...af,
-        axisSubFilters: this.axisFilterOptions.filter(
-          (sub) => sub.parentId === af.id
-        ),
+        axisSubFilters: this.axisFilterOptions
+          .filter((sub) => sub.parentId === af.id)
+          .map((sub) => ({
+            ...sub,
+            text: sub.name, // the vue-tags-input library requires a text field
+            options: sub.options.map((opt) => ({
+              ...opt,
+              text: opt.name, // the vue-tags-input library requires a text field
+            })),
+          })),
       }))
     },
+
+    deselectedDropdownIds() {
+      // returns the ids of the select dropdowns that are invalid
+      // happens when user deselects a dropdown that is placed before other subsequent already selected dropdowns
+
+      // general idea for the following code is -
+      // 1. start from the end dropdown for a row
+      // 2. if an item in the loop is empty, then gather the rest of the previous dropdown items in an array
+      // 3. loop through the array and check if at least one item has a selected value (Array.some)
+      // 4. it at least one dropdown is selected, that means, all the dropdowns which don't have anything selected before this current item in the loop should show an error border
+
+      const deselectedIds = []
+
+      for (let i = 0; i < this.allAxisFilters.length; i++) {
+        const axisSubFilters = this.allAxisFilters[i]?.axisSubFilters
+        for (let j = axisSubFilters.length - 1; j >= 0; j--) {
+          const currentSubFilter = axisSubFilters[j]
+          if (currentSubFilter.selectedValue.length === 0) {
+            const nextRowSubfilters = this.allAxisFilters[i + 1]?.axisSubFilters
+            if (!nextRowSubfilters) break
+
+            if (nextRowSubfilters) {
+              if (
+                nextRowSubfilters.every((s) => s.selectedValue.length === 0)
+              ) {
+                break
+              }
+              if (nextRowSubfilters.some((s) => s.selectedValue.length > 0)) {
+                deselectedIds.push(currentSubFilter.id)
+              }
+            }
+          }
+
+          const allPrevSubFiltersLength = j
+          const allPrevSubfilters = Array.from(
+            Array(allPrevSubFiltersLength).keys()
+          ).map((x) => axisSubFilters[x])
+
+          if (
+            !allPrevSubfilters.every((s) => s.selectedValue.length === 0) &&
+            allPrevSubfilters.some((s) => s.selectedValue.length === 0)
+          ) {
+            // above if condition means if every input field to the left of it is empty, then, no need to show error, it'll be disabled instead
+            // if at least one field is selected but some might be empty, the empty ones would show an error border
+
+            allPrevSubfilters.forEach((s) => {
+              if (s.selectedValue.length === 0) {
+                if (deselectedIds.includes(s.id)) return
+                deselectedIds.push(s.id)
+              }
+            })
+          }
+        }
+      }
+
+      return deselectedIds
+    },
+
     wholeRowDisabledIndices() {
       // holds the indices of the rows that are disabled in an array
       // like initially, all row except the first will be disabled
@@ -929,13 +828,33 @@ export default {
 
       // starting from 1 since for the first row (0), it won't ever be fully disabled
       for (let i = 1; i < filterIds.length; i++) {
-        // by for this, i mean the previous row options
-        const axisFilterOptionsForThisIdx = this.axisFilterOptions.filter(
+        const axisFilterOptionsForPrevIdx = this.axisFilterOptions.filter(
           (sub) => sub.parentId === filterIds[i - 1].id
         )
 
-        // if not all select dropdown has their respective select dropdown value, then, this whole row is disabled
-        if (!axisFilterOptionsForThisIdx.every((opt) => opt.selectedValue)) {
+        // if every dropdown in previous row does not have their value selected,
+        // it means there are two cases
+
+        // i: initially, the previous row were all selected, but later on one select dropdown was deselected, in which case, the row after that must not be fully disabled
+        // ii: the usual case where not every dropdown in previous row were selected, and nothing in the next row is selected, so disable this whole next row
+
+        if (
+          !axisFilterOptionsForPrevIdx.every(
+            (opt) => opt.selectedValue.length > 0
+          )
+        ) {
+          const axisFilterOptionsForCurrentIdx = this.axisFilterOptions.filter(
+            (sub) => sub.parentId === filterIds[i].id
+          )
+
+          if (
+            axisFilterOptionsForCurrentIdx.some(
+              (opt) => opt.selectedValue.length > 0
+            )
+          ) {
+            break
+          }
+
           disabledIndices.push(i)
         }
       }
@@ -949,7 +868,8 @@ export default {
     },
   },
   mounted() {
-    this.getLocalStorageAxisFilters()
+    this.getLocalStorageAxisFilters() // disable when changing field names
+    // localStorage.clear(); to clear local storage in console
   },
   methods: {
     getLocalStorageAxisFilters() {
@@ -969,13 +889,19 @@ export default {
       this.axisFilterOptions = this.axisFilterOptions.map((sub) =>
         sub.id === subFilterId
           ? {
-              ...sub,
-              selectedValue: value,
-            }
+            ...sub,
+            selectedValue: value,
+          }
           : sub
       )
     },
     handleSaveFilters() {
+      if (this.deselectedDropdownIds.length > 0) {
+        // invalid data - some the subsequent dropdowns are selected without the precedent dropdown items being selected
+        alert('Please select valid filters')
+        return
+      }
+
       const filters = this.$refs.selectFilter.getFilters()
       const axisFilters = this.axisFilterOptions
 
