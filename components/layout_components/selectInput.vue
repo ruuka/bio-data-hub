@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap items-center gap-4">
+  <div class="flex flex-wrap items-center gap-2">
     <vue-tags-input
       v-for="(subFilter, idx) in filter.axisSubFilters"
       :key="subFilter.label + idx + subFilter.parentId"
@@ -25,23 +25,27 @@
       <!-- leave this slot as empty element, otherwise the library's default close icon will show up -->
       <!-- we're using our own svg icon below in the slot "tag-center" -->
       <div slot="tag-actions"></div>
-      <div slot="tag-center" slot-scope="props" class="gap-2 text-xs">
+      <div slot="tag-center" slot-scope="props" class="gap-2 font-medium text-xs">
         {{ props.tag.text }}
 
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          class="inline-block w-4 h-4 cursor-pointer stroke-current"
-          @click.prevent="props.performDelete(props.index)"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          ></path>
-        </svg>
+<!--        <svg-->
+<!--          xmlns="http://www.w3.org/2000/svg"-->
+<!--          fill="none"-->
+<!--          viewBox="0 0 24 24"-->
+<!--          class="inline-block w-4 h-4 cursor-pointer stroke-current"-->
+<!--          @click.prevent="props.performDelete(props.index)"-->
+<!--        >-->
+<!--          <path-->
+<!--            stroke-linecap="round"-->
+<!--            stroke-linejoin="round"-->
+<!--            stroke-width="2"-->
+<!--            d="M6 18L18 6M6 6l12 12"-->
+<!--          ></path>-->
+<!--        </svg>-->
+        <font-awesome-icon
+          class="inline-block w-3 h-3 cursor-pointer stroke-current"
+          :icon="['far', 'times']"
+          @click.prevent="props.performDelete(props.index)"  />
       </div>
 
       <div
@@ -54,7 +58,7 @@
           {{ props.item.text }}
         </h6>
         <p class="text-xs text-gray-700">
-          {{ props.item.text }}
+          {{ props.item.description }}
         </p>
       </div>
     </vue-tags-input>
@@ -85,46 +89,6 @@ export default {
 
   data() {
     return {
-      studyID: '',
-      studySelection: {
-        selectedStudy: {
-          id: 0,
-          name: '',
-        },
-      },
-      customCarrierName: '- Select Study ID -',
-      carriers: [
-        { id: 1, name: 'GS-US-321-0105' },
-        { id: 2, name: 'GS-US-321-0106' },
-        { id: 3, name: 'GS-US-321-0107' },
-      ],
-      timepointID: '',
-      timepointSelection: {
-        selectedtimepoint: {
-          id: 0,
-          name: '',
-        },
-      },
-      customtimepointName: '- Select Time Point -',
-      timepoints: [
-        { id: 1, name: 'Baseline' },
-        { id: 2, name: '48 Weeks' },
-        { id: 3, name: '96 Weeks' },
-      ],
-      dataTypeID: '',
-      dataTypeSelection: {
-        selectedDataType: {
-          id: 0,
-          name: '',
-        },
-      },
-      customDataTypeName: '- Select Data Type -',
-      dataTypes: [
-        { id: 1, name: 'Clinical Attribute' },
-        { id: 2, name: 'Biomarker' },
-        { id: 3, name: 'Gene Expression' },
-      ],
-
       // variables for my implementation
       filterSearchTextObj: {},
       maxLengthForMultipleSelect: 2,
@@ -173,6 +137,7 @@ export default {
     },
     getTagsForSubFilter(subFilter) {
       // const isMultipleSelect = subFilter?.isMultipleSelect
+      // console.log(subFilter)
 
       return subFilter.selectedValue.map((opt) => ({
         ...opt,
@@ -272,7 +237,7 @@ export default {
 
         // if (previousSubFilter.selectedValue.length === 0) return true
         if (previousSubFilter.selectedValue.length === 0) {
-          // if the previous dropdown has value not seleccted ^
+          // if the previous dropdown has value not selected ^
 
           if (currentSubFilter.selectedValue.length) {
             // if the current dropdown does have value selected, it means that the previous dropdown had value selected previously
@@ -294,6 +259,41 @@ export default {
 <style>
 .vue-tags-input.ti-disabled {
   background-color: #d2d2d2 !important;
+  border: 0 !important;
+  border-radius: 4px !important;
+  opacity: 0.4;
+}
+
+.vue-tags-input {
+  min-width: 180px !important;
+}
+
+.ti-tag {
+  padding: 3px 5px;
+  margin: 0 !important;
+  font-size: .85em;
+  border-radius: 4px !important;
+}
+
+.ti-input {
+  border: 1px solid #f4f4f4 !important;
+  padding: 4px;
+  border-radius: 4px !important;
+  background-color: #f4f4f4;
+}
+
+.ti-new-tag-input-wrapper input {
+  min-width: 100px;
+  background-color: transparent !important;
+  border: 1px solid transparent !important;
+}
+
+.ti-item > div {
+  padding: 5px 10px !important;
+}
+
+.ti-autocomplete {
+  border: 1px solid transparent !important;
 }
 
 /* this is the input field */
@@ -305,6 +305,6 @@ export default {
 }
 
 .vue-tags-input.is-error .ti-input {
-  border: 1px solid red;
+  border: 2px solid red !important;
 }
 </style>
