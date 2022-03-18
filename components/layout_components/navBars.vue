@@ -1,5 +1,4 @@
 <template>
-
   <nav class="bg-gray-800">
     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
       <div class="relative flex items-center justify-between h-16">
@@ -37,9 +36,9 @@
           <div class="hidden sm:block sm:ml-6">
             <div class="flex space-x-4">
               <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-              <a href="#" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Bioinformatics Data Hub</a>
+              <NuxtLink to="/" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">Bioinformatics Data Hub</NuxtLink>
 
-              <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Knowledge Base</a>
+              <NuxtLink to="/knowledge-base" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Knowledge Base</NuxtLink>
             </div>
           </div>
         </div>
@@ -118,113 +117,12 @@
       </div>
     </div>
   </nav>
-
-<!--  <div class="header">-->
-<!--    <img-->
-<!--      class="gilead-create-possible-svg-1"-->
-<!--      src="https://anima-uploads.s3.amazonaws.com/projects/61eb071259085a6271779ae5/releases/61eb07172db43d929ddc59c6/img/gilead-create-possible-svg-1@2x.svg"-->
-<!--    />-->
-<!--    <div class="devidervertical"></div>-->
-<!--    <div class="developer-center">{{ developerCenter }}</div>-->
-<!--    <size-medium-state-default-typing-false-te />-->
-<!--    <div class="icons">-->
-<!--      <div class="reminder">-->
-<!--        <div class="badges">-->
-<!--          <BadgeDot />-->
-<!--        </div>-->
-<!--      <div-->
-<!--        class="avatarpic"-->
-<!--        :style="{ 'background-image': 'url(' + avatarPic + ')' }"-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
 </template>
 
 <script>
-import SizeMediumStateDefaultTypingFalseTe from "./SizeMediumStateDefaultTypingFalseTe";
-import BadgeDot from "./BadgeDot";
 export default {
-  name: "xHeader",
+  name: "navBars",
   components: {
-    BadgeDot,
-    SizeMediumStateDefaultTypingFalseTe,
   },
-  props: [
-    "developerCenter",
-    "avatarPic",
-    "sizeMediumStateDefaultTypingFalseTe",
-  ],
 };
 </script>
-
-<style>
-.header {
-  align-items: center;
-  background-color: #333;
-  display: flex;
-  height: 60px;
-  padding: 10px 20px;
-  position: relative;
-  width: 100%;
-}
-
-.gilead-create-possible-svg-1 {
-  align-self: flex-end;
-  height: 39px;
-  width: 140px;
-}
-
-.devidervertical {
-  background-color: var(--white);
-  height: 16px;
-  margin-left: 19px;
-  width: 1px;
-}
-
-.developer-center {
-  color: var(--white);
-  font-family: var(--font-family-inter);
-  font-size: var(--font-size-xxxl);
-  font-weight: 500;
-  letter-spacing: 0;
-  line-height: 24px;
-  margin-left: 14px;
-  margin-top: 2px;
-  min-height: 24px;
-  min-width: 186px;
-  white-space: nowrap;
-}
-
-.icons {
-  align-items: center;
-  display: flex;
-  margin-left: 16px;
-  min-width: 76px;
-}
-
-.reminder {
-  align-items: flex-start;
-  background-image: url('https://anima-uploads.s3.amazonaws.com/projects/61eb071259085a6271779ae5/releases/61eb07172db43d929ddc59c6/img/icon-lremind@2x.svg');
-  background-size: 100% 100%;
-  display: flex;
-  height: 20px;
-  padding: 1px;
-  position: relative;
-  width: 20px;
-}
-
-.avatarpic {
-  background-color: #eee;
-  height: 32px;
-  width: 32px;
-}
-
-.badges {
-  align-items: flex-start;
-  display: flex;
-  height: 6px;
-  margin-left: 12px;
-  min-width: 6px;
-  position: relative;
-}
-</style>

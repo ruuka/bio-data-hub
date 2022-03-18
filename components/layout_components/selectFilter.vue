@@ -70,7 +70,7 @@
           </label>
 
           <div
-            class="flex flex-col items-start justify-start p-2 shadow filter-dropdown-content dropdown-content menu bg-base-100 rounded-box w-300"
+            class="flex flex-col items-start justify-start p-2 shadow filter-dropdown-content dropdown-content menu bg-base-100 rounded-box z-999"
           >
             <h4 class="mb-2 text-xs font-semibold">
               Filtering: {{ filter.name }}
@@ -83,7 +83,7 @@
                   :tags="filter.filterOptions"
                   :autocomplete-items="getAutocompleteItems(filter.id)"
                   class="tags-input"
-                  placeholder="Select a filter option"
+                  placeholder="Select or search..."
                   :autocomplete-always-open="true"
                   :add-only-from-autocomplete="true"
                   @tags-changed="(newTags) => onTagsChanged(newTags, filter)"
@@ -149,15 +149,13 @@
         class="rounded shadow compact dropdown-content bg-base-100"
       >
         <div
-          class="flex flex-col justify-center items-center w-350 relative gap-1 p-2.5 rounded bg-white"
+          class="flex flex-col justify-center items-center w-300 relative gap-1 p-2.5 rounded bg-white"
         >
           <div class="relative self-stretch flex-grow-0 flex-shrink-0 h-4">
             <div
-              class="flex justify-start items-center absolute left-[-1px] top-[-1px] gap-1"
+              class="flex justify-start items-center absolute left-[-1px] top-[-1px] gap-2"
             >
-              <p
-                class="flex-grow-0 flex-shrink-0 text-xs font-bold text-left text-[#32324d]"
-              >
+              <p class="flex-grow-0 flex-shrink-0 text-xs font-bold text-left">
                 Add New Filter
               </p>
             </div>
@@ -169,7 +167,7 @@
               v-for="filter in allFilters"
               :key="'add-filter-' + filter.id"
               :class="{ hidden: !filter.isActive }"
-              class="flex justify-center items-center gap-2 px-3 py-2 rounded bg-white border border-[#d9d8ff]"
+              class="flex justify-center items-center gap-2 px-2 py-2 rounded bg-white border border-indigo-100"
             >
               <!-- currently lint and (my vs code extension?) are conflicting so i can't use key in template tag -->
               <!-- ideally, you'd v-for inside the template tag, and do a v-if="filter.isActive" in the div element above -->
@@ -214,7 +212,7 @@
                 class="rounded checkbox checkbox-sm checkbox-primary"
                 @change="onChangeAddFilterCheckbox(filter)"
               />
-              <p class="flex-grow text-xs text-left text-[#32324d]">
+              <p class="flex-grow text-xs text-left text-grey-500">
                 {{ filter.name }}
               </p>
             </div>
@@ -317,15 +315,15 @@ export default {
           searchText: '',
           filterOptions: [
             {
-              id: 'hispanic',
-              name: 'Hispanic',
-              text: 'Hispanic',
+              id: 'hispanic-or-latino',
+              name: 'Hispanic or Latino',
+              text: 'Hispanic or Latino',
               isActive: true,
             },
             {
-              id: 'nonhispanic',
-              name: 'Non-Hispanic',
-              text: 'Non-Hispanic',
+              id: 'not-hispanic-or-latino',
+              name: 'Not Hispanic or Latino',
+              text: 'Not Hispanic or Latino',
               isActive: true,
             },
           ],
@@ -340,21 +338,24 @@ export default {
               id: 'asian',
               name: 'Asian',
               text: 'Asian',
-              // description: 'This is a general description for asian',
               isActive: true,
             },
             {
               id: 'african-american',
               name: 'African American',
               text: 'African American',
-              // description: 'This is a general description for african american',
               isActive: true,
             },
             {
               id: 'white',
               name: 'White',
               text: 'White',
-              // description: 'This is a general description for white',
+              isActive: true,
+            },
+            {
+              id: 'other',
+              name: 'Other',
+              text: 'Other',
               isActive: true,
             },
           ],
@@ -377,6 +378,38 @@ export default {
               name: 'Non-responder',
               text: 'Non-responder',
               description: 'This is a general description for non-responder',
+              isActive: true,
+            },
+          ],
+        },
+        {
+          id: 7,
+          name: 'BMI',
+          isActive: false,
+          searchText: '',
+          filterOptions: [
+            {
+              id: 'underweight',
+              name: 'Underweight',
+              text: 'Underweight',
+              isActive: true,
+            },
+            {
+              id: 'normalWeight',
+              name: 'Normal Weight',
+              text: 'Normal Weight',
+              isActive: true,
+            },
+            {
+              id: 'overweight',
+              name: 'Overweight',
+              text: 'Overweight',
+              isActive: true,
+            },
+            {
+              id: 'obese',
+              name: 'Obese',
+              text: 'Obese',
               isActive: true,
             },
           ],

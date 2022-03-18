@@ -105,23 +105,23 @@
 
         <br />
       </div>
-      <ul class="mb-2 menu bg-base-100 menu-horizontal tabs-boxed">
-        <li class="bordered active">
-          <NuxtLink to="/clinical-trials/biomarkers/box-plot">
-            Box Plots
-          </NuxtLink>
-        </li>
-        <li class="bordered">
-          <NuxtLink to="/clinical-trials/biomarkers/longitudinal">
-            Longitudinal Data
-          </NuxtLink>
-        </li>
-        <li class="bordered">
-          <NuxtLink to="/clinical-trials/biomarkers/correlations">
-            Correlations
-          </NuxtLink>
-        </li>
-      </ul>
+<!--      <ul class="mb-2 menu bg-base-100 menu-horizontal tabs-boxed">-->
+<!--        <li class="bordered active">-->
+<!--          <NuxtLink to="/clinical-trials/biomarkers/box-plot">-->
+<!--            Box Plots-->
+<!--          </NuxtLink>-->
+<!--        </li>-->
+<!--        <li class="bordered">-->
+<!--          <NuxtLink to="/clinical-trials/biomarkers/longitudinal">-->
+<!--            Longitudinal Data-->
+<!--          </NuxtLink>-->
+<!--        </li>-->
+<!--        <li class="bordered">-->
+<!--          <NuxtLink to="/clinical-trials/biomarkers/correlations">-->
+<!--            Correlations-->
+<!--          </NuxtLink>-->
+<!--        </li>-->
+<!--      </ul>-->
 
       <div class="rounded navbar bg-base-100">
         <div class="flex-1">
@@ -169,10 +169,8 @@
               </linearGradient>
             </defs>
           </svg>
-          <p
-            class="flex-grow-0 flex-shrink-0 text-base font-medium text-left text-[#54565b] pl-2"
-          >
-            Therapeutic Areas: Inflammation - Ankylosing Spondylitis
+          <p class="flex-grow-0 flex-shrink-0 font-medium text-left pl-2">
+            Therapeutic Areas: Inflammation - Diabetic Kidney Disease
           </p>
         </div>
 
@@ -293,7 +291,6 @@
                         />
                       </div>
                     </client-only>
-
                   </div>
                 </div>
                 <div class="px-4 py-3 text-right bg-gray-50 sm:px-6">
@@ -353,7 +350,7 @@ export default {
   components: {
     NewBoxPlot,
     selectInput,
-    selectFilter,
+    selectFilter
   },
   asyncData() {
     return {
@@ -488,24 +485,74 @@ export default {
           isMultipleSelect: false,
           options: [
             {
+              name: 'GS-US-223-1015',
+              value: 'gs-us-223-1015',
+              therapeuticArea: 'Inflammation',
+              indication: 'Diabetic Kidney Disease',
+              description: 'SEL DKD (Ph.2)',
+            },
+            {
               name: 'GS-US-321-0105',
               value: 'gs-us-321-0105',
-              description: 'SIM F3 Nash Trial (Ph. 2)'
+              therapeuticArea: 'Inflammation',
+              indication: 'Non-Alcoholic Steatohepatitis',
+              description: 'SIM F3 NASH Trial (Ph. 2)',
             },
             {
               name: 'GS-US-321-0106',
               value: 'gs-us-321-0106',
-              description: 'SIM F3 Nash Trial (Ph. 2)'
+              therapeuticArea: 'Inflammation',
+              indication: 'Non-Alcoholic Steatohepatitis',
+              description: 'SIM F4 NASH Trial (Ph. 2)',
             },
             {
-              name: 'GS-US-321-0107',
-              value: 'gs-us-321-0107',
-              description: 'SIM F3 Nash Trial (Ph. 2)'
+              name: 'GS-US-454-4378',
+              value: 'gs-us-454-4378',
+              therapeuticArea: 'Inflammation',
+              indication: 'Non-Alcoholic Steatohepatitis',
+              description: 'ATLAS NASH Combo Trial (Ph. 2)',
             },
             {
-              name: 'GS-US-321-0108',
-              value: 'gs-us-321-0108',
-              description: 'SIM F3 Nash Trial (Ph. 2)'
+              name: 'GLPG0634-CL-223',
+              value: 'glpg0634-cl-223',
+              therapeuticArea: 'Inflammation',
+              indication: 'Ankylosing Spondylitis',
+              description: 'TORTUGA FIL AS Trial (Ph. 2)',
+            },
+            {
+              name: 'GLPG0634-CL-211',
+              value: 'glpg0634-cl-223',
+              therapeuticArea: 'Inflammation',
+              indication: "Crohn's Disease",
+              description: 'Fitzroy FIL CD Trial (Ph. 2)',
+            },
+            {
+              name: 'GS-US-436-4092',
+              value: 'gs-us-436-4092',
+              therapeuticArea: 'Inflammation',
+              indication: 'Cutaneous Lupus Erythematosus',
+              description: '4092 CLE Trial (Ph. 2)',
+            },
+            {
+              name: 'GS-US-417-0301',
+              value: 'gs-us-417-0301',
+              therapeuticArea: 'Inflammation',
+              indication: 'Rheumatoid Arthritis',
+              description: 'FINCH1 FIL MTX-IR RA Trial (Ph. 3)',
+            },
+            {
+              name: 'GS-US-296-2013',
+              value: 'gs-us-296-2013',
+              therapeuticArea: 'Oncology',
+              indication: 'Gastric Adenocarcinoma',
+              description: 'Andeca Gastric Adenocarcinoma Trial (Ph. 2)',
+            },
+            {
+              name: 'GS-US-389-2021',
+              value: 'gs-us-389-2021',
+              therapeuticArea: 'Virology',
+              indication: 'Hepatitis B Infection',
+              // description: ''
             },
           ],
         },
@@ -543,16 +590,16 @@ export default {
           selectedValue: [],
           options: [
             {
-              name: 'Gene Expression',
-              value: 'gene-expression',
-            },
-            {
               name: 'Clinical Attribute',
               value: 'clinical-attribute',
             },
             {
               name: 'Biomarker',
               value: 'biomarker',
+            },
+            {
+              name: 'Gene Expression',
+              value: 'gene-expression',
             },
           ],
         },
@@ -567,17 +614,17 @@ export default {
             {
               name: 'ERBB1',
               value: 'erbb1',
-              description: 'Alternative names: HER3'
+              description: 'Alternative names: HER3',
             },
             {
               name: 'ERBB2',
               value: 'erbb2',
-              description: 'Alternative names: HER3'
+              description: 'Alternative names: HER3',
             },
             {
               name: 'ERBB3',
               value: 'erbb3',
-              description: 'Alternative names: HER3'
+              description: 'Alternative names: HER3',
             },
           ],
         },
@@ -664,17 +711,17 @@ export default {
             {
               name: 'ERBB1',
               value: 'erbb1',
-              description: 'Alternative names: HER3'
+              description: 'Alternative names: HER3',
             },
             {
               name: 'ERBB2',
               value: 'erbb2',
-              description: 'Alternative names: HER3'
+              description: 'Alternative names: HER3',
             },
             {
               name: 'ERBB3',
               value: 'erbb3',
-              description: 'Alternative names: HER3'
+              description: 'Alternative names: HER3',
             },
           ],
         },
@@ -889,9 +936,9 @@ export default {
       this.axisFilterOptions = this.axisFilterOptions.map((sub) =>
         sub.id === subFilterId
           ? {
-            ...sub,
-            selectedValue: value,
-          }
+              ...sub,
+              selectedValue: value,
+            }
           : sub
       )
     },

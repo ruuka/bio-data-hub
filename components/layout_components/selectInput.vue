@@ -28,22 +28,8 @@
       <div slot="tag-center" slot-scope="props" class="gap-2 font-medium text-xs">
         {{ props.tag.text }}
 
-<!--        <svg-->
-<!--          xmlns="http://www.w3.org/2000/svg"-->
-<!--          fill="none"-->
-<!--          viewBox="0 0 24 24"-->
-<!--          class="inline-block w-4 h-4 cursor-pointer stroke-current"-->
-<!--          @click.prevent="props.performDelete(props.index)"-->
-<!--        >-->
-<!--          <path-->
-<!--            stroke-linecap="round"-->
-<!--            stroke-linejoin="round"-->
-<!--            stroke-width="2"-->
-<!--            d="M6 18L18 6M6 6l12 12"-->
-<!--          ></path>-->
-<!--        </svg>-->
         <font-awesome-icon
-          class="inline-block w-3 h-3 cursor-pointer stroke-current"
+          class="inline-block w-3 h-3 ml-1 cursor-pointer text-gray-300"
           :icon="['far', 'times']"
           @click.prevent="props.performDelete(props.index)"  />
       </div>
@@ -58,6 +44,9 @@
           {{ props.item.text }}
         </h6>
         <p class="text-xs text-gray-700">
+          {{ props.item.indication }}
+        </p>
+        <p class="text-xs text-gray-500">
           {{ props.item.description }}
         </p>
       </div>
@@ -91,7 +80,7 @@ export default {
     return {
       // variables for my implementation
       filterSearchTextObj: {},
-      maxLengthForMultipleSelect: 2,
+      maxLengthForMultipleSelect: 3,
       focusedInputId: '',
       // an object to hold search texts for the different subfilters,
       // if every vue-tag-input select used same variable, then if you type on one input, it would show up on every input
@@ -265,7 +254,7 @@ export default {
 }
 
 .vue-tags-input {
-  min-width: 180px !important;
+  min-width: 215px !important;
 }
 
 .ti-tag {
@@ -305,6 +294,6 @@ export default {
 }
 
 .vue-tags-input.is-error .ti-input {
-  border: 2px solid red !important;
+  border: 2px solid #C51F3F !important;
 }
 </style>

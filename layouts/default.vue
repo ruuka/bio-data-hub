@@ -1,7 +1,6 @@
 <template>
   <div class="hub-body bg-gray-100">
     <NavBars />
-<!--    <leftMenu />-->
     <div class="flex">
       <leftMenu />
       <nuxt />

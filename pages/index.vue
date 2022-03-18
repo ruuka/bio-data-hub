@@ -1,26 +1,18 @@
 <template>
-      <!-- START MAIN SECTION -->
-    <main class="bg-gray-100 pt-6 px-4 w-full">
-
-<index-hero />
-<index-details />
-
-    </main>
-
-
-      <!-- END MAIN SECTION -->
-
+  <main class="bg-gray-100 pt-6 px-4 w-full">
+    <index-hero />
+    <index-details />
+  </main>
 </template>
-
 
 <script>
 import IndexDetails from '~/components/home_components/IndexDetails.vue'
-import  IndexHero from '~/components/home_components/IndexHero.vue'
+import IndexHero from '~/components/home_components/IndexHero.vue'
 export default {
   name: 'Index',
   components: {
     IndexHero,
-    IndexDetails
+    IndexDetails,
   },
   data() {
     return {
