@@ -25,13 +25,18 @@
       <!-- leave this slot as empty element, otherwise the library's default close icon will show up -->
       <!-- we're using our own svg icon below in the slot "tag-center" -->
       <div slot="tag-actions"></div>
-      <div slot="tag-center" slot-scope="props" class="gap-2 font-medium text-xs">
+      <div
+        slot="tag-center"
+        slot-scope="props"
+        class="gap-2 text-xs font-medium"
+      >
         {{ props.tag.text }}
 
         <font-awesome-icon
-          class="inline-block w-3 h-3 ml-1 cursor-pointer text-gray-300"
+          class="inline-block w-3 h-3 ml-1 text-gray-300 cursor-pointer"
           :icon="['far', 'times']"
-          @click.prevent="props.performDelete(props.index)"  />
+          @click.prevent="props.performDelete(props.index)"
+        />
       </div>
 
       <div
@@ -200,8 +205,11 @@ export default {
           ? ''
           : this.filterSearchTextObj[subFilterId]?.toLowerCase()
 
-      return subFilter.options.filter((s) =>
-        s.name.toLowerCase().includes(searchTxt)
+      return subFilter.options.filter(
+        (s) =>
+          s.name.toLowerCase().includes(searchTxt) ||
+          s.indication?.toLowerCase().includes(searchTxt) ||
+          s.description?.toLowerCase().includes(searchTxt)
       )
     },
 
@@ -260,7 +268,7 @@ export default {
 .ti-tag {
   padding: 3px 5px;
   margin: 0 !important;
-  font-size: .85em;
+  font-size: 0.85em;
   border-radius: 4px !important;
 }
 
@@ -294,6 +302,6 @@ export default {
 }
 
 .vue-tags-input.is-error .ti-input {
-  border: 2px solid #C51F3F !important;
+  border: 2px solid #c51f3f !important;
 }
 </style>
