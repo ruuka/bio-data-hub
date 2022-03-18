@@ -291,6 +291,8 @@ export default {
 
 .ti-autocomplete {
   border: 1px solid transparent !important;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 /* this is the input field */
