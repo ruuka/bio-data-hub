@@ -62,7 +62,6 @@
           </svg>
         </div>
 
-        <!--              <img src="~/static/Rectangle 51.svg" class=" w-72 2xl:w-[36rem] 2xl:relative 2xl:ml-[20%]" />-->
         <svg
           class="w-84 2xl:w-[36rem] 2xl:relative 2xl:ml-[20%]"
           width="338"
@@ -131,7 +130,7 @@ export default {
           name: 'CommonKnowledge',
           description: 'Lorem Ipsum...',
           src: require('~/static/icon-common-knowledge.svg'),
-          href: '#',
+          href: '/knowledge-base',
         },
         {
           name: 'Tableau Dashboards',
@@ -143,7 +142,7 @@ export default {
           name: 'Additional Resources',
           description: 'You can find links to other useful resources for molecular data analysis, such as cBioPortal and our Single Cell Visualizer platform.',
           src: require('~/static/icon-additional-resources.svg'),
-          href: '#',
+          href: '/other-tools',
         },
       ],
     }

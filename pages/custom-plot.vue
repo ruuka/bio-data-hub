@@ -471,11 +471,24 @@ export default {
         },
       ],
 
-      // these are the select dropdowns under the main axisFilters names
-      // for example, for "Horizontal Axis", these would include the dropdowns for "Gene Expression","Filgotinib, 200mg" etc
-      // parent filter is referenced by a variable parentId
+      // dataTypeGroups: [
+      //   // Data Type Groups
+      //   {
+      //     name: 'Clinical Attribute',
+      //     id: 'clinical-attribute',
+      //   },
+      //   {
+      //     name: 'Biomarker',
+      //     id: 'biomarker',
+      //   },
+      //   {
+      //     name: 'Gene Expression',
+      //     id: 'gene-expression',
+      //   },
+      // ],
+
       axisFilterOptions: [
-        // for study id
+        // START - STUDY ID
         {
           id: 'study-type',
           name: 'Study Type',
@@ -556,32 +569,10 @@ export default {
             },
           ],
         },
-        {
-          id: 'timepoints',
-          name: 'Timepoints',
-          parentId: 'study-id',
-          label: '- Select Timepoints -',
-          selectedValue: [],
-          isMultipleSelect: true,
-          options: [
-            {
-              name: 'Baseline',
-              value: 'baseline',
-            },
-            {
-              name: '48 Weeks',
-              value: '48-weeks',
-            },
-            {
-              name: '96 Weeks',
-              value: '96-weeks',
-            },
-          ],
-        },
 
-        // end for study id
+        // END - STUDY ID
 
-        // for horizontal axis
+        // HORIZONTAL AXIS
         {
           id: 'data-type',
           name: 'Data Type',
@@ -604,6 +595,64 @@ export default {
           ],
         },
         {
+          id: 'primary',
+          name: 'Primary',
+          parentId: 'horizontal-axis',
+          label: '- Select Primary Group -',
+          selectedValue: [],
+          isMultipleSelect: true,
+          options: [
+            {
+              name: 'Treatment',
+              value: 'treatment',
+            },
+            {
+              name: 'Time',
+              value: 'time',
+            },
+            {
+              name: 'Sex',
+              value: 'sex',
+            },
+            {
+              name: 'Age',
+              value: 'Age',
+            },
+            {
+              name: 'Race',
+              value: 'Race',
+            },
+            {
+              name: 'Ethnicity',
+              value: 'Ethnicity',
+            },
+            {
+              name: 'BMI',
+              value: 'BMI',
+            },
+          ],
+        },
+        {
+          id: 'biomarker',
+          name: 'Biomarker',
+          parentId: 'horizontal-axis',
+          label: '- Select Biomarker -',
+          selectedValue: [],
+          // isMultipleSelect: true,
+          options: [
+            {
+              name: 'Plasma ADAMTS-like Protein',
+              value: 'Plasma ADAMTS-like Protein',
+              description: 'Description for Plasma',
+            },
+            {
+              name: 'Plasma Collectin Sub-family M',
+              value: 'Plasma ADAMTS-like Protein',
+              description: 'Description for Plasma',
+            },
+          ],
+        },
+        {
           id: 'gene',
           name: 'Gene',
           parentId: 'horizontal-axis',
@@ -614,17 +663,27 @@ export default {
             {
               name: 'ERBB1',
               value: 'erbb1',
-              description: 'Alternative names: HER3',
+              description: 'Alternative names: EGFR',
             },
             {
               name: 'ERBB2',
               value: 'erbb2',
-              description: 'Alternative names: HER3',
+              description: 'Alt. names: NEU, HER-2, HER2, CD340',
             },
             {
               name: 'ERBB3',
               value: 'erbb3',
-              description: 'Alternative names: HER3',
+              description: 'Alt. names: HER3',
+            },
+            {
+              name: 'ERBB4',
+              value: 'erbb4',
+              description: 'Alt. names: ALS19, HER4',
+            },
+            {
+              name: 'REVERBB',
+              value: 'reverbb',
+              description: 'Alt. names: BD73, EAR-1r, HZF2',
             },
           ],
         },
@@ -678,7 +737,7 @@ export default {
 
         // end  for horizontal axis
 
-        // for vertical axis
+        // VERTICAL AXIS
         {
           id: 'data-type-vertical',
           name: 'Data Type',
