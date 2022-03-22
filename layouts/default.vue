@@ -1,6 +1,7 @@
 <template>
-  <div class="hub-body bg-gray-100">
+  <div class="bg-gray-100 hub-body">
     <NavBars />
+    <NotificationGroup />
     <div class="flex">
       <leftMenu />
       <nuxt />
@@ -10,6 +11,8 @@
 </template>
 
 <script>
+import NotificationGroup from '@/components/layout_components/notification-group'
+
 export default {
   name: 'Default',
   data() {
@@ -17,14 +20,16 @@ export default {
       title: 'Bioinformatics Portal',
     }
   },
-  computed: {
+  computed: {},
+  components: {
+    NotificationGroup,
   },
 }
 </script>
 
 <style>
 body {
-  background: #F5F5F5;
+  background: #f5f5f5;
   @apply font-inter;
 }
 </style>

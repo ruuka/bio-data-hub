@@ -938,7 +938,12 @@ export default {
     handleSaveFilters() {
       if (this.deselectedDropdownIds.length > 0) {
         // invalid data - some the subsequent dropdowns are selected without the precedent dropdown items being selected
-        alert('Please select valid filters')
+
+        this.$eventBus.$emit('ADD_NEW_NOTIFICATION', {
+          type: 'error',
+          title: 'Please select valid filters',
+          duration: 5000,
+        })
         return
       }
 
@@ -951,7 +956,11 @@ export default {
       })
 
       localStorage.setItem(this.localStorageFilterKey, stringifiedFilters)
-
+      this.$eventBus.$emit('ADD_NEW_NOTIFICATION', {
+        type: 'info',
+        title: 'Filters saved successfully',
+        duration: 5000,
+      })
       // this.$refs.selectFilter.saveFilters()
     },
     updatePlotData(object) {
