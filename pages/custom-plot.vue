@@ -251,11 +251,9 @@
               tabindex="0"
               class="w-56 shadow dropdown-content menu bg-base-100 rounded-box"
             >
-              <li class="hover-bordered"><a>Add New Group</a></li>
-              <li class="hover-bordered"><a>Add New Filter</a></li>
-              <li class="hover-bordered"><a>Add Horizontal Axis</a></li>
-              <li class="hover-bordered"><a>Add Vertical Axis</a></li>
+              <li class="hover-bordered"><a>Save Filters</a></li>
               <li class="hover-bordered"><a>Print Page</a></li>
+              <li class="hover-bordered text-red-600"><a>Remove Group</a></li>
             </ul>
           </div>
         </div>
