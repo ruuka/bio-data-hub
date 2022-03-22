@@ -29,16 +29,9 @@ export default {
     }
   },
   mounted() {
-    const exampleModal = {
-      icon: ['far', 'save'],
-      title: 'Saving...Please Wait',
-      subtitle: 'This will only take a moment',
-      isClosable: false,
-    }
-
-    this.$eventBus.$on('OPEN_MODAL', () => {
+    this.$eventBus.$on('OPEN_MODAL', (modalInfo) => {
       this.isModalActive = true
-      this.modalInfo = exampleModal
+      this.modalInfo = modalInfo
     })
 
     this.$eventBus.$on('CLOSE_MODAL', () => {

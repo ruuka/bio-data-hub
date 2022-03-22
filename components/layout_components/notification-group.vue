@@ -35,6 +35,16 @@ export default {
       })
     })
 
+    this.$eventBus.$on('REMOVE_NOTIFICATION_LOADING', (notification) => {
+      if (!this.notifications.find((n) => n?.ref === notification?.ref)) {
+        return
+      }
+
+      this.notifications = this.notifications.filter(
+        (n) => n?.ref !== notification?.ref
+      )
+    })
+
     this.$eventBus.$on('REMOVE_NOTIFICATION', (notification) => {
       this.notifications = this.notifications.filter(
         (n) => n.id !== notification.id

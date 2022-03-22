@@ -947,7 +947,7 @@ export default {
         return
       }
 
-      this.$eventBus.$emit('OPEN_MODAL')
+      // this.$eventBus.$emit('OPEN_MODAL')
       const filters = this.$refs.selectFilter.getFilters()
       const axisFilters = this.axisFilterOptions
 
@@ -958,16 +958,32 @@ export default {
 
       localStorage.setItem(this.localStorageFilterKey, stringifiedFilters)
 
+      // this.$eventBus.$emit('OPEN_MODAL', {
+      //   icon: ['far', 'save'],
+      //   title: 'Saving...Please Wait',
+      //   subtitle: 'This will only take a moment',
+      //   isClosable: false,
+      // })
+
+      const notificationObj = {
+        ref: 'TEST_LOADING',
+        isLoading: true,
+        type: 'info',
+        title: 'Saving Filters...',
+        duration: 5000,
+      }
+      this.$eventBus.$emit('ADD_NEW_NOTIFICATION', notificationObj)
+
       setTimeout(() => {
         this.$eventBus.$emit('CLOSE_MODAL')
+        this.$eventBus.$emit('REMOVE_NOTIFICATION_LOADING', notificationObj)
+
         this.$eventBus.$emit('ADD_NEW_NOTIFICATION', {
           type: 'info',
           title: 'Filters saved successfully',
           duration: 5000,
         })
       }, 1000)
-
-      // this.$refs.selectFilter.saveFilters()
     },
     updatePlotData(object) {
       this.plotSetupDict = object
