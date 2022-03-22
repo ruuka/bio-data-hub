@@ -139,6 +139,14 @@ export default {
       }))
     },
     onTagsChanged(newTags, filter) {
+      if (filter.id === 'study-type') {
+        if (newTags.length > 0) {
+          this.$emit('ON_SELECT_STUDY_TYPE', {
+            therapeuticArea: newTags[0].therapeuticArea,
+            indication: newTags[0].indication,
+          })
+        }
+      }
       this.$emit('ON_SELECT_CHANGE', {
         value: newTags,
         subFilterId: filter.id,
@@ -157,7 +165,7 @@ export default {
         if (!document.querySelector('.vue-tags-input.ti-focus')) {
           this.focusedInputId = ''
         }
-      }, 100)
+      }, 200)
     },
     getAutocompleteItems(subFilterId, options = { isInputDisabled: false }) {
       if (options.isInputDisabled) return []
@@ -262,7 +270,35 @@ export default {
 }
 
 .vue-tags-input {
-  min-width: 215px !important;
+  /* min-width: 215px !important; */
+  width: 215px !important;
+}
+
+.vue-tags-input .ti-tags {
+  flex-wrap: nowrap !important;
+  overflow-x: auto;
+}
+
+/* width */
+.vue-tags-input .ti-tags::-webkit-scrollbar {
+  width: 4px;
+  height: 8px;
+}
+
+/* Track */
+.vue-tags-input .ti-tags::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.vue-tags-input .ti-tags::-webkit-scrollbar-thumb {
+  background: #d4d2d2;
+  border-radius: 5px !important;
+}
+
+/* Handle on hover */
+.vue-tags-input .ti-tags::-webkit-scrollbar-thumb:hover {
+  background: #c5c5c5;
 }
 
 .ti-tag {
@@ -270,6 +306,7 @@ export default {
   margin: 0 !important;
   font-size: 0.85em;
   border-radius: 4px !important;
+  min-width: max-content;
 }
 
 .ti-input {
@@ -298,6 +335,10 @@ export default {
 /* this is the input field */
 
 /* we're remove it when the select dropdown is filled, otherwise, it leaves the input tag, which looks ugly */
+
+.ti-tags .ti-new-tag-input-wrapper {
+  order: -1;
+}
 
 .vue-tags-input.is-filled .ti-input .ti-tags .ti-new-tag-input-wrapper {
   display: none;

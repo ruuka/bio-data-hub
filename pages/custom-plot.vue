@@ -105,23 +105,23 @@
 
         <br />
       </div>
-<!--      <ul class="mb-2 menu bg-base-100 menu-horizontal tabs-boxed">-->
-<!--        <li class="bordered active">-->
-<!--          <NuxtLink to="/clinical-trials/biomarkers/box-plot">-->
-<!--            Box Plots-->
-<!--          </NuxtLink>-->
-<!--        </li>-->
-<!--        <li class="bordered">-->
-<!--          <NuxtLink to="/clinical-trials/biomarkers/longitudinal">-->
-<!--            Longitudinal Data-->
-<!--          </NuxtLink>-->
-<!--        </li>-->
-<!--        <li class="bordered">-->
-<!--          <NuxtLink to="/clinical-trials/biomarkers/correlations">-->
-<!--            Correlations-->
-<!--          </NuxtLink>-->
-<!--        </li>-->
-<!--      </ul>-->
+      <!--      <ul class="mb-2 menu bg-base-100 menu-horizontal tabs-boxed">-->
+      <!--        <li class="bordered active">-->
+      <!--          <NuxtLink to="/clinical-trials/biomarkers/box-plot">-->
+      <!--            Box Plots-->
+      <!--          </NuxtLink>-->
+      <!--        </li>-->
+      <!--        <li class="bordered">-->
+      <!--          <NuxtLink to="/clinical-trials/biomarkers/longitudinal">-->
+      <!--            Longitudinal Data-->
+      <!--          </NuxtLink>-->
+      <!--        </li>-->
+      <!--        <li class="bordered">-->
+      <!--          <NuxtLink to="/clinical-trials/biomarkers/correlations">-->
+      <!--            Correlations-->
+      <!--          </NuxtLink>-->
+      <!--        </li>-->
+      <!--      </ul>-->
 
       <div class="rounded navbar bg-base-100">
         <div class="flex-1">
@@ -169,8 +169,12 @@
               </linearGradient>
             </defs>
           </svg>
-          <p class="flex-grow-0 flex-shrink-0 font-medium text-left pl-2">
-            Therapeutic Areas: Inflammation - Diabetic Kidney Disease
+          <p
+            v-if="selectedStudy.therapeuticArea !== undefined"
+            class="flex-grow-0 flex-shrink-0 pl-2 font-medium text-left"
+          >
+            <!-- Therapeutic Areas: Inflammation - Diabetic Kidney Disease -->
+            {{ selectedStudy.therapeuticArea }}-{{ selectedStudy.indication }}
           </p>
         </div>
 
@@ -253,7 +257,7 @@
             >
               <li class="hover-bordered"><a>Save Filters</a></li>
               <li class="hover-bordered"><a>Print Page</a></li>
-              <li class="hover-bordered text-red-600"><a>Remove Group</a></li>
+              <li class="text-red-600 hover-bordered"><a>Remove Group</a></li>
             </ul>
           </div>
         </div>
@@ -286,6 +290,7 @@
                           :filter="axisFilter"
                           :deselected-dropdown-ids="deselectedDropdownIds"
                           @ON_SELECT_CHANGE="handleOnSelectChange"
+                          @ON_SELECT_STUDY_TYPE="handleOnSelectedStudy"
                         />
                       </div>
                     </client-only>
@@ -348,7 +353,7 @@ export default {
   components: {
     NewBoxPlot,
     selectInput,
-    selectFilter
+    selectFilter,
   },
   asyncData() {
     return {
@@ -484,7 +489,7 @@ export default {
       //     id: 'gene-expression',
       //   },
       // ],
-
+      selectedStudy: {},
       axisFilterOptions: [
         // START - STUDY ID
         {
@@ -916,6 +921,9 @@ export default {
       this.axisFilterOptions = axisFilters
         ? [...axisFilters]
         : this.axisFilterOptions
+    },
+    handleOnSelectedStudy(study) {
+      this.selectedStudy = study
     },
     handleOnSelectChange({ value, subFilterId }) {
       this.axisFilterOptions = this.axisFilterOptions.map((sub) =>
