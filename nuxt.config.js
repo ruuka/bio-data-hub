@@ -76,6 +76,7 @@ export default {
         // 'faFilterSlash',
         'faTimes',
         'faGlobeAmericas',
+        'faSave',
       ],
       duotone: ['faAngleDown'],
     },

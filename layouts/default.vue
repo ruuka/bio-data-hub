@@ -2,6 +2,7 @@
   <div class="bg-gray-100 hub-body">
     <NavBars />
     <NotificationGroup />
+    <DialogModal />
     <div class="flex">
       <leftMenu />
       <nuxt />
@@ -12,18 +13,20 @@
 
 <script>
 import NotificationGroup from '@/components/layout_components/notification-group'
+import DialogModal from '@/components/layout_components/dialog-modal'
 
 export default {
   name: 'Default',
+  components: {
+    NotificationGroup,
+    DialogModal,
+  },
   data() {
     return {
       title: 'Bioinformatics Portal',
     }
   },
   computed: {},
-  components: {
-    NotificationGroup,
-  },
 }
 </script>
 

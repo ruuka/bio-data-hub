@@ -14,6 +14,7 @@
       :class="{
         'is-filled': isInputFilled(subFilter),
         'is-error': deselectedDropdownIds.includes(subFilter.id),
+        'remove-input': !getPlaceholder(idx),
       }"
       :placeholder="getPlaceholder(idx)"
       :autocomplete-always-open="true"
@@ -112,7 +113,8 @@ export default {
 
       if (subFilter.isMultipleSelect) {
         if (
-          subFilter.selectedValue.length === this.maxLengthForMultipleSelect
+          subFilter.selectedValue.length >= 1
+          // subFilter.selectedValue.length === this.maxLengthForMultipleSelect
         ) {
           return ''
         }
@@ -335,6 +337,10 @@ export default {
 /* this is the input field */
 
 /* we're remove it when the select dropdown is filled, otherwise, it leaves the input tag, which looks ugly */
+
+.vue-tags-input.remove-input .ti-new-tag-input-wrapper {
+  display: none;
+}
 
 .ti-tags .ti-new-tag-input-wrapper {
   order: -1;

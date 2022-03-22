@@ -947,6 +947,7 @@ export default {
         return
       }
 
+      this.$eventBus.$emit('OPEN_MODAL')
       const filters = this.$refs.selectFilter.getFilters()
       const axisFilters = this.axisFilterOptions
 
@@ -956,11 +957,16 @@ export default {
       })
 
       localStorage.setItem(this.localStorageFilterKey, stringifiedFilters)
-      this.$eventBus.$emit('ADD_NEW_NOTIFICATION', {
-        type: 'info',
-        title: 'Filters saved successfully',
-        duration: 5000,
-      })
+
+      setTimeout(() => {
+        this.$eventBus.$emit('CLOSE_MODAL')
+        this.$eventBus.$emit('ADD_NEW_NOTIFICATION', {
+          type: 'info',
+          title: 'Filters saved successfully',
+          duration: 5000,
+        })
+      }, 1000)
+
       // this.$refs.selectFilter.saveFilters()
     },
     updatePlotData(object) {

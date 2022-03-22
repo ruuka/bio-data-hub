@@ -1,7 +1,7 @@
 <template>
   <div
     style="min-width: 300px"
-    class="fixed z-20 notification-group top-20 right-4 sm:max-w-sm"
+    class="fixed z-20 notification-group top-4 right-4 sm:max-w-sm"
   >
     <transition-group
       name="fade"
