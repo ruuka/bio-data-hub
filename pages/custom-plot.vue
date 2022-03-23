@@ -170,7 +170,10 @@
             </defs>
           </svg>
           <p
-            v-if="selectedStudy.therapeuticArea !== undefined"
+            v-if="
+              selectedStudy.therapeuticArea !== undefined &&
+              selectedStudy.therapeuticArea
+            "
             class="flex-grow-0 flex-shrink-0 pl-2 font-medium text-left"
           >
             <!-- Therapeutic Areas: Inflammation - Diabetic Kidney Disease -->
@@ -279,9 +282,10 @@
                       <div
                         v-for="(axisFilter, idx) in allAxisFilters"
                         :key="axisFilter.name"
-                        class="flex flex-row mb-4"
+                        class="flex flex-row my-3"
                       >
-                        <div class="px-2 py-2 mt-2 mr-2">
+                        <!-- <div class="px-2 py-2 mt-2 mr-2"> -->
+                        <div class="flex items-center justify-center mr-2">
                           <p>{{ axisFilter.name }}</p>
                         </div>
                         <select-input
@@ -291,6 +295,9 @@
                           :deselected-dropdown-ids="deselectedDropdownIds"
                           @ON_SELECT_CHANGE="handleOnSelectChange"
                           @ON_SELECT_STUDY_TYPE="handleOnSelectedStudy"
+                          @TOGGLE_LOG_TRANSFORM="
+                            (value) => (showLogTransform = value)
+                          "
                         />
                       </div>
                     </client-only>
@@ -300,11 +307,11 @@
                   <div
                     class="inline-flex justify-center px-2 py-2 form-control"
                   >
-                    <label class="cursor-pointer label">
+                    <label v-if="showLogTransform" class="cursor-pointer label">
                       <span class="mr-2 label-text">Log Transform</span>
                       <input
                         type="checkbox"
-                        checked="checked"
+                        :checked="logTransformSelected"
                         class="rounded checkbox checkbox-sm checkbox-primary"
                       />
                     </label>
@@ -357,6 +364,7 @@ export default {
   },
   asyncData() {
     return {
+      localStorageFilterKey: 'BIODATAHUB',
       therapeuticAreaOptions: ['Inflammation', 'Oncology', 'Virology'],
       studyOptions: [
         {
@@ -440,6 +448,8 @@ export default {
   },
   data() {
     return {
+      showLogTransform: false,
+      logTransformSelected: true,
       isLog: false,
       mainSelection: null,
       subSelection: null,
@@ -917,10 +927,13 @@ export default {
 
       const parsed = JSON.parse(localStorageFilters)
       const axisFilters = parsed?.axisFilters
+      const selectedStudy = parsed?.selectedStudy || {}
 
       this.axisFilterOptions = axisFilters
         ? [...axisFilters]
         : this.axisFilterOptions
+
+      this.selectedStudy = selectedStudy
     },
     handleOnSelectedStudy(study) {
       this.selectedStudy = study
@@ -950,33 +963,35 @@ export default {
       // this.$eventBus.$emit('OPEN_MODAL')
       const filters = this.$refs.selectFilter.getFilters()
       const axisFilters = this.axisFilterOptions
+      const selectedStudy = this.selectedStudy
 
       const stringifiedFilters = JSON.stringify({
         filters,
         axisFilters,
+        selectedStudy,
       })
 
       localStorage.setItem(this.localStorageFilterKey, stringifiedFilters)
 
-      // this.$eventBus.$emit('OPEN_MODAL', {
-      //   icon: ['far', 'save'],
-      //   title: 'Saving...Please Wait',
-      //   subtitle: 'This will only take a moment',
-      //   isClosable: false,
-      // })
+      this.$eventBus.$emit('OPEN_MODAL', {
+        icon: ['far', 'save'],
+        title: 'Saving...Please Wait',
+        subtitle: 'This will only take a moment',
+        isClosable: false,
+      })
 
-      const notificationObj = {
-        ref: 'TEST_LOADING',
-        isLoading: true,
-        type: 'info',
-        title: 'Saving Filters...',
-        duration: 5000,
-      }
-      this.$eventBus.$emit('ADD_NEW_NOTIFICATION', notificationObj)
+      // const notificationObj = {
+      //   ref: 'TEST_LOADING',
+      //   isLoading: true,
+      //   type: 'info',
+      //   title: 'Saving Filters...',
+      //   duration: 5000,
+      // }
+      // this.$eventBus.$emit('ADD_NEW_NOTIFICATION', notificationObj)
 
       setTimeout(() => {
         this.$eventBus.$emit('CLOSE_MODAL')
-        this.$eventBus.$emit('REMOVE_NOTIFICATION_LOADING', notificationObj)
+        // this.$eventBus.$emit('REMOVE_NOTIFICATION_LOADING', notificationObj)
 
         this.$eventBus.$emit('ADD_NEW_NOTIFICATION', {
           type: 'info',

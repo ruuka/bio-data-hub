@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="isModalActive"
-    class="fixed top-0 left-0 z-30 w-screen h-screen bg-black opacity-75 dialog-modal"
+    class="fixed top-0 left-0 z-30 w-screen h-screen bg-black opacity-90 dialog-modal"
     @click="closeModal"
   >
     <div
