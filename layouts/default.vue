@@ -1,8 +1,8 @@
 <template>
-  <div class="hub-body bg-gray-100">
+  <div class="hub-body " :class="$route.path !=='/tableau' ? 'bg-gray-100': 'bg-white'">
     <NavBars />
     <div class="flex">
-      <leftMenu />
+      <leftMenu v-if="$route.path !=='/tableau'" />
       <nuxt />
     </div>
     <footerComponent />
