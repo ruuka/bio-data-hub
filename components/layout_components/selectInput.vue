@@ -4,6 +4,7 @@
       v-for="(subFilter, idx) in filter.axisSubFilters"
       :key="subFilter.label + idx + subFilter.parentId"
       v-model="filterSearchTextObj[subFilter.id]"
+      v-click-outside="($event) => onClickOutside($event, subFilter)"
       :max-tags="subFilter.isMultipleSelect ? maxLengthForMultipleSelect : 1"
       :disabled="
         !deselectedDropdownIds.includes(subFilter.id) && isDisabled(idx)
@@ -14,13 +15,15 @@
       :class="{
         'is-filled': isInputFilled(subFilter),
         'is-error': deselectedDropdownIds.includes(subFilter.id),
+        'remove-input': !getPlaceholder(idx),
+        'is-focused': focusedInputId === subFilter.id,
       }"
       :placeholder="getPlaceholder(idx)"
       :autocomplete-always-open="true"
       :add-only-from-autocomplete="true"
+      @tags-changed="(newTags) => onTagsChanged(newTags, subFilter)"
       @focus="onFocus(subFilter)"
       @blur="onBlur"
-      @tags-changed="(newTags) => onTagsChanged(newTags, subFilter)"
     >
       <!-- leave this slot as empty element, otherwise the library's default close icon will show up -->
       <!-- we're using our own svg icon below in the slot "tag-center" -->
@@ -112,7 +115,8 @@ export default {
 
       if (subFilter.isMultipleSelect) {
         if (
-          subFilter.selectedValue.length === this.maxLengthForMultipleSelect
+          subFilter.selectedValue.length >= 1
+          // subFilter.selectedValue.length === this.maxLengthForMultipleSelect
         ) {
           return ''
         }
@@ -139,15 +143,32 @@ export default {
       }))
     },
     onTagsChanged(newTags, filter) {
+      if (filter.id === 'study-type') {
+        this.$emit('ON_SELECT_STUDY_TYPE', {
+          therapeuticArea: newTags[0]?.therapeuticArea,
+          indication: newTags[0]?.indication,
+        })
+      }
+
       this.$emit('ON_SELECT_CHANGE', {
         value: newTags,
         subFilterId: filter.id,
       })
+
+      if (filter.options.find((opt) => opt.value === 'biomarker')) {
+        this.$emit('TOGGLE_LOG_TRANSFORM', false)
+      }
     },
+
     onFocus(subFilter) {
       // this whole focus and blur events just to close the autocomplete dropdown when user loses focus from the input
-
       this.focusedInputId = subFilter.id
+
+      if (subFilter.options.find((opt) => opt.value === 'biomarker')) {
+        this.$emit('TOGGLE_LOG_TRANSFORM', true)
+      } else {
+        this.$emit('TOGGLE_LOG_TRANSFORM', false)
+      }
     },
     onBlur() {
       // setting a timeout so that the DOM first removes the ".ti-focus" class from the input
@@ -157,7 +178,19 @@ export default {
         if (!document.querySelector('.vue-tags-input.ti-focus')) {
           this.focusedInputId = ''
         }
-      }, 100)
+      }, 200)
+    },
+    onClickOutside(_, subFilter) {
+      if (subFilter.id === this.focusedInputId) {
+        this.focusedInputId = ''
+
+        if (
+          this.focusedInputId &&
+          !subFilter.options.find((opt) => opt.value === 'biomarker')
+        ) {
+          this.$emit('TOGGLE_LOG_TRANSFORM', false)
+        }
+      }
     },
     getAutocompleteItems(subFilterId, options = { isInputDisabled: false }) {
       if (options.isInputDisabled) return []
@@ -262,7 +295,18 @@ export default {
 }
 
 .vue-tags-input {
-  min-width: 215px !important;
+  max-width: 300px;
+}
+
+.vue-tags-input.ti-focus {
+  /* min-width: 215px !important; */
+
+  max-width: 200px !important;
+}
+
+.vue-tags-input .ti-tags {
+  flex-wrap: nowrap !important;
+  overflow-x: auto;
 }
 
 .ti-tag {
@@ -270,6 +314,7 @@ export default {
   margin: 0 !important;
   font-size: 0.85em;
   border-radius: 4px !important;
+  min-width: max-content;
 }
 
 .ti-input {
@@ -292,12 +337,25 @@ export default {
 .ti-autocomplete {
   border: 1px solid transparent !important;
   max-height: 200px;
+  min-width: 150px;
   overflow-y: auto;
 }
 
 /* this is the input field */
 
 /* we're remove it when the select dropdown is filled, otherwise, it leaves the input tag, which looks ugly */
+
+.vue-tags-input.remove-input .ti-new-tag-input-wrapper {
+  display: none;
+}
+
+.ti-tags .ti-new-tag-input-wrapper {
+  order: -1;
+}
+
+.ti-tags {
+  gap: 8px;
+}
 
 .vue-tags-input.is-filled .ti-input .ti-tags .ti-new-tag-input-wrapper {
   display: none;

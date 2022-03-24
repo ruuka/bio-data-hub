@@ -18,6 +18,8 @@ export default {
   plugins: [
     '@/plugins/plotly.client.js',
     { src: '~/plugins/vue-tags-input', ssr: false },
+    { src: '~/plugins/v-click-outside', ssr: false },
+    { src: '~/plugins/event-bus', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -69,9 +71,13 @@ export default {
         'faAngleRight',
         'faPlus',
         'faFilter',
+        'faInfoCircle',
+        'faExclamationCircle',
+        'faTimesCircle',
         // 'faFilterSlash',
         'faTimes',
         'faGlobeAmericas',
+        'faSave',
       ],
       duotone: ['faAngleDown'],
     },

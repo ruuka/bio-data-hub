@@ -23,70 +23,75 @@
         ></path>
       </svg>
 
-      <div
-        v-for="filter in activeFilters"
-        :key="'filter-' + filter.id"
-        class="dropdown"
-      >
-        <template v-if="filter.isActive">
-          <label
-            :class="{ hidden: !filter.isActive }"
-            tabindex="0"
-            class="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1 pl-3 pr-2.5 py-2 rounded-lg bg-rose-50 font-medium text-xs hover:bg-rose-100 hover:cursor-pointer"
-          >
-            <span>{{ filter.name }}:&nbsp; </span>
-            <!-- again, because of a conflict in my vs code and eslint i think, i can't use v-for loop and key property inside template -->
-            <!-- otherwise, ideally, you'd v-for inside the template and do a v-if="option.isActive" inside the span tag -->
-            <!-- as a "hack", i'm filtering below -->
-            <span
-              v-for="(option, optIdx) in filter.filterOptions.filter(
-                (o) => o.isActive
-              )"
-              :key="'filter-' + filter.id + 'option-' + option.text"
+      <client-only>
+        <div
+          v-for="filter in activeFilters"
+          :key="'filter-' + filter.id"
+          class="dropdown"
+        >
+          <template v-if="filter.isActive">
+            <label
+              :class="{ hidden: !filter.isActive }"
+              tabindex="0"
+              class="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1 pl-3 pr-2.5 py-2 rounded-lg bg-rose-50 font-medium text-xs hover:bg-rose-100 hover:cursor-pointer"
             >
-              {{ option.text }}
-              <template v-if="optIdx < filter.filterOptions.length - 1">
-                ,
-              </template>
-            </span>
+              <span>{{ filter.name }}:&nbsp; </span>
+              <!-- again, because of a conflict in my vs code and eslint i think, i can't use v-for loop and key property inside template -->
+              <!-- otherwise, ideally, you'd v-for inside the template and do a v-if="option.isActive" inside the span tag -->
+              <!-- as a "hack", i'm filtering below -->
+              <span
+                v-for="(option, optIdx) in filter.filterOptions.filter(
+                  (o) => o.isActive
+                )"
+                :key="'filter-' + filter.id + 'option-' + option.text"
+              >
+                {{ option.text }}
+                <template v-if="optIdx < filter.filterOptions.length - 1">
+                  ,
+                </template>
+              </span>
 
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon icon-tabler icon-tabler-x"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="#2c3e50"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              @click="removeFilter(filter)"
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon icon-tabler icon-tabler-x"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="#2c3e50"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                @click="removeFilter(filter)"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </label>
+
+            <div
+              class="flex flex-col items-start justify-start p-2 shadow filter-dropdown-content dropdown-content menu bg-base-100 rounded-box z-999"
             >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </label>
+              <h4 class="mb-2 text-xs font-semibold">
+                Filtering: {{ filter.name }}
+              </h4>
 
-          <div
-            class="flex flex-col items-start justify-start p-2 shadow filter-dropdown-content dropdown-content menu bg-base-100 rounded-box z-999"
-          >
-            <h4 class="mb-2 text-xs font-semibold">
-              Filtering: {{ filter.name }}
-            </h4>
-
-            <div tabindex="0">
-              <client-only>
+              <div tabindex="0">
                 <vue-tags-input
                   v-model="searchText"
                   :tags="filter.filterOptions"
                   :autocomplete-items="getAutocompleteItems(filter.id)"
                   class="tags-input"
+                  :class="{
+                    'is-filled': isInputFilled(filter),
+                  }"
                   placeholder="Select or search..."
                   :autocomplete-always-open="true"
                   :add-only-from-autocomplete="true"
                   @tags-changed="(newTags) => onTagsChanged(newTags, filter)"
+                  @focus="onFocus(filter)"
+                  @blur="onBlur"
                 >
                   <!-- leave this slot as empty element, otherwise the library's default close icon will show up -->
                   <!-- we're using our own svg icon below in the slot "tag-center" -->
@@ -128,11 +133,11 @@
                     </p>
                   </div>
                 </vue-tags-input>
-              </client-only>
+              </div>
             </div>
-          </div>
-        </template>
-      </div>
+          </template>
+        </div>
+      </client-only>
     </div>
 
     <div class="dropdown dropdown-right">
@@ -160,14 +165,14 @@
               </p>
             </div>
           </div>
-          <div
-            class="self-stretch flex-grow-0 flex-shrink-0 h-10 relative overflow-hidden rounded bg-[#f3f3f8] flex flex-wrap"
+          <ul
+            class="h-10 relative rounded bg-[#f3f3f8] flex w-full max-w-xs overflow-auto custom-scrollbar"
           >
-            <div
+            <li
               v-for="filter in allFilters"
               :key="'add-filter-' + filter.id"
               :class="{ hidden: !filter.isActive }"
-              class="flex justify-center items-center gap-2 px-2 py-2 rounded bg-white border border-indigo-100"
+              class="flex items-center justify-center gap-2 px-2 py-2 bg-white border border-indigo-100 rounded"
             >
               <!-- currently lint and (my vs code extension?) are conflicting so i can't use key in template tag -->
               <!-- ideally, you'd v-for inside the template tag, and do a v-if="filter.isActive" in the div element above -->
@@ -196,8 +201,9 @@
                   ></path>
                 </svg>
               </template>
-            </div>
-          </div>
+            </li>
+          </ul>
+
           <div
             class="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 w-[300px] rounded"
           >
@@ -229,6 +235,8 @@ export default {
 
   data() {
     return {
+      focusedInputId: '',
+      maxLengthForMultipleSelect: 3,
       initialFilters: [
         {
           id: 1,
@@ -453,6 +461,19 @@ export default {
     }
   },
   methods: {
+    onFocus(filter) {
+      this.focusedInputId = filter.id
+    },
+    onBlur() {
+      // setting a timeout so that the DOM first removes the ".ti-focus" class from the input
+      // then we do the stuff
+
+      setTimeout(() => {
+        if (!document.querySelector('.vue-tags-input.ti-focus')) {
+          this.focusedInputId = ''
+        }
+      }, 100)
+    },
     onTagsChanged(newTags, filter) {
       this.activeFilters = this.activeFilters.map((f) =>
         f.id === filter.id
@@ -463,11 +484,35 @@ export default {
           : f
       )
     },
+
+    isInputFilled(filter) {
+      if (filter?.isMultipleSelect === undefined || !filter?.isMultipleSelect) {
+        // for single select, if there's one selected value, its filled
+        if (
+          filter.filterOptions?.length === 1 &&
+          this.focusedInputId === filter.id
+        ) {
+          this.focusedInputId = ''
+        }
+        return filter.filterOptions?.length === 1
+      }
+
+      // for multple selected, it is filled if the array length is >= the max allowed
+      if (
+        filter.filterOptions?.length >= this.maxLengthForMultipleSelect &&
+        this.focusedInputId === filter.id
+      ) {
+        this.focusedInputId = ''
+      }
+      return filter.filterOptions?.length >= this.maxLengthForMultipleSelect
+    },
     getAutocompleteItems(id) {
       // need to query initialFilters since it has every options
       // the "filters" array will only have whatever filters the user selected
+
       const filter = this.initialFilters.find((f) => f.id === id)
       if (!filter) return
+      if (this.focusedInputId !== filter.id) return []
 
       return filter.filterOptions.filter((opt) =>
         opt.text
@@ -596,5 +641,9 @@ export default {
 
 .ti-selected-item:hover .autocomplete-item h6 {
   color: #333 !important;
+}
+
+.vue-tags-input.is-filled .ti-input .ti-tags .ti-new-tag-input-wrapper {
+  display: none;
 }
 </style>

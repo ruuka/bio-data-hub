@@ -5,7 +5,6 @@
 /* Variables */
 
 @layer base {
-
 }
 
 :root {
@@ -29,8 +28,40 @@
   --font-size-xxxxl: 27px;
   --font-size-xxxxxl: 48px;
 
-  --font-family-font_awesome_5_pro-regular: "Font Awesome 5 Pro-Regular";
-  --font-family-font_awesome_6_pro-regular: "Font Awesome 6 Pro-Regular";
-  --font-family-inter: "Inter";
-  --font-family-manrope: "Manrope";
+  --font-family-font_awesome_5_pro-regular: 'Font Awesome 5 Pro-Regular';
+  --font-family-font_awesome_6_pro-regular: 'Font Awesome 6 Pro-Regular';
+  --font-family-inter: 'Inter';
+  --font-family-manrope: 'Manrope';
+}
+
+.custom-scrollbar::-webkit-scrollbar,
+.vue-tags-input .ti-autocomplete::-webkit-scrollbar,
+.vue-tags-input .ti-tags::-webkit-scrollbar {
+  width: 4px;
+  height: 8px;
+}
+
+/* Track */
+.custom-scrollbar::-webkit-scrollbar-track,
+.vue-tags-input .ti-autocomplete::-webkit-scrollbar-track,
+.vue-tags-input .ti-tags::-webkit-scrollbar-track {
+  background: #f1f1f1 !important;
+}
+
+/* Handle */
+.custom-scrollbar::-webkit-scrollbar-thumb,
+.vue-tags-input .ti-autocomplete::-webkit-scrollbar-thumb,
+.vue-tags-input .ti-tags::-webkit-scrollbar-thumb {
+  background: #d4d2d2 !important;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+.custom-scrollbar::-webkit-scrollbar-thumb:hover,
+.vue-tags-input .ti-autocomplete::-webkit-scrollbar-thumb:hover {
+  background: #c5c5c5 !important;
+}
+
+.vue-tags-input .ti-autocomplete {
+  border: none !important;
 }

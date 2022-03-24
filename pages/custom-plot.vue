@@ -105,23 +105,23 @@
 
         <br />
       </div>
-<!--      <ul class="mb-2 menu bg-base-100 menu-horizontal tabs-boxed">-->
-<!--        <li class="bordered active">-->
-<!--          <NuxtLink to="/clinical-trials/biomarkers/box-plot">-->
-<!--            Box Plots-->
-<!--          </NuxtLink>-->
-<!--        </li>-->
-<!--        <li class="bordered">-->
-<!--          <NuxtLink to="/clinical-trials/biomarkers/longitudinal">-->
-<!--            Longitudinal Data-->
-<!--          </NuxtLink>-->
-<!--        </li>-->
-<!--        <li class="bordered">-->
-<!--          <NuxtLink to="/clinical-trials/biomarkers/correlations">-->
-<!--            Correlations-->
-<!--          </NuxtLink>-->
-<!--        </li>-->
-<!--      </ul>-->
+      <!--      <ul class="mb-2 menu bg-base-100 menu-horizontal tabs-boxed">-->
+      <!--        <li class="bordered active">-->
+      <!--          <NuxtLink to="/clinical-trials/biomarkers/box-plot">-->
+      <!--            Box Plots-->
+      <!--          </NuxtLink>-->
+      <!--        </li>-->
+      <!--        <li class="bordered">-->
+      <!--          <NuxtLink to="/clinical-trials/biomarkers/longitudinal">-->
+      <!--            Longitudinal Data-->
+      <!--          </NuxtLink>-->
+      <!--        </li>-->
+      <!--        <li class="bordered">-->
+      <!--          <NuxtLink to="/clinical-trials/biomarkers/correlations">-->
+      <!--            Correlations-->
+      <!--          </NuxtLink>-->
+      <!--        </li>-->
+      <!--      </ul>-->
 
       <div class="rounded navbar bg-base-100">
         <div class="flex-1">
@@ -169,8 +169,15 @@
               </linearGradient>
             </defs>
           </svg>
-          <p class="flex-grow-0 flex-shrink-0 font-medium text-left pl-2">
-            Therapeutic Areas: Inflammation - Diabetic Kidney Disease
+          <p
+            v-if="
+              selectedStudy.therapeuticArea !== undefined &&
+              selectedStudy.therapeuticArea
+            "
+            class="flex-grow-0 flex-shrink-0 pl-2 font-medium text-left"
+          >
+            <!-- Therapeutic Areas: Inflammation - Diabetic Kidney Disease -->
+            {{ selectedStudy.therapeuticArea }}-{{ selectedStudy.indication }}
           </p>
         </div>
 
@@ -251,11 +258,9 @@
               tabindex="0"
               class="w-56 shadow dropdown-content menu bg-base-100 rounded-box"
             >
-              <li class="hover-bordered"><a>Add New Group</a></li>
-              <li class="hover-bordered"><a>Add New Filter</a></li>
-              <li class="hover-bordered"><a>Add Horizontal Axis</a></li>
-              <li class="hover-bordered"><a>Add Vertical Axis</a></li>
+              <li class="hover-bordered"><a>Save Filters</a></li>
               <li class="hover-bordered"><a>Print Page</a></li>
+              <li class="text-red-600 hover-bordered"><a>Remove Group</a></li>
             </ul>
           </div>
         </div>
@@ -277,9 +282,10 @@
                       <div
                         v-for="(axisFilter, idx) in allAxisFilters"
                         :key="axisFilter.name"
-                        class="flex flex-row mb-4"
+                        class="flex flex-row my-3"
                       >
-                        <div class="px-2 py-2 mt-2 mr-2">
+                        <!-- <div class="px-2 py-2 mt-2 mr-2"> -->
+                        <div class="flex items-center justify-center mr-2">
                           <p>{{ axisFilter.name }}</p>
                         </div>
                         <select-input
@@ -288,6 +294,10 @@
                           :filter="axisFilter"
                           :deselected-dropdown-ids="deselectedDropdownIds"
                           @ON_SELECT_CHANGE="handleOnSelectChange"
+                          @ON_SELECT_STUDY_TYPE="handleOnSelectedStudy"
+                          @TOGGLE_LOG_TRANSFORM="
+                            (value) => (showLogTransform = value)
+                          "
                         />
                       </div>
                     </client-only>
@@ -297,11 +307,11 @@
                   <div
                     class="inline-flex justify-center px-2 py-2 form-control"
                   >
-                    <label class="cursor-pointer label">
+                    <label v-if="showLogTransform" class="cursor-pointer label">
                       <span class="mr-2 label-text">Log Transform</span>
                       <input
                         type="checkbox"
-                        checked="checked"
+                        :checked="logTransformSelected"
                         class="rounded checkbox checkbox-sm checkbox-primary"
                       />
                     </label>
@@ -350,10 +360,11 @@ export default {
   components: {
     NewBoxPlot,
     selectInput,
-    selectFilter
+    selectFilter,
   },
   asyncData() {
     return {
+      localStorageFilterKey: 'BIODATAHUB',
       therapeuticAreaOptions: ['Inflammation', 'Oncology', 'Virology'],
       studyOptions: [
         {
@@ -437,6 +448,8 @@ export default {
   },
   data() {
     return {
+      showLogTransform: false,
+      logTransformSelected: true,
       isLog: false,
       mainSelection: null,
       subSelection: null,
@@ -471,11 +484,24 @@ export default {
         },
       ],
 
-      // these are the select dropdowns under the main axisFilters names
-      // for example, for "Horizontal Axis", these would include the dropdowns for "Gene Expression","Filgotinib, 200mg" etc
-      // parent filter is referenced by a variable parentId
+      // dataTypeGroups: [
+      //   // Data Type Groups
+      //   {
+      //     name: 'Clinical Attribute',
+      //     id: 'clinical-attribute',
+      //   },
+      //   {
+      //     name: 'Biomarker',
+      //     id: 'biomarker',
+      //   },
+      //   {
+      //     name: 'Gene Expression',
+      //     id: 'gene-expression',
+      //   },
+      // ],
+      selectedStudy: {},
       axisFilterOptions: [
-        // for study id
+        // START - STUDY ID
         {
           id: 'study-type',
           name: 'Study Type',
@@ -556,32 +582,10 @@ export default {
             },
           ],
         },
-        {
-          id: 'timepoints',
-          name: 'Timepoints',
-          parentId: 'study-id',
-          label: '- Select Timepoints -',
-          selectedValue: [],
-          isMultipleSelect: true,
-          options: [
-            {
-              name: 'Baseline',
-              value: 'baseline',
-            },
-            {
-              name: '48 Weeks',
-              value: '48-weeks',
-            },
-            {
-              name: '96 Weeks',
-              value: '96-weeks',
-            },
-          ],
-        },
 
-        // end for study id
+        // END - STUDY ID
 
-        // for horizontal axis
+        // HORIZONTAL AXIS
         {
           id: 'data-type',
           name: 'Data Type',
@@ -604,6 +608,64 @@ export default {
           ],
         },
         {
+          id: 'primary',
+          name: 'Primary',
+          parentId: 'horizontal-axis',
+          label: '- Select Primary Group -',
+          selectedValue: [],
+          isMultipleSelect: true,
+          options: [
+            {
+              name: 'Treatment',
+              value: 'treatment',
+            },
+            {
+              name: 'Time',
+              value: 'time',
+            },
+            {
+              name: 'Sex',
+              value: 'sex',
+            },
+            {
+              name: 'Age',
+              value: 'Age',
+            },
+            {
+              name: 'Race',
+              value: 'Race',
+            },
+            {
+              name: 'Ethnicity',
+              value: 'Ethnicity',
+            },
+            {
+              name: 'BMI',
+              value: 'BMI',
+            },
+          ],
+        },
+        {
+          id: 'biomarker',
+          name: 'Biomarker',
+          parentId: 'horizontal-axis',
+          label: '- Select Biomarker -',
+          selectedValue: [],
+          // isMultipleSelect: true,
+          options: [
+            {
+              name: 'Plasma ADAMTS-like Protein',
+              value: 'Plasma ADAMTS-like Protein',
+              description: 'Description for Plasma',
+            },
+            {
+              name: 'Plasma Collectin Sub-family M',
+              value: 'Plasma ADAMTS-like Protein',
+              description: 'Description for Plasma',
+            },
+          ],
+        },
+        {
           id: 'gene',
           name: 'Gene',
           parentId: 'horizontal-axis',
@@ -614,17 +676,27 @@ export default {
             {
               name: 'ERBB1',
               value: 'erbb1',
-              description: 'Alternative names: HER3',
+              description: 'Alternative names: EGFR',
             },
             {
               name: 'ERBB2',
               value: 'erbb2',
-              description: 'Alternative names: HER3',
+              description: 'Alt. names: NEU, HER-2, HER2, CD340',
             },
             {
               name: 'ERBB3',
               value: 'erbb3',
-              description: 'Alternative names: HER3',
+              description: 'Alt. names: HER3',
+            },
+            {
+              name: 'ERBB4',
+              value: 'erbb4',
+              description: 'Alt. names: ALS19, HER4',
+            },
+            {
+              name: 'REVERBB',
+              value: 'reverbb',
+              description: 'Alt. names: BD73, EAR-1r, HZF2',
             },
           ],
         },
@@ -678,7 +750,7 @@ export default {
 
         // end  for horizontal axis
 
-        // for vertical axis
+        // VERTICAL AXIS
         {
           id: 'data-type-vertical',
           name: 'Data Type',
@@ -697,78 +769,6 @@ export default {
             {
               name: 'Biomarker',
               value: 'biomarker',
-            },
-          ],
-        },
-        {
-          id: 'gene-vertical',
-          name: 'Gene',
-          parentId: 'vertical-axis',
-          label: '- Select Gene(s) -',
-          selectedValue: [],
-          isMultipleSelect: true,
-          options: [
-            {
-              name: 'ERBB1',
-              value: 'erbb1',
-              description: 'Alternative names: HER3',
-            },
-            {
-              name: 'ERBB2',
-              value: 'erbb2',
-              description: 'Alternative names: HER3',
-            },
-            {
-              name: 'ERBB3',
-              value: 'erbb3',
-              description: 'Alternative names: HER3',
-            },
-          ],
-        },
-        {
-          id: 'treatment-vertical',
-          name: 'Treatment',
-          parentId: 'vertical-axis',
-          label: '- Select Treatment -',
-          selectedValue: [],
-          isMultipleSelect: true,
-          options: [
-            {
-              name: 'Placebo',
-              value: 'placebo',
-            },
-            {
-              name: 'Filgotinib, 200mg',
-              value: 'filgotinib-200mg',
-            },
-            {
-              name: 'Selonsertib, 18mg',
-              value: 'selonsertib-18mg',
-            },
-          ],
-        },
-        {
-          id: 'tissue-type-vertical',
-          name: 'Tissue Type',
-          parentId: 'vertical-axis',
-          label: '- Select Tissue Type -',
-          selectedValue: [],
-          options: [
-            {
-              name: 'Brain',
-              value: 'brain',
-            },
-            {
-              name: 'Liver',
-              value: 'liver',
-            },
-            {
-              name: 'Whole Blood',
-              value: 'whole-blood',
-            },
-            {
-              name: 'Kidney',
-              value: 'kidney',
             },
           ],
         },
@@ -927,10 +927,16 @@ export default {
 
       const parsed = JSON.parse(localStorageFilters)
       const axisFilters = parsed?.axisFilters
+      const selectedStudy = parsed?.selectedStudy || {}
 
       this.axisFilterOptions = axisFilters
         ? [...axisFilters]
         : this.axisFilterOptions
+
+      this.selectedStudy = selectedStudy
+    },
+    handleOnSelectedStudy(study) {
+      this.selectedStudy = study
     },
     handleOnSelectChange({ value, subFilterId }) {
       this.axisFilterOptions = this.axisFilterOptions.map((sub) =>
@@ -945,21 +951,54 @@ export default {
     handleSaveFilters() {
       if (this.deselectedDropdownIds.length > 0) {
         // invalid data - some the subsequent dropdowns are selected without the precedent dropdown items being selected
-        alert('Please select valid filters')
+
+        this.$eventBus.$emit('ADD_NEW_NOTIFICATION', {
+          type: 'error',
+          title: 'Please select valid filters',
+          duration: 5000,
+        })
         return
       }
 
+      // this.$eventBus.$emit('OPEN_MODAL')
       const filters = this.$refs.selectFilter.getFilters()
       const axisFilters = this.axisFilterOptions
+      const selectedStudy = this.selectedStudy
 
       const stringifiedFilters = JSON.stringify({
         filters,
         axisFilters,
+        selectedStudy,
       })
 
       localStorage.setItem(this.localStorageFilterKey, stringifiedFilters)
 
-      // this.$refs.selectFilter.saveFilters()
+      this.$eventBus.$emit('OPEN_MODAL', {
+        icon: ['far', 'save'],
+        title: 'Saving...Please Wait',
+        subtitle: 'This will only take a moment',
+        isClosable: false,
+      })
+
+      // const notificationObj = {
+      //   ref: 'TEST_LOADING',
+      //   isLoading: true,
+      //   type: 'info',
+      //   title: 'Saving Filters...',
+      //   duration: 5000,
+      // }
+      // this.$eventBus.$emit('ADD_NEW_NOTIFICATION', notificationObj)
+
+      setTimeout(() => {
+        this.$eventBus.$emit('CLOSE_MODAL')
+        // this.$eventBus.$emit('REMOVE_NOTIFICATION_LOADING', notificationObj)
+
+        this.$eventBus.$emit('ADD_NEW_NOTIFICATION', {
+          type: 'info',
+          title: 'Filters saved successfully',
+          duration: 5000,
+        })
+      }, 1000)
     },
     updatePlotData(object) {
       this.plotSetupDict = object
