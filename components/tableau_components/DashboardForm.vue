@@ -4,7 +4,7 @@
 
 <h4 class="text-2xl mb-2">File a Request</h4>
 <div class="w-full rounded-lg bg-gray-100 p-3 text-sm text-gray-600 py-3">
-  Please fill the form below to request creating or updating an existing dashboard. 
+  Please fill the form below to request creating or updating an existing dashboard.
 </div>
 <div class="tabs w-full py-5">
 <ul class="nav-tabs flex space-x-4 ">
@@ -16,14 +16,14 @@
   <div class="grid grid-cols-2 grid-rows-3 gap-4">
 
       <base-select-input :label="data[0].label" :selectedValue="updateInfo ? data[0].selectedValue : ''" :options="data[0].options" />
-    
+
     <!-- START INPUT GROUP -->
     <div class="group">
       <label for="" class="text-gray-500 mb-1"> Phase </label>
       <div class=" relative flex items-center">
 
         <input type="text" name="" class="w-full appearance-none border h-12 bg-gray-100 border-gray-200 px-3 py-3 rounded-xl" id="" :value="updateInfo ? '1' : ''">
-       
+
       </div>
     </div>
 <!-- END INPUT GROUP -->
@@ -40,7 +40,7 @@
       <label for="" class="text-gray-500 mb-1">Other comments</label>
       <div class=" relative flex items-center">
 
-        <input type="text" name="" class="w-full h-12 appearance-none border border-gray-200 px-3 py-3 rounded-xl" id="" 
+        <input type="text" name="" class="w-full h-12 appearance-none border border-gray-200 px-3 py-3 rounded-xl" id=""
         value="">
 
 
@@ -81,8 +81,8 @@ export default {
             {
               name: 'point-of-contact',
               label:"Point of Contact",
-              selectedValue: 'John.Smith@gilead.com',
-              options:['John.Smith@gilead.com']
+              selectedValue: 'ruuka.huang4@gilead.com',
+              options:['ruuka.huang4@gilead.com']
           },
           {
             name:'type-of-update',
