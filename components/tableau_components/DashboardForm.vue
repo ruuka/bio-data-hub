@@ -2,6 +2,7 @@
   <div class="w-full">
       <!-- START POPUP FORM -->
 
+
 <h4 class="text-2xl mb-2">File a Request</h4>
 <div class="w-full rounded-lg bg-gray-100 p-3 text-sm text-gray-600 py-3">
   Please fill the form below to request creating or updating an existing dashboard.
@@ -15,17 +16,12 @@
 <form class="body">
   <div class="grid grid-cols-2 grid-rows-3 gap-4">
 
-<<<<<<< HEAD
       <base-select-input 
       :label="data[0].label" 
       @set-selected-value = "setSelectedValue"
       :selectedValue="updateInfo ? data[0].selectedValue : ''" 
       :options="data[0].options" />
     
-=======
-      <base-select-input :label="data[0].label" :selectedValue="updateInfo ? data[0].selectedValue : ''" :options="data[0].options" />
-
->>>>>>> ff851bbe57792fea7a7b22033c8540ee938eae76
     <!-- START INPUT GROUP -->
     <div class="group">
       <label for="" class="text-gray-500 mb-1"> Phase </label>
@@ -142,7 +138,7 @@ export default {
         }
       })
 
-console.log(this.getSelectedEmail);
+
     }
   }
 

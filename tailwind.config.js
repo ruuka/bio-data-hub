@@ -10,7 +10,7 @@ module.exports = {
       './pages/**/*.vue',
       './plugins/**/*.{js,ts}',
       './nuxt.config.{js,ts}',
-      'node_modules/mijin/src/components/**/*.vue',
+      './node_modules/mijin/src/components/**/*.vue',
     ],
   },
   presets: [
@@ -21,6 +21,7 @@ module.exports = {
     extend: {
       colors: {
         'gilead-red': '#B91C1C',
+        'primary': '#B91C1C',
       },
       screens: {
         'sm': '640px',
@@ -43,6 +44,7 @@ module.exports = {
     },
   },
   plugins: [
+    require('mijin/dist/tailwind-preset.js'),
     require('daisyui'),
   ],
   daisyui: {
