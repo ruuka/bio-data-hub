@@ -12,11 +12,12 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['@/assets/css/styles.css'],
+  css: ['@/assets/css/styles.css', '@fortawesome/fontawesome-svg-core/styles.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '@/plugins/plotly.client.js',
+    '@/plugins/plotly.client.js','~/plugins/mijin.js',
+    '~/plugins/fontawesome.js',
     { src: '~/plugins/vue-tags-input', ssr: false },
     { src: '~/plugins/v-click-outside', ssr: false },
     { src: '~/plugins/event-bus', ssr: false },
@@ -60,6 +61,7 @@ export default {
       regular: [
         'faHome',
         'faClinicMedical',
+        // 'faFilterSlash',
         'faSearch',
         'faQuestionCircle',
         'faEnvelope',
@@ -104,6 +106,20 @@ export default {
     // '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
+      ['nuxt-mail', {
+        message: {
+          to: 'me@gmail.com',
+        },
+        smtp: {
+          host: "smtp.mailtrap.io",
+          port: 2525,
+          auth: {
+            user: "a65b59f1f14c24",
+            pass: "6e60dc796e1d28"
+          }
+        },
+      }],
+    
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

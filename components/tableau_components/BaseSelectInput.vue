@@ -61,7 +61,7 @@ export default {
    },
    methods: {
        setValue(option) {
-           this.$emit('set-selected-value', option);
+           this.$emit('set-selected-value', option, this.label);
             this.selected = option;
            this.$refs['select-div'].blur();
            
@@ -69,7 +69,7 @@ export default {
    },
 
    mounted() {
-       this.value = this.selectedValue;
+       //this.value = this.selectedValue;
        this.selected = this.selectedValue;
    }
 }

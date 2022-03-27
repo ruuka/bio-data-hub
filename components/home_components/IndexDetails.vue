@@ -52,6 +52,8 @@
     <div
       class="w-full rounded-2xl z-50 bg-white p-6 mt-10 shadow-sm"
     >
+ 
+ 
       <div class="flex justify-between align-top">
         <div class="w-3/4 flex-none relative w-full">
           <h4 class="font-bold text-xl text-gray-800">Frequently Asked Questions</h4>

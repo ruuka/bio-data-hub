@@ -15,7 +15,11 @@
 <form class="body">
   <div class="grid grid-cols-2 grid-rows-3 gap-4">
 
-      <base-select-input :label="data[0].label" :selectedValue="updateInfo ? data[0].selectedValue : ''" :options="data[0].options" />
+      <base-select-input 
+      :label="data[0].label" 
+      @set-selected-value = "setSelectedValue"
+      :selectedValue="updateInfo ? data[0].selectedValue : ''" 
+      :options="data[0].options" />
     
     <!-- START INPUT GROUP -->
     <div class="group">
@@ -28,11 +32,17 @@
     </div>
 <!-- END INPUT GROUP -->
 
- <base-select-input :label="data[1].label" :selectedValue="updateInfo ? data[1].selectedValue : ''" :options="data[1].options" />
+ <base-select-input
+  @set-selected-value = "setSelectedValue"
+  :label="data[1].label" :selectedValue="updateInfo ? data[1].selectedValue : ''" :options="data[1].options" />
 
- <base-select-input :label="data[2].label" :selectedValue="updateInfo ? data[2].selectedValue : ''" :options="data[2].options" />
+ <base-select-input 
+  @set-selected-value = "setSelectedValue"
+ :label="data[2].label" :selectedValue="updateInfo ? data[2].selectedValue : ''" :options="data[2].options" />
 
- <base-select-input v-if="!updateInfo" :label="data[3].label" :selectedValue="updateInfo ? data[3].selectedValue : ''" :options="data[3].options" />
+ <base-select-input
+  @set-selected-value = "setSelectedValue"
+  v-if="!updateInfo" :label="data[3].label" :selectedValue="updateInfo ? data[3].selectedValue : ''" :options="data[3].options" />
 
 
     <!-- START INPUT GROUP -->
@@ -51,7 +61,7 @@
 
   <div class="flex tab-footer justify-end text-gray-600 space-x-6 px-4 mt-6  items-center my-4">
     <button class="appearance-none font-bold" @click.prevent="$emit('close')">Cancel</button>
-    <button class="appearance-none font-bold" @click.prevent="$emit('close')">Send Request</button>
+    <button class="appearance-none font-bold" @click.prevent="sendEmail()">Send Request</button>
   </div>
 </form>
 
@@ -82,7 +92,7 @@ export default {
               name: 'point-of-contact',
               label:"Point of Contact",
               selectedValue: 'John.Smith@gilead.com',
-              options:['John.Smith@gilead.com']
+              options:['John.Smith@gilead.com','boratechlofe@gmail.com']
           },
           {
             name:'type-of-update',
@@ -98,6 +108,37 @@ export default {
           }
           ]
       }
+  },
+  methods: {
+    getSelectedEmail() {
+      return this.data[1].selectedValue
+    },
+
+  
+    sendEmail() {
+      if(!this.getSelectedEmail()) {
+        alert('Please select a point of contact')
+        return;
+      }
+
+      this.$mail.send({
+        from: 'boratechlife@gmail.com',
+        subject: 'Contact form message',
+        text: this.message,
+        to:this.getSelectedEmail()
+      })
+      this.$emit('close')
+    },
+
+    setSelectedValue(option, label) {
+      this.data.forEach(item => {
+        if (item.label === label) {
+          item.selectedValue = option
+        }
+      })
+
+console.log(this.getSelectedEmail);
+    }
   }
 
 }
