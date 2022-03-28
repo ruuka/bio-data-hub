@@ -242,6 +242,7 @@ export default {
           id: 1,
           name: 'Age',
           isActive: false,
+          isMultipleSelect: true,
           searchText: '',
           filterOptions: [
             {
@@ -274,6 +275,7 @@ export default {
           id: 2,
           name: 'Time',
           isActive: false,
+          isMultipleSelect: true,
           searchText: '',
           filterOptions: [
             {
@@ -300,6 +302,7 @@ export default {
           id: 3,
           name: 'Sex',
           isActive: false,
+          isMultipleSelect: true,
           searchText: '',
           filterOptions: [
             {
@@ -320,6 +323,7 @@ export default {
           id: 4,
           name: 'Ethnicity',
           isActive: false,
+          isMultipleSelect: true,
           searchText: '',
           filterOptions: [
             {
@@ -340,6 +344,7 @@ export default {
           id: 5,
           name: 'Race',
           isActive: false,
+          isMultipleSelect: true,
           searchText: '',
           filterOptions: [
             {
@@ -372,6 +377,7 @@ export default {
           id: 6,
           name: 'Responder/Non-responder',
           isActive: false,
+          isMultipleSelect: true,
           searchText: '',
           filterOptions: [
             {
@@ -394,6 +400,7 @@ export default {
           id: 7,
           name: 'BMI',
           isActive: false,
+          isMultipleSelect: true,
           searchText: '',
           filterOptions: [
             {

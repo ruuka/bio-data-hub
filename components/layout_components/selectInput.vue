@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-wrap items-center gap-2">
     <vue-tags-input
-      v-for="(subFilter, idx) in filter.axisSubFilters"
+      v-for="(subFilter, idx) in filteredSubfilters"
       :key="subFilter.label + idx + subFilter.parentId"
       v-model="filterSearchTextObj[subFilter.id]"
       v-click-outside="($event) => onClickOutside($event, subFilter)"
@@ -10,7 +10,7 @@
         !deselectedDropdownIds.includes(subFilter.id) && isDisabled(idx)
       "
       :tags="getTagsForSubFilter(subFilter)"
-      :autocomplete-items="getAutocompleteItems(subFilter.id)"
+      :autocomplete-items="getAutocompleteItems(subFilter)"
       class="tags-input"
       :class="{
         'is-filled': isInputFilled(subFilter),
@@ -25,6 +25,7 @@
       @focus="onFocus(subFilter)"
       @blur="onBlur"
     >
+      <!-- :placeholder="subFilter.id" -->
       <!-- leave this slot as empty element, otherwise the library's default close icon will show up -->
       <!-- we're using our own svg icon below in the slot "tag-center" -->
       <div slot="tag-actions"></div>
@@ -87,6 +88,15 @@ export default {
   data() {
     return {
       // variables for my implementation
+      conditionalDropdownIds: [
+        'clinical-attribute',
+        'biomarker',
+        'gene-expression',
+      ],
+      selectedSubDropdowns: {
+        'horizontal-axis': null,
+        'vertical-axis': null,
+      },
       filterSearchTextObj: {},
       maxLengthForMultipleSelect: 3,
       focusedInputId: '',
@@ -95,7 +105,11 @@ export default {
     }
   },
 
-  computed: {},
+  computed: {
+    filteredSubfilters() {
+      return this.filter.axisSubFilters.filter((s) => !s.isInactive)
+    },
+  },
   mounted() {},
   methods: {
     isInputFilled(subFilter) {
@@ -104,14 +118,15 @@ export default {
         !subFilter.isMultipleSelect
       ) {
         // for single select, if there's one selected value, its filled
-        return subFilter.selectedValue.length === 1
+        return subFilter?.selectedValue?.length === 1
       }
 
       // for multple selected, it is filled if the array length is >= the max allowed
-      return subFilter.selectedValue.length >= this.maxLengthForMultipleSelect
+      return subFilter?.selectedValue?.length >= this.maxLengthForMultipleSelect
     },
     getPlaceholder(idx) {
-      const subFilter = this.filter.axisSubFilters[idx]
+      // const subFilter = this.filter.axisSubFilters[idx]
+      const subFilter = this.filteredSubfilters[idx]
 
       if (subFilter.isMultipleSelect) {
         if (
@@ -153,11 +168,12 @@ export default {
       this.$emit('ON_SELECT_CHANGE', {
         value: newTags,
         subFilterId: filter.id,
+        subFilter: filter,
       })
 
-      if (filter.options.find((opt) => opt.value === 'biomarker')) {
-        this.$emit('TOGGLE_LOG_TRANSFORM', false)
-      }
+      // if (filter.options.find((opt) => opt.value === 'biomarker')) {
+      //   this.$emit('TOGGLE_LOG_TRANSFORM', false)
+      // }
     },
 
     onFocus(subFilter) {
@@ -192,15 +208,10 @@ export default {
         }
       }
     },
-    getAutocompleteItems(subFilterId, options = { isInputDisabled: false }) {
+    getAutocompleteItems(subFilter, options = { isInputDisabled: false }) {
       if (options.isInputDisabled) return []
       // if the input is disabled, return an empty array so that the autocomplete dropdown won't show up when an item is already selected
-
-      const subFilter = this.filter.axisSubFilters.find(
-        (sub) => sub.id === subFilterId
-      )
-
-      if (!subFilter) return []
+      const subFilterId = subFilter.id
 
       if (
         !this.deselectedDropdownIds.includes(subFilter.id) &&
@@ -212,6 +223,7 @@ export default {
         // if its disabled, set an empty array so that the autocomplete dropdown won't show up,
         //  otherwise, looks weird since you can't get rid of it because its disabled
       }
+      // console.warn(subFilter.id)
 
       if (
         (subFilter.isMultipleSelect !== undefined ||
@@ -251,6 +263,7 @@ export default {
       if (subFilterIdx === 0 && this.filterIndex === 0) return false
 
       // if this filter falls in the index, disable all row, nothing to check
+
       if (this.disabledRowIndices.includes(this.filterIndex)) return true
 
       // the next filter's first select dropdown
@@ -262,8 +275,8 @@ export default {
       }
 
       if (subFilterIdx !== 0) {
-        const previousSubFilter = this.filter.axisSubFilters[subFilterIdx - 1]
-        const currentSubFilter = this.filter.axisSubFilters[subFilterIdx]
+        const previousSubFilter = this.filteredSubfilters[subFilterIdx - 1]
+        const currentSubFilter = this.filteredSubfilters[subFilterIdx]
 
         // if (previousSubFilter.selectedValue.length === 0) return true
         if (previousSubFilter.selectedValue.length === 0) {
