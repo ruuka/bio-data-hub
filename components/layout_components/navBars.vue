@@ -61,6 +61,8 @@
           class="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start"
         >
           <div class="flex items-center flex-shrink-0">
+            <NuxtLink
+              to="/">
             <img
               class="block w-auto h-10 lg:hidden"
               src="https://anima-uploads.s3.amazonaws.com/projects/61eb071259085a6271779ae5/releases/61eb07172db43d929ddc59c6/img/gilead-create-possible-svg-1@2x.svg"
@@ -71,6 +73,7 @@
               src="https://anima-uploads.s3.amazonaws.com/projects/61eb071259085a6271779ae5/releases/61eb07172db43d929ddc59c6/img/gilead-create-possible-svg-1@2x.svg"
               alt="Gilead"
             />
+            </NuxtLink>
           </div>
           <div class="hidden sm:block sm:ml-6">
             <div class="flex space-x-4">
@@ -86,6 +89,11 @@
                 to="/knowledge-base"
                 class="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
                 >Knowledge Base</NuxtLink
+              >
+              <NuxtLink
+                to="/tableau"
+                class="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
+              >Tableau</NuxtLink
               >
             </div>
           </div>
@@ -236,29 +244,17 @@
     <div class="sm:hidden" id="mobile-menu">
       <div class="px-2 pt-2 pb-3 space-y-1">
         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-        <a
-          href="#"
+        <NuxtLink
+          to="/knowledge-base"
           class="block px-3 py-2 text-base font-medium text-white bg-gray-900 rounded-md"
           aria-current="page"
-          >Dashboard</a
+          >Knowledge Base</NuxtLink
         >
 
-        <a
-          href="#"
+        <NuxtLink
+          to="/tableau"
           class="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
-          >Team</a
-        >
-
-        <a
-          href="#"
-          class="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
-          >Projects</a
-        >
-
-        <a
-          href="#"
-          class="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
-          >Calendar</a
+          >Tableau</NuxtLink
         >
       </div>
     </div>

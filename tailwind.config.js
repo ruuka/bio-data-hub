@@ -1,3 +1,5 @@
+
+const mijin = require('mijin/dist/tailwind-preset.js');
 module.exports = {
   mode: 'jit',
   // These paths are just examples, customize them to match your project structure
@@ -8,13 +10,18 @@ module.exports = {
       './pages/**/*.vue',
       './plugins/**/*.{js,ts}',
       './nuxt.config.{js,ts}',
+      './node_modules/mijin/src/components/**/*.vue',
     ],
   },
+  presets: [
+    mijin,
+  ],
   content: [],
   theme: {
     extend: {
       colors: {
         'gilead-red': '#B91C1C',
+        'primary': '#B91C1C',
       },
       screens: {
         'sm': '640px',
@@ -37,6 +44,7 @@ module.exports = {
     },
   },
   plugins: [
+    require('mijin/dist/tailwind-preset.js'),
     require('daisyui'),
   ],
   daisyui: {

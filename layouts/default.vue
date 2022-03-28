@@ -1,10 +1,10 @@
 <template>
-  <div class="bg-gray-100 hub-body">
+  <div class="hub-body " :class="$route.path !=='/tableau' ? 'bg-gray-100': 'bg-white'">
     <NavBars />
     <NotificationGroup />
     <DialogModal />
     <div class="flex">
-      <leftMenu />
+      <leftMenu v-if="$route.path !=='/tableau'" />
       <nuxt />
     </div>
     <footerComponent />
