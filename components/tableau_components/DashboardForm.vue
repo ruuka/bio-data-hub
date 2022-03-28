@@ -74,6 +74,7 @@
 
 <script>
 import BaseSelectInput from './BaseSelectInput.vue'
+
 export default {
   components: { BaseSelectInput },
   data() {
@@ -117,18 +118,32 @@ export default {
 
   
     sendEmail() {
+     
+      const email = this.getSelectedEmail()
       if(!this.getSelectedEmail()) {
         alert('Please select a point of contact')
         return;
       }
 
-      this.$mail.send({
-        from: 'boratechlife@gmail.com',
+      this.$axios.post('/api/sendmail',{
+       
         subject: 'Contact form message',
-        text: this.message,
-        to:this.getSelectedEmail()
+        text: "message",
+        name:'Gilead Biodata',
+        email:this.getSelectedEmail(), //to  email
+        message:"Welcome to Gilead Biodata"
+      
       })
-      this.$emit('close')
+      .then((res)=> {
+        alert('Email sent')
+        this.$emit('close')
+      }).catch((err)=> {
+        alert('Email failed')
+        console.log(err)
+        this.$emit('close')
+      })
+    
+  
     },
 
     setSelectedValue(option, label) {

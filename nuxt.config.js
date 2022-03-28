@@ -107,19 +107,7 @@ export default {
     // '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
-      ['nuxt-mail', {
-        message: {
-          to: 'me@gmail.com',
-        },
-        smtp: {
-          host: "smtp.mailtrap.io",
-          port: 2525,
-          auth: {
-            user: "a65b59f1f14c24",
-            pass: "6e60dc796e1d28"
-          }
-        },
-      }],
+
     
   ],
 
@@ -156,4 +144,18 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: { analyze: false },
+  serverMiddleware: [
+    { path: "/api", handler: "~/api/email.js" },
+  ],
+
+  //EMAIL CONFIGS
+  smtp: {
+    from:"support@gilead.com", //CHANGE THIS TO FROM EMAIL
+    host: "smtp.mailtrap.io", //TODO:CHANGE THIS TO A YOUR EMAIL SERVER
+    port: 2525,//TODO:CHANGE THIS TO A YOUR EMAIL SERVER PORT NO.
+    auth: {
+      user: "a65b59f1f14c24", //TODO:CHANGE THIS TO A YOUR EMAIL SERVER USERNAME
+      pass: "6e60dc796e1d28" //TODO:CHANGE THIS TO A YOUR EMAIL SERVER PASSWORD
+    }
+  },
 }
