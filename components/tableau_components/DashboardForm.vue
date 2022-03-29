@@ -94,7 +94,7 @@ export default {
               name: 'point-of-contact',
               label:"Point of Contact",
               selectedValue: 'John.Smith@gilead.com',
-              options:['John.Smith@gilead.com','boratechlofe@gmail.com']
+              options:['John.Smith@gilead.com','boratechlife@gmail.com','ruuka.huang4@gilead.com']
           },
           {
             name:'type-of-update',
@@ -127,11 +127,11 @@ export default {
 
       this.$axios.post('/api/sendmail',{
        
-        subject: 'Contact form message',
-        text: "message",
+        subject: 'Account Update Request',
+        message: "Hello, we have received a request to update your account. Please follow the link below to complete the request.\n\nhttps://www.google.com",
         name:'Gilead Biodata',
         email:this.getSelectedEmail(), //to  email
-        message:"Welcome to Gilead Biodata"
+        
       
       })
       .then((res)=> {

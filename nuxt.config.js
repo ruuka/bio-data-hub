@@ -150,12 +150,12 @@ export default {
 
   //EMAIL CONFIGS
   smtp: {
-    from:"support@gilead.com", //CHANGE THIS TO FROM EMAIL
-    host: "smtp.mailtrap.io", //TODO:CHANGE THIS TO A YOUR EMAIL SERVER
-    port: 2525,//TODO:CHANGE THIS TO A YOUR EMAIL SERVER PORT NO.
+    from:"denis4204@outlook.com", //CHANGE THIS TO FROM EMAIL
+    host: "smtp-mail.outlook.com", 
+    port: 587,
     auth: {
-      user: "a65b59f1f14c24", //TODO:CHANGE THIS TO A YOUR EMAIL SERVER USERNAME
-      pass: "6e60dc796e1d28" //TODO:CHANGE THIS TO A YOUR EMAIL SERVER PASSWORD
+      user: 'denis4204@outlook.com',
+      pass: 'Kemei4024*'
     }
   },
 }
