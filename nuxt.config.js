@@ -12,7 +12,10 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['@/assets/css/styles.css', '@fortawesome/fontawesome-svg-core/styles.css'],
+  css: [
+    '@/assets/css/styles.css',
+    '@fortawesome/fontawesome-svg-core/styles.css',
+  ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
@@ -107,8 +110,6 @@ export default {
     // '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
-
-    
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -144,18 +145,16 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: { analyze: false },
-  serverMiddleware: [
-    { path: "/api", handler: "~/api/email.js" },
-  ],
+  serverMiddleware: [{ path: '/api', handler: '~/api/email.js' }],
 
   //EMAIL CONFIGS
   smtp: {
-    from:"denis4204@outlook.com", //CHANGE THIS TO FROM EMAIL
-    host: "smtp-mail.outlook.com", 
+    from: 'denis4204@outlook.com', //CHANGE THIS TO FROM EMAIL
+    host: 'smtp-mail.outlook.com',
     port: 587,
     auth: {
       user: 'denis4204@outlook.com',
-      pass: 'Kemei4024*'
-    }
+      pass: 'Kemei4024*',
+    },
   },
 }

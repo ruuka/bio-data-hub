@@ -307,14 +307,16 @@
                   <div
                     class="inline-flex justify-center px-2 py-2 form-control"
                   >
-                    <label v-if="showLogTransform" class="cursor-pointer label">
+                    <label
+                      v-if="shouldShowLogTransformCheckbox"
+                      class="cursor-pointer label"
+                    >
                       <span class="mr-2 label-text">Log Transform</span>
-                      <input
-                        v-model="
-                          logTransformDetails[
+                      <!-- logTransformDetails[
                             currentlyActiveLogTransformDetails.axis
-                          ]
-                        "
+                          ] -->
+                      <input
+                        v-model="isLogTransformSelected"
                         type="checkbox"
                         class="rounded checkbox checkbox-sm checkbox-primary"
                       />
@@ -461,7 +463,7 @@ export default {
         'vertical-axis': false,
         'horizontal-axis': false,
       },
-      logTransformSelected: true,
+      isLogTransformSelected: true,
       isLog: false,
       mainSelection: null,
       subSelection: null,
@@ -972,6 +974,34 @@ export default {
     }
   },
   computed: {
+    shouldShowLogTransformCheckbox() {
+      const horizontalBiomarkerItem = this.axisFilterOptions.find(
+        (o) => o.id === 'data-type'
+      )
+      const verticalBiomarkerItem = this.axisFilterOptions.find(
+        (o) => o.id === 'data-type-vertical'
+      )
+
+      const isHorizontalBiomarkerSelected =
+        horizontalBiomarkerItem?.selectedValue?.find(
+          (i) => i.id === 'biomarker'
+        )
+
+      const isVerticalBiomarkerSelected =
+        verticalBiomarkerItem?.selectedValue?.find(
+          (i) => i.id === 'biomarker-vertical'
+        )
+
+      if (!isHorizontalBiomarkerSelected && !isVerticalBiomarkerSelected) {
+        return false
+      }
+
+      if (isHorizontalBiomarkerSelected || isVerticalBiomarkerSelected) {
+        return true
+      }
+
+      return false
+    },
     allAxisFilters() {
       return this.axisFilters.map((af) => ({
         ...af,
@@ -1111,6 +1141,9 @@ export default {
       const axisFilters = parsed?.axisFilters
       const selectedStudy = parsed?.selectedStudy || {}
       const logTransformDetails = parsed?.logTransformDetails
+      const isLogTransformSelected = parsed?.isLogTransformSelected
+
+      this.isLogTransformSelected = isLogTransformSelected
 
       this.axisFilterOptions = axisFilters
         ? [...axisFilters]
@@ -1220,6 +1253,7 @@ export default {
       const filters = this.$refs.selectFilter.getFilters()
       const axisFilters = this.axisFilterOptions
       const selectedStudy = this.selectedStudy
+      const isLogTransformSelected = this.isLogTransformSelected
       const logTransformDetails = {
         currentlyActiveLogTransformDetails:
           this.currentlyActiveLogTransformDetails,
@@ -1231,6 +1265,7 @@ export default {
         axisFilters,
         selectedStudy,
         logTransformDetails,
+        isLogTransformSelected,
       })
 
       localStorage.setItem(this.localStorageFilterKey, stringifiedFilters)
