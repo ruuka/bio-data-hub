@@ -271,7 +271,9 @@
           <div class="md:col-span-1"></div>
           <div class="mt-5 md:mt-0 md:col-span-2">
             <form action="#" method="POST" @submit.prevent="handleSaveFilters">
-              <div class="overflow-hidden shadow sm:rounded-md">
+              <div class="shadow sm:rounded-md">
+                <!-- overflow-hidden this class was the reason for the dropdown being cut off -->
+                <!-- I've removed it for now, but i'm not sure if this would effect the layout in any ways -->
                 <div class="px-2 py-2 bg-white sm:p-6">
                   <div class="flex flex-col w-full">
                     <client-only>

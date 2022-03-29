@@ -235,6 +235,7 @@ export default {
 
   data() {
     return {
+      localStorageFilterKey: 'BIODATAHUB',
       focusedInputId: '',
       maxLengthForMultipleSelect: 3,
       initialFilters: [
@@ -462,6 +463,7 @@ export default {
       const parsed = JSON.parse(localStorageFilters)
 
       const filters = parsed?.filters
+
       this.activeFilters = filters || []
     } else {
       this.activeFilters = []
