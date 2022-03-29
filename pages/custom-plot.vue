@@ -271,7 +271,9 @@
           <div class="md:col-span-1"></div>
           <div class="mt-5 md:mt-0 md:col-span-2">
             <form action="#" method="POST" @submit.prevent="handleSaveFilters">
-              <div class="overflow-hidden shadow sm:rounded-md">
+              <div class="shadow sm:rounded-md">
+                <!-- overflow-hidden this class was the reason for the dropdown being cut off -->
+                <!-- I've removed it for now, but i'm not sure if this would effect the layout in any ways -->
                 <div class="px-2 py-2 bg-white sm:p-6">
                   <div class="flex flex-col w-full">
                     <client-only>
@@ -295,14 +297,12 @@
                           :deselected-dropdown-ids="deselectedDropdownIds"
                           @ON_SELECT_CHANGE="handleOnSelectChange"
                           @ON_SELECT_STUDY_TYPE="handleOnSelectedStudy"
-                          @TOGGLE_LOG_TRANSFORM="
-                            (value) => (showLogTransform = value)
-                          "
                         />
                       </div>
                     </client-only>
                   </div>
                 </div>
+
                 <div class="px-4 py-3 text-right bg-gray-50 sm:px-6">
                   <div
                     class="inline-flex justify-center px-2 py-2 form-control"
@@ -310,8 +310,12 @@
                     <label v-if="showLogTransform" class="cursor-pointer label">
                       <span class="mr-2 label-text">Log Transform</span>
                       <input
+                        v-model="
+                          logTransformDetails[
+                            currentlyActiveLogTransformDetails.axis
+                          ]
+                        "
                         type="checkbox"
-                        :checked="logTransformSelected"
                         class="rounded checkbox checkbox-sm checkbox-primary"
                       />
                     </label>
@@ -449,6 +453,14 @@ export default {
   data() {
     return {
       showLogTransform: false,
+      currentlyActiveLogTransformDetails: {
+        id: '',
+        axis: '',
+      },
+      logTransformDetails: {
+        'vertical-axis': false,
+        'horizontal-axis': false,
+      },
       logTransformSelected: true,
       isLog: false,
       mainSelection: null,
@@ -499,6 +511,18 @@ export default {
       //     id: 'gene-expression',
       //   },
       // ],
+      conditionalDropdownIds: [
+        'clinical-attribute',
+        'biomarker',
+        'gene-expression',
+        'clinical-attribute-vertical',
+        'biomarker-vertical',
+        'gene-expression-vertical',
+      ],
+      selectedSubDropdowns: {
+        'horizontal-axis': null,
+        'vertical-axis': null,
+      },
       selectedStudy: {},
       axisFilterOptions: [
         // START - STUDY ID
@@ -594,14 +618,17 @@ export default {
           selectedValue: [],
           options: [
             {
+              id: 'clinical-attribute',
               name: 'Clinical Attribute',
               value: 'clinical-attribute',
             },
             {
+              id: 'biomarker',
               name: 'Biomarker',
               value: 'biomarker',
             },
             {
+              id: 'gene-expression',
               name: 'Gene Expression',
               value: 'gene-expression',
             },
@@ -610,6 +637,7 @@ export default {
         {
           id: 'primary',
           name: 'Primary',
+          groupParentId: ['clinical-attribute'],
           parentId: 'horizontal-axis',
           label: '- Select Primary Group -',
           selectedValue: [],
@@ -648,6 +676,7 @@ export default {
         {
           id: 'biomarker',
           name: 'Biomarker',
+          groupParentId: ['biomarker'],
           parentId: 'horizontal-axis',
           label: '- Select Biomarker -',
           selectedValue: [],
@@ -669,6 +698,7 @@ export default {
           id: 'gene',
           name: 'Gene',
           parentId: 'horizontal-axis',
+          groupParentId: ['gene-expression'],
           label: '- Select Gene(s) -',
           selectedValue: [],
           isMultipleSelect: true,
@@ -704,6 +734,7 @@ export default {
           id: 'treatment',
           name: 'Treatment',
           parentId: 'horizontal-axis',
+          groupParentId: ['biomarker'],
           label: '- Select Treatment -',
           selectedValue: [],
           isMultipleSelect: true,
@@ -726,6 +757,7 @@ export default {
           id: 'tissue-type',
           name: 'Tissue Type',
           parentId: 'horizontal-axis',
+          groupParentId: ['gene-expression'],
           label: '- Select Tissue Type -',
           selectedValue: [],
           options: [
@@ -759,16 +791,164 @@ export default {
           selectedValue: [],
           options: [
             {
-              name: 'Gene Expression',
-              value: 'gene-expression',
-            },
-            {
+              id: 'clinical-attribute-vertical',
               name: 'Clinical Attribute',
               value: 'clinical-attribute',
             },
             {
+              id: 'gene-expression-vertical',
+              name: 'Gene Expression',
+              value: 'gene-expression',
+            },
+            {
+              id: 'biomarker-vertical',
               name: 'Biomarker',
               value: 'biomarker',
+            },
+          ],
+        },
+        {
+          id: 'biomarker-vertical',
+          name: 'Biomarker',
+          groupParentId: ['biomarker-vertical'],
+          parentId: 'vertical-axis',
+          label: '- Select Biomarker -',
+          selectedValue: [],
+          // isMultipleSelect: true,
+          options: [
+            {
+              name: 'Plasma ADAMTS-like Protein',
+              value: 'Plasma ADAMTS-like Protein',
+              description: 'Description for Plasma',
+            },
+            {
+              name: 'Plasma Collectin Sub-family M',
+              value: 'Plasma ADAMTS-like Protein',
+              description: 'Description for Plasma',
+            },
+          ],
+        },
+        {
+          id: 'gene-vertical',
+          name: 'Gene',
+          parentId: 'vertical-axis',
+          groupParentId: ['gene-expression-vertical'],
+          label: '- Select Gene(s) -',
+          selectedValue: [],
+          isMultipleSelect: true,
+          options: [
+            {
+              name: 'ERBB1',
+              value: 'erbb1',
+              description: 'Alternative names: EGFR',
+            },
+            {
+              name: 'ERBB2',
+              value: 'erbb2',
+              description: 'Alt. names: NEU, HER-2, HER2, CD340',
+            },
+            {
+              name: 'ERBB3',
+              value: 'erbb3',
+              description: 'Alt. names: HER3',
+            },
+            {
+              name: 'ERBB4',
+              value: 'erbb4',
+              description: 'Alt. names: ALS19, HER4',
+            },
+            {
+              name: 'REVERBB',
+              value: 'reverbb',
+              description: 'Alt. names: BD73, EAR-1r, HZF2',
+            },
+          ],
+        },
+        {
+          id: 'treatment-vertical',
+          name: 'Treatment',
+          parentId: 'vertical-axis',
+          groupParentId: ['biomarker-vertical'],
+          label: '- Select Treatment -',
+          selectedValue: [],
+          isMultipleSelect: true,
+          options: [
+            {
+              name: 'Placebo',
+              value: 'placebo',
+            },
+            {
+              name: 'Filgotinib, 200mg',
+              value: 'filgotinib-200mg',
+            },
+            {
+              name: 'Selonsertib, 18mg',
+              value: 'selonsertib-18mg',
+            },
+          ],
+        },
+        {
+          id: 'tissue-type-vertical',
+          name: 'Tissue Type',
+          parentId: 'vertical-axis',
+          groupParentId: ['gene-expression-vertical'],
+          label: '- Select Tissue Type -',
+          selectedValue: [],
+          options: [
+            {
+              name: 'Brain',
+              value: 'brain',
+            },
+            {
+              name: 'Liver',
+              value: 'liver',
+            },
+            {
+              name: 'Whole Blood',
+              value: 'whole-blood',
+            },
+            {
+              name: 'Kidney',
+              value: 'kidney',
+            },
+          ],
+        },
+        {
+          id: 'primary-vertical',
+          name: 'Primary',
+          groupParentId: ['clinical-attribute-vertical'],
+          parentId: 'vertical-axis',
+          label: '- Select Primary Group -',
+          selectedValue: [],
+          isMultipleSelect: true,
+          options: [
+            {
+              name: 'Treatment',
+              value: 'treatment',
+            },
+            {
+              name: 'Time',
+              value: 'time',
+            },
+            {
+              name: 'Sex',
+              value: 'sex',
+            },
+            {
+              name: 'Age',
+              value: 'Age',
+            },
+            {
+              name: 'Race',
+              value: 'Race',
+            },
+            {
+              name: 'Ethnicity',
+              value: 'Ethnicity',
+            },
+            {
+              name: 'BMI',
+              value: 'BMI',
             },
           ],
         },
@@ -799,12 +979,14 @@ export default {
           .filter((sub) => sub.parentId === af.id)
           .map((sub) => ({
             ...sub,
+            isInactive: sub.isInactive === undefined ? false : sub.isInactive,
             text: sub.name, // the vue-tags-input library requires a text field
             options: sub.options.map((opt) => ({
               ...opt,
               text: opt.name, // the vue-tags-input library requires a text field
             })),
-          })),
+          }))
+          .filter((sub) => !sub.isInactive),
       }))
     },
 
@@ -875,9 +1057,9 @@ export default {
 
       // starting from 1 since for the first row (0), it won't ever be fully disabled
       for (let i = 1; i < filterIds.length; i++) {
-        const axisFilterOptionsForPrevIdx = this.axisFilterOptions.filter(
-          (sub) => sub.parentId === filterIds[i - 1].id
-        )
+        const axisFilterOptionsForPrevIdx = this.axisFilterOptions
+          .filter((sub) => sub.parentId === filterIds[i - 1].id)
+          .filter((s) => !s.isInactive)
 
         // if every dropdown in previous row does not have their value selected,
         // it means there are two cases
@@ -890,9 +1072,9 @@ export default {
             (opt) => opt.selectedValue.length > 0
           )
         ) {
-          const axisFilterOptionsForCurrentIdx = this.axisFilterOptions.filter(
-            (sub) => sub.parentId === filterIds[i].id
-          )
+          const axisFilterOptionsForCurrentIdx = this.axisFilterOptions
+            .filter((sub) => sub.parentId === filterIds[i].id)
+            .filter((s) => !s.isInactive)
 
           if (
             axisFilterOptionsForCurrentIdx.some(
@@ -928,17 +1110,91 @@ export default {
       const parsed = JSON.parse(localStorageFilters)
       const axisFilters = parsed?.axisFilters
       const selectedStudy = parsed?.selectedStudy || {}
+      const logTransformDetails = parsed?.logTransformDetails
 
       this.axisFilterOptions = axisFilters
         ? [...axisFilters]
         : this.axisFilterOptions
 
       this.selectedStudy = selectedStudy
+
+      if (logTransformDetails) {
+        this.currentlyActiveLogTransformDetails = {
+          ...logTransformDetails.currentlyActiveLogTransformDetails,
+        }
+        this.logTransformDetails = {
+          ...logTransformDetails.logTransformDetails,
+        }
+      }
     },
     handleOnSelectedStudy(study) {
       this.selectedStudy = study
     },
-    handleOnSelectChange({ value, subFilterId }) {
+    toggleSubfilterDropdownsVisibility(subFilter, selectedOptions) {
+      if (this.selectedSubDropdowns[subFilter.parentId] === undefined) return
+
+      if (
+        selectedOptions.length > 0 &&
+        (selectedOptions[0].id === 'biomarker' ||
+          selectedOptions[0].id === 'biomarker-vertical')
+      ) {
+        this.showLogTransform = true
+        this.currentlyActiveLogTransformDetails = {
+          id: subFilter.parentId,
+          axis: subFilter.parentId,
+        }
+      }
+
+      this.axisFilterOptions = this.axisFilterOptions.map((o) => {
+        if (o.id === subFilter.id) {
+          return o
+        }
+
+        if (o?.parentId !== subFilter?.parentId) {
+          return o
+        }
+
+        if (
+          o.groupParentId !== undefined &&
+          o?.groupParentId?.includes(
+            this.selectedSubDropdowns[subFilter.parentId]
+          )
+        ) {
+          return {
+            ...o,
+            isInactive: false,
+          }
+        }
+
+        return {
+          ...o,
+          isInactive: true,
+        }
+      })
+    },
+    handleOnSelectChange({ value, subFilterId, subFilter }) {
+      if (this.selectedSubDropdowns[subFilter.parentId] !== undefined) {
+        if (
+          value.length > 0 &&
+          this.conditionalDropdownIds.includes(value[0]?.id)
+        ) {
+          this.selectedSubDropdowns[subFilter.parentId] = value[0]?.id
+
+          this.toggleSubfilterDropdownsVisibility(subFilter, value)
+        }
+
+        if (
+          value.length === 0 ||
+          (value.length > 0 && !value[0]?.id?.startsWith('biomarker'))
+        ) {
+          this.currentlyActiveLogTransformDetails = {
+            id: '',
+            axis: '',
+          }
+          this.showLogTransform = false
+        }
+      }
+
       this.axisFilterOptions = this.axisFilterOptions.map((sub) =>
         sub.id === subFilterId
           ? {
@@ -964,11 +1220,17 @@ export default {
       const filters = this.$refs.selectFilter.getFilters()
       const axisFilters = this.axisFilterOptions
       const selectedStudy = this.selectedStudy
+      const logTransformDetails = {
+        currentlyActiveLogTransformDetails:
+          this.currentlyActiveLogTransformDetails,
+        logTransformDetails: this.logTransformDetails,
+      }
 
       const stringifiedFilters = JSON.stringify({
         filters,
         axisFilters,
         selectedStudy,
+        logTransformDetails,
       })
 
       localStorage.setItem(this.localStorageFilterKey, stringifiedFilters)
