@@ -643,7 +643,7 @@ export default {
           parentId: 'horizontal-axis',
           label: '- Select Primary Group -',
           selectedValue: [],
-          isMultipleSelect: true,
+          isMultipleSelect: false,
           options: [
             {
               name: 'Treatment',
@@ -922,7 +922,7 @@ export default {
           parentId: 'vertical-axis',
           label: '- Select Primary Group -',
           selectedValue: [],
-          isMultipleSelect: true,
+          isMultipleSelect: false,
           options: [
             {
               name: 'Treatment',

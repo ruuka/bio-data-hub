@@ -149,12 +149,12 @@ export default {
 
   //EMAIL CONFIGS
   smtp: {
-    from: 'denis4204@outlook.com', //CHANGE THIS TO FROM EMAIL
+    from: 'blissful.skies@hotmail.com', //CHANGE THIS TO FROM EMAIL ruuka.huang4@gilead.com
     host: 'smtp-mail.outlook.com',
     port: 587,
     auth: {
-      user: 'denis4204@outlook.com',
-      pass: 'Kemei4024*',
+      user: 'blissful.skies@hotmail.com',
+      pass: '',
     },
   },
 }

@@ -98,7 +98,7 @@ export default {
         'vertical-axis': null,
       },
       filterSearchTextObj: {},
-      maxLengthForMultipleSelect: 3,
+      maxLengthForMultipleSelect: 6,
       focusedInputId: '',
       // an object to hold search texts for the different subfilters,
       // if every vue-tag-input select used same variable, then if you type on one input, it would show up on every input
