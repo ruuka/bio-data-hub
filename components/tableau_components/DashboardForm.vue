@@ -116,15 +116,28 @@ export default {
     getSelectedEmail() {
       return this.data[1].selectedValue
     },
+    formatMessage() {
+      var message = ``;
+       this.data.forEach((item)=> {
+        message += `<p>${item.label} : <b>${item.selectedValue}</b></p>`
+      })
+      return message;
+    },
 
 
     sendEmail() {
-
       const email = this.getSelectedEmail()
+      const message = this.formatMessage()
       if(!this.getSelectedEmail()) {
         alert('Please select a point of contact')
         return;
       }
+    
+    if(this.data.some((item)=> item.selectedValue ==='')) {
+        alert('Please fill all the fields')
+        return;
+    }
+
 
       this.$axios.post('/api/sendmail',{
 
@@ -142,6 +155,7 @@ export default {
         alert('Email failed')
         console.log(err)
         this.$emit('close')
+        this.loading = false;
       })
 
 
