@@ -115,7 +115,8 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    // baseURL: 'https://bioinformatics.gilead.com/api/v1/',
+    baseURL: '/api/v1/',
   },
 
   // axios: {
@@ -149,7 +150,7 @@ export default {
 
   //EMAIL CONFIGS
   smtp: {
-    from: 'blissful.skies@hotmail.com', //CHANGE THIS TO FROM EMAIL ruuka.huang4@gilead.com
+    from: 'blissful.skies@hotmail.com', //CHANGE THIS TO FROM EMAIL
     host: 'smtp-mail.outlook.com',
     port: 587,
     auth: {

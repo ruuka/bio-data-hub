@@ -17,12 +17,12 @@
 <form class="body">
   <div class="grid grid-cols-2 grid-rows-3 gap-4"  v-if="updateInfo !== 'request'">
 
-      <base-select-input 
-      :label="data[0].label" 
+      <base-select-input
+      :label="data[0].label"
       @set-selected-value = "setSelectedValue"
-      :selectedValue="updateInfo ==='update' ? data[0].selectedValue : ''" 
+      :selectedValue="updateInfo ==='update' ? data[0].selectedValue : ''"
       :options="data[0].options" />
-    
+
     <!-- START INPUT GROUP -->
     <div class="group">
       <label for="" class="text-gray-500 mb-1"> Phase </label>
@@ -38,7 +38,7 @@
   @set-selected-value = "setSelectedValue"
   :label="data[1].label" :selectedValue="updateInfo ==='update' ? data[1].selectedValue : ''" :options="data[1].options" />
 
- <base-select-input 
+ <base-select-input
   @set-selected-value = "setSelectedValue"
  :label="data[2].label" :selectedValue="updateInfo ==='update' ? data[2].selectedValue : ''" :options="data[2].options" />
 
@@ -65,7 +65,7 @@
     </div>
   <div class="flex tab-footer justify-end text-gray-600 space-x-6 px-4 mt-6  items-center my-4">
     <button class="appearance-none font-bold" @click.prevent="$emit('close')">Cancel</button>
-  
+
     <MjButton class="bg-primary" @click.prevent="sendEmail()" :loading="loading">
   Send Request
 </MjButton>
@@ -101,7 +101,7 @@ export default {
               name: 'point-of-contact',
               label:"Point of Contact",
               selectedValue: 'John.Smith@gilead.com',
-              options:['John.Smith@gilead.com','boratechlife@gmail.com','ruuka.huang4@gilead.com']
+              options:['yuan.tian1@gilead.com','biao.li@gilead.com','ruuka.huang4@gilead.com']
           },
           {
             name:'type-of-update',
@@ -130,7 +130,7 @@ export default {
       return message;
     },
 
-  
+
     sendEmail() {
      this.loading = true
       const email = this.getSelectedEmail()
@@ -139,7 +139,7 @@ export default {
         alert('Please select a point of contact')
         return;
       }
-    
+
     if(this.data.some((item)=> item.selectedValue ==='')) {
         alert('Please fill all the fields')
         return;
@@ -147,13 +147,13 @@ export default {
 
 
       this.$axios.post('/api/sendmail',{
-       
+
         subject: 'Account Update Request',
         message: message,
         name:'Gilead Biodata',
         email:this.getSelectedEmail(), //to  email
-        
-      
+
+
       })
       .then((res)=> {
         alert('Email sent')
@@ -165,8 +165,8 @@ export default {
         this.$emit('close')
         this.loading = false;
       })
-    
-  
+
+
     },
 
     setSelectedValue(option, label) {

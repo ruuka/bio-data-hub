@@ -44,7 +44,7 @@ export default {
               dashboard: 'ISB_ExploratoryDashboard',
               url: '/test',
             },
-            {
+            { // copy from here
               study: 'GS-US-389-2024 & 2025',
               indication: 'HBV',
               description: `A Phase 2, Randomized, Double-Blind, Placebo-Controlled, Multi-center Study to Evaluate the Safety,
@@ -52,8 +52,8 @@ export default {
               dashboard: 'HBV_389_microbiome_dashboard_05Apr2021',
               // dashboard: 'HBV_Multistudy_Cytokine_Dashboard',
               // dashboard: 'SingleStudy_HBV',
-              url: '/test',
-            },
+              url: 'https://google.ca',
+            }, // copy to here
           ],
         },
         {

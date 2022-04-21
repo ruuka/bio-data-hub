@@ -34,10 +34,11 @@
               <p>{{ item.dashboard }}</p>
             </td>
             <td class="px-2 w-1/6">
-              <nuxt-link
-                :to="item.url"
+              <a
+                :href="item.url"
+                target="_blank"
                 class="bg-indigo-200 text-indigo-500 px-3 py-2 text-sm rounded"
-                >View Link</nuxt-link
+                >View Link</a
               >
             </td>
           </tr>

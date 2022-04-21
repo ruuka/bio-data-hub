@@ -52,9 +52,6 @@
         <h6 class="text-xs font-semibold">
           {{ props.item.text }}
         </h6>
-        <p class="text-xs text-gray-700">
-          {{ props.item.indication }}
-        </p>
         <p class="text-xs text-gray-500">
           {{ props.item.description }}
         </p>

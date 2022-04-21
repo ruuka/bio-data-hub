@@ -329,6 +329,12 @@
                   >
                     Save Filters
                   </button>
+                  <button
+                    @click="updateFilters()"
+                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-700 border border-transparent rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                  >
+                    Test Button
+                  </button>
                 </div>
               </div>
             </form>
@@ -356,7 +362,7 @@
 </template>
 
 <script>
-// import APIService from '~/services/APIService'
+import newAPIService from '~/services/newAPIService.js'
 import NewBoxPlot from '../components/plotly_components/NewBoxPlot'
 import selectInput from '../components/layout_components/selectInput'
 import selectFilter from '../components/layout_components/selectFilter'
@@ -364,6 +370,7 @@ import selectFilter from '../components/layout_components/selectFilter'
 export default {
   name: 'CustomPlot',
   components: {
+    newAPIService,
     NewBoxPlot,
     selectInput,
     selectFilter,
@@ -1131,6 +1138,26 @@ export default {
     // localStorage.clear(); to clear local storage in console
   },
   methods: {
+    updateFilters() {
+      console.log(newAPIService)
+      // newAPIService.getScatterPlotParameters(this.$axios)
+      newAPIService.getScatterPlotParameters(this.$axios).then(
+        (response) => {
+          console.log('Start')
+          console.log(response.data)
+          console.log('End')
+        }).catch(function (error) {
+        console.log('error')
+      })
+
+      //   newAPIService.getScatterPlotParameters(this.$axios, this.$props.name).then(
+      //     (response) => {
+      //       this.plotData = response.data.reduce((arr, elem) => {
+      //         return arr
+      //       }, [])
+      //     })
+      // }
+    },
     getLocalStorageAxisFilters() {
       const localStorageFilters = localStorage.getItem(
         this.localStorageFilterKey
@@ -1231,9 +1258,9 @@ export default {
       this.axisFilterOptions = this.axisFilterOptions.map((sub) =>
         sub.id === subFilterId
           ? {
-              ...sub,
-              selectedValue: value,
-            }
+            ...sub,
+            selectedValue: value,
+          }
           : sub
       )
     },
@@ -1256,7 +1283,7 @@ export default {
       const isLogTransformSelected = this.isLogTransformSelected
       const logTransformDetails = {
         currentlyActiveLogTransformDetails:
-          this.currentlyActiveLogTransformDetails,
+        this.currentlyActiveLogTransformDetails,
         logTransformDetails: this.logTransformDetails,
       }
 
