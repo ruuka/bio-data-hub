@@ -1188,6 +1188,9 @@ export default {
       }
     },
     handleOnSelectedStudy(study) {
+      console.log("study type changed");
+      //Call a Function to Update a Study
+      this.updateStudy();
       this.selectedStudy = study
     },
     toggleSubfilterDropdownsVisibility(subFilter, selectedOptions) {
@@ -1331,6 +1334,17 @@ export default {
       this.primaryFilter = object.primaryFilter
       this.secondaryFilter = object.secondaryFilter
     },
+
+    updateStudy() {
+      newAPIService.getAllGeneIds(this.$axios).then(res=> {
+        console.log(`ALL GENE IDS ${JSON.stringify(res.data)}`)
+         this.axisFilterOptions = this.axisFilterOptions.map(item=> {
+           if(item.id ==='gene') {
+             item.options = res.data
+           }
+         })
+      })
+    }
   },
 }
 </script>
