@@ -1190,8 +1190,10 @@ export default {
     handleOnSelectedStudy(study) {
       console.log("study type changed");
       //Call a Function to Update a Study
-      this.updateStudy();
+     
       this.selectedStudy = study
+      this.updateStudyFilterOptions(study);
+      this.getAllGeneIds();
     },
     toggleSubfilterDropdownsVisibility(subFilter, selectedOptions) {
       if (this.selectedSubDropdowns[subFilter.parentId] === undefined) return
@@ -1334,16 +1336,41 @@ export default {
       this.primaryFilter = object.primaryFilter
       this.secondaryFilter = object.secondaryFilter
     },
+getAllGeneIds() {
 
-    updateStudy() {
       newAPIService.getAllGeneIds(this.$axios).then(res=> {
         console.log(`ALL GENE IDS ${JSON.stringify(res.data)}`)
          this.axisFilterOptions = this.axisFilterOptions.map(item=> {
            if(item.id ==='gene') {
-             item.options = res.data
+             item.options = res.data.map(item=> {
+               return  {
+              name: item,
+              value: item.toLowerCase(),
+              description: 'Alternative names: EGFR',
+              }
+             })
            }
          })
       })
+},
+    updateStudyFilterOptions(study) {
+      //Find Study ID
+      const studyID = this.studyOptions.filter(item=> {
+        return item.indication === study.indication
+      })[0].studyID;
+
+   
+  newAPIService.getScatterPlotParametersByStudyID(this.$axios,studyID).then((response)=> {
+    console.log(`StudyOptions Update ${JSON.stringify(response.data ?? '')}`)
+    this.studyOptions.map(item=> {
+      if(item.studyID === studyID) {
+        item.filterOptions = response.data
+      }
+      return item;
+    })
+  })
+
+
     }
   },
 }
