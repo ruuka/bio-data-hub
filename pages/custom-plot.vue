@@ -277,7 +277,7 @@
                 <div class="px-2 py-2 bg-white sm:p-6">
                   <div class="flex flex-col w-full">
                     <client-only>
-                      <selectFilter ref="selectFilter" />
+                      <selectFilter ref="selectFilter" :SelectedFilterOptions="SelectedFilterOptions"/>
                     </client-only>
 
                     <client-only>
@@ -470,6 +470,24 @@ export default {
         'vertical-axis': false,
         'horizontal-axis': false,
       },
+      SelectedFilterOptions: {
+            age: ['19-35 Years Old', '36-55 Years Old', '56+ Years Old'],
+            sex: ['Male', 'Female'],
+            bmi: ['Underweight', 'Normal Weight', 'Overweight', 'Obese'],
+            race: [
+              'White or Caucasian',
+              'Asian',
+              'Black or African American',
+              'American Indian or Alaska Native',
+              'Native Hawaiian or Other Pacific Islander',
+              'Other',
+            ],
+            ethnicity: ['Hispanic or Latino', 'Not Hispanic or Latino'],
+            response: ['DAS20 CRP', 'DAS50 CRP'],
+            tissue: ['Liver'],
+            treatment: ['Placebo', 'Simtuzumab, 75mg', 'Simtuzumab, 125mg'],
+            time: ['Baseline', '48 Weeks', '96 Weeks'],
+          },
       isLogTransformSelected: true,
       isLog: false,
       mainSelection: null,
@@ -1339,9 +1357,11 @@ export default {
 getAllGeneIds() {
 
       newAPIService.getAllGeneIds(this.$axios).then(res=> {
-        console.log(`ALL GENE IDS ${JSON.stringify(res.data)}`)
+     //   console.log(`ALL GENE IDS ${JSON.stringify(res.data)}`)
          this.axisFilterOptions = this.axisFilterOptions.map(item=> {
+           
            if(item.id ==='gene') {
+
              item.options = res.data.map(item=> {
                return  {
               name: item,
@@ -1349,25 +1369,31 @@ getAllGeneIds() {
               description: 'Alternative names: EGFR',
               }
              })
+
+
+         
            }
+
+         return item;
+
+
          })
       })
 },
     updateStudyFilterOptions(study) {
       //Find Study ID
+        if(!study) {
+          this.SelectedFilterOptions=[];
+          return;
+        }
       const studyID = this.studyOptions.filter(item=> {
         return item.indication === study.indication
-      })[0].studyID;
+      })[0]?.studyID;
 
-   
+
   newAPIService.getScatterPlotParametersByStudyID(this.$axios,studyID).then((response)=> {
-    console.log(`StudyOptions Update ${JSON.stringify(response.data ?? '')}`)
-    this.studyOptions.map(item=> {
-      if(item.studyID === studyID) {
-        item.filterOptions = response.data
-      }
-      return item;
-    })
+
+this.SelectedFilterOptions = response.data;
   })
 
 

@@ -231,7 +231,13 @@
 
 <script>
 export default {
-  components: {},
+  props: {
+    SelectedFilterOptions: {
+      type:Object,
+      required:true,
+
+    }
+  },
 
   data() {
     return {
@@ -443,11 +449,27 @@ export default {
     allFilters() {
       return this.initialFilters.map((iniF) => {
         if (this.activeFilters.find((f) => f.id === iniF.id)) {
+        iniF.filterOptions = this.SelectedFilterOptions[iniF.name.toLowerCase()]?.map(item=> {
+          return {
+        id: item,
+        isActive: true,
+        name: item,
+        text: item,
+        }
+        })
           return {
             ...iniF,
             isActive: true,
           }
         }
+iniF.filterOptions = this.SelectedFilterOptions[iniF.name.toLowerCase()]?.map(item=> {
+  return {
+id: item,
+isActive: false,
+name: item,
+text: item,
+}
+})
 
         return {
           ...iniF,
@@ -458,7 +480,6 @@ export default {
   },
   mounted() {
     const localStorageFilters = localStorage.getItem(this.localStorageFilterKey)
-
     if (localStorageFilters) {
       const parsed = JSON.parse(localStorageFilters)
 
