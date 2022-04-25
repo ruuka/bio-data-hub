@@ -1355,19 +1355,36 @@ export default {
       this.primaryFilter = object.primaryFilter
       this.secondaryFilter = object.secondaryFilter
     },
+
+   async getGeneAliases(genes) {
+         const formattedGenes = [];
+         for(let i=0; i< genes.length; i++) {
+        await   newAPIService.getAllGeneAliases(this.$axios,genes[i]).then((response)=> {
+             formattedGenes.push({
+               name:genes[i],
+               aliases:response.data
+             })
+           })
+         }
+        return formattedGenes; 
+    },
 getAllGeneIds() {
 
-      newAPIService.getAllGeneIds(this.$axios).then(res=> {
+      newAPIService.getAllGeneIds(this.$axios).then(async (res)=> {
      //   console.log(`ALL GENE IDS ${JSON.stringify(res.data)}`)
-         this.axisFilterOptions = this.axisFilterOptions.map(item=> {
+ 
+    
+     const result =await this.getGeneAliases(res.data);
+
+         this.axisFilterOptions = this.axisFilterOptions.map((item)=> {
            
            if(item.id ==='gene') {
 
-             item.options = res.data.map(item=> {
+             item.options = result.map(geneItem=> {
                return  {
-              name: item,
-              value: item.toLowerCase(),
-              description: 'Alternative names: EGFR',
+              name: geneItem.name,
+              value: geneItem.name.toLowerCase(),
+              description: `Alternative names:${geneItem.aliases?.join()}`,
               }
              })
 
