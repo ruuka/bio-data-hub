@@ -35,7 +35,7 @@ export default {
   },
   getAllGeneAliases($axios, searchString) {
     return $axios
-    .get(`/plot-options/all-gene-alias/?gene=${searchString}`)
+    .get(`/plot-options/all-gene-alias/?query=${searchString}`)
     .catch((error) => {
       console.log('There was an error: ' + error.response)
     })
