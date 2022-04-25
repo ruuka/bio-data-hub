@@ -1207,11 +1207,9 @@ export default {
     },
     handleOnSelectedStudy(study) {
       console.log("study type changed");
-      //Call a Function to Update a Study
-     
+
       this.selectedStudy = study
-      this.updateStudyFilterOptions(study);
-      this.getAllGeneIds();
+
     },
     toggleSubfilterDropdownsVisibility(subFilter, selectedOptions) {
       if (this.selectedSubDropdowns[subFilter.parentId] === undefined) return
@@ -1256,6 +1254,9 @@ export default {
       })
     },
     handleOnSelectChange({ value, subFilterId, subFilter }) {
+    
+     this.updateStudyFilterOptions(value[0]?.name);
+     this.getAllGeneIds();
       if (this.selectedSubDropdowns[subFilter.parentId] !== undefined) {
         if (
           value.length > 0 &&
@@ -1381,17 +1382,15 @@ getAllGeneIds() {
       })
 },
     updateStudyFilterOptions(study) {
+
       //Find Study ID
-        if(!study) {
-          this.SelectedFilterOptions=[];
+        if(study===undefined) {
+          this.SelectedFilterOptions={};
           return;
         }
-      const studyID = this.studyOptions.filter(item=> {
-        return item.indication === study.indication
-      })[0]?.studyID;
+ 
 
-
-  newAPIService.getScatterPlotParametersByStudyID(this.$axios,studyID).then((response)=> {
+  newAPIService.getScatterPlotParametersByStudyID(this.$axios,study).then((response)=> {
 
 this.SelectedFilterOptions = response.data;
   })
