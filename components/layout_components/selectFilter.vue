@@ -544,7 +544,7 @@ text: item,
       if (!filter) return
       if (this.focusedInputId !== filter.id) return []
 
-      return filter.filterOptions.filter((opt) =>
+      return filter.filterOptions?.filter((opt) =>
         opt.text
           ?.toLowerCase()
           .includes(this.searchText.toString()?.toLowerCase())

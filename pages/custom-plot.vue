@@ -471,22 +471,7 @@ export default {
         'horizontal-axis': false,
       },
       SelectedFilterOptions: {
-            age: ['19-35 Years Old', '36-55 Years Old', '56+ Years Old'],
-            sex: ['Male', 'Female'],
-            bmi: ['Underweight', 'Normal Weight', 'Overweight', 'Obese'],
-            race: [
-              'White or Caucasian',
-              'Asian',
-              'Black or African American',
-              'American Indian or Alaska Native',
-              'Native Hawaiian or Other Pacific Islander',
-              'Other',
-            ],
-            ethnicity: ['Hispanic or Latino', 'Not Hispanic or Latino'],
-            response: ['DAS20 CRP', 'DAS50 CRP'],
-            tissue: ['Liver'],
-            treatment: ['Placebo', 'Simtuzumab, 75mg', 'Simtuzumab, 125mg'],
-            time: ['Baseline', '48 Weeks', '96 Weeks'],
+        
           },
       isLogTransformSelected: true,
       isLog: false,
@@ -1157,13 +1142,10 @@ export default {
   },
   methods: {
     updateFilters() {
-      console.log(newAPIService)
       // newAPIService.getScatterPlotParameters(this.$axios)
       newAPIService.getScatterPlotParameters(this.$axios).then(
         (response) => {
-          console.log('Start')
           console.log(response.data)
-          console.log('End')
         }).catch(function (error) {
         console.log('error')
       })
@@ -1206,8 +1188,6 @@ export default {
       }
     },
     handleOnSelectedStudy(study) {
-      console.log("study type changed");
-
       this.selectedStudy = study
 
     },
@@ -1360,9 +1340,11 @@ export default {
          const formattedGenes = [];
          for(let i=0; i< genes.length; i++) {
         await   newAPIService.getAllGeneAliases(this.$axios,genes[i]).then((response)=> {
+
              formattedGenes.push({
                name:genes[i],
-               aliases:response.data
+               value:response.data[0].gene_value,
+               aliases:response.data[0].alias_symbols
              })
            })
          }
@@ -1371,25 +1353,20 @@ export default {
 getAllGeneIds() {
 
       newAPIService.getAllGeneIds(this.$axios).then(async (res)=> {
-     //   console.log(`ALL GENE IDS ${JSON.stringify(res.data)}`)
+
  
     
      const result =await this.getGeneAliases(res.data);
 
-         this.axisFilterOptions = this.axisFilterOptions.map((item)=> {
-           
+         this.axisFilterOptions = this.axisFilterOptions.map((item)=> { 
            if(item.id ==='gene') {
-
              item.options = result.map(geneItem=> {
                return  {
               name: geneItem.name,
-              value: geneItem.name.toLowerCase(),
-              description: `Alternative names:${geneItem.aliases?.join()}`,
+              value: geneItem.value.toLowerCase(),
+              description: `Alternative names:${geneItem.aliases}`,
               }
              })
-
-
-         
            }
 
          return item;
