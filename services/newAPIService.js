@@ -39,5 +39,12 @@ export default {
     .catch((error) => {
       console.log('There was an error: ' + error.response)
     })
+  },
+  getAllStudies($axios) {
+    return $axios
+    .get(`/studies`)
+    .catch((error) => {
+      console.log('There was an error: ' + error.response)
+    })
   }
 }

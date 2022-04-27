@@ -545,78 +545,7 @@ export default {
           label: '- Select Study -',
           selectedValue: [],
           isMultipleSelect: false,
-          options: [
-            {
-              name: 'GS-US-223-1015',
-              value: 'gs-us-223-1015',
-              therapeuticArea: 'Inflammation',
-              indication: 'Diabetic Kidney Disease',
-              description: 'SEL DKD (Ph.2)',
-            },
-            {
-              name: 'GS-US-321-0105',
-              value: 'gs-us-321-0105',
-              therapeuticArea: 'Inflammation',
-              indication: 'Non-Alcoholic Steatohepatitis',
-              description: 'SIM F3 NASH Trial (Ph. 2)',
-            },
-            {
-              name: 'GS-US-321-0106',
-              value: 'gs-us-321-0106',
-              therapeuticArea: 'Inflammation',
-              indication: 'Non-Alcoholic Steatohepatitis',
-              description: 'SIM F4 NASH Trial (Ph. 2)',
-            },
-            {
-              name: 'GS-US-454-4378',
-              value: 'gs-us-454-4378',
-              therapeuticArea: 'Inflammation',
-              indication: 'Non-Alcoholic Steatohepatitis',
-              description: 'ATLAS NASH Combo Trial (Ph. 2)',
-            },
-            {
-              name: 'GLPG0634-CL-223',
-              value: 'glpg0634-cl-223',
-              therapeuticArea: 'Inflammation',
-              indication: 'Ankylosing Spondylitis',
-              description: 'TORTUGA FIL AS Trial (Ph. 2)',
-            },
-            {
-              name: 'GLPG0634-CL-211',
-              value: 'glpg0634-cl-223',
-              therapeuticArea: 'Inflammation',
-              indication: "Crohn's Disease",
-              description: 'Fitzroy FIL CD Trial (Ph. 2)',
-            },
-            {
-              name: 'GS-US-436-4092',
-              value: 'gs-us-436-4092',
-              therapeuticArea: 'Inflammation',
-              indication: 'Cutaneous Lupus Erythematosus',
-              description: '4092 CLE Trial (Ph. 2)',
-            },
-            {
-              name: 'GS-US-417-0301',
-              value: 'gs-us-417-0301',
-              therapeuticArea: 'Inflammation',
-              indication: 'Rheumatoid Arthritis',
-              description: 'FINCH1 FIL MTX-IR RA Trial (Ph. 3)',
-            },
-            {
-              name: 'GS-US-296-2013',
-              value: 'gs-us-296-2013',
-              therapeuticArea: 'Oncology',
-              indication: 'Gastric Adenocarcinoma',
-              description: 'Andeca Gastric Adenocarcinoma Trial (Ph. 2)',
-            },
-            {
-              name: 'GS-US-389-2021',
-              value: 'gs-us-389-2021',
-              therapeuticArea: 'Virology',
-              indication: 'Hepatitis B Infection',
-              // description: ''
-            },
-          ],
+          options: [],
         },
 
         // END - STUDY ID
@@ -715,31 +644,7 @@ export default {
           selectedValue: [],
           isMultipleSelect: true,
           options: [
-            {
-              name: 'ERBB1',
-              value: 'erbb1',
-              description: 'Alternative names: EGFR',
-            },
-            {
-              name: 'ERBB2',
-              value: 'erbb2',
-              description: 'Alt. names: NEU, HER-2, HER2, CD340',
-            },
-            {
-              name: 'ERBB3',
-              value: 'erbb3',
-              description: 'Alt. names: HER3',
-            },
-            {
-              name: 'ERBB4',
-              value: 'erbb4',
-              description: 'Alt. names: ALS19, HER4',
-            },
-            {
-              name: 'REVERBB',
-              value: 'reverbb',
-              description: 'Alt. names: BD73, EAR-1r, HZF2',
-            },
+           
           ],
         },
         {
@@ -1138,7 +1043,22 @@ export default {
   },
   mounted() {
     this.getLocalStorageAxisFilters() // disable when changing field names
+    this.updateStudyFilterOptions(this.axisFilterOptions[0].selectedValue[0].name);
     // localStorage.clear(); to clear local storage in console
+    newAPIService.getAllStudies(this.$axios).then((response) => {
+   const formatted  = response.data.map((item, index) => {
+        return   {
+              name: item.study_id,
+              value:item.study_id.toLowerCase(),
+              therapeuticArea: 'Inflammation',
+              indication: item.indication,
+              description: 'SEL DKD (Ph.2)',
+            }
+      })
+    
+   this.axisFilterOptions[0].options = formatted;
+    })
+
   },
   methods: {
     updateFilters() {
