@@ -252,30 +252,7 @@ export default {
           isMultipleSelect: true,
           searchText: '',
           filterOptions: [
-            {
-              id: '0-18',
-              name: '0-18',
-              text: '0-18',
-              isActive: true,
-            },
-            {
-              id: '19-35',
-              name: '19-35',
-              text: '19-35',
-              isActive: true,
-            },
-            {
-              id: '36-55',
-              name: '36-55',
-              text: '36-55',
-              isActive: true,
-            },
-            {
-              id: '56+',
-              name: '56+',
-              text: '56+',
-              isActive: true,
-            },
+
           ],
         },
         {
@@ -285,24 +262,7 @@ export default {
           isMultipleSelect: true,
           searchText: '',
           filterOptions: [
-            {
-              id: 'Baseline',
-              name: 'Baseline',
-              text: 'Baseline',
-              isActive: true,
-            },
-            {
-              id: '48weeks',
-              name: '48weeks',
-              text: '48weeks',
-              isActive: true,
-            },
-            {
-              id: '96weeks',
-              name: '96weeks',
-              text: '96weeks',
-              isActive: true,
-            },
+           
           ],
         },
         {
@@ -312,18 +272,7 @@ export default {
           isMultipleSelect: true,
           searchText: '',
           filterOptions: [
-            {
-              id: 'male',
-              name: 'Male',
-              text: 'Male',
-              isActive: true,
-            },
-            {
-              id: 'female',
-              name: 'Female',
-              text: 'Female',
-              isActive: true,
-            },
+            
           ],
         },
         {
@@ -333,18 +282,7 @@ export default {
           isMultipleSelect: true,
           searchText: '',
           filterOptions: [
-            {
-              id: 'hispanic-or-latino',
-              name: 'Hispanic or Latino',
-              text: 'Hispanic or Latino',
-              isActive: true,
-            },
-            {
-              id: 'not-hispanic-or-latino',
-              name: 'Not Hispanic or Latino',
-              text: 'Not Hispanic or Latino',
-              isActive: true,
-            },
+           
           ],
         },
         {
@@ -354,30 +292,7 @@ export default {
           isMultipleSelect: true,
           searchText: '',
           filterOptions: [
-            {
-              id: 'asian',
-              name: 'Asian',
-              text: 'Asian',
-              isActive: true,
-            },
-            {
-              id: 'african-american',
-              name: 'African American',
-              text: 'African American',
-              isActive: true,
-            },
-            {
-              id: 'white',
-              name: 'White',
-              text: 'White',
-              isActive: true,
-            },
-            {
-              id: 'other',
-              name: 'Other',
-              text: 'Other',
-              isActive: true,
-            },
+           
           ],
         },
         {
@@ -387,20 +302,7 @@ export default {
           isMultipleSelect: true,
           searchText: '',
           filterOptions: [
-            {
-              id: 'responder',
-              name: 'Responder',
-              text: 'Responder',
-              description: 'This is a general description for responder',
-              isActive: true,
-            },
-            {
-              id: 'non-responder',
-              name: 'Non-responder',
-              text: 'Non-responder',
-              description: 'This is a general description for non-responder',
-              isActive: true,
-            },
+
           ],
         },
         {
@@ -410,30 +312,7 @@ export default {
           isMultipleSelect: true,
           searchText: '',
           filterOptions: [
-            {
-              id: 'underweight',
-              name: 'Underweight',
-              text: 'Underweight',
-              isActive: true,
-            },
-            {
-              id: 'normalWeight',
-              name: 'Normal Weight',
-              text: 'Normal Weight',
-              isActive: true,
-            },
-            {
-              id: 'overweight',
-              name: 'Overweight',
-              text: 'Overweight',
-              isActive: true,
-            },
-            {
-              id: 'obese',
-              name: 'Obese',
-              text: 'Obese',
-              isActive: true,
-            },
+           
           ],
         },
       ],
@@ -442,12 +321,15 @@ export default {
       selectedOptions: [],
     }
   },
-
+created() {
+console.log(this.allFilters[0].options)
+},
   computed: {
     // this variable is for the "Add New Filter" dropdown item in order to make it reactive
     // whenever you press the "x" icon in the active filter badge, it should reflect in the checkbox and badge component
     allFilters() {
-      return this.initialFilters.map((iniF) => {
+
+      let iniFilters = this.initialFilters.map((iniF) => {
         if (this.activeFilters.find((f) => f.id === iniF.id)) {
         iniF.filterOptions = this.SelectedFilterOptions[iniF.name.toLowerCase()]?.map(item=> {
           return {
@@ -476,6 +358,47 @@ text: item,
           isActive: false,
         }
       })
+//BELOW FIX FOR THE AXIS FILTER SELECTIONS TO CHANGE WITH CHANGE IN STUDY ID
+
+//1 . check if this.axisFilters length is greater than 0 thing like age, are selected
+
+if(this.activeFilters.length > 0) {
+  //2. Loop though the activeFilters
+  this.activeFilters.map(item=> {
+    //3. check if filter item has options, eg 18years selected
+
+    if(item.filterOptions.length > 0) {
+      //4. Loop through the options
+      item.filterOptions.map(option=> {
+        //5.check is the option exist in the new filter options of partilar study e.g age,sex
+
+        const isPresent = this.SelectedFilterOptions[item.name.toLowerCase()]?.some(opt => {
+        
+          return opt == option.name
+          
+          });
+
+
+          // 6. if is  present is false then remove the option from active filters
+          if(!isPresent) {
+          this.removeFilterOption(item,option);
+          }
+
+          
+      })
+    }
+  })
+}
+
+
+
+
+
+
+
+
+
+return iniFilters
     },
   },
   mounted() {
@@ -505,6 +428,7 @@ text: item,
       }, 100)
     },
     onTagsChanged(newTags, filter) {
+     
       this.activeFilters = this.activeFilters.map((f) =>
         f.id === filter.id
           ? {

@@ -1043,19 +1043,21 @@ export default {
   },
   mounted() {
     this.getLocalStorageAxisFilters() // disable when changing field names
-    this.updateStudyFilterOptions(this.axisFilterOptions[0].selectedValue[0].name);
+    console.log(this.axisFilterOptions[0]);
+    if(this.axisFilterOptions[0].selectedValue.length > 0) {
+      this.updateStudyFilterOptions(this.axisFilterOptions[0].selectedValue[0].name);
+    }
     // localStorage.clear(); to clear local storage in console
     newAPIService.getAllStudies(this.$axios).then((response) => {
    const formatted  = response.data.map((item, index) => {
         return   {
               name: item.study_id,
               value:item.study_id.toLowerCase(),
-              therapeuticArea: 'Inflammation',
+              therapeuticArea: item.therapeutic_area,
               indication: item.indication,
-              description: 'SEL DKD (Ph.2)',
+              description: item.study_name,
             }
       })
-    
    this.axisFilterOptions[0].options = formatted;
     })
 
@@ -1153,8 +1155,15 @@ export default {
         }
       })
     },
+    clearSelectedStudyIdChange() {
+      //study-id filter options is always the first
+      this.axisFilterOptions[0].options = this.axisFilterOptions[0].options.map(item=>{
+        return {...item, selectedValue:[]}
+      })
+    },
     handleOnSelectChange({ value, subFilterId, subFilter }) {
-    
+    //Clear any selected
+    this.clearSelectedStudyIdChange()
      this.updateStudyFilterOptions(value[0]?.name);
      this.getAllGeneIds();
       if (this.selectedSubDropdowns[subFilter.parentId] !== undefined) {

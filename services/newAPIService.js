@@ -42,7 +42,7 @@ export default {
   },
   getAllStudies($axios) {
     return $axios
-    .get(`/studies`)
+    .get(`/study-data`)
     .catch((error) => {
       console.log('There was an error: ' + error.response)
     })
