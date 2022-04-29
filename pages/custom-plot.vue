@@ -177,7 +177,7 @@
             class="flex-grow-0 flex-shrink-0 pl-2 font-medium text-left"
           >
             <!-- Therapeutic Areas: Inflammation - Diabetic Kidney Disease -->
-            {{ selectedStudy.therapeuticArea }}-{{ selectedStudy.indication }}
+            Therapeutic Area: {{ selectedStudy.therapeuticArea }} - Indication: {{ selectedStudy.indication }} - {{ selectedStudy.study_name }}
           </p>
         </div>
 
@@ -471,8 +471,8 @@ export default {
         'horizontal-axis': false,
       },
       SelectedFilterOptions: {
-        
-          },
+
+      },
       isLogTransformSelected: true,
       isLog: false,
       mainSelection: null,
@@ -644,7 +644,7 @@ export default {
           selectedValue: [],
           isMultipleSelect: true,
           options: [
-           
+
           ],
         },
         {
@@ -754,31 +754,6 @@ export default {
           selectedValue: [],
           isMultipleSelect: true,
           options: [
-            {
-              name: 'ERBB1',
-              value: 'erbb1',
-              description: 'Alternative names: EGFR',
-            },
-            {
-              name: 'ERBB2',
-              value: 'erbb2',
-              description: 'Alt. names: NEU, HER-2, HER2, CD340',
-            },
-            {
-              name: 'ERBB3',
-              value: 'erbb3',
-              description: 'Alt. names: HER3',
-            },
-            {
-              name: 'ERBB4',
-              value: 'erbb4',
-              description: 'Alt. names: ALS19, HER4',
-            },
-            {
-              name: 'REVERBB',
-              value: 'reverbb',
-              description: 'Alt. names: BD73, EAR-1r, HZF2',
-            },
           ],
         },
         {
@@ -1049,16 +1024,16 @@ export default {
     }
     // localStorage.clear(); to clear local storage in console
     newAPIService.getAllStudies(this.$axios).then((response) => {
-   const formatted  = response.data.map((item, index) => {
+      const formatted  = response.data.map((item, index) => {
         return   {
-              name: item.study_id,
-              value:item.study_id.toLowerCase(),
-              therapeuticArea: item.therapeutic_area,
-              indication: item.indication,
-              description: item.study_name,
-            }
+          name: item.study_id,
+          value:item.study_id.toLowerCase(),
+          therapeuticArea: item.therapeutic_area,
+          indication: item.indication,
+          description: item.study_name,
+        }
       })
-   this.axisFilterOptions[0].options = formatted;
+      this.axisFilterOptions[0].options = formatted;
     })
 
   },
@@ -1162,10 +1137,10 @@ export default {
       })
     },
     handleOnSelectChange({ value, subFilterId, subFilter }) {
-    //Clear any selected
-    this.clearSelectedStudyIdChange()
-     this.updateStudyFilterOptions(value[0]?.name);
-     this.getAllGeneIds();
+      //Clear any selected
+      this.clearSelectedStudyIdChange()
+      this.updateStudyFilterOptions(value[0]?.name);
+      this.getAllGeneIds();
       if (this.selectedSubDropdowns[subFilter.parentId] !== undefined) {
         if (
           value.length > 0 &&
@@ -1265,58 +1240,66 @@ export default {
       this.secondaryFilter = object.secondaryFilter
     },
 
-   async getGeneAliases(genes) {
-         const formattedGenes = [];
-         for(let i=0; i< genes.length; i++) {
+    async getGeneAliases(genes) {
+      const formattedGenes = [];
+      // for(let i=0; i< genes.length; i++) {
+      // Let's not loop all genes length as it's too long, looping 10 below to test
+      // Improvement #1: Please add a conditional logic that the Gene IDs only start query when the user has typed at least 3 letters to start searching.
+      for(let i=0; i< 10; i++) {
         await   newAPIService.getAllGeneAliases(this.$axios,genes[i]).then((response)=> {
-
-             formattedGenes.push({
-               name:genes[i],
-               value:response.data[0].gene_value,
-               aliases:response.data[0].alias_symbols
-             })
-           })
-         }
-        return formattedGenes; 
+          console.log('Loading Formatted Genes, looping 10 for now')
+          formattedGenes.push({
+            name:genes[i],
+            value:response.data[0]?.gene_value,
+            aliases:response.data[0]?.alias_symbols
+          })
+        })
+      }
+      console.log (formattedGenes)
+      return formattedGenes;
     },
-getAllGeneIds() {
+    getAllGeneIds() {
 
       newAPIService.getAllGeneIds(this.$axios).then(async (res)=> {
 
- 
-    
-     const result =await this.getGeneAliases(res.data);
 
-         this.axisFilterOptions = this.axisFilterOptions.map((item)=> { 
-           if(item.id ==='gene') {
-             item.options = result.map(geneItem=> {
-               return  {
-              name: geneItem.name,
-              value: geneItem.value.toLowerCase(),
-              description: `Alternative names:${geneItem.aliases}`,
+
+        const result =await this.getGeneAliases(res.data);
+
+        console.log(result)
+        this.axisFilterOptions = this.axisFilterOptions.map((item)=> {
+
+          if(item.id ==='gene') {
+            item.options = result.map(geneItem=> {
+              return  {
+                name: geneItem.name,
+                // value: geneItem.value.toLowerCase(),
+                // No need to convert value to lowercase
+                value: geneItem.value,
+                description: `Alt. names: ${geneItem.aliases}`,
               }
-             })
-           }
+            })
+          }
 
-         return item;
+          return item;
 
 
-         })
+        })
       })
-},
+    },
     updateStudyFilterOptions(study) {
 
       //Find Study ID
-        if(study===undefined) {
-          this.SelectedFilterOptions={};
-          return;
-        }
- 
+      if(study===undefined) {
+        this.SelectedFilterOptions={};
+        return;
+      }
 
-  newAPIService.getScatterPlotParametersByStudyID(this.$axios,study).then((response)=> {
 
-this.SelectedFilterOptions = response.data;
-  })
+      newAPIService.getScatterPlotParametersByStudyID(this.$axios,study).then((response)=> {
+
+        this.SelectedFilterOptions = response.data;
+      })
 
 
     }

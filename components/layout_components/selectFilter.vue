@@ -262,7 +262,7 @@ export default {
           isMultipleSelect: true,
           searchText: '',
           filterOptions: [
-           
+
           ],
         },
         {
@@ -272,7 +272,7 @@ export default {
           isMultipleSelect: true,
           searchText: '',
           filterOptions: [
-            
+
           ],
         },
         {
@@ -282,7 +282,7 @@ export default {
           isMultipleSelect: true,
           searchText: '',
           filterOptions: [
-           
+
           ],
         },
         {
@@ -292,7 +292,7 @@ export default {
           isMultipleSelect: true,
           searchText: '',
           filterOptions: [
-           
+
           ],
         },
         {
@@ -312,7 +312,7 @@ export default {
           isMultipleSelect: true,
           searchText: '',
           filterOptions: [
-           
+
           ],
         },
       ],
@@ -321,9 +321,9 @@ export default {
       selectedOptions: [],
     }
   },
-created() {
-console.log(this.allFilters[0].options)
-},
+  created() {
+    console.log(this.allFilters[0].options)
+  },
   computed: {
     // this variable is for the "Add New Filter" dropdown item in order to make it reactive
     // whenever you press the "x" icon in the active filter badge, it should reflect in the checkbox and badge component
@@ -331,27 +331,27 @@ console.log(this.allFilters[0].options)
 
       let iniFilters = this.initialFilters.map((iniF) => {
         if (this.activeFilters.find((f) => f.id === iniF.id)) {
-        iniF.filterOptions = this.SelectedFilterOptions[iniF.name.toLowerCase()]?.map(item=> {
-          return {
-        id: item,
-        isActive: true,
-        name: item,
-        text: item,
-        }
-        })
+          iniF.filterOptions = this.SelectedFilterOptions[iniF.name.toLowerCase()]?.map(item=> {
+            return {
+              id: item,
+              isActive: true,
+              name: item,
+              text: item,
+            }
+          })
           return {
             ...iniF,
             isActive: true,
           }
         }
-iniF.filterOptions = this.SelectedFilterOptions[iniF.name.toLowerCase()]?.map(item=> {
-  return {
-id: item,
-isActive: false,
-name: item,
-text: item,
-}
-})
+        iniF.filterOptions = this.SelectedFilterOptions[iniF.name.toLowerCase()]?.map(item=> {
+          return {
+            id: item,
+            isActive: false,
+            name: item,
+            text: item,
+          }
+        })
 
         return {
           ...iniF,
@@ -362,33 +362,33 @@ text: item,
 
 //1 . check if this.axisFilters length is greater than 0 thing like age, are selected
 
-if(this.activeFilters.length > 0) {
-  //2. Loop though the activeFilters
-  this.activeFilters.map(item=> {
-    //3. check if filter item has options, eg 18years selected
+      if(this.activeFilters.length > 0) {
+        //2. Loop though the activeFilters
+        this.activeFilters.map(item=> {
+          //3. check if filter item has options, eg 18years selected
 
-    if(item.filterOptions.length > 0) {
-      //4. Loop through the options
-      item.filterOptions.map(option=> {
-        //5.check is the option exist in the new filter options of partilar study e.g age,sex
+          if(item.filterOptions.length > 0) {
+            //4. Loop through the options
+            item.filterOptions.map(option=> {
+              //5.check is the option exist in the new filter options of partilar study e.g age,sex
 
-        const isPresent = this.SelectedFilterOptions[item.name.toLowerCase()]?.some(opt => {
-        
-          return opt == option.name
-          
-          });
+              const isPresent = this.SelectedFilterOptions[item.name.toLowerCase()]?.some(opt => {
+
+                return opt == option.name
+
+              });
 
 
-          // 6. if is  present is false then remove the option from active filters
-          if(!isPresent) {
-          this.removeFilterOption(item,option);
+              // 6. if is  present is false then remove the option from active filters
+              if(!isPresent) {
+                this.removeFilterOption(item,option);
+              }
+
+
+            })
           }
-
-          
-      })
-    }
-  })
-}
+        })
+      }
 
 
 
@@ -398,7 +398,7 @@ if(this.activeFilters.length > 0) {
 
 
 
-return iniFilters
+      return iniFilters
     },
   },
   mounted() {
@@ -428,13 +428,13 @@ return iniFilters
       }, 100)
     },
     onTagsChanged(newTags, filter) {
-     
+
       this.activeFilters = this.activeFilters.map((f) =>
         f.id === filter.id
           ? {
-              ...f,
-              filterOptions: [...newTags],
-            }
+            ...f,
+            filterOptions: [...newTags],
+          }
           : f
       )
     },
@@ -527,9 +527,9 @@ return iniFilters
       const withOptionToggled = filter.filterOptions.map((opt) =>
         opt.id === option.id
           ? {
-              ...opt,
-              isActive: !opt.isActive,
-            }
+            ...opt,
+            isActive: !opt.isActive,
+          }
           : opt
       )
 
