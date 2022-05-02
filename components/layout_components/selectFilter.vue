@@ -86,7 +86,7 @@
                   :class="{
                     'is-filled': isInputFilled(filter),
                   }"
-                  placeholder="Select or search..."
+                  placeholder=""
                   :autocomplete-always-open="true"
                   :add-only-from-autocomplete="true"
                   @tags-changed="(newTags) => onTagsChanged(newTags, filter)"
@@ -428,7 +428,11 @@ export default {
       }, 100)
     },
     onTagsChanged(newTags, filter) {
-
+//vue-tags-input tags-input ti-focus
+//ti-tag ti-valid
+const el = document.querySelector(".vue-tags-input.ti-focus ")
+console.log("ELEMENT")
+console.log(el);
       this.activeFilters = this.activeFilters.map((f) =>
         f.id === filter.id
           ? {

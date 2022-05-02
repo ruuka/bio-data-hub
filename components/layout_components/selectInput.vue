@@ -360,9 +360,9 @@ export default {
   display: none;
 }
 
-.ti-tags .ti-new-tag-input-wrapper {
+/* .ti-tags .ti-new-tag-input-wrapper {
   order: -1;
-}
+} */
 
 .ti-tags {
   gap: 8px;
