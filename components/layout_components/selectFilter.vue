@@ -365,13 +365,16 @@ export default {
       if(this.activeFilters.length > 0) {
         //2. Loop though the activeFilters
         this.activeFilters.map(item=> {
+
+
           //3. check if filter item has options, eg 18years selected
 
           if(item.filterOptions.length > 0) {
             //4. Loop through the options
             item.filterOptions.map(option=> {
-              //5.check is the option exist in the new filter options of partilar study e.g age,sex
 
+              //5.check is the option exist in the new filter options of partilar study e.g age,sex
+ 
               const isPresent = this.SelectedFilterOptions[item.name.toLowerCase()]?.some(opt => {
 
                 return opt == option.name
@@ -382,12 +385,18 @@ export default {
               // 6. if is  present is false then remove the option from active filters
               if(!isPresent) {
                 this.removeFilterOption(item,option);
+                this.removeFilter(item);
               }
 
 
             })
           }
+      //If filter ie age, bmi is not part of options eg. No STUDY has been selected then remove it.
+       if(this.SelectedFilterOptions[item.name.toLowerCase()] ===undefined) {
+                   this.removeFilter(item);
+        }
         })
+
       }
 
 
@@ -428,11 +437,6 @@ export default {
       }, 100)
     },
     onTagsChanged(newTags, filter) {
-//vue-tags-input tags-input ti-focus
-//ti-tag ti-valid
-const el = document.querySelector(".vue-tags-input.ti-focus ")
-console.log("ELEMENT")
-console.log(el);
       this.activeFilters = this.activeFilters.map((f) =>
         f.id === filter.id
           ? {
