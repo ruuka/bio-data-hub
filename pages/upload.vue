@@ -94,8 +94,8 @@
 </template>
 
 <script>
-import Breadcrumb from '../components/file_upload_components/FileUploadBreadCrumb.vue'
-import FixedNotificationModal from '../components/file_upload_components/FixedNotificationModal.vue'
+import Breadcrumb from '../components/upload_components/FileUploadBreadCrumb.vue'
+import FixedNotificationModal from '../components/upload_components/FixedNotificationModal.vue'
 
 export default {
   name: 'FileUpload',
@@ -152,7 +152,7 @@ export default {
   },
 
   head() {
-    const title = 'File Upload Stream'
+    const title = 'Bioinformatics - ICF Upload Portal'
     return {
       title,
     }
