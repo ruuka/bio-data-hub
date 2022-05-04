@@ -21,13 +21,14 @@
               <label class="">
                 <input
                   type="text"
+                  v-model="email"
                   placeholder="youremail@gilead.com"
                   class="input w-full input-bordered"
                 />
               </label>
               <p
                 v-if="errorMail"
-                class="text-red-500 text-sm font-light text-center w-full"
+                class="text-red-500 text-sm font-light text-left w-full"
               >
                 {{ errorMail }}
               </p>
@@ -77,7 +78,7 @@
               </label>
               <p
                 v-if="error"
-                class="text-red-500 text-sm font-light text-center w-full"
+                class="text-red-500 text-sm font-light text-left w-full"
               >
                 {{ error }}
               </p>
@@ -116,6 +117,13 @@ export default {
       errorMail: null,
     }
   },
+  watch: {
+    email(n,old) {
+      if(n.length > 0) {
+        this.errorMail=null;
+      }
+    }
+  },
   methods: {
     validateEmail(email) {
       return email.match(
@@ -123,6 +131,15 @@ export default {
       )
     },
     submitFile() {
+
+      if(this.email ==='') {
+        this.errorMail = "Enter your email";
+        return;
+      }
+      if(this.files===null) {
+        this.error="No file selected"
+        return;
+      }
       if (this.validateEmail(this.email) === false) {
         this.errorMail = 'Enter a valid email'
       }
