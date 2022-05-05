@@ -301,6 +301,7 @@
                           :deselected-dropdown-ids="deselectedDropdownIds"
                           @ON_SELECT_CHANGE="handleOnSelectChange"
                           @ON_SELECT_STUDY_TYPE="handleOnSelectedStudy"
+                          @get-gene-ids = "handleGetGeneIDS"
                         />
                       </div>
                     </client-only>
@@ -1017,7 +1018,7 @@ export default {
   },
   mounted() {
     this.getLocalStorageAxisFilters() // disable when changing field names
-    console.log(this.axisFilterOptions[0])
+    // console.log(this.axisFilterOptions[0])
     if (this.axisFilterOptions[0].selectedValue.length > 0) {
       this.updateStudyFilterOptions(
         this.axisFilterOptions[0].selectedValue[0].name
@@ -1139,11 +1140,15 @@ export default {
         }
       )
     },
+    handleGetGeneIDS(text_to_search) {
+      // console.log("Listening", text_to_search);
+    this.getAllGeneIds(text_to_search)
+    },
     handleOnSelectChange({ value, subFilterId, subFilter }) {
       //Clear any selected
       this.clearSelectedStudyIdChange()
       this.updateStudyFilterOptions(value[0]?.name)
-      this.getAllGeneIds()
+  
       if (this.selectedSubDropdowns[subFilter.parentId] !== undefined) {
         if (
           value.length > 0 &&
@@ -1263,16 +1268,15 @@ export default {
       console.log(formattedGenes)
       return formattedGenes
     },
-    getAllGeneIds() {
+    getAllGeneIds(text_to_search) {
       newAPIService.getAllGeneIds(this.$axios).then(async (res) => {
         const result = await this.getGeneAliases(res.data)
-
-        console.log(result)
         this.axisFilterOptions = this.axisFilterOptions.map((item) => {
           if (item.id === 'gene') {
             item.options = result.map((geneItem) => {
+ 
               return {
-                name: geneItem.name,
+                name: geneItem.name ?? "NONE",
                 // value: geneItem.value.toLowerCase(),
                 // No need to convert value to lowercase
                 value: geneItem.value,

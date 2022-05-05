@@ -207,9 +207,22 @@ export default {
       }
     },
     getAutocompleteItems(subFilter, options = { isInputDisabled: false }) {
+
       if (options.isInputDisabled) return []
       // if the input is disabled, return an empty array so that the autocomplete dropdown won't show up when an item is already selected
       const subFilterId = subFilter.id
+      if(subFilterId ==="gene") {
+      console.log("Autocomplete");
+      if(subFilter.options.length>0) {
+        console.log("return here the search dropdwn")
+        return subFilter.options.filter(
+        (s) =>
+          s.name.toLowerCase() ||
+          s.indication?.toLowerCase() ||
+          s.description?.toLowerCase()
+      )
+      }
+      }
 
       if (
         !this.deselectedDropdownIds.includes(subFilter.id) &&
@@ -247,6 +260,17 @@ export default {
         this.filterSearchTextObj[subFilterId] === undefined
           ? ''
           : this.filterSearchTextObj[subFilterId]?.toLowerCase()
+         
+         //CHECK whether the input being searched is gene
+         if(this.focusedInputId ==="gene") {
+       const text_to_search = this.filterSearchTextObj[this.focusedInputId ];
+        //check if characters are more or equal to 3
+        if(text_to_search && text_to_search.length >=3) {
+         //EMIT AN EVENT TO SEARCH THE GENEIDS
+         this.$emit("get-gene-ids", text_to_search)
+        }
+         }
+
 
       return subFilter.options.filter(
         (s) =>
