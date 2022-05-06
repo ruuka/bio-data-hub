@@ -211,18 +211,7 @@ export default {
       if (options.isInputDisabled) return []
       // if the input is disabled, return an empty array so that the autocomplete dropdown won't show up when an item is already selected
       const subFilterId = subFilter.id
-      if(subFilterId ==="gene") {
-      console.log("Autocomplete");
-      if(subFilter.options.length>0) {
-        console.log("return here the search dropdwn")
-        return subFilter.options.filter(
-        (s) =>
-          s.name.toLowerCase() ||
-          s.indication?.toLowerCase() ||
-          s.description?.toLowerCase()
-      )
-      }
-      }
+
 
       if (
         !this.deselectedDropdownIds.includes(subFilter.id) &&
@@ -270,6 +259,19 @@ export default {
          this.$emit("get-gene-ids", text_to_search)
         }
          }
+
+      if(subFilterId ==="gene") {
+      console.log("Autocomplete");
+      if(subFilter.options.length>0) {
+        console.log("return here the search dropdwn")
+        return subFilter.options.filter(
+        (s) =>
+          s.name.toLowerCase() ||
+          s.indication?.toLowerCase() ||
+          s.description?.toLowerCase()
+      )
+      }
+      }
 
 
       return subFilter.options.filter(

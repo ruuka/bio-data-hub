@@ -1210,7 +1210,8 @@ export default {
         logTransformDetails,
         isLogTransformSelected,
       })
-
+console.log("Stringified");
+console.log(stringifiedFilters);
       localStorage.setItem(this.localStorageFilterKey, stringifiedFilters)
 
       this.$eventBus.$emit('OPEN_MODAL', {
@@ -1272,8 +1273,6 @@ export default {
     },
    async getAllGeneIds(text_to_search) {
         const result = await this.getGeneAliases(text_to_search)
-console.log("GENES WITH ALIASES");
-console.log(result);
         this.axisFilterOptions = this.axisFilterOptions.map((item) => {
           if (item.id === 'gene') {
             item.options = result.map((geneItem) => {
