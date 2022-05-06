@@ -22,9 +22,9 @@ export default {
       console.log('There was an error: ' + error.response)
     })
   },
-  getAllGeneAliases($axios, searchString) {
+  getAllGeneAliases($axios, searchString,limit=10) {
     return $axios
-      .get(`/plot-options/all-gene-alias/?query=${searchString}`)
+      .get(`/plot-options/all-gene-alias/?query=${searchString}&limit=${limit}`)
       .catch((error) => {
         console.log('There was an error: ' + error.response)
       })

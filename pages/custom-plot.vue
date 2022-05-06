@@ -1248,29 +1248,32 @@ export default {
       this.secondaryFilter = object.secondaryFilter
     },
 
-    async getGeneAliases(genes) {
+    async getGeneAliases(text_to_search) {
       const formattedGenes = []
       // for(let i=0; i< genes.length; i++) {
       // Let's not loop all genes length as it's too long, looping 10 below to test
       // Improvement #1: Please add a conditional logic that the Gene IDs only start query when the user has typed at least 3 letters to start searching.
-      for (let i = 0; i < 10; i++) {
+    
         await newAPIService
-          .getAllGeneAliases(this.$axios, genes[i])
+          .getAllGeneAliases(this.$axios, text_to_search)
           .then((response) => {
-            console.log('Loading Formatted Genes, looping 10 for now')
-            formattedGenes.push({
-              name: genes[i],
-              value: response.data[0]?.gene_value,
-              aliases: response.data[0]?.alias_symbols,
-            })
+            response.data.map((item) => {
+               formattedGenes.push({
+              name: item.gene_id,
+              value: item?.gene_value,
+              aliases: item?.alias_symbols,
           })
-      }
+            })
+
+          })
+      
       console.log(formattedGenes)
       return formattedGenes
     },
-    getAllGeneIds(text_to_search) {
-      newAPIService.getAllGeneIds(this.$axios).then(async (res) => {
-        const result = await this.getGeneAliases(res.data)
+   async getAllGeneIds(text_to_search) {
+        const result = await this.getGeneAliases(text_to_search)
+console.log("GENES WITH ALIASES");
+console.log(result);
         this.axisFilterOptions = this.axisFilterOptions.map((item) => {
           if (item.id === 'gene') {
             item.options = result.map((geneItem) => {
@@ -1287,7 +1290,6 @@ export default {
 
           return item
         })
-      })
     },
     updateStudyFilterOptions(study) {
       //Find Study ID
