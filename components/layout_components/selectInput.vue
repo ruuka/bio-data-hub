@@ -251,16 +251,16 @@ export default {
           : this.filterSearchTextObj[subFilterId]?.toLowerCase()
          
          //CHECK whether the input being searched is gene
-         if(this.focusedInputId ==="gene") {
+         if(this.focusedInputId ==="gene" || this.focusedInputId ==="gene-vertical") {
        const text_to_search = this.filterSearchTextObj[this.focusedInputId ];
         //check if characters are more or equal to 3
         if(text_to_search && text_to_search.length >=3) {
          //EMIT AN EVENT TO SEARCH THE GENEIDS
-         this.$emit("get-gene-ids", text_to_search)
+         this.$emit("get-gene-ids", text_to_search,subFilterId)
         }
          }
 
-      if(subFilterId ==="gene") {
+      if(subFilterId ==="gene" || subFilterId==="gene-vertical") {
       console.log("Autocomplete");
       if(subFilter.options.length>0) {
         console.log("return here the search dropdwn")

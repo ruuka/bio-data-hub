@@ -34,4 +34,13 @@ export default {
       console.log('There was an error: ' + error.response)
     })
   },
+
+  getNewBoxPlotData($axios, data) {
+    return $axios.post(`/plot-options/scatter-plot-query/`, { data })
+    .catch((error) => {
+      console.log('There was an error: ' + error.response)
+    });
+
+  }
+  
 }

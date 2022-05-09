@@ -18,8 +18,13 @@ export default {
       type: String,
       default: '',
     },
+    boxPlotData: {
+      type:Array,
+      required:true,
+    },
   },
   data() {
+
     return {
       response:
         [
@@ -706,7 +711,43 @@ export default {
         ]
     }
   },
+  computed: {
+    plotData() {
+      //groups that have already ben traversed
+      var doneGroups = [];
+     const data=   this.boxPlotData.map((item) => {
+       doneGroups.push(item.primaryGroup);
+
+        return           {
+            // Example study for age group response to drug ( label/API endpoint -> request -> response)
+            name:item.primaryGroup,
+            dataPoints:this.boxPlotData.filter((data_points) =>{
+                 return data_points.primaryGroup === item.primaryGroup
+            }).map((data_filtered_points) => {
+                             return  {
+                type: data_filtered_points.secondaryGroup,
+                y:data_filtered_points.values
+              }
+            })
+            
+            // [
+             
+            //   {
+            //     type: "Filgotinib, 200mg",
+            //     y: [
+            //       0,
+            //     ]
+            //   }
+            // ]
+          }
+     })
+console.log("Formated res");
+console.log(data);
+     return data;
+    }
+  },
   mounted()  {
+    this.plotData
     this.reTraceDataForPlot()
   },
   methods: {
@@ -715,10 +756,10 @@ export default {
 
       const x = []
 
-      for(let i = 0; i < this.response.length; i++) {
-        let xName = this.response[i].name
+      for(let i = 0; i < this.plotData.length; i++) {
+        let xName = this.plotData[i].name
 
-        for(let j = 0; j < this.response.length * this.response[i].dataPoints.length; j++) {
+        for(let j = 0; j < this.plotData.length * this.plotData[i].dataPoints.length; j++) {
           x.push(xName)
         }
       }
@@ -731,7 +772,7 @@ export default {
         pointpos: 0,
       }
 
-      this.response.forEach((dataGroup, i) => {
+      this.plotData.forEach((dataGroup, i) => {
         dataGroup.dataPoints.forEach((individualDataSet) => {
           const xArray = []
           individualDataSet.y.forEach(() => xArray.push(dataGroup.name))

@@ -350,6 +350,8 @@
       <div class="flex flex-col w-full mt-2">
         <div class="p-20 rounded bg-base-100 place-items-center">
           <NewBoxPlot
+          v-if="boxPlotData"
+          :boxPlotData = "boxPlotData"
             plot-title="ERBB2 Log (2) TPM vs Age"
             y-axis-title="Log (2) TPM"
           />
@@ -371,6 +373,7 @@ import newAPIService from '~/services/newAPIService.js'
 import NewBoxPlot from '../components/plotly_components/NewBoxPlot'
 import selectInput from '../components/layout_components/selectInput'
 import selectFilter from '../components/layout_components/selectFilter'
+
 
 export default {
   name: 'CustomPlot',
@@ -466,6 +469,7 @@ export default {
   },
   data() {
     return {
+      boxPlotData:null,
       showLogTransform: false,
       currentlyActiveLogTransformDetails: {
         id: '',
@@ -1140,9 +1144,9 @@ export default {
         }
       )
     },
-    handleGetGeneIDS(text_to_search) {
+    handleGetGeneIDS(text_to_search,type='gene') {
       // console.log("Listening", text_to_search);
-    this.getAllGeneIds(text_to_search)
+    this.getAllGeneIds(text_to_search,type)
     },
     handleOnSelectChange({ value, subFilterId, subFilter }) {
       //Clear any selected
@@ -1180,7 +1184,42 @@ export default {
           : sub
       )
     },
-    handleSaveFilters() {
+
+     getboxPlotData(dataFilters){
+       console.log("Data filters")
+       console.log(dataFilters);
+       //TODO:Format this data to the format needed to be posted by looping over an array to look like below ex
+
+  const formatedData = {
+  study: "GLPG0634-CL-223",
+  primaryGroup: "age",
+  secondaryGroup: "treatment",
+  filter: {
+    age: [
+      "19 - 35 years old"
+    ],
+    sex: [
+      "Women"
+    ],
+    treatment: [
+      "Placebo",
+      "Filgotinib, 200 mg"
+    ],
+    race: []
+  },
+  value: {
+    type: "geneExpression",
+    filterTo: "ERBB2"
+  }
+}
+       
+
+     newAPIService.getNewBoxPlotData(this.$axios,formatedData).then((response) =>{
+           
+            this.boxPlotData = response.data;
+          })
+     },
+     handleSaveFilters() {
       if (this.deselectedDropdownIds.length > 0) {
         // invalid data - some the subsequent dropdowns are selected without the precedent dropdown items being selected
 
@@ -1210,8 +1249,8 @@ export default {
         logTransformDetails,
         isLogTransformSelected,
       })
-console.log("Stringified");
-console.log(stringifiedFilters);
+
+      this.getboxPlotData(JSON.parse(stringifiedFilters))
       localStorage.setItem(this.localStorageFilterKey, stringifiedFilters)
 
       this.$eventBus.$emit('OPEN_MODAL', {
@@ -1271,10 +1310,11 @@ console.log(stringifiedFilters);
       console.log(formattedGenes)
       return formattedGenes
     },
-   async getAllGeneIds(text_to_search) {
+   async getAllGeneIds(text_to_search,type) {
+     console.log("Type",type);
         const result = await this.getGeneAliases(text_to_search)
         this.axisFilterOptions = this.axisFilterOptions.map((item) => {
-          if (item.id === 'gene') {
+          if (item.id === type) {
             item.options = result.map((geneItem) => {
  
               return {
