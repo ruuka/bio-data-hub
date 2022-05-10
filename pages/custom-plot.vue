@@ -1184,35 +1184,29 @@ export default {
           : sub
       )
     },
-
+getFiltersFromDataFilters(filters) {
+  return filters.map(item => {
+     let obj = {};
+     obj[item.name.toLowerCase()] = item.filterOptions.map(optItem => optItem.id)
+     return obj;
+  }).reduce(function(result, item) {
+  var key = Object.keys(item)[0]; //first property: a, b, c
+  result[key] = item[key];
+  return result;
+}, {})
+},
      getboxPlotData(dataFilters){
-       console.log("Data filters")
-       console.log(dataFilters);
-       //TODO:Format this data to the format needed to be posted by looping over an array to look like below ex
-
+     
   const formatedData = {
-  study: "GLPG0634-CL-223",
-  primaryGroup: "age",
-  secondaryGroup: "treatment",
-  filter: {
-    age: [
-      "19 - 35 years old"
-    ],
-    sex: [
-      "Women"
-    ],
-    treatment: [
-      "Placebo",
-      "Filgotinib, 200 mg"
-    ],
-    race: []
-  },
+  study: dataFilters.axisFilters[0].selectedValue[0].name,
+  primaryGroup:dataFilters.axisFilters.filter(item =>item.id ==="primary")[0].selectedValue[0].name,
+  secondaryGroup: "treatment", //TODO please help me idenfify this by show an example if you can, like above it is east because id=='primary', there is no id==='secondary'
+  filter: this.getFiltersFromDataFilters(dataFilters.filters),
   value: {
-    type: "geneExpression",
-    filterTo: "ERBB2"
+    type: "geneExpression", //TODO please help me idenfify this by show an example if you can
+    filterTo: "ERBB2" //TODO please help me idenfify this by show an example if you can
   }
 }
-       
 
      newAPIService.getNewBoxPlotData(this.$axios,formatedData).then((response) =>{
            
