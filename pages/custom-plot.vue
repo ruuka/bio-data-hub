@@ -811,13 +811,17 @@ export default {
         },
         {
           id: 'primary-vertical',
-          name: 'Primary',
+          name: 'Secondary',
           groupParentId: ['clinical-attribute-vertical'],
           parentId: 'vertical-axis',
-          label: '- Select Primary Group -',
+          label: '- Select Secondary Group -',
           selectedValue: [],
           isMultipleSelect: false,
           options: [
+            {
+              name: 'None',
+              value: 'none',
+            },
             {
               name: 'Treatment',
               value: 'treatment',
@@ -1149,6 +1153,7 @@ export default {
     this.getAllGeneIds(text_to_search,type)
     },
     handleOnSelectChange({ value, subFilterId, subFilter }) {
+
       //Clear any selected
       this.clearSelectedStudyIdChange()
       this.updateStudyFilterOptions(value[0]?.name)
@@ -1183,6 +1188,18 @@ export default {
             }
           : sub
       )
+
+      if(subFilterId ==='primary') {
+        console.log("yes hhere")
+         this.axisFilterOptions = this.axisFilterOptions.map((sub) =>{
+    
+    
+           return sub.id ==='primary-vertical' ? {
+             ...sub,
+             options:sub.options.filter((item) => item.value !== value[0].value)
+           } : sub
+         })
+      }
     },
 getFiltersFromDataFilters(filters) {
   return filters.map(item => {
@@ -1198,15 +1215,17 @@ getFiltersFromDataFilters(filters) {
      getboxPlotData(dataFilters){
      
   const formatedData = {
-  study: dataFilters.axisFilters[0].selectedValue[0].name,
-  primaryGroup:dataFilters.axisFilters.filter(item =>item.id ==="primary")[0].selectedValue[0].name,
-  secondaryGroup: "treatment", //TODO please help me idenfify this by show an example if you can, like above it is east because id=='primary', there is no id==='secondary'
+  study: dataFilters.axisFilters[0].selectedValue[0]?.name,
+  primaryGroup:dataFilters.axisFilters.filter(item =>item.id ==="primary")[0].selectedValue[0]?.name,
+  secondaryGroup: dataFilters.axisFilters.filter(item =>item.id ==="primary-vertical")[0].selectedValue[0]?.name, 
   filter: this.getFiltersFromDataFilters(dataFilters.filters),
   value: {
-    type: "geneExpression", //TODO please help me idenfify this by show an example if you can
-    filterTo: "ERBB2" //TODO please help me idenfify this by show an example if you can
+    type: dataFilters.axisFilters.filter(item => item.id==='data-type')[0].selectedValue[0]?.name, 
+    filterTo: dataFilters.axisFilters.filter(item => item.id==='gene')[0].selectedValue[0]?.name 
   }
 }
+console.log("Formatted Data");
+console.log(formatedData);
 
      newAPIService.getNewBoxPlotData(this.$axios,formatedData).then((response) =>{
            

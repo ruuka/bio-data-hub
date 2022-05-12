@@ -259,6 +259,7 @@ export default {
          this.$emit("get-gene-ids", text_to_search,subFilterId)
         }
          }
+        
 
       if(subFilterId ==="gene" || subFilterId==="gene-vertical") {
       console.log("Autocomplete");
