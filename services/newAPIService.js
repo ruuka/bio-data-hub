@@ -36,7 +36,7 @@ export default {
   },
 
   getNewBoxPlotData($axios, data) {
-    return $axios.post(`/plot-options/scatter-plot-query/`, { data })
+    return $axios.get(`/plot-options/scatter-plot-query/`, { study_param:data })
     .catch((error) => {
       console.log('There was an error: ' + error.response)
     })
