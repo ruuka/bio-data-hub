@@ -1227,7 +1227,30 @@ getFiltersFromDataFilters(filters) {
 console.log("Formatted Data");
 console.log(formatedData);
 
-     newAPIService.getNewBoxPlotData(this.$axios,formatedData).then((response) =>{
+const testData  ={
+  study: "GLPG0634-CL-223",
+  primaryGroup: "age",
+  secondaryGroup: "treatment",
+  filter: {
+    age: [
+      "19 - 35 years old"
+    ],
+    sex: [
+      "Women"
+    ],
+    treatment: [
+      "Placebo",
+      "Filgotinib, 200 mg"
+    ],
+    race: []
+  },
+  value: {
+    type: "geneExpression",
+    filterTo: "ERBB2"
+  }
+}
+
+     newAPIService.getNewBoxPlotData(this.$axios,testData).then((response) =>{
            
             this.boxPlotData = response.data;
           })
