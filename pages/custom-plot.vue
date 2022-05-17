@@ -1250,7 +1250,7 @@ const testData  ={
   }
 }
 
-     newAPIService.getNewBoxPlotData(this.$axios,testData).then((response) =>{
+     newAPIService.getNewBoxPlotData(this.$axios,encodeURIComponent(JSON.stringify(testData))).then((response) =>{
            
             this.boxPlotData = response.data;
           })
