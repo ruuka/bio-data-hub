@@ -1224,33 +1224,10 @@ getFiltersFromDataFilters(filters) {
     filterTo: dataFilters.axisFilters.filter(item => item.id==='gene')[0].selectedValue[0]?.name 
   }
 }
-console.log("Formatted Data");
-console.log(formatedData);
+// console.log("Formatted Data");
+// console.log(formatedData);
 
-const testData  ={
-  study: "GLPG0634-CL-223",
-  primaryGroup: "age",
-  secondaryGroup: "treatment",
-  filter: {
-    age: [
-      "19 - 35 years old"
-    ],
-    sex: [
-      "Women"
-    ],
-    treatment: [
-      "Placebo",
-      "Filgotinib, 200 mg"
-    ],
-    race: []
-  },
-  value: {
-    type: "geneExpression",
-    filterTo: "ERBB2"
-  }
-}
-
-     newAPIService.getNewBoxPlotData(this.$axios,encodeURIComponent(JSON.stringify(testData))).then((response) =>{
+     newAPIService.getNewBoxPlotData(this.$axios,encodeURIComponent(JSON.stringify(formatedData))).then((response) =>{
            
             this.boxPlotData = response.data;
           })
