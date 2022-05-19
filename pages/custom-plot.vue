@@ -585,7 +585,10 @@ export default {
         {
           id: 'primary',
           name: 'Primary',
-          groupParentId: ['clinical-attribute'],
+          groupParentId: [
+        'clinical-attribute',
+        'biomarker',
+        'gene-expression'],
           parentId: 'horizontal-axis',
           label: '- Select Primary Group -',
           selectedValue: [],
@@ -651,29 +654,6 @@ export default {
           selectedValue: [],
           isMultipleSelect: true,
           options: [],
-        },
-        {
-          id: 'treatment',
-          name: 'Treatment',
-          parentId: 'horizontal-axis',
-          groupParentId: ['biomarker'],
-          label: '- Select Treatment -',
-          selectedValue: [],
-          isMultipleSelect: true,
-          options: [
-            {
-              name: 'Placebo',
-              value: 'placebo',
-            },
-            {
-              name: 'Filgotinib, 200mg',
-              value: 'filgotinib-200mg',
-            },
-            {
-              name: 'Selonsertib, 18mg',
-              value: 'selonsertib-18mg',
-            },
-          ],
         },
         {
           id: 'tissue-type',
@@ -761,29 +741,6 @@ export default {
           options: [],
         },
         {
-          id: 'treatment-vertical',
-          name: 'Treatment',
-          parentId: 'vertical-axis',
-          groupParentId: ['biomarker-vertical'],
-          label: '- Select Treatment -',
-          selectedValue: [],
-          isMultipleSelect: true,
-          options: [
-            {
-              name: 'Placebo',
-              value: 'placebo',
-            },
-            {
-              name: 'Filgotinib, 200mg',
-              value: 'filgotinib-200mg',
-            },
-            {
-              name: 'Selonsertib, 18mg',
-              value: 'selonsertib-18mg',
-            },
-          ],
-        },
-        {
           id: 'tissue-type-vertical',
           name: 'Tissue Type',
           parentId: 'vertical-axis',
@@ -812,7 +769,11 @@ export default {
         {
           id: 'primary-vertical',
           name: 'Secondary',
-          groupParentId: ['clinical-attribute-vertical'],
+          groupParentId: [
+        'clinical-attribute-vertical',
+        'biomarker-vertical',
+        'gene-expression-vertical'
+        ],
           parentId: 'vertical-axis',
           label: '- Select Secondary Group -',
           selectedValue: [],
@@ -1190,13 +1151,12 @@ export default {
       )
 
       if(subFilterId ==='primary') {
-        console.log("yes hhere")
          this.axisFilterOptions = this.axisFilterOptions.map((sub) =>{
     
     
            return sub.id ==='primary-vertical' ? {
              ...sub,
-             options:sub.options.filter((item) => item.value !== value[0].value)
+             options:sub.options.filter((item) => item?.value !== value[0]?.value)
            } : sub
          })
       }
@@ -1216,11 +1176,11 @@ getFiltersFromDataFilters(filters) {
      
   const formatedData = {
   study: dataFilters.axisFilters[0].selectedValue[0]?.name,
-  primaryGroup:dataFilters.axisFilters.filter(item =>item.id ==="primary")[0].selectedValue[0]?.name,
-  secondaryGroup: dataFilters.axisFilters.filter(item =>item.id ==="primary-vertical")[0].selectedValue[0]?.name, 
+  primaryGroup:dataFilters.axisFilters.filter(item =>item.id ==="primary")[0].selectedValue[0]?.name?.toLowerCase(),
+  secondaryGroup: dataFilters.axisFilters.filter(item =>item.id ==="primary-vertical")[0].selectedValue[0]?.name?.toLowerCase(), 
   filter: this.getFiltersFromDataFilters(dataFilters.filters),
   value: {
-    type: dataFilters.axisFilters.filter(item => item.id==='data-type')[0].selectedValue[0]?.name, 
+    type: dataFilters.axisFilters.filter(item => item.id==='data-type')[0].selectedValue[0]?.name.split(" ").join(''), 
     filterTo: dataFilters.axisFilters.filter(item => item.id==='gene')[0].selectedValue[0]?.name 
   }
 }

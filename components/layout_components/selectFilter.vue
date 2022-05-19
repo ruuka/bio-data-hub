@@ -315,6 +315,16 @@ export default {
 
           ],
         },
+        {
+          id: 8,
+          name: 'Treatment',
+          isActive: false,
+          isMultipleSelect: true,
+          searchText: '',
+          filterOptions: [
+
+          ],
+        },
       ],
       activeFilters: [],
       searchText: '',
