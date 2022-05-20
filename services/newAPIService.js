@@ -1,6 +1,5 @@
 export default {
   getScatterPlotParameters($axios) {
-    // console.log('newAPIService working')
     return $axios
       .get('/plot-options/scatter-plot-parameters/')
       .catch((error) => {
@@ -22,7 +21,7 @@ export default {
       console.log('There was an error: ' + error.response)
     })
   },
-  getAllGeneAliases($axios, searchString,limit=10) {
+  getAllGeneAliases($axios, searchString, limit = 10) {
     return $axios
       .get(`/plot-options/all-gene-alias/?query=${searchString}&limit=${limit}`)
       .catch((error) => {
@@ -36,10 +35,10 @@ export default {
   },
 
   getNewBoxPlotData($axios, data) {
-    return $axios.get(`/plot-options/scatter-plot-query?study_param=${data}`)
-    .catch((error) => {
-      console.log('There was an error: ' + error.response)
-    })
-  }
-  
+    return $axios
+      .get(`/plot-options/scatter-plot-query?study_param=${data}`)
+      .catch((error) => {
+        console.log('There was an error: ' + error.response)
+      })
+  },
 }

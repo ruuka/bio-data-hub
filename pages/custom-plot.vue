@@ -177,8 +177,8 @@
             class="flex-grow-0 flex-shrink-0 pl-2 font-medium text-left"
           >
             <!-- Therapeutic Areas: Inflammation - Diabetic Kidney Disease -->
-            Therapeutic Area: {{ selectedStudy.therapeuticArea }} -
-            Indication: {{ selectedStudy.indication }}
+            Therapeutic Area: {{ selectedStudy.therapeuticArea }} - Indication:
+            {{ selectedStudy.indication }}
           </p>
         </div>
 
@@ -301,7 +301,7 @@
                           :deselected-dropdown-ids="deselectedDropdownIds"
                           @ON_SELECT_CHANGE="handleOnSelectChange"
                           @ON_SELECT_STUDY_TYPE="handleOnSelectedStudy"
-                          @get-gene-ids = "handleGetGeneIDS"
+                          @get-gene-ids="handleGetGeneIDS"
                         />
                       </div>
                     </client-only>
@@ -334,12 +334,6 @@
                   >
                     Save Filters
                   </button>
-                  <button
-                    @click="updateFilters()"
-                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-700 border border-transparent rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                  >
-                    Test Button
-                  </button>
                 </div>
               </div>
             </form>
@@ -350,8 +344,8 @@
       <div class="flex flex-col w-full mt-2">
         <div class="p-20 rounded bg-base-100 place-items-center">
           <NewBoxPlot
-          v-if="boxPlotData"
-          :boxPlotData = "boxPlotData"
+            v-if="boxPlotData"
+            :boxPlotData="boxPlotData"
             plot-title="ERBB2 Log (2) TPM vs Age"
             y-axis-title="Log (2) TPM"
           />
@@ -373,7 +367,6 @@ import newAPIService from '~/services/newAPIService.js'
 import NewBoxPlot from '../components/plotly_components/NewBoxPlot'
 import selectInput from '../components/layout_components/selectInput'
 import selectFilter from '../components/layout_components/selectFilter'
-
 
 export default {
   name: 'CustomPlot',
@@ -469,7 +462,7 @@ export default {
   },
   data() {
     return {
-      boxPlotData:null,
+      boxPlotData: null,
       showLogTransform: false,
       currentlyActiveLogTransformDetails: {
         id: '',
@@ -585,10 +578,7 @@ export default {
         {
           id: 'primary',
           name: 'Primary',
-          groupParentId: [
-        'clinical-attribute',
-        'biomarker',
-        'gene-expression'],
+          groupParentId: ['clinical-attribute', 'biomarker', 'gene-expression'],
           parentId: 'horizontal-axis',
           label: '- Select Primary Group -',
           selectedValue: [],
@@ -770,10 +760,10 @@ export default {
           id: 'primary-vertical',
           name: 'Secondary',
           groupParentId: [
-        'clinical-attribute-vertical',
-        'biomarker-vertical',
-        'gene-expression-vertical'
-        ],
+            'clinical-attribute-vertical',
+            'biomarker-vertical',
+            'gene-expression-vertical',
+          ],
           parentId: 'vertical-axis',
           label: '- Select Secondary Group -',
           selectedValue: [],
@@ -1008,25 +998,6 @@ export default {
     })
   },
   methods: {
-    updateFilters() {
-      // newAPIService.getScatterPlotParameters(this.$axios)
-      newAPIService
-        .getScatterPlotParameters(this.$axios)
-        .then((response) => {
-          console.log(response.data)
-        })
-        .catch(function (error) {
-          console.log('error')
-        })
-
-      //   newAPIService.getScatterPlotParameters(this.$axios, this.$props.name).then(
-      //     (response) => {
-      //       this.plotData = response.data.reduce((arr, elem) => {
-      //         return arr
-      //       }, [])
-      //     })
-      // }
-    },
     getLocalStorageAxisFilters() {
       const localStorageFilters = localStorage.getItem(
         this.localStorageFilterKey
@@ -1109,16 +1080,15 @@ export default {
         }
       )
     },
-    handleGetGeneIDS(text_to_search,type='gene') {
+    handleGetGeneIDS(text_to_search, type = 'gene') {
       // console.log("Listening", text_to_search);
-    this.getAllGeneIds(text_to_search,type)
+      this.getAllGeneIds(text_to_search, type)
     },
     handleOnSelectChange({ value, subFilterId, subFilter }) {
-
       //Clear any selected
       this.clearSelectedStudyIdChange()
       this.updateStudyFilterOptions(value[0]?.name)
-  
+
       if (this.selectedSubDropdowns[subFilter.parentId] !== undefined) {
         if (
           value.length > 0 &&
@@ -1150,52 +1120,75 @@ export default {
           : sub
       )
 
-      if(subFilterId ==='primary') {
-         this.axisFilterOptions = this.axisFilterOptions.map((sub) =>{
-    
-    
-           return sub.id ==='primary-vertical' ? {
-             ...sub,
-             options:sub.options.filter((item) => item?.value !== value[0]?.value)
-           } : sub
-         })
+      if (subFilterId === 'primary') {
+        this.axisFilterOptions = this.axisFilterOptions.map((sub) => {
+          return sub.id === 'primary-vertical'
+            ? {
+                ...sub,
+                options: sub.options.filter(
+                  (item) => item?.value !== value[0]?.value
+                ),
+              }
+            : sub
+        })
       }
     },
-getFiltersFromDataFilters(filters) {
-  return filters.map(item => {
-     let obj = {};
-     obj[item.name.toLowerCase()] = item.filterOptions.map(optItem => optItem.id)
-     return obj;
-  }).reduce(function(result, item) {
-  var key = Object.keys(item)[0]; //first property: a, b, c
-  result[key] = item[key];
-  return result;
-}, {})
-},
-     getboxPlotData(dataFilters){
-       console.log(dataFilters);
-       const isEligible = (dataFilters.axisFilters.filter(item => item.id==='data-type')[0].selectedValue[0]?.id =='biomarker' || dataFilters.axisFilters.filter(item => item.id==='data-type')[0].selectedValue[0]?.id =='gene-expression')
-        
-   const type = dataFilters.axisFilters.filter(item => item.id==='data-type')[0].selectedValue[0]?.name.split(" ").join('');  
-  const formatedData = {
-  study: dataFilters.axisFilters[0].selectedValue[0]?.name,
-  primaryGroup:dataFilters.axisFilters.filter(item =>item.id ==="primary")[0].selectedValue[0]?.name?.toLowerCase(),
-  secondaryGroup: dataFilters.axisFilters.filter(item =>item.id ==="primary-vertical")[0].selectedValue[0]?.name?.toLowerCase(), 
-  filter: this.getFiltersFromDataFilters(dataFilters.filters),
-  value: {
-    type:isEligible ?  type.charAt(0).toLowerCase() + type.slice(1) : '',
-    filterTo: dataFilters.axisFilters.filter(item => item.id==='gene')[0].selectedValue[0]?.name 
-  }
-}
-// console.log("Formatted Data");
-// console.log(formatedData);
+    getFiltersFromDataFilters(filters) {
+      return filters
+        .map((item) => {
+          let obj = {}
+          obj[item.name.toLowerCase()] = item.filterOptions.map(
+            (optItem) => optItem.id
+          )
+          return obj
+        })
+        .reduce(function (result, item) {
+          var key = Object.keys(item)[0] //first property: a, b, c
+          result[key] = item[key]
+          return result
+        }, {})
+    },
+    getboxPlotData(dataFilters) {
+      console.log(dataFilters)
+      const isEligible =
+        dataFilters.axisFilters.filter((item) => item.id === 'data-type')[0]
+          .selectedValue[0]?.id == 'biomarker' ||
+        dataFilters.axisFilters.filter((item) => item.id === 'data-type')[0]
+          .selectedValue[0]?.id == 'gene-expression'
 
-     newAPIService.getNewBoxPlotData(this.$axios,encodeURIComponent(JSON.stringify(formatedData))).then((response) =>{
-           
-            this.boxPlotData = response.data;
-          })
-     },
-     handleSaveFilters() {
+      const type = dataFilters.axisFilters
+        .filter((item) => item.id === 'data-type')[0]
+        .selectedValue[0]?.name.split(' ')
+        .join('')
+      const formattedData = {
+        study: dataFilters.axisFilters[0].selectedValue[0]?.name,
+        primaryGroup: dataFilters.axisFilters
+          .filter((item) => item.id === 'primary')[0]
+          .selectedValue[0]?.name?.toLowerCase(),
+        secondaryGroup: dataFilters.axisFilters
+          .filter((item) => item.id === 'primary-vertical')[0]
+          .selectedValue[0]?.name?.toLowerCase(),
+        filter: this.getFiltersFromDataFilters(dataFilters.filters),
+        value: {
+          type: isEligible ? type.charAt(0).toLowerCase() + type.slice(1) : '',
+          filterTo: dataFilters.axisFilters.filter(
+            (item) => item.id === 'gene'
+          )[0].selectedValue[0]?.name,
+        },
+      }
+      // console.log("Formatted Data");
+      // console.log(formatedData);
+
+      newAPIService
+        .getNewBoxPlotData(
+          this.$axios,
+          encodeURIComponent(JSON.stringify(formattedData))
+        )
+        .then((response) => {
+          this.boxPlotData = response.data
+        })
+    },
+    handleSaveFilters() {
       if (this.deselectedDropdownIds.length > 0) {
         // invalid data - some the subsequent dropdowns are selected without the precedent dropdown items being selected
 
@@ -1269,42 +1262,40 @@ getFiltersFromDataFilters(filters) {
       // for(let i=0; i< genes.length; i++) {
       // Let's not loop all genes length as it's too long, looping 10 below to test
       // Improvement #1: Please add a conditional logic that the Gene IDs only start query when the user has typed at least 3 letters to start searching.
-    
-        await newAPIService
-          .getAllGeneAliases(this.$axios, text_to_search)
-          .then((response) => {
-            response.data.map((item) => {
-               formattedGenes.push({
+
+      await newAPIService
+        .getAllGeneAliases(this.$axios, text_to_search)
+        .then((response) => {
+          response.data.map((item) => {
+            formattedGenes.push({
               name: item.gene_id,
               value: item?.gene_value,
               aliases: item?.alias_symbols,
-          })
             })
-
           })
-      
+        })
+
       console.log(formattedGenes)
       return formattedGenes
     },
-   async getAllGeneIds(text_to_search,type) {
-     console.log("Type",type);
-        const result = await this.getGeneAliases(text_to_search)
-        this.axisFilterOptions = this.axisFilterOptions.map((item) => {
-          if (item.id === type) {
-            item.options = result.map((geneItem) => {
- 
-              return {
-                name: geneItem.name ?? "NONE",
-                // value: geneItem.value.toLowerCase(),
-                // No need to convert value to lowercase
-                value: geneItem.value,
-                description: `Alt. names: ${geneItem.aliases}`,
-              }
-            })
-          }
+    async getAllGeneIds(text_to_search, type) {
+      console.log('Type', type)
+      const result = await this.getGeneAliases(text_to_search)
+      this.axisFilterOptions = this.axisFilterOptions.map((item) => {
+        if (item.id === type) {
+          item.options = result.map((geneItem) => {
+            return {
+              name: geneItem.name ?? 'NONE',
+              // value: geneItem.value.toLowerCase(),
+              // No need to convert value to lowercase
+              value: geneItem.value,
+              description: `Alt. names: ${geneItem.aliases}`,
+            }
+          })
+        }
 
-          return item
-        })
+        return item
+      })
     },
     updateStudyFilterOptions(study) {
       //Find Study ID
