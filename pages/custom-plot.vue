@@ -1173,14 +1173,17 @@ getFiltersFromDataFilters(filters) {
 }, {})
 },
      getboxPlotData(dataFilters){
-     
+       console.log(dataFilters);
+       const isEligible = (dataFilters.axisFilters.filter(item => item.id==='data-type')[0].selectedValue[0]?.id =='biomarker' || dataFilters.axisFilters.filter(item => item.id==='data-type')[0].selectedValue[0]?.id =='gene-expression')
+        
+   const type = dataFilters.axisFilters.filter(item => item.id==='data-type')[0].selectedValue[0]?.name.split(" ").join('');  
   const formatedData = {
   study: dataFilters.axisFilters[0].selectedValue[0]?.name,
   primaryGroup:dataFilters.axisFilters.filter(item =>item.id ==="primary")[0].selectedValue[0]?.name?.toLowerCase(),
   secondaryGroup: dataFilters.axisFilters.filter(item =>item.id ==="primary-vertical")[0].selectedValue[0]?.name?.toLowerCase(), 
   filter: this.getFiltersFromDataFilters(dataFilters.filters),
   value: {
-    type: dataFilters.axisFilters.filter(item => item.id==='data-type')[0].selectedValue[0]?.name.split(" ").join(''), 
+    type:isEligible ?  type.charAt(0).toLowerCase() + type.slice(1) : '',
     filterTo: dataFilters.axisFilters.filter(item => item.id==='gene')[0].selectedValue[0]?.name 
   }
 }
