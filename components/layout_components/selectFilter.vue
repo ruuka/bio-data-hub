@@ -236,6 +236,10 @@ export default {
       type:Object,
       required:true,
 
+    },
+    savedFiltersOptions: {
+      type:Array,
+      required:true,
     }
   },
 
@@ -410,8 +414,9 @@ export default {
       }
 
 
-
-
+if(this.savedFiltersOptions.length > 0) {
+  this.activeFilters = this.savedFiltersOptions;
+}
 
 
 

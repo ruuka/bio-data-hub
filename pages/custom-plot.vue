@@ -281,6 +281,7 @@
                       <selectFilter
                         ref="selectFilter"
                         :SelectedFilterOptions="SelectedFilterOptions"
+                        :savedFiltersOptions = "savedFiltersOptions"
                       />
                     </client-only>
 
@@ -367,6 +368,7 @@ import newAPIService from '~/services/newAPIService.js'
 import NewBoxPlot from '../components/plotly_components/NewBoxPlot'
 import selectInput from '../components/layout_components/selectInput'
 import selectFilter from '../components/layout_components/selectFilter'
+import { parse } from '@fortawesome/fontawesome-svg-core'
 
 export default {
   name: 'CustomPlot',
@@ -473,6 +475,7 @@ export default {
         'horizontal-axis': false,
       },
       SelectedFilterOptions: {},
+      savedFiltersOptions:[],
       isLogTransformSelected: true,
       isLog: false,
       mainSelection: null,
@@ -1009,6 +1012,7 @@ export default {
       const selectedStudy = parsed?.selectedStudy || {}
       const logTransformDetails = parsed?.logTransformDetails
       const isLogTransformSelected = parsed?.isLogTransformSelected
+       this.savedFiltersOptions = parsed?.filters
 
       this.isLogTransformSelected = isLogTransformSelected
 
@@ -1029,6 +1033,7 @@ export default {
     },
     handleOnSelectedStudy(study) {
       this.selectedStudy = study
+      this.savedFiltersOptions = [];
     },
     toggleSubfilterDropdownsVisibility(subFilter, selectedOptions) {
       if (this.selectedSubDropdowns[subFilter.parentId] === undefined) return
