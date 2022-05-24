@@ -63,7 +63,10 @@
                 fill="none"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                @click="removeFilter(filter)"
+                @click="()=>{
+                  removeFilter(filter)
+                  $emit('reset-saved-filters');
+                  }"
               >
                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                 <line x1="18" y1="6" x2="6" y2="18" />
@@ -142,7 +145,7 @@
     </div>
 
     <div class="dropdown dropdown-right">
-      <label tabindex="0" class="btn btn-sm btn-ghost">
+      <label tabindex="0" @click="$emit('reset-saved-filters')" class="btn btn-sm btn-ghost">
         <font-awesome-icon :icon="['far', 'plus']" />
         <span
           class="flex-grow-0 flex-shrink-0 ml-1 text-sm font-medium text-left normal-case"
@@ -343,7 +346,9 @@ export default {
     // this variable is for the "Add New Filter" dropdown item in order to make it reactive
     // whenever you press the "x" icon in the active filter badge, it should reflect in the checkbox and badge component
     allFilters() {
-
+        if(this.savedFiltersOptions?.length > 0) {
+           this.activeFilters = this.savedFiltersOptions;
+        }
       let iniFilters = this.initialFilters.map((iniF) => {
         if (this.activeFilters.find((f) => f.id === iniF.id)) {
           iniF.filterOptions = this.SelectedFilterOptions[iniF.name.toLowerCase()]?.map(item=> {
@@ -548,6 +553,7 @@ export default {
       }
     },
     removeFilterOption(filter, option) {
+
       const withOptionToggled = filter.filterOptions.map((opt) =>
         opt.id === option.id
           ? {

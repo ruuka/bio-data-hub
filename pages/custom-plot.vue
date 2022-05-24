@@ -282,6 +282,7 @@
                         ref="selectFilter"
                         :SelectedFilterOptions="SelectedFilterOptions"
                         :savedFiltersOptions = "savedFiltersOptions"
+                        @reset-saved-filters = "savedFiltersOptions = []"
                       />
                     </client-only>
 
