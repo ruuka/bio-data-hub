@@ -1283,7 +1283,6 @@ export default {
       return formattedGenes
     },
     async getAllGeneIds(text_to_search, type) {
-      console.log('Type', type)
       const result = await this.getGeneAliases(text_to_search)
       this.axisFilterOptions = this.axisFilterOptions.map((item) => {
         if (item.id === type) {
@@ -1295,7 +1294,9 @@ export default {
               value: geneItem.value,
               description: `Alt. names: ${geneItem.aliases}`,
             }
-          })
+          }).filter((gitem) => {
+              return gitem.name.toUpperCase().startsWith(text_to_search?.toUpperCase())
+          });
         }
 
         return item
