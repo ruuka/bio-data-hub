@@ -1155,7 +1155,6 @@ export default {
         }, {})
     },
     getboxPlotData(dataFilters) {
-      console.log(dataFilters)
       const isEligible =
         dataFilters.axisFilters.filter((item) => item.id === 'data-type')[0]
           .selectedValue[0]?.id == 'biomarker' ||
@@ -1192,6 +1191,15 @@ export default {
         )
         .then((response) => {
           this.boxPlotData = response.data
+
+          this.$eventBus.$emit('CLOSE_MODAL')
+        // this.$eventBus.$emit('REMOVE_NOTIFICATION_LOADING', notificationObj)
+
+        this.$eventBus.$emit('ADD_NEW_NOTIFICATION', {
+          type: 'info',
+          title: 'Filters saved successfully',
+          duration: 5000,
+        })
         })
     },
     handleSaveFilters() {
@@ -1225,15 +1233,16 @@ export default {
         isLogTransformSelected,
       })
 
-      this.getboxPlotData(JSON.parse(stringifiedFilters))
-      localStorage.setItem(this.localStorageFilterKey, stringifiedFilters)
-
       this.$eventBus.$emit('OPEN_MODAL', {
         icon: ['far', 'save'],
         title: 'Saving...Please Wait',
         subtitle: 'This will only take a moment',
         isClosable: false,
       })
+
+      this.getboxPlotData(JSON.parse(stringifiedFilters))
+      localStorage.setItem(this.localStorageFilterKey, stringifiedFilters)
+
 
       // const notificationObj = {
       //   ref: 'TEST_LOADING',
@@ -1243,17 +1252,6 @@ export default {
       //   duration: 5000,
       // }
       // this.$eventBus.$emit('ADD_NEW_NOTIFICATION', notificationObj)
-
-      setTimeout(() => {
-        this.$eventBus.$emit('CLOSE_MODAL')
-        // this.$eventBus.$emit('REMOVE_NOTIFICATION_LOADING', notificationObj)
-
-        this.$eventBus.$emit('ADD_NEW_NOTIFICATION', {
-          type: 'info',
-          title: 'Filters saved successfully',
-          duration: 5000,
-        })
-      }, 1000)
     },
     updatePlotData(object) {
       this.plotSetupDict = object
