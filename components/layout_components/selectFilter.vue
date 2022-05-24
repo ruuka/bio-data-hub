@@ -33,6 +33,7 @@
             <label
               :class="{ hidden: !filter.isActive }"
               tabindex="0"
+               @focus.self="onFocus(filter)"
               class="flex justify-center items-center flex-grow-0 flex-shrink-0 relative gap-1 pl-3 pr-2.5 py-2 rounded-lg bg-rose-50 font-medium text-xs hover:bg-rose-100 hover:cursor-pointer"
             >
               <span>{{ filter.name }}:&nbsp; </span>
@@ -414,9 +415,9 @@ export default {
       }
 
 
-if(this.savedFiltersOptions.length > 0) {
-  this.activeFilters = this.savedFiltersOptions;
-}
+// if(this.savedFiltersOptions.length > 0) {
+//   this.activeFilters = this.savedFiltersOptions;
+// }
 
 
 
