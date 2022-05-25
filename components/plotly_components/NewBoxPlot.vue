@@ -178,34 +178,53 @@ export default {
   },
   computed: {
     plotData() {
-      var doneGroups = []
-      const data = this.boxPlotData.map((item) => {
-        doneGroups.push(item.primaryGroup)
+var formatted  = [];
+for (let i=0; i< this.boxPlotData.length; i++) {
 
-        return {
-          // label/API endpoint -> request -> response
-          name: item.primaryGroup,
-          dataPoints: this.boxPlotData
-            .filter((data_points) => {
-              return data_points.primaryGroup === item.primaryGroup
-            })
-            .map((data_filtered_points) => {
-              return {
-                type: data_filtered_points.secondaryGroup,
-                y: data_filtered_points.values,
-              }
-            }),
-        }
-      })
-      console.log(data)
-      return data
+  if(this.checkPresent(formatted,this.boxPlotData[i].primaryGroup) == -1 ) {
+     
+     const dataItem = {
+       name : this.boxPlotData[i].primaryGroup,
+       dataPoints: [{
+         type:this.boxPlotData[i].secondaryGroup,
+         y:this.boxPlotData[i].values
+       }]
+     }
+    formatted.push(dataItem);
+  }else {
+    const indx = this.checkPresent(formatted,this.boxPlotData[i].primaryGroup);
+  
+     formatted[indx].dataPoints.push({
+         type:this.boxPlotData[i].secondaryGroup,
+         y:this.boxPlotData[i].values
+       });
+      
+    
+
+ 
+  } 
+}
+return formatted;
+
     },
   },
+    watch: {
+        boxPlotData: {
+            handler: function(newValue) {
+              this.reTraceDataForPlot()
+              console.log("retracing when chart data changes");
+            },
+            deep: true
+        }
+    },
   mounted() {
     this.plotData
     this.reTraceDataForPlot()
   },
   methods: {
+    checkPresent(formatted, name)  {
+      return formatted.findIndex(item => item.name === name);
+    },
     reTraceDataForPlot() {
       const colors = ['#C51F3F', '#F4992E', '#6DC981', '#36BCE7']
 
