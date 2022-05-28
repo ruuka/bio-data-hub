@@ -1003,6 +1003,12 @@ export default {
   },
   methods: {
     getLocalStorageAxisFilters() {
+            this.$eventBus.$emit('OPEN_MODAL', {
+        icon: ['far', 'save'],
+        title: 'Loading...Please Wait',
+        subtitle: 'This will only take a moment',
+        isClosable: false,
+      })
       const localStorageFilters = localStorage.getItem(
         this.localStorageFilterKey
       )
@@ -1022,6 +1028,9 @@ export default {
         : this.axisFilterOptions
 
       this.selectedStudy = selectedStudy
+      if(axisFilters[0]?.selectedValue?.length > 0) {
+           this.updateStudyFilterOptions(axisFilters[0]?.selectedValue[0].name)
+      }
 
       if (logTransformDetails) {
         this.currentlyActiveLogTransformDetails = {
@@ -1031,6 +1040,7 @@ export default {
           ...logTransformDetails.logTransformDetails,
         }
       }
+       this.$eventBus.$emit('CLOSE_MODAL')
     },
     handleOnSelectedStudy(study) {
       this.selectedStudy = study
