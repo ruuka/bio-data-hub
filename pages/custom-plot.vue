@@ -1000,6 +1000,26 @@ export default {
       })
       this.axisFilterOptions[0].options = formatted
     })
+
+    //get tissue types
+    newAPIService.getTissueTypes(this.$axios).then((response) => {
+  const formatedTissueData =     response.data.map(item => {
+    return {
+      name:item.tissue_source,
+      value:item.tissue_source.toLowerCase() 
+    }
+  })      
+      console.log("formatedTissueData", formatedTissueData);
+
+      this.axisFilterOptions = this.axisFilterOptions.map(item => {
+        if(item.id ==='tissue-type' || item.id ==='tissue-type-vertical') {
+          item.options = formatedTissueData
+        }
+        return item;
+   
+      });
+    })
+
   },
   methods: {
     getLocalStorageAxisFilters() {

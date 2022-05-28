@@ -41,4 +41,11 @@ export default {
         console.log('There was an error: ' + error.response)
       })
   },
+  getTissueTypes($axios) {
+       return $axios
+       .get(`/plot-options/differential-gene-expression/`)
+       .catch((error) => {
+        console.log('There was an error: ' + error.response)
+       })
+  }
 }
