@@ -1001,8 +1001,28 @@ export default {
       this.axisFilterOptions[0].options = formatted
     })
 
-    //get tissue types
-    newAPIService.getTissueTypes(this.$axios).then((response) => {
+  //get Biomarker Data
+  newAPIService.getAllBiomarkerNames(this.$axios).then((response) => {
+  const formattedBioMarkerNames =     response.data.map(item => {
+    return {
+      name:item.name,
+      value:item.name,
+      description: `Description for ${item.name?.split(" ")[0]}`
+    }
+  })      
+      console.log("formattedBioMarkerNames", formattedBioMarkerNames);
+
+      this.axisFilterOptions = this.axisFilterOptions.map(item => {
+        if(item.id  === 'biomarker' || item.id ==='biomarker-vertical') {
+          item.options = formattedBioMarkerNames
+        }
+        return item;
+   
+      });
+    })
+  
+  //get tissue types
+  newAPIService.getTissueTypes(this.$axios).then((response) => {
   const formatedTissueData =     response.data.map(item => {
     return {
       name:item.tissue_source,

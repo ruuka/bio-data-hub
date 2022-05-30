@@ -47,5 +47,12 @@ export default {
        .catch((error) => {
         console.log('There was an error: ' + error.response)
        })
-  }
+  },
+  getAllBiomarkerNames($axios) {
+    return $axios
+    .get(`/plot-options/all-biomarker-names/`)
+    .catch((error) => {
+     console.log('There was an error: ' + error.response)
+    })
+}
 }
