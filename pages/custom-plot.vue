@@ -1010,7 +1010,7 @@ export default {
       description: `Description for ${item.name?.split(" ")[0]}`
     }
   })      
-      console.log("formattedBioMarkerNames", formattedBioMarkerNames);
+     // console.log("formattedBioMarkerNames", formattedBioMarkerNames);
 
       this.axisFilterOptions = this.axisFilterOptions.map(item => {
         if(item.id  === 'biomarker' || item.id ==='biomarker-vertical') {
@@ -1029,7 +1029,7 @@ export default {
       value:item.tissue_source.toLowerCase() 
     }
   })      
-      console.log("formatedTissueData", formatedTissueData);
+     // console.log("formatedTissueData", formatedTissueData);
 
       this.axisFilterOptions = this.axisFilterOptions.map(item => {
         if(item.id ==='tissue-type' || item.id ==='tissue-type-vertical') {
@@ -1329,9 +1329,21 @@ export default {
           })
         })
 
-      console.log(formattedGenes)
+      console.log("Formatted Genes",formattedGenes)
       return formattedGenes
     },
+     autocompleteMatch(input) {
+  if (input == '') {
+    return [];
+  }
+  var reg = new RegExp(input)
+  return search_terms.filter(function(term) {
+	  if (term.match(reg)) {
+  	  return term;
+	  }
+  });
+},
+ 
     async getAllGeneIds(text_to_search, type) {
       const result = await this.getGeneAliases(text_to_search)
       this.axisFilterOptions = this.axisFilterOptions.map((item) => {
@@ -1345,7 +1357,13 @@ export default {
               description: `Alt. names: ${geneItem.aliases}`,
             }
           }).filter((gitem) => {
-              return gitem.name.toUpperCase().startsWith(text_to_search?.toUpperCase())
+              // var reg = new RegExp(text_to_search)
+              let re = new RegExp(`${text_to_search.toUpperCase()}`);
+             // console.log("Matching-", re, re.test(gitem.name?.toUpperCase()))
+
+              return gitem.name?.toUpperCase().startsWith(text_to_search.toUpperCase()) || re.test(gitem.name?.toUpperCase());
+          }).sort((a, b) => {
+                  return a.name?.toLowerCase().indexOf(text_to_search?.toLowerCase()) < b.name?.toLowerCase().indexOf(text_to_search?.toLowerCase()) ? -1 : 1;
           });
         }
 
