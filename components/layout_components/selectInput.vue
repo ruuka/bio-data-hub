@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap items-center gap-2">
+  <div class="flex flex-wrap items-center gap-2 relative">
     <vue-tags-input
       v-for="(subFilter, idx) in filteredSubfilters"
       :key="subFilter.label + idx + subFilter.parentId"
@@ -41,9 +41,23 @@
           :icon="['far', 'times']"
           @click.prevent="props.performDelete(props.index)"
         />
+            
       </div>
 
       <div
+        slot="autocomplete-item"
+        slot-scope="props"
+        v-if="props.item.disabled && props.item.text=='disabled'"
+        class="hover:bg-white hover:text-black cursor-normal"
+        @click.prevent=""
+      >
+ 
+        <p class="text-sm text-gray-500 ">
+          {{ props.item.description }}
+        </p>
+      </div>
+            <div
+        v-else
         slot="autocomplete-item"
         slot-scope="props"
         class="autocomplete-item"
@@ -64,6 +78,10 @@
 export default {
   components: {},
   props: {
+    showSuggestions: {
+      type:Boolean,
+      required:true,
+    },
     filterIndex: {
       type: Number,
       required: true,
@@ -263,8 +281,28 @@ export default {
 
       if(subFilterId ==="gene" || subFilterId==="gene-vertical") {
       console.log("Autocomplete");
+
+      if(this.showSuggestions) {
+        console.log("show suggestions", this.showSuggestions)
+              if(subFilter.options.length>0) {
+      return [
+      {
+        name:"Did you mean?",
+         indication:"Did you mean?",
+          description:"Did you mean?",
+          text:"disabled",
+           disabled: true,
+      },
+          ...subFilter.options.filter(
+        (s) =>
+          s.name.toLowerCase() ||
+          s.indication?.toLowerCase() ||
+          s.description?.toLowerCase()
+      )]
+
+      }
+      }
       if(subFilter.options.length>0) {
-        console.log("return here the search dropdwn")
         return subFilter.options.filter(
         (s) =>
           s.name.toLowerCase() ||

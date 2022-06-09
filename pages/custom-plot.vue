@@ -300,6 +300,7 @@
                           :disabled-row-indices="wholeRowDisabledIndices"
                           :filter-index="idx"
                           :filter="axisFilter"
+                          :showSuggestions = "showSuggestions"
                           :deselected-dropdown-ids="deselectedDropdownIds"
                           @ON_SELECT_CHANGE="handleOnSelectChange"
                           @ON_SELECT_STUDY_TYPE="handleOnSelectedStudy"
@@ -467,6 +468,7 @@ export default {
     return {
       boxPlotData: null,
       showLogTransform: false,
+      showSuggestions:false,
       currentlyActiveLogTransformDetails: {
         id: '',
         axis: '',
@@ -1052,7 +1054,10 @@ export default {
       const localStorageFilters = localStorage.getItem(
         this.localStorageFilterKey
       )
-      if (!localStorageFilters) return
+      if (!localStorageFilters) {
+          this.$eventBus.$emit('CLOSE_MODAL')
+        return
+      }
 
       const parsed = JSON.parse(localStorageFilters)
       const axisFilters = parsed?.axisFilters
@@ -1348,7 +1353,7 @@ export default {
       const result = await this.getGeneAliases(text_to_search)
       this.axisFilterOptions = this.axisFilterOptions.map((item) => {
         if (item.id === type) {
-          item.options = result.map((geneItem) => {
+    const options  = result.map((geneItem) => {
             return {
               name: geneItem.name ?? 'NONE',
               // value: geneItem.value.toLowerCase(),
@@ -1365,6 +1370,30 @@ export default {
           }).sort((a, b) => {
                   return a.name?.toLowerCase().indexOf(text_to_search?.toLowerCase()) < b.name?.toLowerCase().indexOf(text_to_search?.toLowerCase()) ? -1 : 1;
           });
+
+       if(options.length ===0) {
+       //do some suggestion
+       this.showSuggestions = true
+       this.options = result.map((geneItem) => {
+            return {
+              name: geneItem.name ?? 'NONE',
+              // value: geneItem.value.toLowerCase(),
+              // No need to convert value to lowercase
+              value: geneItem.value,
+              description: `Alt. names: ${geneItem.aliases}`,
+            }
+          }).filter((gitem) => {
+              // var reg = new RegExp(text_to_search)
+              let re = new RegExp(`${text_to_search.substring(0,3).toUpperCase()}`);
+             // console.log("Matching-", re, re.test(gitem.name?.toUpperCase()))
+
+              return gitem.name?.toUpperCase().startsWith(text_to_search.substring(0,3).toUpperCase()) || re.test(gitem.name?.toUpperCase());
+          });
+
+     }else {
+       item.options = options
+       this.showSuggestions = false
+     }
         }
 
         return item
