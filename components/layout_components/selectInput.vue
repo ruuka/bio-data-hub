@@ -49,10 +49,13 @@
         slot-scope="props"
         v-if="props.item.disabled && props.item.text=='disabled'"
         class="hover:bg-white hover:text-black cursor-normal"
+        :class="props.item.indication =='not_found' ? 'text-red-500':''"
         @click.prevent=""
       >
  
-        <p class="text-sm text-gray-500 ">
+        <p 
+         :class="props.item.indication =='not_found' ? 'text-red-500':''"
+         class="text-xs text-gray-500 ">
           {{ props.item.description }}
         </p>
       </div>
@@ -281,6 +284,17 @@ export default {
 
       if(subFilterId ==="gene" || subFilterId==="gene-vertical") {
       console.log("Autocomplete");
+      if(subFilter.options.length===0) {
+          return  [
+            {
+                name:"Not found",
+                indication:"not_found",
+                description:"Not Found",
+                text:"disabled",
+                disabled: true,
+            }
+      ]
+      }
 
       if(this.showSuggestions) {
         console.log("show suggestions", this.showSuggestions)

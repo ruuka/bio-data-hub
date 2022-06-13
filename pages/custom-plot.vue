@@ -1334,7 +1334,7 @@ export default {
           })
         })
 
-      console.log("Formatted Genes",formattedGenes)
+     // console.log("Formatted Genes",formattedGenes)
       return formattedGenes
     },
      autocompleteMatch(input) {
@@ -1374,7 +1374,7 @@ export default {
        if(options.length ===0) {
        //do some suggestion
        this.showSuggestions = true
-       this.options = result.map((geneItem) => {
+       item.options = result.map((geneItem) => {
             return {
               name: geneItem.name ?? 'NONE',
               // value: geneItem.value.toLowerCase(),
