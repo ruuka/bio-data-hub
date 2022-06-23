@@ -299,6 +299,7 @@
                         <select-input
                           :disabled-row-indices="wholeRowDisabledIndices"
                           :filter-index="idx"
+                          :activeloadingSpinner="activeloadingSpinner"
                           :filter="axisFilter"
                           :showSuggestions = "showSuggestions"
                           :deselected-dropdown-ids="deselectedDropdownIds"
@@ -469,6 +470,7 @@ export default {
       boxPlotData: null,
       showLogTransform: false,
       showSuggestions:false,
+      activeloadingSpinner:null,
       currentlyActiveLogTransformDetails: {
         id: '',
         axis: '',
@@ -989,8 +991,10 @@ export default {
         this.axisFilterOptions[0].selectedValue[0].name
       )
     }
+    this.activeloadingSpinner="study-id";
     // localStorage.clear(); to clear local storage in console
     newAPIService.getAllStudies(this.$axios).then((response) => {
+      this.activeloadingSpinner=null;
       const formatted = response.data.map((item, index) => {
         return {
           name: item.study_id,
@@ -1004,7 +1008,9 @@ export default {
     })
 
   //get Biomarker Data
+      this.activeloadingSpinner="bio-marker";
   newAPIService.getAllBiomarkerNames(this.$axios).then((response) => {
+  this.activeloadingSpinner=null;
   const formattedBioMarkerNames =     response.data.map(item => {
     return {
       name:item.name,
@@ -1350,7 +1356,9 @@ export default {
 },
  
     async getAllGeneIds(text_to_search, type) {
+      this.activeloadingSpinner=type;
       const result = await this.getGeneAliases(text_to_search)
+      this.activeloadingSpinner=null;
       this.axisFilterOptions = this.axisFilterOptions.map((item) => {
         if (item.id === type) {
     const options  = result.map((geneItem) => {

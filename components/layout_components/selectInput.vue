@@ -34,6 +34,7 @@
         slot-scope="props"
         class="gap-2 text-xs font-medium"
       >
+     
         {{ props.tag.text }}
 
         <font-awesome-icon
@@ -60,6 +61,17 @@
         </p>
       </div>
             <div
+        slot="autocomplete-item"
+        slot-scope="props"
+        v-else-if="props.item.disabled && props.item.text=='loading'"
+        class="hover:bg-white hover:text-black cursor-normal"
+        :class="props.item.indication =='not_found' ? 'text-red-500':''"
+        @click.prevent=""
+      >
+ 
+       <ProgressBarLoading class="w-56" v-if="activeLoadingSpinner"></ProgressBarLoading>
+      </div>
+            <div
         v-else
         slot="autocomplete-item"
         slot-scope="props"
@@ -78,12 +90,19 @@
 </template>
 
 <script>
+import ProgressBarLoading from '../shared/ProgressBarLoading.vue'
 export default {
-  components: {},
+  components: {
+    ProgressBarLoading,
+  },
   props: {
     showSuggestions: {
       type:Boolean,
       required:true,
+    },
+    activeLoadingSpinner: {
+      type:String,
+      default:null
     },
     filterIndex: {
       type: Number,
@@ -284,6 +303,18 @@ export default {
 
       if(subFilterId ==="gene" || subFilterId==="gene-vertical") {
       console.log("Autocomplete");
+
+      if(subFilter.options.length===0 && (this.activeloadingSpinner !==null)) {
+           return  [
+            {
+                name:"loading",
+                indication:"loading",
+                description:"loading",
+                text:"disabled",
+                disabled: true,
+            }
+      ]
+      }
       if(subFilter.options.length===0) {
           return  [
             {
