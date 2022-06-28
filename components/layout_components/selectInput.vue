@@ -53,23 +53,16 @@
         :class="props.item.indication =='not_found' ? 'text-red-500':''"
         @click.prevent=""
       >
- 
+        <ProgressBarLoading class="w-56" v-if="props.item.name=='loading' && ( filterSearchTextObj[subFilter.id] !==undefined && filterSearchTextObj[subFilter.id].length > 0 ) && (subFilter.id !=='gene' || subFilter.id !=='gene-vertical')"></ProgressBarLoading>
         <p 
+        v-else
          :class="props.item.indication =='not_found' ? 'text-red-500':''"
          class="text-xs text-gray-500 ">
-          {{ props.item.description }}
+         <span v-if="(subFilter.id ==='gene' || subFilter.id ==='gene-vertical')">
+           {{ props.item.description  }}
+         </span>
+         
         </p>
-      </div>
-            <div
-        slot="autocomplete-item"
-        slot-scope="props"
-        v-else-if="props.item.disabled && props.item.text=='loading'"
-        class="hover:bg-white hover:text-black cursor-normal"
-        :class="props.item.indication =='not_found' ? 'text-red-500':''"
-        @click.prevent=""
-      >
- 
-       <ProgressBarLoading class="w-56" v-if="activeLoadingSpinner"></ProgressBarLoading>
       </div>
             <div
         v-else
@@ -79,10 +72,10 @@
         @click.prevent="props.performAdd(props.item)"
       >
         <h6 class="text-xs font-semibold">
-          {{ props.item.text }}
+          {{ props.item.text}}
         </h6>
         <p class="text-xs text-gray-500">
-          {{ props.item.description }}
+          {{ props.item.description}}
         </p>
       </div>
     </vue-tags-input>
@@ -307,9 +300,9 @@ export default {
       if(subFilter.options.length===0 && (this.activeloadingSpinner !==null)) {
            return  [
             {
-                name:"loading",
+                name:"gene",
                 indication:"loading",
-                description:"loading",
+                description:"Enter more than 3 letters",
                 text:"disabled",
                 disabled: true,
             }
@@ -357,7 +350,17 @@ export default {
       }
       }
 
-
+      if(subFilter.options.length===0 && (this.activeloadingSpinner !==subFilter.id)) {
+           return  [
+            {
+                name:"loading",
+                indication:"loading",
+                description:"loading",
+                text:"disabled",
+                disabled: true,
+            }
+      ]
+      }
       return subFilter.options.filter(
         (s) =>
           s.name.toLowerCase().includes(searchTxt) ||
