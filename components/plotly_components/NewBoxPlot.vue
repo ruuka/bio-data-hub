@@ -182,7 +182,7 @@ var formatted  = [];
 for (let i=0; i< this.boxPlotData.length; i++) {
 
   if(this.checkPresent(formatted,this.boxPlotData[i].primaryGroup) == -1 ) {
-     
+
      const dataItem = {
        name : this.boxPlotData[i].primaryGroup,
        dataPoints: [{
@@ -193,16 +193,16 @@ for (let i=0; i< this.boxPlotData.length; i++) {
     formatted.push(dataItem);
   }else {
     const indx = this.checkPresent(formatted,this.boxPlotData[i].primaryGroup);
-  
+
      formatted[indx].dataPoints.push({
          type:this.boxPlotData[i].secondaryGroup,
          y:this.boxPlotData[i].values
        });
-      
-    
 
- 
-  } 
+
+
+
+  }
 }
 return formatted;
 
@@ -288,7 +288,7 @@ return formatted;
           text: this.$props.plotTitle,
         },
         xaxis: {
-          title: 'Age Groups',
+          title: this.$props.xAxisTitle,
           // showgrid: false,
           // zeroline: false,
           // tickangle: 60,

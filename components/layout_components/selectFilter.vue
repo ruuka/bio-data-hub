@@ -239,7 +239,6 @@ export default {
     SelectedFilterOptions: {
       type:Object,
       required:true,
-
     },
     savedFiltersOptions: {
       type:Array,
@@ -251,7 +250,7 @@ export default {
     return {
       localStorageFilterKey: 'BIODATAHUB',
       focusedInputId: '',
-      maxLengthForMultipleSelect: 3,
+      // maxLengthForMultipleSelect: 3,
       initialFilters: [
         {
           id: 1,
@@ -259,29 +258,23 @@ export default {
           isActive: false,
           isMultipleSelect: true,
           searchText: '',
-          filterOptions: [
-
-          ],
+          filterOptions: [],
         },
-        {
-          id: 2,
-          name: 'Time',
-          isActive: false,
-          isMultipleSelect: true,
-          searchText: '',
-          filterOptions: [
-
-          ],
-        },
+        // {
+        //   id: 2,
+        //   name: 'Time',
+        //   isActive: false,
+        //   isMultipleSelect: true,
+        //   searchText: '',
+        //   filterOptions: [],
+        // },
         {
           id: 3,
           name: 'Sex',
           isActive: false,
           isMultipleSelect: true,
           searchText: '',
-          filterOptions: [
-
-          ],
+          filterOptions: [],
         },
         {
           id: 4,
@@ -289,9 +282,7 @@ export default {
           isActive: false,
           isMultipleSelect: true,
           searchText: '',
-          filterOptions: [
-
-          ],
+          filterOptions: [],
         },
         {
           id: 5,
@@ -299,39 +290,41 @@ export default {
           isActive: false,
           isMultipleSelect: true,
           searchText: '',
-          filterOptions: [
-
-          ],
+          filterOptions: [],
         },
-        {
-          id: 6,
-          name: 'Responder/Non-responder',
-          isActive: false,
-          isMultipleSelect: true,
-          searchText: '',
-          filterOptions: [
-
-          ],
-        },
+        // {
+        //   id: 6,
+        //   name: 'Responder/Non-responder',
+        //   isActive: false,
+        //   isMultipleSelect: true,
+        //   searchText: '',
+        //   filterOptions: [
+        //
+        //   ],
+        // },
         {
           id: 7,
           name: 'BMI',
           isActive: false,
           isMultipleSelect: true,
           searchText: '',
-          filterOptions: [
-
-          ],
+          filterOptions: [],
         },
         {
           id: 8,
           name: 'Treatment',
+          isActive: true,
+          isMultipleSelect: true,
+          searchText: '',
+          filterOptions: [],
+        },
+        {
+          id: 9,
+          name: 'Tissue',
           isActive: false,
           isMultipleSelect: true,
           searchText: '',
-          filterOptions: [
-
-          ],
+          filterOptions: [],
         },
       ],
       activeFilters: [],
@@ -394,7 +387,7 @@ export default {
             item.filterOptions.map(option=> {
 
               //5.check is the option exist in the new filter options of partilar study e.g age,sex
- 
+
               const isPresent = this.SelectedFilterOptions[item.name.toLowerCase()]?.some(opt => {
 
                 return opt == option.name

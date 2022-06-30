@@ -381,90 +381,90 @@ export default {
     selectInput,
     selectFilter,
   },
-  asyncData() {
-    return {
-      localStorageFilterKey: 'BIODATAHUB',
-      therapeuticAreaOptions: ['Inflammation', 'Oncology', 'Virology'],
-      studyOptions: [
-        {
-          // Scenario Example #1
-          studyID: 'GS-US-321-0105',
-          indication: 'Non-Alcoholic Steatohepatitis',
-          description: 'SIM F3 Nash Trial (Ph. 2)', // Populate later, use empty string for now - Any relevant description for tooltip hover on Indication
-          filterOptions: {
-            age: ['19-35 Years Old', '36-55 Years Old', '56+ Years Old'],
-            sex: ['Male', 'Female'],
-            bmi: ['Underweight', 'Normal Weight', 'Overweight', 'Obese'],
-            race: [
-              'White or Caucasian',
-              'Asian',
-              'Black or African American',
-              'American Indian or Alaska Native',
-              'Native Hawaiian or Other Pacific Islander',
-              'Other',
-            ],
-            ethnicity: ['Hispanic or Latino', 'Not Hispanic or Latino'],
-            response: ['DAS20 CRP', 'DAS50 CRP'],
-            tissue: ['Liver'],
-            treatment: ['Placebo', 'Simtuzumab, 75mg', 'Simtuzumab, 125mg'],
-            time: ['Baseline', '48 Weeks', '96 Weeks'],
-          },
-          axisOptions: {
-            biomarkerAvailable: true,
-            geneExpressionAvailable: true,
-            responseAvailable: true, // Efficacy measures table
-            demographicAvailable: true,
-          },
-        },
-        {
-          // Scenario Example #2
-          studyID: 'GS-US-223-1015',
-          indication: 'Diabetic Kidney Disease',
-          description: 'SIM F3 Nash Trial (Ph. 2)', // Any relevant description for tooltip hover on Indication
-          filterOptions: {
-            age: ['19-35 Years Old', '36-55 Years Old', '56+ Years Old'],
-            sex: ['Male', 'Female'],
-            bmi: ['Underweight', 'Normal Weight', 'Overweight', 'Obese'],
-            race: [
-              'White or Caucasian',
-              'Asian',
-              'Black or African American',
-              'Other',
-            ],
-            ethnicity: ['Hispanic or Latino', 'Not Hispanic or Latino'],
-            response: [],
-            gene: ['ERBB2'],
-            tissue: ['Whole Blood'],
-            treatment: [
-              'Placebo',
-              'Selonsertib, 2mg',
-              'Selonsertib, 6mg',
-              'Selonsertib, 18mg',
-            ],
-            time: [
-              'Baseline',
-              '1 Week',
-              '2 Weeks',
-              '3 Weeks',
-              '4 Weeks',
-              '8 Weeks',
-              '12 Weeks',
-              '16 Weeks',
-              '24 Weeks',
-              '36 Weeks',
-              '48 Weeks',
-            ],
-          },
-          axisOptions: {
-            biomarkerAvailable: true,
-            geneExpressionAvailable: true,
-            responseAvailable: true, // Efficacy measures table
-            demographicAvailable: true,
-          },
-        },
-      ],
-    }
-  },
+  // asyncData() {
+  //   return {
+  //     localStorageFilterKey: 'BIODATAHUB',
+  //     therapeuticAreaOptions: ['Inflammation', 'Oncology', 'Virology'],
+  //     studyOptions: [
+  //       {
+  //         // Scenario Example #1
+  //         studyID: 'GS-US-321-0105',
+  //         indication: 'Non-Alcoholic Steatohepatitis',
+  //         description: 'SIM F3 Nash Trial (Ph. 2)', // Populate later, use empty string for now - Any relevant description for tooltip hover on Indication
+  //         filterOptions: {
+  //           age: ['19-35 Years Old', '36-55 Years Old', '56+ Years Old'],
+  //           sex: ['Male', 'Female'],
+  //           bmi: ['Underweight', 'Normal Weight', 'Overweight', 'Obese'],
+  //           race: [
+  //             'White or Caucasian',
+  //             'Asian',
+  //             'Black or African American',
+  //             'American Indian or Alaska Native',
+  //             'Native Hawaiian or Other Pacific Islander',
+  //             'Other',
+  //           ],
+  //           ethnicity: ['Hispanic or Latino', 'Not Hispanic or Latino'],
+  //           response: ['DAS20 CRP', 'DAS50 CRP'],
+  //           tissue: ['Liver'],
+  //           treatment: ['Placebo', 'Simtuzumab, 75mg', 'Simtuzumab, 125mg'],
+  //           time: ['Baseline', '48 Weeks', '96 Weeks'],
+  //         },
+  //         axisOptions: {
+  //           biomarkerAvailable: true,
+  //           geneExpressionAvailable: true,
+  //           responseAvailable: true, // Efficacy measures table
+  //           demographicAvailable: true,
+  //         },
+  //       },
+  //       {
+  //         // Scenario Example #2
+  //         studyID: 'GS-US-223-1015',
+  //         indication: 'Diabetic Kidney Disease',
+  //         description: 'SIM F3 Nash Trial (Ph. 2)', // Any relevant description for tooltip hover on Indication
+  //         filterOptions: {
+  //           age: ['19-35 Years Old', '36-55 Years Old', '56+ Years Old'],
+  //           sex: ['Male', 'Female'],
+  //           bmi: ['Underweight', 'Normal Weight', 'Overweight', 'Obese'],
+  //           race: [
+  //             'White or Caucasian',
+  //             'Asian',
+  //             'Black or African American',
+  //             'Other',
+  //           ],
+  //           ethnicity: ['Hispanic or Latino', 'Not Hispanic or Latino'],
+  //           response: [],
+  //           gene: ['ERBB2'],
+  //           tissue: ['Whole Blood'],
+  //           treatment: [
+  //             'Placebo',
+  //             'Selonsertib, 2mg',
+  //             'Selonsertib, 6mg',
+  //             'Selonsertib, 18mg',
+  //           ],
+  //           time: [
+  //             'Baseline',
+  //             '1 Week',
+  //             '2 Weeks',
+  //             '3 Weeks',
+  //             '4 Weeks',
+  //             '8 Weeks',
+  //             '12 Weeks',
+  //             '16 Weeks',
+  //             '24 Weeks',
+  //             '36 Weeks',
+  //             '48 Weeks',
+  //           ],
+  //         },
+  //         axisOptions: {
+  //           biomarkerAvailable: true,
+  //           geneExpressionAvailable: true,
+  //           responseAvailable: true, // Efficacy measures table
+  //           demographicAvailable: true,
+  //         },
+  //       },
+  //     ],
+  //   }
+  // },
   data() {
     return {
       boxPlotData: null,
@@ -516,21 +516,6 @@ export default {
         },
       ],
 
-      // dataTypeGroups: [
-      //   // Data Type Groups
-      //   {
-      //     name: 'Clinical Attribute',
-      //     id: 'clinical-attribute',
-      //   },
-      //   {
-      //     name: 'Biomarker',
-      //     id: 'biomarker',
-      //   },
-      //   {
-      //     name: 'Gene Expression',
-      //     id: 'gene-expression',
-      //   },
-      // ],
       conditionalDropdownIds: [
         'clinical-attribute',
         'biomarker',
@@ -571,16 +556,16 @@ export default {
               name: 'Clinical Attribute',
               value: 'clinical-attribute',
             },
-            {
-              id: 'biomarker',
-              name: 'Biomarker',
-              value: 'biomarker',
-            },
-            {
-              id: 'gene-expression',
-              name: 'Gene Expression',
-              value: 'gene-expression',
-            },
+            // {
+            //   id: 'biomarker',
+            //   name: 'Biomarker',
+            //   value: 'biomarker',
+            // },
+            // {
+            //   id: 'gene-expression',
+            //   name: 'Gene Expression',
+            //   value: 'gene-expression',
+            // },
           ],
         },
         {
@@ -593,8 +578,8 @@ export default {
           isMultipleSelect: false,
           options: [
             {
-              name: 'Treatment',
-              value: 'treatment',
+              name: 'Age',
+              value: 'Age',
             },
             {
               name: 'Time',
@@ -604,21 +589,21 @@ export default {
               name: 'Sex',
               value: 'sex',
             },
-            {
-              name: 'Age',
-              value: 'Age',
-            },
-            {
-              name: 'Race',
-              value: 'Race',
-            },
-            {
-              name: 'Ethnicity',
-              value: 'Ethnicity',
-            },
+            // {
+            //   name: 'Race',
+            //   value: 'Race',
+            // },
+            // {
+            //   name: 'Ethnicity',
+            //   value: 'Ethnicity',
+            // },
             {
               name: 'BMI',
               value: 'BMI',
+            },
+            {
+              name: 'Health', // new: checks for "is_healthy" and "not_healthy" in API
+              value: 'Health',
             },
           ],
         },
@@ -631,16 +616,16 @@ export default {
           selectedValue: [],
           // isMultipleSelect: true,
           options: [
-            {
-              name: 'Plasma ADAMTS-like Protein',
-              value: 'Plasma ADAMTS-like Protein',
-              description: 'Description for Plasma',
-            },
-            {
-              name: 'Plasma Collectin Sub-family M',
-              value: 'Plasma ADAMTS-like Protein',
-              description: 'Description for Plasma',
-            },
+            // {
+            //   name: 'Plasma ADAMTS-like Protein',
+            //   value: 'Plasma ADAMTS-like Protein',
+            //   description: 'pg/L',
+            // },
+            // {
+            //   name: 'Plasma Interleukin-12 Subunit Alpha, P70, Interleukin-12 Subunit Beta',
+            //   value: 'Plasma Interleukin-12 Subunit Alpha, P70, Interleukin-12 Subunit Beta,
+            //   description: 'pg/mL',
+            // },
           ],
         },
         {
@@ -650,7 +635,7 @@ export default {
           groupParentId: ['gene-expression'],
           label: '- Select Gene(s) -',
           selectedValue: [],
-          isMultipleSelect: true,
+          isMultipleSelect: false,
           options: [],
         },
         {
@@ -660,23 +645,24 @@ export default {
           groupParentId: ['gene-expression'],
           label: '- Select Tissue Type -',
           selectedValue: [],
+          isMultipleSelect: false,
           options: [
-            {
-              name: 'Brain',
-              value: 'brain',
-            },
-            {
-              name: 'Liver',
-              value: 'liver',
-            },
-            {
-              name: 'Whole Blood',
-              value: 'whole-blood',
-            },
-            {
-              name: 'Kidney',
-              value: 'kidney',
-            },
+            // {
+            //   name: 'Brain',
+            //   value: 'brain',
+            // },
+            // {
+            //   name: 'Liver',
+            //   value: 'liver',
+            // },
+            // {
+            //   name: 'Whole Blood',
+            //   value: 'whole-blood',
+            // },
+            // {
+            //   name: 'Kidney',
+            //   value: 'kidney',
+            // },
           ],
         },
 
@@ -690,11 +676,11 @@ export default {
           label: '- Select Data Type -',
           selectedValue: [],
           options: [
-            {
-              id: 'clinical-attribute-vertical',
-              name: 'Clinical Attribute',
-              value: 'clinical-attribute',
-            },
+            // {
+            //   id: 'clinical-attribute-vertical',
+            //   name: 'Clinical Attribute',
+            //   value: 'clinical-attribute',
+            // },
             {
               id: 'gene-expression-vertical',
               name: 'Gene Expression',
@@ -704,6 +690,11 @@ export default {
               id: 'biomarker-vertical',
               name: 'Biomarker',
               value: 'biomarker',
+            },
+            {
+              id: 'pathway-expression-vertical', // new: pathwayExpression leads to tissue_source
+              name: 'Pathway Expression',
+              value: 'pathway-expression',
             },
           ],
         },
@@ -715,18 +706,7 @@ export default {
           label: '- Select Biomarker -',
           selectedValue: [],
           // isMultipleSelect: true,
-          options: [
-            {
-              name: 'Plasma ADAMTS-like Protein',
-              value: 'Plasma ADAMTS-like Protein',
-              description: 'Description for Plasma',
-            },
-            {
-              name: 'Plasma Collectin Sub-family M',
-              value: 'Plasma ADAMTS-like Protein',
-              description: 'Description for Plasma',
-            },
-          ],
+          options: [],
         },
         {
           id: 'gene-vertical',
@@ -745,24 +725,7 @@ export default {
           groupParentId: ['gene-expression-vertical'],
           label: '- Select Tissue Type -',
           selectedValue: [],
-          options: [
-            {
-              name: 'Brain',
-              value: 'brain',
-            },
-            {
-              name: 'Liver',
-              value: 'liver',
-            },
-            {
-              name: 'Whole Blood',
-              value: 'whole-blood',
-            },
-            {
-              name: 'Kidney',
-              value: 'kidney',
-            },
-          ],
+          options: [],
         },
         {
           id: 'primary-vertical',
@@ -777,38 +740,30 @@ export default {
           selectedValue: [],
           isMultipleSelect: false,
           options: [
+            // {
+            //   name: 'None',
+            //   value: 'none',
+            // },
             {
-              name: 'None',
-              value: 'none',
-            },
-            {
-              name: 'Treatment',
+              name: 'Treatment', // new: only supporting this now, can be hidden/disabled on UI but show on JSON payload
               value: 'treatment',
             },
-            {
-              name: 'Time',
-              value: 'time',
-            },
-            {
-              name: 'Sex',
-              value: 'sex',
-            },
-            {
-              name: 'Age',
-              value: 'Age',
-            },
-            {
-              name: 'Race',
-              value: 'Race',
-            },
-            {
-              name: 'Ethnicity',
-              value: 'Ethnicity',
-            },
-            {
-              name: 'BMI',
-              value: 'BMI',
-            },
+            // {
+            //   name: 'Time',
+            //   value: 'time',
+            // },
+            // {
+            //   name: 'Sex',
+            //   value: 'sex',
+            // },
+            // {
+            //   name: 'Race',
+            //   value: 'Race',
+            // },
+            // {
+            //   name: 'Ethnicity',
+            //   value: 'Ethnicity',
+            // },
           ],
         },
 
@@ -1017,7 +972,7 @@ export default {
       value:item.name,
       description: `Description for ${item.name?.split(" ")[0]}`
     }
-  })      
+  })
      // console.log("formattedBioMarkerNames", formattedBioMarkerNames);
 
       this.axisFilterOptions = this.axisFilterOptions.map(item => {
@@ -1025,18 +980,18 @@ export default {
           item.options = formattedBioMarkerNames
         }
         return item;
-   
+
       });
     })
-  
+
   //get tissue types
   newAPIService.getTissueTypes(this.$axios).then((response) => {
   const formatedTissueData =     response.data.map(item => {
     return {
       name:item.tissue_source,
-      value:item.tissue_source.toLowerCase() 
+      value:item.tissue_source.toLowerCase()
     }
-  })      
+  })
      // console.log("formatedTissueData", formatedTissueData);
 
       this.axisFilterOptions = this.axisFilterOptions.map(item => {
@@ -1044,7 +999,7 @@ export default {
           item.options = formatedTissueData
         }
         return item;
-   
+
       });
     })
 
@@ -1269,7 +1224,7 @@ export default {
 
         this.$eventBus.$emit('ADD_NEW_NOTIFICATION', {
           type: 'error',
-          title: 'Please select valid filters',
+          title: 'Filters are invalid, please check again.',
           duration: 5000,
         })
         return
@@ -1325,8 +1280,7 @@ export default {
     async getGeneAliases(text_to_search) {
       const formattedGenes = []
       // for(let i=0; i< genes.length; i++) {
-      // Let's not loop all genes length as it's too long, looping 10 below to test
-      // Improvement #1: Please add a conditional logic that the Gene IDs only start query when the user has typed at least 3 letters to start searching.
+      // Conditional logic: Gene IDs only query when the user has typed at least 3 letters to start searching to avoid overloading.
 
       await newAPIService
         .getAllGeneAliases(this.$axios, text_to_search)
@@ -1354,7 +1308,7 @@ export default {
 	  }
   });
 },
- 
+
     async getAllGeneIds(text_to_search, type) {
       this.activeloadingSpinner=type;
       const result = await this.getGeneAliases(text_to_search)
@@ -1364,8 +1318,6 @@ export default {
     const options  = result.map((geneItem) => {
             return {
               name: geneItem.name ?? 'NONE',
-              // value: geneItem.value.toLowerCase(),
-              // No need to convert value to lowercase
               value: geneItem.value,
               description: `Alt. names: ${geneItem.aliases}`,
             }
@@ -1380,13 +1332,11 @@ export default {
           });
 
        if(options.length ===0) {
-       //do some suggestion
+       //do some result suggestions
        this.showSuggestions = true
        item.options = result.map((geneItem) => {
             return {
               name: geneItem.name ?? 'NONE',
-              // value: geneItem.value.toLowerCase(),
-              // No need to convert value to lowercase
               value: geneItem.value,
               description: `Alt. names: ${geneItem.aliases}`,
             }
@@ -1403,12 +1353,11 @@ export default {
        this.showSuggestions = false
      }
         }
-
         return item
       })
     },
     updateStudyFilterOptions(study) {
-      //Find Study ID
+      // Find Study ID and update it
       if (study === undefined) {
         this.SelectedFilterOptions = {}
         return

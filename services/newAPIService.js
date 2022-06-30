@@ -1,13 +1,10 @@
 export default {
-  getScatterPlotParameters($axios) {
+  getNewBoxPlotData($axios, data) {
     return $axios
-      .get('/plot-options/scatter-plot-parameters/')
+      .get(`/plot-options/scatter-plot-query?study_param=${data}`)
       .catch((error) => {
         console.log('There was an error: ' + error.response)
       })
-    // headers: {
-    //   // 'dev-secret-key': 'let-me-in',
-    // },
   },
   getScatterPlotParametersByStudyID($axios, studyID) {
     return $axios
@@ -21,7 +18,7 @@ export default {
       console.log('There was an error: ' + error.response)
     })
   },
-  getAllGeneAliases($axios, searchString, limit = 10) {
+  getAllGeneAliases($axios, searchString, limit = 20) {
     return $axios
       .get(`/plot-options/all-gene-alias/?query=${searchString}&limit=${limit}`)
       .catch((error) => {
@@ -34,25 +31,17 @@ export default {
     })
   },
 
-  getNewBoxPlotData($axios, data) {
+  getTissueTypes($axios) {
     return $axios
-      .get(`/plot-options/scatter-plot-query?study_param=${data}`)
+      // .get(`/plot-options/gene-expression/`)
+      .get(`/plot-options/differential-gene-expression/`)
       .catch((error) => {
         console.log('There was an error: ' + error.response)
       })
   },
-  getTissueTypes($axios) {
-       return $axios
-       .get(`/plot-options/differential-gene-expression/`)
-       .catch((error) => {
-        console.log('There was an error: ' + error.response)
-       })
-  },
   getAllBiomarkerNames($axios) {
-    return $axios
-    .get(`/plot-options/all-biomarker-names/`)
-    .catch((error) => {
-     console.log('There was an error: ' + error.response)
+    return $axios.get(`/plot-options/all-biomarker-names/`).catch((error) => {
+      console.log('There was an error: ' + error.response)
     })
-}
+  },
 }
