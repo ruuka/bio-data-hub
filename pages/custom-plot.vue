@@ -523,6 +523,7 @@ export default {
         'clinical-attribute-vertical',
         'biomarker-vertical',
         'gene-expression-vertical',
+        'pathway-expression-vertical'
       ],
       selectedSubDropdowns: {
         'horizontal-axis': null,
@@ -542,6 +543,18 @@ export default {
         },
 
         // END - STUDY ID
+        //START TIMEPOINT
+
+        {
+          id: 'time-point',
+          name: 'Timepoint',
+          parentId: 'study-id',
+          label: '- Select Timepoint -',
+          selectedValue: [],
+          isMultipleSelect: true,
+          options: [],
+        },
+        //END TIMEPOINT
 
         // HORIZONTAL AXIS
         {
@@ -642,7 +655,7 @@ export default {
           id: 'tissue-type',
           name: 'Tissue Type',
           parentId: 'horizontal-axis',
-          groupParentId: ['gene-expression'],
+          groupParentId: ['pathway-expression-vertical'],
           label: '- Select Tissue Type -',
           selectedValue: [],
           isMultipleSelect: false,
@@ -722,7 +735,7 @@ export default {
           id: 'tissue-type-vertical',
           name: 'Tissue Type',
           parentId: 'vertical-axis',
-          groupParentId: ['gene-expression-vertical'],
+          groupParentId: ['pathway-expression-vertical'],
           label: '- Select Tissue Type -',
           selectedValue: [],
           options: [],
@@ -937,6 +950,11 @@ export default {
     isLog() {
       // this.sendUpdateFilter()
     },
+    SelectedFilterOptions(n,o) {
+      if(n !== {}) {
+          // this.loadInitialBoxPlotData();
+      }
+    }
   },
   mounted() {
     this.getLocalStorageAxisFilters() // disable when changing field names
@@ -963,7 +981,7 @@ export default {
     })
 
   //get Biomarker Data
-      this.activeloadingSpinner="bio-marker";
+  this.activeloadingSpinner="bio-marker";
   newAPIService.getAllBiomarkerNames(this.$axios).then((response) => {
   this.activeloadingSpinner=null;
   const formattedBioMarkerNames =     response.data.map(item => {
@@ -1003,6 +1021,7 @@ export default {
       });
     })
 
+   
   },
   methods: {
     getLocalStorageAxisFilters() {
@@ -1189,7 +1208,7 @@ export default {
         secondaryGroup: dataFilters.axisFilters
           .filter((item) => item.id === 'primary-vertical')[0]
           .selectedValue[0]?.name?.toLowerCase(),
-        filter: this.getFiltersFromDataFilters(dataFilters.filters),
+        filter: this.getFiltersFromDataFilters(dataFilters.filters) == {} ? this.SelectedFilterOptions : this.getFiltersFromDataFilters(dataFilters.filters),
         value: {
           type: isEligible ? type.charAt(0).toLowerCase() + type.slice(1) : '',
           filterTo: dataFilters.axisFilters.filter(
@@ -1197,8 +1216,8 @@ export default {
           )[0].selectedValue[0]?.name,
         },
       }
-      // console.log("Formatted Data");
-      // console.log(formatedData);
+      console.log("Formatted Data");
+      console.log(formattedData);
 
       newAPIService
         .getNewBoxPlotData(
@@ -1217,6 +1236,21 @@ export default {
           duration: 5000,
         })
         })
+    },
+    loadInitialBoxPlotData() {
+      console.log("selected", this.SelectedFilterOptions);
+      const stringifiedFilters = localStorage.getItem(this.localStorageFilterKey);
+
+      // this.$eventBus.$emit('OPEN_MODAL', {
+      //   icon: ['far', 'save'],
+      //   title: 'Saving...Please Wait',
+      //   subtitle: 'This will only take a moment',
+      //   isClosable: false,
+      // })
+      
+      this.getboxPlotData(JSON.parse(stringifiedFilters))
+
+
     },
     handleSaveFilters() {
       if (this.deselectedDropdownIds.length > 0) {
@@ -1356,6 +1390,21 @@ export default {
         return item
       })
     },
+    setTimePoint(res) {
+      this.axisFilterOptions =this.axisFilterOptions.map(item => {
+          if(item.id ==='time-point') {
+            console.log("Item",  item)
+            item.options =res['time'].map(item => {
+              return  {
+              id: item,
+              name: item,
+              value: item,
+             }
+            }) 
+          }
+           return item;
+      })
+    },
     updateStudyFilterOptions(study) {
       // Find Study ID and update it
       if (study === undefined) {
@@ -1367,6 +1416,7 @@ export default {
         .getScatterPlotParametersByStudyID(this.$axios, study)
         .then((response) => {
           this.SelectedFilterOptions = response.data
+          this.setTimePoint(response.data)
         })
     },
   },
