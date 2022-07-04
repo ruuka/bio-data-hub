@@ -740,45 +740,45 @@ export default {
           selectedValue: [],
           options: [],
         },
-        {
-          id: 'primary-vertical',
-          name: 'Secondary',
-          groupParentId: [
-            'clinical-attribute-vertical',
-            'biomarker-vertical',
-            'gene-expression-vertical',
-          ],
-          parentId: 'vertical-axis',
-          label: '- Select Secondary Group -',
-          selectedValue: [],
-          isMultipleSelect: false,
-          options: [
-            // {
-            //   name: 'None',
-            //   value: 'none',
-            // },
-            {
-              name: 'Treatment', // new: only supporting this now, can be hidden/disabled on UI but show on JSON payload
-              value: 'treatment',
-            },
-            // {
-            //   name: 'Time',
-            //   value: 'time',
-            // },
-            // {
-            //   name: 'Sex',
-            //   value: 'sex',
-            // },
-            // {
-            //   name: 'Race',
-            //   value: 'Race',
-            // },
-            // {
-            //   name: 'Ethnicity',
-            //   value: 'Ethnicity',
-            // },
-          ],
-        },
+        // {
+        //   id: 'primary-vertical',
+        //   name: 'Secondary',
+        //   groupParentId: [
+        //     'clinical-attribute-vertical',
+        //     'biomarker-vertical',
+        //     'gene-expression-vertical',
+        //   ],
+        //   parentId: 'vertical-axis',
+        //   label: '- Select Secondary Group -',
+        //   selectedValue: [],
+        //   isMultipleSelect: false,
+        //   options: [
+        //     // {
+        //     //   name: 'None',
+        //     //   value: 'none',
+        //     // },
+        //     {
+        //       name: 'Treatment', // new: only supporting this now, can be hidden/disabled on UI but show on JSON payload
+        //       value: 'treatment',
+        //     },
+        //     // {
+        //     //   name: 'Time',
+        //     //   value: 'time',
+        //     // },
+        //     // {
+        //     //   name: 'Sex',
+        //     //   value: 'sex',
+        //     // },
+        //     // {
+        //     //   name: 'Race',
+        //     //   value: 'Race',
+        //     // },
+        //     // {
+        //     //   name: 'Ethnicity',
+        //     //   value: 'Ethnicity',
+        //     // },
+        //   ],
+        // },
 
         // end for vertical axis
       ],
@@ -1190,33 +1190,37 @@ export default {
         }, {})
     },
     getboxPlotData(dataFilters) {
-      const isEligible =
-        dataFilters.axisFilters.filter((item) => item.id === 'data-type')[0]
-          .selectedValue[0]?.id == 'biomarker' ||
-        dataFilters.axisFilters.filter((item) => item.id === 'data-type')[0]
-          .selectedValue[0]?.id == 'gene-expression'
+      const typesAllowed = ['biomarker', 'gene-expression','pathway-expression-vertical']
+      const isEligible =  typesAllowed.includes(dataFilters.axisFilters.filter(item => item.id =='data-type-vertical')[0].selectedValue[0]?.id)
+        // dataFilters.axisFilters.filter((item) => item.id === 'data-type')[0]
+        //   .selectedValue[0]?.id == 'biomarker'||
+        // dataFilters.axisFilters.filter((item) => item.id === 'data-type')[0]
+        //   .selectedValue[0]?.id == 'gene-expression' || dataFilters.axisFilters.filter((item) => item.id === 'data-type')[0]
+        //   .selectedValue[0]?.id == 'pathway-expression-vertical'
+        console.log("Is eligile",isEligible);
 
       const type = dataFilters.axisFilters
-        .filter((item) => item.id === 'data-type')[0]
+        .filter((item) => item.id === 'data-type-vertical')[0]
         .selectedValue[0]?.name.split(' ')
         .join('')
+        console.log("type", type);
       const formattedData = {
         study: dataFilters.axisFilters[0].selectedValue[0]?.name,
         primaryGroup: dataFilters.axisFilters
           .filter((item) => item.id === 'primary')[0]
           .selectedValue[0]?.name?.toLowerCase(),
-        secondaryGroup: dataFilters.axisFilters
-          .filter((item) => item.id === 'primary-vertical')[0]
-          .selectedValue[0]?.name?.toLowerCase(),
+        secondaryGroup: 'treatment',
         filter: this.getFiltersFromDataFilters(dataFilters.filters) == {} ? this.SelectedFilterOptions : this.getFiltersFromDataFilters(dataFilters.filters),
         value: {
           type: isEligible ? type.charAt(0).toLowerCase() + type.slice(1) : '',
           filterTo: dataFilters.axisFilters.filter(
-            (item) => item.id === 'gene'
+           
+            (item) =>item.parentId =='vertical-axis' && item.groupParentId?.includes(dataFilters.axisFilters.filter(item => item.id =='data-type-vertical')[0].selectedValue[0]?.id)
           )[0].selectedValue[0]?.name,
         },
       }
-      console.log("Formatted Data");
+
+      console.log(" formatted data Filters:");
       console.log(formattedData);
 
       newAPIService
