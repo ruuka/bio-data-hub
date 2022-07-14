@@ -212,7 +212,7 @@
             class="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 w-[300px] rounded"
           >
             <div
-              v-for="filter in allFilters"
+              v-for="filter in allFilters.filter(item=> item.name !=='Treatment')"
               :key="'add-filter-option' + filter.id"
               class="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-[5px] px-4 py-2 rounded-tl rounded-tr"
             >

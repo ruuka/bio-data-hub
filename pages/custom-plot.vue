@@ -1190,7 +1190,15 @@ export default {
         }, {})
     },
     getboxPlotData(dataFilters) {
-      const typesAllowed = ['biomarker', 'gene-expression','pathway-expression-vertical']
+      const typesAllowed = [     
+        'clinical-attribute',
+        'biomarker',
+        'gene-expression',
+        'clinical-attribute-vertical',
+        'biomarker-vertical',
+        'gene-expression-vertical',
+        'pathway-expression-vertical']
+
       const isEligible =  typesAllowed.includes(dataFilters.axisFilters.filter(item => item.id =='data-type-vertical')[0].selectedValue[0]?.id)
         // dataFilters.axisFilters.filter((item) => item.id === 'data-type')[0]
         //   .selectedValue[0]?.id == 'biomarker'||
@@ -1203,14 +1211,17 @@ export default {
         .filter((item) => item.id === 'data-type-vertical')[0]
         .selectedValue[0]?.name.split(' ')
         .join('')
-        console.log("type", type);
+
+      console.log("Selected filter options", this.SelectedFilterOptions);
       const formattedData = {
         study: dataFilters.axisFilters[0].selectedValue[0]?.name,
         primaryGroup: dataFilters.axisFilters
           .filter((item) => item.id === 'primary')[0]
           .selectedValue[0]?.name?.toLowerCase(),
         secondaryGroup: 'treatment',
-        filter: this.getFiltersFromDataFilters(dataFilters.filters) == {} ? this.SelectedFilterOptions : this.getFiltersFromDataFilters(dataFilters.filters),
+        filter: {
+          'treatment':this.SelectedFilterOptions['treatment'],
+          ...this.getFiltersFromDataFilters(dataFilters.filters) == {} ? this.SelectedFilterOptions : this.getFiltersFromDataFilters(dataFilters.filters)},
         value: {
           type: isEligible ? type.charAt(0).toLowerCase() + type.slice(1) : '',
           filterTo: dataFilters.axisFilters.filter(
