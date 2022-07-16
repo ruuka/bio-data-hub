@@ -212,7 +212,7 @@
             class="flex flex-col justify-center items-center flex-grow-0 flex-shrink-0 w-[300px] rounded"
           >
             <div
-              v-for="filter in allFilters.filter(item=> item.name !=='Treatment')"
+              v-for="filter in topBarFilters"
               :key="'add-filter-option' + filter.id"
               class="flex justify-start items-center self-stretch flex-grow-0 flex-shrink-0 relative gap-[5px] px-4 py-2 rounded-tl rounded-tr"
             >
@@ -242,6 +242,10 @@ export default {
     },
     savedFiltersOptions: {
       type:Array,
+      required:true,
+    },
+    selectedPrimary: {
+      type:Object,
       required:true,
     }
   },
@@ -333,9 +337,16 @@ export default {
     }
   },
   created() {
-    console.log(this.allFilters[0].options)
+     console.log("selectedPrimary,", this.selectedPrimary);
+  },
+  mounted() {
+    console.log("selectedPrimary,", this.selectedPrimary);
   },
   computed: {
+
+    topBarFilters() {
+      return this.allFilters.filter(item=> (item.name !=='Treatment' && item.name?.toLowerCase() !== this.selectedPrimary?.name?.toLowerCase()))
+    },
     // this variable is for the "Add New Filter" dropdown item in order to make it reactive
     // whenever you press the "x" icon in the active filter badge, it should reflect in the checkbox and badge component
     allFilters() {

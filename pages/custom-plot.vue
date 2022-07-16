@@ -281,6 +281,7 @@
                       <selectFilter
                         ref="selectFilter"
                         :SelectedFilterOptions="SelectedFilterOptions"
+                        :selectedPrimary = "selectedPrimary"
                         :savedFiltersOptions = "savedFiltersOptions"
                         @reset-saved-filters = "savedFiltersOptions = []"
                       />
@@ -350,8 +351,8 @@
           <NewBoxPlot
             v-if="boxPlotData"
             :boxPlotData="boxPlotData"
-            plot-title="ERBB2 Log (2) TPM vs Age"
-            y-axis-title="Log (2) TPM"
+            :plot-title="'Treatment Log (2) TPM vs ' +  selectedPrimary.name"
+            y-axis-title="Log (2) Treatment"
           />
           <!--          <PlotlyBoxPlotFigure-->
           <!--            v-for="(plotSetup, plotID) in plotSetupDict"-->
@@ -799,6 +800,9 @@ export default {
     }
   },
   computed: {
+    selectedPrimary() {
+      return this.axisFilterOptions.filter(item =>item.id ==='primary')[0].selectedValue[0];
+    },
     shouldShowLogTransformCheckbox() {
       const horizontalBiomarkerItem = this.axisFilterOptions.find(
         (o) => o.id === 'data-type'
