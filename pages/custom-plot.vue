@@ -280,6 +280,7 @@
                     <client-only>
                       <selectFilter
                         ref="selectFilter"
+                        v-if="selectedPrimary"
                         :SelectedFilterOptions="SelectedFilterOptions"
                         :selectedPrimary = "selectedPrimary"
                         :savedFiltersOptions = "savedFiltersOptions"
@@ -544,18 +545,46 @@ export default {
         },
 
         // END - STUDY ID
+                {
+          id: 'tissue-type',
+          name: 'Tissue Type',
+          parentId: 'study-id',
+          label: '- Select Tissue Type -',
+          selectedValue: [],
+          isMultipleSelect: false,
+          options: [
+                // {
+                //   name: 'Brain',
+                //   value: 'brain',
+                // },
+                // {
+                //   name: 'Liver',
+                //   value: 'liver',
+                // },
+                // {
+                //   name: 'Whole Blood',
+                //   value: 'whole-blood',
+                // },
+                // {
+                //   name: 'Kidney',
+                //   value: 'kidney',
+                // },
+          ],
+        },
+
         //START TIMEPOINT
 
         {
           id: 'time-point',
           name: 'Timepoint',
           parentId: 'study-id',
-          label: '- Select Timepoint -',
+          label: '- Select Timepoint 2 -',
           selectedValue: [],
           isMultipleSelect: true,
           options: [],
         },
         //END TIMEPOINT
+        
 
         // HORIZONTAL AXIS
         {
@@ -652,34 +681,6 @@ export default {
           isMultipleSelect: false,
           options: [],
         },
-        {
-          id: 'tissue-type',
-          name: 'Tissue Type',
-          parentId: 'horizontal-axis',
-          groupParentId: ['pathway-expression-vertical'],
-          label: '- Select Tissue Type -',
-          selectedValue: [],
-          isMultipleSelect: false,
-          options: [
-            // {
-            //   name: 'Brain',
-            //   value: 'brain',
-            // },
-            // {
-            //   name: 'Liver',
-            //   value: 'liver',
-            // },
-            // {
-            //   name: 'Whole Blood',
-            //   value: 'whole-blood',
-            // },
-            // {
-            //   name: 'Kidney',
-            //   value: 'kidney',
-            // },
-          ],
-        },
-
         // end  for horizontal axis
 
         // VERTICAL AXIS
@@ -732,15 +733,15 @@ export default {
           isMultipleSelect: true,
           options: [],
         },
-        {
-          id: 'tissue-type-vertical',
-          name: 'Tissue Type',
-          parentId: 'vertical-axis',
-          groupParentId: ['pathway-expression-vertical'],
-          label: '- Select Tissue Type -',
-          selectedValue: [],
-          options: [],
-        },
+        // {
+        //   id: 'tissue-type-vertical',
+        //   name: 'Tissue Type',
+        //   parentId: 'vertical-axis',
+        //   groupParentId: ['pathway-expression-vertical'],
+        //   label: '- Select Tissue Type -',
+        //   selectedValue: [],
+        //   options: [],
+        // },
         // {
         //   id: 'primary-vertical',
         //   name: 'Secondary',
@@ -984,27 +985,7 @@ export default {
       this.axisFilterOptions[0].options = formatted
     })
 
-  //get Biomarker Data
-  this.activeloadingSpinner="bio-marker";
-  newAPIService.getAllBiomarkerNames(this.$axios).then((response) => {
-  this.activeloadingSpinner=null;
-  const formattedBioMarkerNames =     response.data.map(item => {
-    return {
-      name:item.name,
-      value:item.name,
-      description: `Description for ${item.name?.split(" ")[0]}`
-    }
-  })
-     // console.log("formattedBioMarkerNames", formattedBioMarkerNames);
-
-      this.axisFilterOptions = this.axisFilterOptions.map(item => {
-        if(item.id  === 'biomarker' || item.id ==='biomarker-vertical') {
-          item.options = formattedBioMarkerNames
-        }
-        return item;
-
-      });
-    })
+ 
 
   //get tissue types
   newAPIService.getTissueTypes(this.$axios).then((response) => {
@@ -1028,6 +1009,30 @@ export default {
    
   },
   methods: {
+    getAllBioMarkerNames(studyID) {
+       //get Biomarker Data
+ // this.activeloadingSpinner="bio-marker";
+  newAPIService.getAllBiomarkerNames(this.$axios, studyID).then((response) => {
+  this.activeloadingSpinner=null;
+  console.log("Biomarker", response.data)
+  const formattedBioMarkerNames =     response.data.map(item => {
+    return {
+      name:item.name,
+      value:item.name,
+      description: `Description for ${item.name?.split(" ")[0]}`
+    }
+  })
+     // console.log("formattedBioMarkerNames", formattedBioMarkerNames);
+
+      this.axisFilterOptions = this.axisFilterOptions.map(item => {
+        if(item.id  === 'biomarker' || item.id ==='biomarker-vertical') {
+          item.options = formattedBioMarkerNames
+        }
+        return item;
+
+      });
+    })
+    },
     getLocalStorageAxisFilters() {
             this.$eventBus.$emit('OPEN_MODAL', {
         icon: ['far', 'save'],
@@ -1058,7 +1063,7 @@ export default {
 
       this.selectedStudy = selectedStudy
       if(axisFilters[0]?.selectedValue?.length > 0) {
-           this.updateStudyFilterOptions(axisFilters[0]?.selectedValue[0].name)
+           this.updateStudyFilterOptions(axisFilters.filter(item => item.id ==='study-id')[0]?.selectedValue[0].name)
       }
 
       if (logTransformDetails) {
@@ -1228,10 +1233,7 @@ export default {
           ...this.getFiltersFromDataFilters(dataFilters.filters) == {} ? this.SelectedFilterOptions : this.getFiltersFromDataFilters(dataFilters.filters)},
         value: {
           type: isEligible ? type.charAt(0).toLowerCase() + type.slice(1) : '',
-          filterTo: dataFilters.axisFilters.filter(
-           
-            (item) =>item.parentId =='vertical-axis' && item.groupParentId?.includes(dataFilters.axisFilters.filter(item => item.id =='data-type-vertical')[0].selectedValue[0]?.id)
-          )[0].selectedValue[0]?.name,
+          filterTo: this.getFilterTo(dataFilters) ?? this.getFilterToTissue(dataFilters),
         },
       }
 
@@ -1270,6 +1272,18 @@ export default {
       this.getboxPlotData(JSON.parse(stringifiedFilters))
 
 
+    },
+     getFilterTo(dataFilters) {
+         return dataFilters.axisFilters.filter(
+           
+            (item) =>item.parentId =='vertical-axis' && item.groupParentId?.includes((dataFilters.axisFilters.filter(item => item.id =='data-type-vertical')[0].selectedValue[0]?.id))
+          )[0]?.selectedValue[0]?.name
+    },
+
+      getFilterToTissue(dataFilters) {
+         return dataFilters.axisFilters.filter(
+           (item) =>item.id =='tissue-type'
+          )[0]?.selectedValue[0]?.name
     },
     handleSaveFilters() {
       if (this.deselectedDropdownIds.length > 0) {
@@ -1430,13 +1444,15 @@ export default {
         this.SelectedFilterOptions = {}
         return
       }
-
+      console.log("Study", study);
       newAPIService
         .getScatterPlotParametersByStudyID(this.$axios, study)
         .then((response) => {
           this.SelectedFilterOptions = response.data
           this.setTimePoint(response.data)
         })
+
+    this.getAllBioMarkerNames(study);
     },
   },
 }
