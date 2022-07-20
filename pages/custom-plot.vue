@@ -543,48 +543,27 @@ export default {
           isMultipleSelect: false,
           options: [],
         },
-
         // END - STUDY ID
-                {
+
+        {
+          id: 'time-point',
+          name: 'Timepoint',
+          parentId: 'study-id',
+          label: '- Select Timepoint -',
+          selectedValue: [],
+          isMultipleSelect: false,
+          options: [],
+        },
+
+        {
           id: 'tissue-type',
           name: 'Tissue Type',
           parentId: 'study-id',
           label: '- Select Tissue Type -',
           selectedValue: [],
           isMultipleSelect: false,
-          options: [
-                // {
-                //   name: 'Brain',
-                //   value: 'brain',
-                // },
-                // {
-                //   name: 'Liver',
-                //   value: 'liver',
-                // },
-                // {
-                //   name: 'Whole Blood',
-                //   value: 'whole-blood',
-                // },
-                // {
-                //   name: 'Kidney',
-                //   value: 'kidney',
-                // },
-          ],
-        },
-
-        //START TIMEPOINT
-
-        {
-          id: 'time-point',
-          name: 'Timepoint',
-          parentId: 'study-id',
-          label: '- Select Timepoint 2 -',
-          selectedValue: [],
-          isMultipleSelect: true,
           options: [],
         },
-        //END TIMEPOINT
-        
 
         // HORIZONTAL AXIS
         {
@@ -730,7 +709,9 @@ export default {
           groupParentId: ['gene-expression-vertical'],
           label: '- Select Gene(s) -',
           selectedValue: [],
-          isMultipleSelect: true,
+          isMultipleSelect: false
+
+          ,
           options: [],
         },
         // {
@@ -985,7 +966,7 @@ export default {
       this.axisFilterOptions[0].options = formatted
     })
 
- 
+
 
   //get tissue types
   newAPIService.getTissueTypes(this.$axios).then((response) => {
@@ -1006,7 +987,7 @@ export default {
       });
     })
 
-   
+
   },
   methods: {
     getAllBioMarkerNames(studyID) {
@@ -1019,7 +1000,8 @@ export default {
     return {
       name:item.name,
       value:item.name,
-      description: `Description for ${item.name?.split(" ")[0]}`
+      description:item.unit,
+      //description: `Description for ${item.name?.split(" ")[0]}`
     }
   })
      // console.log("formattedBioMarkerNames", formattedBioMarkerNames);
@@ -1200,7 +1182,7 @@ export default {
         }, {})
     },
     getboxPlotData(dataFilters) {
-      const typesAllowed = [     
+      const typesAllowed = [
         'clinical-attribute',
         'biomarker',
         'gene-expression',
@@ -1269,14 +1251,14 @@ export default {
       //   subtitle: 'This will only take a moment',
       //   isClosable: false,
       // })
-      
+
       this.getboxPlotData(JSON.parse(stringifiedFilters))
 
 
     },
      getFilterTo(dataFilters) {
          return dataFilters.axisFilters.filter(
-           
+
             (item) =>item.parentId =='vertical-axis' && item.groupParentId?.includes((dataFilters.axisFilters.filter(item => item.id =='data-type-vertical')[0].selectedValue[0]?.id))
           )[0]?.selectedValue[0]?.name
     },
@@ -1434,7 +1416,7 @@ export default {
               name: item,
               value: item,
              }
-            }) 
+            })
           }
            return item;
       })
