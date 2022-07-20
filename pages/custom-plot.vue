@@ -966,7 +966,7 @@ export default {
     // console.log(this.axisFilterOptions[0])
     if (this.axisFilterOptions[0].selectedValue.length > 0) {
       this.updateStudyFilterOptions(
-        this.axisFilterOptions[0].selectedValue[0].name
+        this.axisFilterOptions[0]
       )
     }
     this.activeloadingSpinner="study-id";
@@ -1063,7 +1063,7 @@ export default {
 
       this.selectedStudy = selectedStudy
       if(axisFilters[0]?.selectedValue?.length > 0) {
-           this.updateStudyFilterOptions(axisFilters.filter(item => item.id ==='study-id')[0]?.selectedValue[0].name)
+           this.updateStudyFilterOptions(axisFilters.filter(item => item.id ==='study-id')[0])
       }
 
       if (logTransformDetails) {
@@ -1137,7 +1137,8 @@ export default {
     handleOnSelectChange({ value, subFilterId, subFilter }) {
       //Clear any selected
       this.clearSelectedStudyIdChange()
-      this.updateStudyFilterOptions(value[0]?.name)
+      // .selectedValue[0].name
+      this.updateStudyFilterOptions(subFilter)
 
       if (this.selectedSubDropdowns[subFilter.parentId] !== undefined) {
         if (
@@ -1439,21 +1440,19 @@ export default {
       })
     },
     updateStudyFilterOptions(study) {
-      // Find Study ID and update it
-      if (study === undefined) {
+      if (study === undefined || study.id !=='study-type' || study.selectedValue[0] ===undefined) {
         this.SelectedFilterOptions = {}
         return
       }
-      console.log("Study", study);
       newAPIService
-        .getScatterPlotParametersByStudyID(this.$axios, study)
+        .getScatterPlotParametersByStudyID(this.$axios, study.selectedValue[0].name)
         .then((response) => {
           this.SelectedFilterOptions = response.data
           this.setTimePoint(response.data)
         })
 
-    this.getAllBioMarkerNames(study);
-    },
+    this.getAllBioMarkerNames(study.selectedValue[0].name);
+     },
   },
 }
 </script>
