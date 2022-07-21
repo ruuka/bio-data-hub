@@ -1,5 +1,8 @@
 <template>
+<div>
   <div ref="plotlyDiv"></div>
+  <div class="w-full text-center text-lg font-bold my-2 py-2">Trace Results: {{total_trace_results}}</div>
+  </div>
 </template>
 
 <script>
@@ -25,6 +28,7 @@ export default {
   },
   data() {
     return {
+      total_trace_results:0,
       response: [
         {
           // Example study for age group response to drug ( label/API endpoint -> request -> response)
@@ -264,7 +268,9 @@ return formatted;
         })
       })
       console.log('Trace Results', result)
-
+        result.forEach(item => {
+          this.total_trace_results+=item.y.length
+        })
       const config = {
         responsive: true,
         displaylogo: false,
