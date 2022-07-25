@@ -968,25 +968,6 @@ export default {
 
 
 
-  //get tissue types
-  newAPIService.getTissueTypes(this.$axios).then((response) => {
-  const formatedTissueData =     response.data.map(item => {
-    return {
-      name:item.tissue_source,
-      value:item.tissue_source.toLowerCase()
-    }
-  })
-     // console.log("formatedTissueData", formatedTissueData);
-
-      this.axisFilterOptions = this.axisFilterOptions.map(item => {
-        if(item.id ==='tissue-type' || item.id ==='tissue-type-vertical') {
-          item.options = formatedTissueData
-        }
-        return item;
-
-      });
-    })
-
 
   },
   methods: {
@@ -1406,6 +1387,30 @@ export default {
         return item
       })
     },
+    setTissueType(res) {
+  
+  //get tissue types
+  const formatedTissueData =     res['tissue'].map(item => {
+    return {
+      name:item,
+      value:item.toLowerCase()
+    }
+    })
+
+  console.log("formatedTissueData 2", formatedTissueData);
+    console.log("yes called", res['tissue']);
+
+      this.axisFilterOptions = this.axisFilterOptions.map(item => {
+        if(item.id ==='tissue-type' || item.id ==='tissue-type-vertical') {
+          item.options = formatedTissueData
+        }
+        return item;
+
+      });
+    
+
+
+    },
     setTimePoint(res) {
       this.axisFilterOptions =this.axisFilterOptions.map(item => {
           if(item.id ==='time-point') {
@@ -1431,6 +1436,7 @@ export default {
         .then((response) => {
           this.SelectedFilterOptions = response.data
           this.setTimePoint(response.data)
+          this.setTissueType(response.data)
         })
 
     this.getAllBioMarkerNames(study.selectedValue[0].name);
