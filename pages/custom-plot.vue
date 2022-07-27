@@ -280,7 +280,7 @@
                     <client-only>
                       <selectFilter
                         ref="selectFilter"
-                        v-if="selectedPrimary"
+                        v-if="selectedPrimary !==undefined"
                         :SelectedFilterOptions="SelectedFilterOptions"
                         :selectedPrimary = "selectedPrimary"
                         :savedFiltersOptions = "savedFiltersOptions"
@@ -350,7 +350,7 @@
       <div class="flex flex-col w-full mt-2">
         <div class="p-20 rounded bg-base-100 place-items-center">
           <NewBoxPlot
-            v-if="boxPlotData"
+            v-if="boxPlotData && selectedPrimary"
             :boxPlotData="boxPlotData"
             :plot-title="'Treatment Log (2) TPM vs ' +  selectedPrimary.name"
             y-axis-title="Log (2) Treatment"
@@ -1396,10 +1396,6 @@ export default {
       value:item.toLowerCase()
     }
     })
-
-  console.log("formatedTissueData 2", formatedTissueData);
-    console.log("yes called", res['tissue']);
-
       this.axisFilterOptions = this.axisFilterOptions.map(item => {
         if(item.id ==='tissue-type' || item.id ==='tissue-type-vertical') {
           item.options = formatedTissueData
