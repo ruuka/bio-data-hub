@@ -352,6 +352,7 @@
           <NewBoxPlot
             v-if="boxPlotData && selectedPrimary"
             :boxPlotData="boxPlotData"
+            :key="boxPlotKey"
             :plot-title="'Treatment Log (2) TPM vs ' +  selectedPrimary.name"
             y-axis-title="Log (2) Treatment"
           />
@@ -472,6 +473,7 @@ export default {
       boxPlotData: null,
       showLogTransform: false,
       showSuggestions:false,
+      boxPlotKey:0,
       activeloadingSpinner:null,
       currentlyActiveLogTransformDetails: {
         id: '',
@@ -1211,7 +1213,7 @@ export default {
         )
         .then((response) => {
           this.boxPlotData = response.data
-
+          this.boxPlotKey++;
           this.$eventBus.$emit('CLOSE_MODAL')
         // this.$eventBus.$emit('REMOVE_NOTIFICATION_LOADING', notificationObj)
 
