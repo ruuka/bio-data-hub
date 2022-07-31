@@ -296,7 +296,17 @@ export default {
 
       if(subFilterId ==="gene" || subFilterId==="gene-vertical") {
       console.log("Autocomplete");
-
+      if(subFilter.options.length===0 && this.filterSearchTextObj[this.focusedInputId ]?.length > 2) {
+          return  [
+            {
+                name:"Not found",
+                indication:"not_found",
+                description:"Not Found",
+                text:"disabled",
+                disabled: true,
+            }
+      ]
+      }
       if(subFilter.options.length===0 && (this.activeloadingSpinner !==null)) {
            return  [
             {
@@ -308,17 +318,7 @@ export default {
             }
       ]
       }
-      if(subFilter.options.length===0) {
-          return  [
-            {
-                name:"Not found",
-                indication:"not_found",
-                description:"Not Found",
-                text:"disabled",
-                disabled: true,
-            }
-      ]
-      }
+
 
       if(this.showSuggestions) {
         console.log("show suggestions", this.showSuggestions)
