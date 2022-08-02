@@ -1100,11 +1100,13 @@ export default {
       this.getAllGeneIds(text_to_search, type)
     },
     handleOnSelectChange({ value, subFilterId, subFilter }) {
+      console.log("SubFilter",subFilterId)
       //Clear any selected
       this.clearSelectedStudyIdChange()
       // .selectedValue[0].name
+      if( subFilterId ==='study-type') {
       this.updateStudyFilterOptions(subFilter)
-
+      }
       if (this.selectedSubDropdowns[subFilter.parentId] !== undefined) {
         if (
           value.length > 0 &&
