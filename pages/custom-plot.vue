@@ -474,6 +474,9 @@ export default {
       showLogTransform: false,
       showSuggestions:false,
       boxPlotKey:0,
+      datatypeToggles:['has_biomarker',
+              'has_geneExpression',
+              'has_pathwayExpression'],
       activeloadingSpinner:null,
       currentlyActiveLogTransformDetails: {
         id: '',
@@ -938,11 +941,6 @@ export default {
     isLog() {
       // this.sendUpdateFilter()
     },
-    SelectedFilterOptions(n,o) {
-      if(n !== {}) {
-          // this.loadInitialBoxPlotData();
-      }
-    }
   },
   mounted() {
     this.getLocalStorageAxisFilters() // disable when changing field names
@@ -1101,6 +1099,7 @@ export default {
     },
     handleOnSelectChange({ value, subFilterId, subFilter }) {
       console.log("SubFilter",subFilterId)
+      this.setDataTypeVertical(subFilterId)
       //Clear any selected
       this.clearSelectedStudyIdChange()
       // .selectedValue[0].name
@@ -1425,6 +1424,39 @@ export default {
           }
            return item;
       })
+    },
+    setDataTypeVertical(subFilterId) {
+      if(subFilterId ==='data-type-vertical') {
+        let options = [];
+        let index = this.axisFilterOptions.findIndex((item) => item.id ==='data-type-vertical');
+        this.axisFilterOptions[index].options = []
+          if(this.SelectedFilterOptions.has_geneExpression) {
+            options.push(            {
+              id: 'gene-expression-vertical',
+              name: 'Gene Expression',
+              value: 'gene-expression',
+            })
+          }
+
+          if(this.SelectedFilterOptions.has_biomarker) {
+            options.push({
+              id: 'biomarker-vertical',
+              name: 'Biomarker',
+              value: 'biomarker',
+            })
+          }
+
+          if(this.SelectedFilterOptions.has_pathwayExpression) {
+            options.push(
+            {
+              id: 'pathway-expression-vertical', // new: pathwayExpression leads to tissue_source
+              name: 'Pathway Expression',
+              value: 'pathway-expression',
+            })
+          }
+       this.axisFilterOptions[index].options =options
+      }
+
     },
     updateStudyFilterOptions(study) {
       if (study === undefined || study.id !=='study-type' || study.selectedValue[0] ===undefined) {
