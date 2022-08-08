@@ -947,7 +947,7 @@ export default {
     // console.log(this.axisFilterOptions[0])
     if (this.axisFilterOptions[0].selectedValue.length > 0) {
       this.updateStudyFilterOptions(
-        this.axisFilterOptions[0]
+        this.axisFilterOptions[0].selectedValue[0].name
       )
     }
     this.activeloadingSpinner="study-id";
@@ -1026,7 +1026,9 @@ export default {
 
       this.selectedStudy = selectedStudy
       if(axisFilters[0]?.selectedValue?.length > 0) {
-           this.updateStudyFilterOptions(axisFilters.filter(item => item.id ==='study-id')[0])
+          // this.updateStudyFilterOptions(axisFilters.filter(item => item.id ==='study-id')[0].selectedValue[0].name)
+           this.updateStudyFilterOptions(selectedStudy.study_name)
+
       }
 
       if (logTransformDetails) {
@@ -1041,6 +1043,8 @@ export default {
     },
     handleOnSelectedStudy(study) {
       this.selectedStudy = study
+      console.log("study changed",study);
+      this.updateStudyFilterOptions(study.study_name)
       this.savedFiltersOptions = [];
     },
     toggleSubfilterDropdownsVisibility(subFilter, selectedOptions) {
@@ -1099,13 +1103,11 @@ export default {
     },
     handleOnSelectChange({ value, subFilterId, subFilter }) {
       console.log("SubFilter",subFilterId)
-      this.setDataTypeVertical(subFilterId)
+
       //Clear any selected
       this.clearSelectedStudyIdChange()
       // .selectedValue[0].name
-      if( subFilterId ==='study-type') {
-      this.updateStudyFilterOptions(subFilter)
-      }
+
       if (this.selectedSubDropdowns[subFilter.parentId] !== undefined) {
         if (
           value.length > 0 &&
@@ -1425,8 +1427,8 @@ export default {
            return item;
       })
     },
-    setDataTypeVertical(subFilterId) {
-      if(subFilterId ==='data-type-vertical') {
+    setDataTypeVertical() {
+        console.log("Called set vertical")
         let options = [];
         let index = this.axisFilterOptions.findIndex((item) => item.id ==='data-type-vertical');
         this.axisFilterOptions[index].options = []
@@ -1455,23 +1457,26 @@ export default {
             })
           }
        this.axisFilterOptions[index].options =options
-      }
+      
 
     },
     updateStudyFilterOptions(study) {
-      if (study === undefined || study.id !=='study-type' || study.selectedValue[0] ===undefined) {
+      
+      if (!study) {
         this.SelectedFilterOptions = {}
         return
       }
       newAPIService
-        .getScatterPlotParametersByStudyID(this.$axios, study.selectedValue[0].name)
+        .getScatterPlotParametersByStudyID(this.$axios,study)
         .then((response) => {
           this.SelectedFilterOptions = response.data
+           console.log("Called updateStudyFilterOptions Func")
           this.setTimePoint(response.data)
           this.setTissueType(response.data)
+          this.setDataTypeVertical()
         })
 
-    this.getAllBioMarkerNames(study.selectedValue[0].name);
+    this.getAllBioMarkerNames(study);
      },
   },
 }

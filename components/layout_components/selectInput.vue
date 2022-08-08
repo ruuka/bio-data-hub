@@ -188,11 +188,13 @@ export default {
       }))
     },
     onTagsChanged(newTags, filter) {
-      if (filter.id === 'study-type') {
+      if (filter.id === 'study-type' && newTags.length > 0 ) {
+        console.log("filter",filter)
+         console.log("newtags",newTags)
         this.$emit('ON_SELECT_STUDY_TYPE', {
           therapeuticArea: newTags[0]?.therapeuticArea,
           indication: newTags[0]?.indication,
-          study_name: newTags[0]?.study_name,
+          study_name: newTags[0]?.name,
         })
       }
 
