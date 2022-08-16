@@ -251,7 +251,7 @@ return formatted;
         type: 'box',
         boxpoints: 'all',
         jitter: 0.3,
-        pointpos: 0,
+        pointpos: -10,
       }
 
       this.plotData.forEach((dataGroup, i) => {
