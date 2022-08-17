@@ -18,6 +18,18 @@ export default {
       console.log('There was an error: ' + error.response)
     })
   },
+  postFile($axios, formData) {
+    return $axios.post('/icf-codification/upload',
+    formData, 
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }
+    ).catch((error) => {
+      console.log('There was an error: ' + error.response)
+    })
+  },
   getAllGeneAliases($axios, searchString, limit = 20) {
     return $axios
       .get(`/plot-options/all-gene-alias/?query=${searchString}&limit=${limit}`)

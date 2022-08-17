@@ -97,6 +97,7 @@
 <script>
 import Breadcrumb from '../components/upload_components/FileUploadBreadCrumb.vue'
 import FixedNotificationModal from '../components/upload_components/FixedNotificationModal.vue'
+import newAPIService from '../services/newAPIService'
 
 export default {
   name: 'FileUpload',
@@ -145,11 +146,26 @@ export default {
       }
       if (this.error !== null && this.errorMail !== null) {
         return
-      } else {
-        this.submitting = true
-        this.show = true
-      }
+      } 
+
+     this.postData(this.files, this.email); 
+
+      
       //Submit the form
+    },
+    postData(file, email) {
+     console.log("file", file);
+     var formData = new FormData();
+     formData.append('email',email);
+     formData.append('id_docfile',file);
+
+        newAPIService.postFile(this.$axios,formData).then((res) => {
+        this.submitting = false
+        this.show = true
+        })
+        .catch((error) => {
+          console.log("Error", error);
+        })
     },
 
     fileCheck(event) {
