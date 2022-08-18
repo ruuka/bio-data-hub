@@ -73,6 +73,7 @@
                         d="M13 7l5 5m0 0l-5 5m5-5H6"
                       />
                     </svg>
+         <img src="~static/loading spinner.gif" alt="" v-if="submitting" class="h-10 w-10" srcset="">
                   </button>
                 </span>
               </label>
@@ -154,7 +155,7 @@ export default {
       //Submit the form
     },
     postData(file, email) {
-     console.log("file", file);
+      this.submitting = true;
      var formData = new FormData();
      formData.append('email',email);
      formData.append('id_docfile',file);
@@ -192,3 +193,24 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.lds-dual-ring {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+}
+
+.lds-dual-ring::after {
+  content: " ";
+  display: block;
+  width: 44px;
+  height: 44px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+
+</style>
