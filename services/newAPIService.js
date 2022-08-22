@@ -23,12 +23,10 @@ export default {
     formData, 
     {
       headers: {
-        'Content-Type': 'multipart/form-data'
+        "Content-Type": "multipart/form-data",
       }
     }
-    ).catch((error) => {
-      console.log('There was an error: ' + error.response)
-    })
+    )
   },
   getAllGeneAliases($axios, searchString, limit = 20) {
     return $axios

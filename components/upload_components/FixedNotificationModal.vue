@@ -9,10 +9,9 @@
       >
         <div class="relative flex justify-between items-center gap-3 w-full">
           <div class="flex-1">
-            <h4 class="font-bold mb-2">Thanks, we got your submission!</h4>
-            <p class="text-gray-800 text-sm">
-              Be patient, please submit one file per request to avoid
-              overloading the server, thank you!
+            <h4 :class="type !=='success' ? 'text-red-500':'text-gray-800'" class="font-bold mb-2">{{ title }}</h4>
+            <p  :class="type !=='success' ? 'text-red-500':'text-gray-800'" class=" text-sm">
+              {{message}}
             </p>
           </div>
 
@@ -45,6 +44,18 @@ export default {
       type: Boolean,
       default: false,
     },
+    type: {
+      type:String,
+      required:true,
+    },
+    title: {
+    type:String,
+      required:true, 
+    },
+      message: {
+    type:String,
+      required:true, 
+    }
   },
 }
 </script>

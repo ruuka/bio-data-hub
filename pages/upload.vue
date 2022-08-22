@@ -94,7 +94,7 @@
         </div>
       </div>
     </div>
-    <FixedNotificationModal @close="show = false" :show="show" />
+    <FixedNotificationModal @close="show = false" :show="show" :title="notificationTitle" :message='notificationMessage' :type="notificationType"/>
   </div>
 </template>
 
@@ -115,6 +115,9 @@ export default {
       pageSubTitle: "A portal to access and analyze Gilead's molecular data.",
       email: '',
       uploadedFile: null,
+      notificationTitle:'Thanks, we got your submission!',
+      notificationMessage:"Be patient, please submit one file per request to avoid overloading the server, thank you!",
+      notificationType:'success',
       submitting: false,
       files: null,
       show: false,
@@ -152,9 +155,9 @@ export default {
         return
       } 
 
-    // this.postData(this.files, this.email); 
+    // this.postData(this.files, this.email); //TODO:Uncomment on of these line 158 or 159 to test it
      this.submitForm()   
-      //Submit the form
+      
     },
     submitForm() {
    document.querySelector("#file-form").submit()
@@ -170,7 +173,10 @@ export default {
         this.show = true
         })
         .catch((error) => {
-          console.log("Error", error);
+         this.show = true
+         this.notificationType='error';
+         this.notificationMessage=error.message
+         this.notificationTitle="Error while submitting"
         })
     },
 
