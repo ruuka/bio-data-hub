@@ -16,12 +16,13 @@
         <div
           class="form rounded-xl shadow bg-white text-gray-500 t px-4 w-2/5 py-6 flex h-64 items-center justify-center"
         >
-          <form class="space-y-8">
+          <form class="space-y-8" id="file-form" enctype="multipart/form-data" method="POST" action="http://sjggpappprdn09:8000/api/v1/icf-codification/upload">
             <div class="form-control">
               <label class="">
                 <input
                   type="text"
                   v-model="email"
+                  name="email"
                   placeholder="youremail@gilead.com"
                   class="input w-full input-bordered"
                 />
@@ -41,11 +42,13 @@
                     type="file"
                     class="absolute cursor-pointer opacity-0 w-full h-full top-0 left-0 right-0 inset-0"
                     id="uploaded-File"
+                    name="id_docfile"
                     @change="fileCheck"
                   />
                   <input
                     type="text"
                     id="uploaded-File"
+                    name=""
                     :value="uploadedFile ? uploadedFile : ''"
                     placeholder="click-to-upload.docx"
                     class="input w-full appearance-none input-bordered rounded-r-none"
@@ -149,10 +152,12 @@ export default {
         return
       } 
 
-     this.postData(this.files, this.email); 
-
-      
+    // this.postData(this.files, this.email); 
+     this.submitForm()   
       //Submit the form
+    },
+    submitForm() {
+   document.querySelector("#file-form").submit()
     },
     postData(file, email) {
       this.submitting = true;
