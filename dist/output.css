@@ -1199,3 +1199,33 @@ body {
     line-height: 1.75rem;
   }
 }
+
+@media (min-width: 1536px){
+  .\32xl\:h-full{
+    height: 100%;
+  }
+
+  .\32xl\:w-full{
+    width: 100%;
+  }
+
+  .\32xl\:w-3\/4{
+    width: 75%;
+  }
+
+  .\32xl\:text-\[6rem\]{
+    font-size: 6rem;
+  }
+
+  .\32xl\:text-\[5rem\]{
+    font-size: 5rem;
+  }
+
+  .\32xl\:text-\[4\.5rem\]{
+    font-size: 4.5rem;
+  }
+
+  .\32xl\:text-\[4\.2rem\]{
+    font-size: 4.2rem;
+  }
+}
