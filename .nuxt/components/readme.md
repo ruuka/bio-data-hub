@@ -23,6 +23,7 @@ You can directly use them in pages and other components without the need to impo
 - `<PublicationComponentsCarousel>` | `<publication-components-carousel>` (components/publication_components/Carousel.vue)
 - `<PublicationComponentsPublicationsCard>` | `<publication-components-publications-card>` (components/publication_components/publicationsCard.vue)
 - `<PublicationComponentsWhatsTrending>` | `<publication-components-whats-trending>` (components/publication_components/WhatsTrending.vue)
+- `<SharedProgressBarLoading>` | `<shared-progress-bar-loading>` (components/shared/ProgressBarLoading.vue)
 - `<TableauComponentsBaseSelectInput>` | `<tableau-components-base-select-input>` (components/tableau_components/BaseSelectInput.vue)
 - `<TableauComponentsDashboardForm>` | `<tableau-components-dashboard-form>` (components/tableau_components/DashboardForm.vue)
 - `<TableauComponentsFileRequestSection>` | `<tableau-components-file-request-section>` (components/tableau_components/FileRequestSection.vue)
@@ -32,3 +33,5 @@ You can directly use them in pages and other components without the need to impo
 - `<TableauHeroSection>` | `<tableau-hero-section>` (components/tableau_components/TableauHeroSection.vue)
 - `<TableauComponentsTableTabBody>` | `<tableau-components-table-tab-body>` (components/tableau_components/TableTabBody.vue)
 - `<TableauComponentsTableTabsSection>` | `<tableau-components-table-tabs-section>` (components/tableau_components/TableTabsSection.vue)
+- `<UploadComponentsFileUploadBreadCrumb>` | `<upload-components-file-upload-bread-crumb>` (components/upload_components/FileUploadBreadCrumb.vue)
+- `<UploadComponentsFixedNotificationModal>` | `<upload-components-fixed-notification-modal>` (components/upload_components/FixedNotificationModal.vue)

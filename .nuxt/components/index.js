@@ -15,6 +15,7 @@ export { default as PublicationComponentsBreadcrumb } from '../..\\components\\p
 export { default as PublicationComponentsCarousel } from '../..\\components\\publication_components\\Carousel.vue'
 export { default as PublicationComponentsPublicationsCard } from '../..\\components\\publication_components\\publicationsCard.vue'
 export { default as PublicationComponentsWhatsTrending } from '../..\\components\\publication_components\\WhatsTrending.vue'
+export { default as SharedProgressBarLoading } from '../..\\components\\shared\\ProgressBarLoading.vue'
 export { default as TableauComponentsBaseSelectInput } from '../..\\components\\tableau_components\\BaseSelectInput.vue'
 export { default as TableauComponentsDashboardForm } from '../..\\components\\tableau_components\\DashboardForm.vue'
 export { default as TableauComponentsFileRequestSection } from '../..\\components\\tableau_components\\FileRequestSection.vue'
@@ -24,6 +25,8 @@ export { default as TableauComponentsHeroText } from '../..\\components\\tableau
 export { default as TableauHeroSection } from '../..\\components\\tableau_components\\TableauHeroSection.vue'
 export { default as TableauComponentsTableTabBody } from '../..\\components\\tableau_components\\TableTabBody.vue'
 export { default as TableauComponentsTableTabsSection } from '../..\\components\\tableau_components\\TableTabsSection.vue'
+export { default as UploadComponentsFileUploadBreadCrumb } from '../..\\components\\upload_components\\FileUploadBreadCrumb.vue'
+export { default as UploadComponentsFixedNotificationModal } from '../..\\components\\upload_components\\FixedNotificationModal.vue'
 
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {

@@ -14,9 +14,11 @@
         </div>
 
         <div
-          class="form rounded-xl shadow bg-white text-gray-500 t px-4 w-2/5 py-6 flex h-64 items-center justify-center"
+          class="form rounded-xl shadow  bg-white text-gray-500 t px-4 w-2/5 py-6 flex  flex-col h-auto items-center justify-center"
         >
-          <form class="space-y-8" id="file-form" enctype="multipart/form-data" method="POST" action="http://sjggpappprdn09:8000/api/v1/icf-codification/upload">
+          <form class="space-y-8" id="file-form" enctype="multipart/form-data" method="POST"
+          @submit.prevent="onUpload"
+          action="http://sjggpappprdn09:8000/api/v1/icf-codification/upload">
             <div class="form-control">
               <label class="">
                 <input
@@ -38,19 +40,16 @@
             <div class="form-control w-full">
               <label class="flex rounded-none w-full" for="uploaded-File">
                 <div class="flex-1 w-full relative">
-                  <input
-                    type="file"
-                    class="absolute cursor-pointer opacity-0 w-full h-full top-0 left-0 right-0 inset-0"
-                    id="uploaded-File"
-                    name="id_docfile"
-                    @change="fileCheck"
-                  />
+                  <input type="file" name="imagesArray" 
+                  class="absolute cursor-pointer opacity-0 w-full h-full top-0 left-0 right-0 inset-0"
+                  multiple @change="onChange">
+                  
                   <input
                     type="text"
                     id="uploaded-File"
                     name=""
-                    :value="uploadedFile ? uploadedFile : ''"
-                    placeholder="click-to-upload.docx"
+                    
+                    placeholder="Upload one or multiple "
                     class="input w-full appearance-none input-bordered rounded-r-none"
                   />
                 </div>
@@ -58,7 +57,7 @@
                 <span class="flex px-0 items-enter text-white bg-none">
                   <button
                     class="flex btn rounded-l-none btn-black"
-                    @click.prevent="submitFile"
+                    @click.prevent="onUpload"
                     :disabled="submitting"
                   >
                     <div class="submit">Submit</div>
@@ -89,8 +88,25 @@
               <p class="mt-2 text-slate-400 text-xs font-light text-center w-full">
                 .doc or .docx only
               </p>
+              <div class=" w-full">
+          <ul class="flex w-full flex-col text-sm" v-if="imagesArray" >
+                 <li v-for="(file, index) in imagesArray" class="flex gap-3 text-green-500 items-center">      
+                  <span>
+                    <svg xmlns="http://www.w3.org/2000/svg"  fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+</svg>
+
+                  </span>
+                  <span class="text-xs">{{file.name}}</span>
+                  </li>
+          </ul>
+        </div>
             </div>
           </form>
+
+
+
+
         </div>
       </div>
     </div>
@@ -123,6 +139,7 @@ export default {
       show: false,
       error: null,
       errorMail: null,
+      imagesArray: null
     }
   },
   watch: {
@@ -133,31 +150,62 @@ export default {
     }
   },
   methods: {
+    resetFields() {
+      this.imagesArray=null;
+      this.email='';
+    },
+    onUpload() {
+          if(!this.validateForm()) {
+            console.log("YES")
+            return;
+          }
+          const formData = new FormData();
+          formData.append('email', this.email);
+          for (const i of Object.keys(this.imagesArray)) {
+            formData.append(`file${ parseInt(i) + 1}`, this.imagesArray[i])
+          }
+          this.submitting = true;
+          this.$axios.post('http://localhost:8000/api/v1/multi-images-upload', formData, {
+          }).then((res) => {
+            this.submitting = false
+           this.show = true
+            this.resetFields();
+          })
+          .catch((error) => {
+         this.show = true
+         this.submitting = false
+         this.notificationType='error';
+         this.notificationMessage=error.message
+         this.notificationTitle="Error while submitting"
+         this.resetFields();
+        })
+        } ,
+    onChange (event) {
+          this.imagesArray = event.target.files
+        },
     validateEmail(email) {
       return email.match(
         /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       )
     },
-    submitFile() {
+    validateForm() {
 
       if(this.email ==='') {
         this.errorMail = "Enter your email";
-        return;
+        return false;
       }
-      if(this.files===null) {
+      if(this.imagesArray===null) {
         this.error="No file selected"
-        return;
+        return false;
       }
       if (this.validateEmail(this.email) === false) {
         this.errorMail = 'Enter a valid email'
+        return false;
       }
       if (this.error !== null && this.errorMail !== null) {
-        return
+        return false;
       } 
-
-    // this.postData(this.files, this.email); //TODO:Uncomment on of these line 158 or 159 to test it
-     this.submitForm()   
-      
+      return true;
     },
     submitForm() {
    document.querySelector("#file-form").submit()

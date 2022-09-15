@@ -50,6 +50,9 @@
   "PublicationComponentsWhatsTrending": {
     "description": "Auto imported from components/publication_components/WhatsTrending.vue"
   },
+  "SharedProgressBarLoading": {
+    "description": "Auto imported from components/shared/ProgressBarLoading.vue"
+  },
   "TableauComponentsBaseSelectInput": {
     "description": "Auto imported from components/tableau_components/BaseSelectInput.vue"
   },
@@ -76,5 +79,11 @@
   },
   "TableauComponentsTableTabsSection": {
     "description": "Auto imported from components/tableau_components/TableTabsSection.vue"
+  },
+  "UploadComponentsFileUploadBreadCrumb": {
+    "description": "Auto imported from components/upload_components/FileUploadBreadCrumb.vue"
+  },
+  "UploadComponentsFixedNotificationModal": {
+    "description": "Auto imported from components/upload_components/FixedNotificationModal.vue"
   }
 }

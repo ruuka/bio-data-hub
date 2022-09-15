@@ -10,6 +10,7 @@ const _c8197c9c = () => interopDefault(import('..\\pages\\knowledge-base.vue' /*
 const _86ba7b48 = () => interopDefault(import('..\\pages\\other-tools.vue' /* webpackChunkName: "pages/other-tools" */))
 const _064a9ea2 = () => interopDefault(import('..\\pages\\public-data-sets.vue' /* webpackChunkName: "pages/public-data-sets" */))
 const _e6002200 = () => interopDefault(import('..\\pages\\tableau.vue' /* webpackChunkName: "pages/tableau" */))
+const _474c6273 = () => interopDefault(import('..\\pages\\upload.vue' /* webpackChunkName: "pages/upload" */))
 const _35aae4d0 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
@@ -47,6 +48,10 @@ export const routerOptions = {
     path: "/tableau",
     component: _e6002200,
     name: "tableau"
+  }, {
+    path: "/upload",
+    component: _474c6273,
+    name: "upload"
   }, {
     path: "/",
     component: _35aae4d0,
