@@ -5,25 +5,25 @@ import ClientOnly from 'vue-client-only'
 import NoSsr from 'vue-no-ssr'
 import { createRouter } from './router.js'
 import NuxtChild from './components/nuxt-child.js'
-import NuxtError from '..\\layouts\\error.vue'
+import NuxtError from '../layouts/error.vue'
 import Nuxt from './components/nuxt.js'
 import App from './App.js'
 import { setContext, getLocation, getRouteData, normalizeError } from './utils'
 
 /* Plugins */
 
-import nuxt_plugin_plugin_ffe00dea from 'nuxt_plugin_plugin_ffe00dea' // Source: .\\components\\plugin.js (mode: 'all')
-import nuxt_plugin_pluginclient_1d67dc41 from 'nuxt_plugin_pluginclient_1d67dc41' // Source: .\\content\\plugin.client.js (mode: 'client')
-import nuxt_plugin_pluginserver_f9bd646e from 'nuxt_plugin_pluginserver_f9bd646e' // Source: .\\content\\plugin.server.js (mode: 'server')
-import nuxt_plugin_axios_040465ae from 'nuxt_plugin_axios_040465ae' // Source: .\\axios.js (mode: 'all')
-import nuxt_plugin_googleanalytics_937f8c90 from 'nuxt_plugin_googleanalytics_937f8c90' // Source: .\\google-analytics.js (mode: 'client')
-import nuxt_plugin_fontawesome_b1d28320 from 'nuxt_plugin_fontawesome_b1d28320' // Source: .\\fontawesome.js (mode: 'all')
-import nuxt_plugin_plotlyclient_1ed75700 from 'nuxt_plugin_plotlyclient_1ed75700' // Source: ..\\plugins\\plotly.client.js (mode: 'client')
-import nuxt_plugin_mijin_c97c82cc from 'nuxt_plugin_mijin_c97c82cc' // Source: ..\\plugins\\mijin.js (mode: 'all')
-import nuxt_plugin_fontawesome_b8db358e from 'nuxt_plugin_fontawesome_b8db358e' // Source: ..\\plugins\\fontawesome.js (mode: 'all')
-import nuxt_plugin_vuetagsinput_eb545e9a from 'nuxt_plugin_vuetagsinput_eb545e9a' // Source: ..\\plugins\\vue-tags-input (mode: 'client')
-import nuxt_plugin_vclickoutside_661f0b13 from 'nuxt_plugin_vclickoutside_661f0b13' // Source: ..\\plugins\\v-click-outside (mode: 'client')
-import nuxt_plugin_eventbus_719ef217 from 'nuxt_plugin_eventbus_719ef217' // Source: ..\\plugins\\event-bus (mode: 'client')
+import nuxt_plugin_plugin_7f75f516 from 'nuxt_plugin_plugin_7f75f516' // Source: ./components/plugin.js (mode: 'all')
+import nuxt_plugin_pluginclient_482b4592 from 'nuxt_plugin_pluginclient_482b4592' // Source: ./content/plugin.client.js (mode: 'client')
+import nuxt_plugin_pluginserver_a43691cc from 'nuxt_plugin_pluginserver_a43691cc' // Source: ./content/plugin.server.js (mode: 'server')
+import nuxt_plugin_axios_5682dda8 from 'nuxt_plugin_axios_5682dda8' // Source: ./axios.js (mode: 'all')
+import nuxt_plugin_googleanalytics_a506d90c from 'nuxt_plugin_googleanalytics_a506d90c' // Source: ./google-analytics.js (mode: 'client')
+import nuxt_plugin_fontawesome_3995d36e from 'nuxt_plugin_fontawesome_3995d36e' // Source: ./fontawesome.js (mode: 'all')
+import nuxt_plugin_plotlyclient_1ed75700 from 'nuxt_plugin_plotlyclient_1ed75700' // Source: ../plugins/plotly.client.js (mode: 'client')
+import nuxt_plugin_mijin_c97c82cc from 'nuxt_plugin_mijin_c97c82cc' // Source: ../plugins/mijin.js (mode: 'all')
+import nuxt_plugin_fontawesome_b8db358e from 'nuxt_plugin_fontawesome_b8db358e' // Source: ../plugins/fontawesome.js (mode: 'all')
+import nuxt_plugin_vuetagsinput_eb545e9a from 'nuxt_plugin_vuetagsinput_eb545e9a' // Source: ../plugins/vue-tags-input (mode: 'client')
+import nuxt_plugin_vclickoutside_661f0b13 from 'nuxt_plugin_vclickoutside_661f0b13' // Source: ../plugins/v-click-outside (mode: 'client')
+import nuxt_plugin_eventbus_719ef217 from 'nuxt_plugin_eventbus_719ef217' // Source: ../plugins/event-bus (mode: 'client')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -187,28 +187,28 @@ async function createApp(ssrContext, config = {}) {
   }
   // Plugin execution
 
-  if (typeof nuxt_plugin_plugin_ffe00dea === 'function') {
-    await nuxt_plugin_plugin_ffe00dea(app.context, inject)
+  if (typeof nuxt_plugin_plugin_7f75f516 === 'function') {
+    await nuxt_plugin_plugin_7f75f516(app.context, inject)
   }
 
-  if (process.client && typeof nuxt_plugin_pluginclient_1d67dc41 === 'function') {
-    await nuxt_plugin_pluginclient_1d67dc41(app.context, inject)
+  if (process.client && typeof nuxt_plugin_pluginclient_482b4592 === 'function') {
+    await nuxt_plugin_pluginclient_482b4592(app.context, inject)
   }
 
-  if (process.server && typeof nuxt_plugin_pluginserver_f9bd646e === 'function') {
-    await nuxt_plugin_pluginserver_f9bd646e(app.context, inject)
+  if (process.server && typeof nuxt_plugin_pluginserver_a43691cc === 'function') {
+    await nuxt_plugin_pluginserver_a43691cc(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_axios_040465ae === 'function') {
-    await nuxt_plugin_axios_040465ae(app.context, inject)
+  if (typeof nuxt_plugin_axios_5682dda8 === 'function') {
+    await nuxt_plugin_axios_5682dda8(app.context, inject)
   }
 
-  if (process.client && typeof nuxt_plugin_googleanalytics_937f8c90 === 'function') {
-    await nuxt_plugin_googleanalytics_937f8c90(app.context, inject)
+  if (process.client && typeof nuxt_plugin_googleanalytics_a506d90c === 'function') {
+    await nuxt_plugin_googleanalytics_a506d90c(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_fontawesome_b1d28320 === 'function') {
-    await nuxt_plugin_fontawesome_b1d28320(app.context, inject)
+  if (typeof nuxt_plugin_fontawesome_3995d36e === 'function') {
+    await nuxt_plugin_fontawesome_3995d36e(app.context, inject)
   }
 
   if (process.client && typeof nuxt_plugin_plotlyclient_1ed75700 === 'function') {

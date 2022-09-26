@@ -2,57 +2,57 @@
   {
     "name": "clinical-bioinformatics",
     "path": "/clinical-bioinformatics",
-    "component": "C:\\\\Users\\\\admin\\\\Desktop\\\\projects\\\\new-project\\\\pages\\\\clinical-bioinformatics.vue",
+    "component": "/Users/rhuang4/WebstormProjects/new-project/pages/clinical-bioinformatics.vue",
     "chunkName": "pages/clinical-bioinformatics",
-    "_name": "_fd0790a6"
+    "_name": "_7e8b228f"
   },
   {
     "name": "custom-plot",
     "path": "/custom-plot",
-    "component": "C:\\\\Users\\\\admin\\\\Desktop\\\\projects\\\\new-project\\\\pages\\\\custom-plot.vue",
+    "component": "/Users/rhuang4/WebstormProjects/new-project/pages/custom-plot.vue",
     "chunkName": "pages/custom-plot",
-    "_name": "_1e500bbb"
+    "_name": "_e5628cc6"
   },
   {
     "name": "knowledge-base",
     "path": "/knowledge-base",
-    "component": "C:\\\\Users\\\\admin\\\\Desktop\\\\projects\\\\new-project\\\\pages\\\\knowledge-base.vue",
+    "component": "/Users/rhuang4/WebstormProjects/new-project/pages/knowledge-base.vue",
     "chunkName": "pages/knowledge-base",
-    "_name": "_c8197c9c"
+    "_name": "_33403090"
   },
   {
     "name": "other-tools",
     "path": "/other-tools",
-    "component": "C:\\\\Users\\\\admin\\\\Desktop\\\\projects\\\\new-project\\\\pages\\\\other-tools.vue",
+    "component": "/Users/rhuang4/WebstormProjects/new-project/pages/other-tools.vue",
     "chunkName": "pages/other-tools",
-    "_name": "_86ba7b48"
+    "_name": "_2ba1703e"
   },
   {
     "name": "public-data-sets",
     "path": "/public-data-sets",
-    "component": "C:\\\\Users\\\\admin\\\\Desktop\\\\projects\\\\new-project\\\\pages\\\\public-data-sets.vue",
+    "component": "/Users/rhuang4/WebstormProjects/new-project/pages/public-data-sets.vue",
     "chunkName": "pages/public-data-sets",
-    "_name": "_064a9ea2"
+    "_name": "_03d16400"
   },
   {
     "name": "tableau",
     "path": "/tableau",
-    "component": "C:\\\\Users\\\\admin\\\\Desktop\\\\projects\\\\new-project\\\\pages\\\\tableau.vue",
+    "component": "/Users/rhuang4/WebstormProjects/new-project/pages/tableau.vue",
     "chunkName": "pages/tableau",
-    "_name": "_e6002200"
+    "_name": "_4fb4dde2"
   },
   {
     "name": "upload",
     "path": "/upload",
-    "component": "C:\\\\Users\\\\admin\\\\Desktop\\\\projects\\\\new-project\\\\pages\\\\upload.vue",
+    "component": "/Users/rhuang4/WebstormProjects/new-project/pages/upload.vue",
     "chunkName": "pages/upload",
-    "_name": "_474c6273"
+    "_name": "_9ea5e15e"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "C:\\\\Users\\\\admin\\\\Desktop\\\\projects\\\\new-project\\\\pages\\\\index.vue",
+    "component": "/Users/rhuang4/WebstormProjects/new-project/pages/index.vue",
     "chunkName": "pages/index",
-    "_name": "_35aae4d0"
+    "_name": "_859bb79c"
   }
 ]

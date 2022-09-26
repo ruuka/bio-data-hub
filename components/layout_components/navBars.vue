@@ -61,18 +61,17 @@
           class="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start"
         >
           <div class="flex items-center flex-shrink-0">
-            <NuxtLink
-              to="/">
-            <img
-              class="block w-auto h-10 lg:hidden"
-              src="https://anima-uploads.s3.amazonaws.com/projects/61eb071259085a6271779ae5/releases/61eb07172db43d929ddc59c6/img/gilead-create-possible-svg-1@2x.svg"
-              alt="Gilead"
-            />
-            <img
-              class="hidden w-auto h-10 lg:block"
-              src="https://anima-uploads.s3.amazonaws.com/projects/61eb071259085a6271779ae5/releases/61eb07172db43d929ddc59c6/img/gilead-create-possible-svg-1@2x.svg"
-              alt="Gilead"
-            />
+            <NuxtLink to="/">
+              <img
+                class="block w-auto h-10 lg:hidden"
+                src="https://anima-uploads.s3.amazonaws.com/projects/61eb071259085a6271779ae5/releases/61eb07172db43d929ddc59c6/img/gilead-create-possible-svg-1@2x.svg"
+                alt="Gilead"
+              />
+              <img
+                class="hidden w-auto h-10 lg:block"
+                src="https://anima-uploads.s3.amazonaws.com/projects/61eb071259085a6271779ae5/releases/61eb07172db43d929ddc59c6/img/gilead-create-possible-svg-1@2x.svg"
+                alt="Gilead"
+              />
             </NuxtLink>
           </div>
           <div class="hidden sm:block sm:ml-6">
@@ -85,15 +84,17 @@
                 >Bioinformatics Data Hub</NuxtLink
               >
 
-              <NuxtLink
-                to="/knowledge-base"
+              <a
+                href="http://bioinfo.na.gilead.com/tableau/#/knowledge-base"
+                target="_blank"
                 class="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
-                >Knowledge Base</NuxtLink
+                >Common Practice</a
               >
-              <NuxtLink
-                to="/tableau"
+              <a
+                href="http://bioinfo.na.gilead.com/tableau/"
+                target="_blank"
                 class="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
-              >Tableau</NuxtLink
+                >Tableau</a
               >
             </div>
           </div>
@@ -119,12 +120,12 @@
                 ></path>
               </svg>
             </div>
-            <input
-              type="text"
-              id="email-adress-icon"
-              class="block w-full p-2 pl-10 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Search..."
-            />
+            <!--            <input-->
+            <!--              type="text"-->
+            <!--              id="email-adress-icon"-->
+            <!--              class="block w-full p-2 pl-10 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 sm:text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"-->
+            <!--              placeholder="Search..."-->
+            <!--            />-->
           </div>
           <button
             data-collapse-toggle="mobile-menu-3"
@@ -164,35 +165,35 @@
         <div
           class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
         >
-          <button
-            type="button"
-            class="p-1 text-gray-400 bg-gray-800 rounded-full hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-          >
-            <span class="sr-only">View notifications</span>
-            <div class="m-2 indicator">
-              <div
-                class="indicator-item indicator-top indicator-end badge badge-secondary"
-              >
-                3
-              </div>
-              <!-- Heroicon name: outline/bell -->
-              <svg
-                class="w-6 h-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                />
-              </svg>
-            </div>
-          </button>
+          <!--          <button-->
+          <!--            type="button"-->
+          <!--            class="p-1 text-gray-400 bg-gray-800 rounded-full hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"-->
+          <!--          >-->
+          <!--            <span class="sr-only">View notifications</span>-->
+          <!--            <div class="m-2 indicator">-->
+          <!--              <div-->
+          <!--                class="indicator-item indicator-top indicator-end badge badge-secondary"-->
+          <!--              >-->
+          <!--                3-->
+          <!--              </div>-->
+          <!--              &lt;!&ndash; Heroicon name: outline/bell &ndash;&gt;-->
+          <!--              <svg-->
+          <!--                class="w-6 h-6"-->
+          <!--                xmlns="http://www.w3.org/2000/svg"-->
+          <!--                fill="none"-->
+          <!--                viewBox="0 0 24 24"-->
+          <!--                stroke="currentColor"-->
+          <!--                aria-hidden="true"-->
+          <!--              >-->
+          <!--                <path-->
+          <!--                  stroke-linecap="round"-->
+          <!--                  stroke-linejoin="round"-->
+          <!--                  stroke-width="2"-->
+          <!--                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"-->
+          <!--                />-->
+          <!--              </svg>-->
+          <!--            </div>-->
+          <!--          </button>-->
 
           <!-- Profile dropdown -->
           <div class="relative ml-3">

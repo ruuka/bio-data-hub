@@ -23,12 +23,6 @@
   "SelectInput": {
     "description": "Auto imported from components/layout_components/selectInput.vue"
   },
-  "PlotlyComponentsNewBoxPlot": {
-    "description": "Auto imported from components/plotly_components/NewBoxPlot.vue"
-  },
-  "PlotlyBoxPlotFigure": {
-    "description": "Auto imported from components/plotly_components/PlotlyBoxPlotFigure.vue"
-  },
   "HomeComponentsHeroCard": {
     "description": "Auto imported from components/home_components/HeroCard.vue"
   },
@@ -38,17 +32,11 @@
   "HomeComponentsIndexHero": {
     "description": "Auto imported from components/home_components/IndexHero.vue"
   },
-  "PublicationComponentsBreadcrumb": {
-    "description": "Auto imported from components/publication_components/Breadcrumb.vue"
+  "PlotlyComponentsNewBoxPlot": {
+    "description": "Auto imported from components/plotly_components/NewBoxPlot.vue"
   },
-  "PublicationComponentsCarousel": {
-    "description": "Auto imported from components/publication_components/Carousel.vue"
-  },
-  "PublicationComponentsPublicationsCard": {
-    "description": "Auto imported from components/publication_components/publicationsCard.vue"
-  },
-  "PublicationComponentsWhatsTrending": {
-    "description": "Auto imported from components/publication_components/WhatsTrending.vue"
+  "PlotlyBoxPlotFigure": {
+    "description": "Auto imported from components/plotly_components/PlotlyBoxPlotFigure.vue"
   },
   "SharedProgressBarLoading": {
     "description": "Auto imported from components/shared/ProgressBarLoading.vue"
@@ -71,14 +59,26 @@
   "TableauComponentsHeroText": {
     "description": "Auto imported from components/tableau_components/HeroText.vue"
   },
-  "TableauHeroSection": {
-    "description": "Auto imported from components/tableau_components/TableauHeroSection.vue"
-  },
   "TableauComponentsTableTabBody": {
     "description": "Auto imported from components/tableau_components/TableTabBody.vue"
   },
   "TableauComponentsTableTabsSection": {
     "description": "Auto imported from components/tableau_components/TableTabsSection.vue"
+  },
+  "TableauHeroSection": {
+    "description": "Auto imported from components/tableau_components/TableauHeroSection.vue"
+  },
+  "PublicationComponentsBreadcrumb": {
+    "description": "Auto imported from components/publication_components/Breadcrumb.vue"
+  },
+  "PublicationComponentsCarousel": {
+    "description": "Auto imported from components/publication_components/Carousel.vue"
+  },
+  "PublicationComponentsWhatsTrending": {
+    "description": "Auto imported from components/publication_components/WhatsTrending.vue"
+  },
+  "PublicationComponentsPublicationsCard": {
+    "description": "Auto imported from components/publication_components/publicationsCard.vue"
   },
   "UploadComponentsFileUploadBreadCrumb": {
     "description": "Auto imported from components/upload_components/FileUploadBreadCrumb.vue"
