@@ -23,6 +23,12 @@
   "SelectInput": {
     "description": "Auto imported from components/layout_components/selectInput.vue"
   },
+  "PlotlyComponentsNewBoxPlot": {
+    "description": "Auto imported from components/plotly_components/NewBoxPlot.vue"
+  },
+  "PlotlyBoxPlotFigure": {
+    "description": "Auto imported from components/plotly_components/PlotlyBoxPlotFigure.vue"
+  },
   "HomeComponentsHeroCard": {
     "description": "Auto imported from components/home_components/HeroCard.vue"
   },
@@ -31,12 +37,6 @@
   },
   "HomeComponentsIndexHero": {
     "description": "Auto imported from components/home_components/IndexHero.vue"
-  },
-  "PlotlyComponentsNewBoxPlot": {
-    "description": "Auto imported from components/plotly_components/NewBoxPlot.vue"
-  },
-  "PlotlyBoxPlotFigure": {
-    "description": "Auto imported from components/plotly_components/PlotlyBoxPlotFigure.vue"
   },
   "PublicationComponentsBreadcrumb": {
     "description": "Auto imported from components/publication_components/Breadcrumb.vue"

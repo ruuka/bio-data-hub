@@ -3,48 +3,56 @@
     "name": "clinical-bioinformatics",
     "path": "/clinical-bioinformatics",
     "component": "C:\\\\Users\\\\admin\\\\Desktop\\\\projects\\\\new-project\\\\pages\\\\clinical-bioinformatics.vue",
-    "chunkName": "pages/clinical-bioinformatics"
+    "chunkName": "pages/clinical-bioinformatics",
+    "_name": "_fd0790a6"
   },
   {
     "name": "custom-plot",
     "path": "/custom-plot",
     "component": "C:\\\\Users\\\\admin\\\\Desktop\\\\projects\\\\new-project\\\\pages\\\\custom-plot.vue",
-    "chunkName": "pages/custom-plot"
+    "chunkName": "pages/custom-plot",
+    "_name": "_1e500bbb"
   },
   {
     "name": "knowledge-base",
     "path": "/knowledge-base",
     "component": "C:\\\\Users\\\\admin\\\\Desktop\\\\projects\\\\new-project\\\\pages\\\\knowledge-base.vue",
-    "chunkName": "pages/knowledge-base"
+    "chunkName": "pages/knowledge-base",
+    "_name": "_c8197c9c"
   },
   {
     "name": "other-tools",
     "path": "/other-tools",
     "component": "C:\\\\Users\\\\admin\\\\Desktop\\\\projects\\\\new-project\\\\pages\\\\other-tools.vue",
-    "chunkName": "pages/other-tools"
+    "chunkName": "pages/other-tools",
+    "_name": "_86ba7b48"
   },
   {
     "name": "public-data-sets",
     "path": "/public-data-sets",
     "component": "C:\\\\Users\\\\admin\\\\Desktop\\\\projects\\\\new-project\\\\pages\\\\public-data-sets.vue",
-    "chunkName": "pages/public-data-sets"
+    "chunkName": "pages/public-data-sets",
+    "_name": "_064a9ea2"
   },
   {
     "name": "tableau",
     "path": "/tableau",
     "component": "C:\\\\Users\\\\admin\\\\Desktop\\\\projects\\\\new-project\\\\pages\\\\tableau.vue",
-    "chunkName": "pages/tableau"
+    "chunkName": "pages/tableau",
+    "_name": "_e6002200"
   },
   {
     "name": "upload",
     "path": "/upload",
     "component": "C:\\\\Users\\\\admin\\\\Desktop\\\\projects\\\\new-project\\\\pages\\\\upload.vue",
-    "chunkName": "pages/upload"
+    "chunkName": "pages/upload",
+    "_name": "_474c6273"
   },
   {
     "name": "index",
     "path": "/",
     "component": "C:\\\\Users\\\\admin\\\\Desktop\\\\projects\\\\new-project\\\\pages\\\\index.vue",
-    "chunkName": "pages/index"
+    "chunkName": "pages/index",
+    "_name": "_35aae4d0"
   }
 ]
