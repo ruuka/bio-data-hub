@@ -71,61 +71,61 @@
         <div
           class="flex flex-col items-center w-full mt-2 border-t border-gray-300"
         >
-          <NuxtLink
-            to="/other-tools"
-            class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-rose-50"
-          >
-            <svg
-              class="w-6 h-6 stroke-current"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
-              />
-            </svg>
-            <span class="ml-2 text-sm font-medium"
-              >Other Tools
-              <font-awesome-icon :icon="['far', 'angle-down']" />
-            </span>
-          </NuxtLink>
-          <NuxtLink
-            to=""
-            class="relative flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-rose-50"
-          >
-            <svg
-              class="w-6 h-6 stroke-current"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
-              />
-            </svg>
-            <span class="ml-2 text-sm font-medium">News</span>
-            <span
-              class="absolute top-0 left-0 w-2 h-2 mt-2 ml-2 bg-red-600 rounded-full"
-            ></span>
-          </NuxtLink>
-          <NuxtLink
-            to="upload"
-            class="relative flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-rose-50"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-            </svg>
-            <span class="ml-2 text-sm font-medium">ICF Upload Portal</span>
-          </NuxtLink>
+<!--          <NuxtLink-->
+<!--            to="/other-tools"-->
+<!--            class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-rose-50"-->
+<!--          >-->
+<!--            <svg-->
+<!--              class="w-6 h-6 stroke-current"-->
+<!--              xmlns="http://www.w3.org/2000/svg"-->
+<!--              fill="none"-->
+<!--              viewBox="0 0 24 24"-->
+<!--              stroke="currentColor"-->
+<!--            >-->
+<!--              <path-->
+<!--                stroke-linecap="round"-->
+<!--                stroke-linejoin="round"-->
+<!--                stroke-width="2"-->
+<!--                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"-->
+<!--              />-->
+<!--            </svg>-->
+<!--            <span class="ml-2 text-sm font-medium"-->
+<!--              >Other Tools-->
+<!--              <font-awesome-icon :icon="['far', 'angle-down']" />-->
+<!--            </span>-->
+<!--          </NuxtLink>-->
+<!--          <NuxtLink-->
+<!--            to=""-->
+<!--            class="relative flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-rose-50"-->
+<!--          >-->
+<!--            <svg-->
+<!--              class="w-6 h-6 stroke-current"-->
+<!--              xmlns="http://www.w3.org/2000/svg"-->
+<!--              fill="none"-->
+<!--              viewBox="0 0 24 24"-->
+<!--              stroke="currentColor"-->
+<!--            >-->
+<!--              <path-->
+<!--                stroke-linecap="round"-->
+<!--                stroke-linejoin="round"-->
+<!--                stroke-width="2"-->
+<!--                d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"-->
+<!--              />-->
+<!--            </svg>-->
+<!--            <span class="ml-2 text-sm font-medium">News</span>-->
+<!--            <span-->
+<!--              class="absolute top-0 left-0 w-2 h-2 mt-2 ml-2 bg-red-600 rounded-full"-->
+<!--            ></span>-->
+<!--          </NuxtLink>-->
+<!--          <NuxtLink-->
+<!--            to="upload"-->
+<!--            class="relative flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-rose-50"-->
+<!--          >-->
+<!--            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">-->
+<!--              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />-->
+<!--            </svg>-->
+<!--            <span class="ml-2 text-sm font-medium">ICF Upload Portal</span>-->
+<!--          </NuxtLink>-->
         </div>
       </div>
 <!--      <a-->

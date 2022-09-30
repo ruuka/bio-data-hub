@@ -4,14 +4,14 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _fd0790a6 = () => interopDefault(import('..\\pages\\clinical-bioinformatics.vue' /* webpackChunkName: "pages/clinical-bioinformatics" */))
-const _1e500bbb = () => interopDefault(import('..\\pages\\custom-plot.vue' /* webpackChunkName: "pages/custom-plot" */))
-const _c8197c9c = () => interopDefault(import('..\\pages\\knowledge-base.vue' /* webpackChunkName: "pages/knowledge-base" */))
-const _86ba7b48 = () => interopDefault(import('..\\pages\\other-tools.vue' /* webpackChunkName: "pages/other-tools" */))
-const _064a9ea2 = () => interopDefault(import('..\\pages\\public-data-sets.vue' /* webpackChunkName: "pages/public-data-sets" */))
-const _e6002200 = () => interopDefault(import('..\\pages\\tableau.vue' /* webpackChunkName: "pages/tableau" */))
-const _474c6273 = () => interopDefault(import('..\\pages\\upload.vue' /* webpackChunkName: "pages/upload" */))
-const _35aae4d0 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
+const _7e8b228f = () => interopDefault(import('../pages/clinical-bioinformatics.vue' /* webpackChunkName: "pages/clinical-bioinformatics" */))
+const _e5628cc6 = () => interopDefault(import('../pages/custom-plot.vue' /* webpackChunkName: "pages/custom-plot" */))
+const _33403090 = () => interopDefault(import('../pages/knowledge-base.vue' /* webpackChunkName: "pages/knowledge-base" */))
+const _2ba1703e = () => interopDefault(import('../pages/other-tools.vue' /* webpackChunkName: "pages/other-tools" */))
+const _03d16400 = () => interopDefault(import('../pages/public-data-sets.vue' /* webpackChunkName: "pages/public-data-sets" */))
+const _4fb4dde2 = () => interopDefault(import('../pages/tableau.vue' /* webpackChunkName: "pages/tableau" */))
+const _9ea5e15e = () => interopDefault(import('../pages/upload.vue' /* webpackChunkName: "pages/upload" */))
+const _859bb79c = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
 
@@ -26,35 +26,35 @@ export const routerOptions = {
 
   routes: [{
     path: "/clinical-bioinformatics",
-    component: _fd0790a6,
+    component: _7e8b228f,
     name: "clinical-bioinformatics"
   }, {
     path: "/custom-plot",
-    component: _1e500bbb,
+    component: _e5628cc6,
     name: "custom-plot"
   }, {
     path: "/knowledge-base",
-    component: _c8197c9c,
+    component: _33403090,
     name: "knowledge-base"
   }, {
     path: "/other-tools",
-    component: _86ba7b48,
+    component: _2ba1703e,
     name: "other-tools"
   }, {
     path: "/public-data-sets",
-    component: _064a9ea2,
+    component: _03d16400,
     name: "public-data-sets"
   }, {
     path: "/tableau",
-    component: _e6002200,
+    component: _4fb4dde2,
     name: "tableau"
   }, {
     path: "/upload",
-    component: _474c6273,
+    component: _9ea5e15e,
     name: "upload"
   }, {
     path: "/",
-    component: _35aae4d0,
+    component: _859bb79c,
     name: "index"
   }],
 
