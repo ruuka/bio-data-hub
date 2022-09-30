@@ -106,7 +106,7 @@
           </td>
           <td class="border px-2 py-3">{{item.indication}}</td>
           <td class="border px-2 py-3">{{item.product}}</td>
-          <td class="border px-2 py-3">{{item.file_type}}</td>
+          <td class="border px-2 py-3">{{item.type}}</td>
           <td class="border px-2 py-3">
             <a :href="item.full_path" class="px-3 bg-[#644DED] underline px-3 py-2 rounded bg-opacity-80 text-[#644DED] bg-opacity-20">View Link</a>
           </td>
@@ -147,13 +147,13 @@ export default {
         filterTags:[
         {
           name:"BAR",
-          
+
         },
         {
           name:"BAP",
         },
         {
-          name:"ABSTRACTS",
+          name:"Abstracts",
         },
         {
           name:"Manucripts",
@@ -183,7 +183,7 @@ methods: {
         this.tableData = res.data ?? [];
          //return this.tableData;
         })
-    
+
         //return this.tableData;
      }else {
       this.tableData=[];

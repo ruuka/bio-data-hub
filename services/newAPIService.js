@@ -15,7 +15,7 @@ export default {
   },
   getAllPublications($axios) {
     return $axios
-      .get(`/publications`)
+      .get(`/publication/search?search=*`)
       .catch((error) => {
         console.log('There was an error: ' + error.response)
       })
@@ -34,7 +34,7 @@ export default {
   },
   postFile($axios, formData) {
     return $axios.post('/icf-codification/upload',
-    formData, 
+    formData,
     {
       headers: {
         "Content-Type": "multipart/form-data",
