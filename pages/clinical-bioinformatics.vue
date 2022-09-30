@@ -14,7 +14,7 @@
           </div>
 
         <div class="w-full lg:w-1/3 px-1">
-               <WhatsTrending />
+               <WhatsTrending v-if="publications" :publications="publications"/>
         </div>
        </div>
 
@@ -24,7 +24,7 @@
   <section class="my-10 ">
       <!-- START SEARCH COMPONENT  -->
   <div class='flex w-1/2 gap-4 items-center '>
-    <input type='text' class='flex-1 bg-[#F3F3F8] text-sm rounded px-2 py-2 text-[#7B797D] placeholder-[#7B797D]' placeholder="Search by trial, nickname, indication, product...">
+    <input type='text' v-model="searchTerm" class='flex-1 bg-[#F3F3F8] text-sm rounded px-2 py-2 text-[#7B797D] placeholder-[#7B797D]' placeholder="Search by trial, nickname, indication, product...">
     <button class="flex items-center gap-3 bg-[#F3F3F8] text-sm rounded px-2 py-2 bg-[#E9E8FC]">
       <span>Search</span>
       <span>
@@ -43,7 +43,7 @@
     </span>
 <!-- START FILTER ITEM -->
     <div class="flex items-center gap-2"  v-for="(item, index) in filterTags" :key="index">
-        <input type="checkbox"  name="" class="default:ring-2 accent-primary h-4 w-4 border border-primary ring-primary checked:bg-primary" id="">
+        <input type="checkbox"  name=""  class="default:ring-2 accent-primary h-4 w-4 border border-primary ring-primary checked:bg-primary" id="">
         <p class="text-sm ">{{item.name}}</p>
     </div>
   <!-- START FILTER ITEM -->
@@ -94,22 +94,21 @@
   <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
 </svg>
 
-
               </a>
-              <span>{{item.trial_id}}</span>
+              <span>{{item.trialID}}</span>
             </div>
           </td>
           <td class="w-1/4 border bg-[#644ded14] px-2 py-3">
-             {{item.nick_name}}
+             {{item.nickname}}
           </td>
           <td class="border px-2 py-3">
-            {{item.ta}}
+            {{item.TA}}
           </td>
           <td class="border px-2 py-3">{{item.indication}}</td>
           <td class="border px-2 py-3">{{item.product}}</td>
           <td class="border px-2 py-3">{{item.file_type}}</td>
           <td class="border px-2 py-3">
-            <a :href="item.link" class="px-3 bg-[#644DED] underline px-3 py-2 rounded bg-opacity-80 text-[#644DED] bg-opacity-20">View Link</a>
+            <a :href="item.full_path" class="px-3 bg-[#644DED] underline px-3 py-2 rounded bg-opacity-80 text-[#644DED] bg-opacity-20">View Link</a>
           </td>
          </tr>
       </tbody>
@@ -125,7 +124,7 @@
 </template>
 
 <script>
-
+import newAPIService from '~/services/newAPIService.js'
 import  Carousel from '../components/publication_components/Carousel.vue'
 import  WhatsTrending from '../components/publication_components/WhatsTrending.vue'
 import  publicationsCard from '../components/publication_components/publicationsCard.vue'
@@ -144,9 +143,11 @@ export default {
       pageTitle: 'Bioinformatics Data Hub - Clinical Bioinformatics',
       pageSubTitle: "A portal to access and analyze Gilead's molecular data.",
         isSplideLoaded: false,
+        searchTerm:null,
         filterTags:[
         {
           name:"BAR",
+          
         },
         {
           name:"BAP",
@@ -164,38 +165,39 @@ export default {
           name:"Oral Presentation",
         }
       ],
+      publications:null,
      tableData:[
-      {
-        trial_id:"GS-US-558-5915",
-        nick_name: "",
-        ta:"Oncology",
-        indication:"MM",
-        product:"GS-4721 Magrolimab",
-        file_type:"BAP",
-        link:"#"
-      },
-      {
-        trial_id:"GS-US-558-5915",
-        nick_name: "",
-        ta:"Oncology",
-        indication:"ONC",
-        product:"GS-3583 Flt3R Agonist",
-        file_type:"BAR",
-        link:"#"
-      },
-      {
-        trial_id:"GS-US-558-5915",
-        nick_name: "",
-        ta:"Oncology",
-        indication:"ONC",
-        product:"GS-4721 Magrolimab",
-        file_type:"BAP",
-        link:"#"
-      },
      ]
     }
   },
+  watch: {
+    searchTerm(n) {
+      this.filteredRows();
+    }
+  },
+methods: {
+      filteredRows() {
+        this.searchTerm =this.searchTerm ? this.searchTerm.toLowerCase() : '';
+        if(this.searchTerm && this.searchTerm.length > 0) {
+        newAPIService.getPublicationData(this.$axios, this.searchTerm).then((res) => {
+        this.tableData = res.data ?? [];
+         //return this.tableData;
+        })
+    
+        //return this.tableData;
+     }else {
+      this.tableData=[];
+     }
+}
+},
 
+mounted() {
+  newAPIService.getAllPublications(this.$axios).then((res) => {
+    console.log("All", res.data.length);
+    this.publications = res.data;
+    console.log("First", this.tableData[0]);
+  })
+},
   head() {
     const title = 'Public Data Sets'
     return {

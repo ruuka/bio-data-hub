@@ -6,6 +6,20 @@ export default {
         console.log('There was an error: ' + error.response)
       })
   },
+  getPublicationData($axios, searchString) {
+    return $axios
+      .get(`/publication/search?search=${searchString}`)
+      .catch((error) => {
+        console.log('There was an error: ' + error.response)
+      })
+  },
+  getAllPublications($axios) {
+    return $axios
+      .get(`/publications`)
+      .catch((error) => {
+        console.log('There was an error: ' + error.response)
+      })
+  },
   getScatterPlotParametersByStudyID($axios, studyID) {
     return $axios
       .get('/plot-options/scatter-plot-parameters/'.concat('?study=' + studyID))
