@@ -25,12 +25,6 @@
       <!-- START SEARCH COMPONENT  -->
   <div class='flex w-1/2 gap-4 items-center '>
     <input type='text' v-model="searchTerm" class='flex-1 bg-[#F3F3F8] text-sm rounded px-2 py-2 text-[#7B797D] placeholder-[#7B797D]' placeholder="Search by trial, nickname, indication, product...">
-    <button class="flex items-center gap-3 bg-[#F3F3F8] text-sm rounded px-2 py-2 bg-[#E9E8FC]">
-      <span>Search</span>
-      <span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" class="w-4 h-4" height="24" viewBox="0 0 24 24" fill="none" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      </span>
-    </button>
   </div>
       <!-- END SEARCH COMPONENT -->
 
@@ -43,7 +37,7 @@
     </span>
 <!-- START FILTER ITEM -->
     <div class="flex items-center gap-2"  v-for="(item, index) in filterTags" :key="index">
-        <input type="checkbox"  name=""  class="default:ring-2 accent-primary h-4 w-4 border border-primary ring-primary checked:bg-primary" id="">
+        <input type="checkbox" v-model="item.checked"  name=""  class="default:ring-2 accent-primary h-4 w-4 border border-primary ring-primary checked:bg-primary" id="">
         <p class="text-sm ">{{item.name}}</p>
     </div>
   <!-- START FILTER ITEM -->
@@ -86,7 +80,7 @@
          </tr>
       </thead>
       <tbody>
-         <tr class="text-[12px] "  v-for="(item, index) in tableData" :key="`item` + index">
+         <tr class="text-[12px] "  v-for="(item, index) in filteredData" :key="`item` + index">
           <td class="border px-2 py-3">
             <div class="flex gap-2 utems-center">
               <a href="">
@@ -108,12 +102,12 @@
           <td class="border px-2 py-3">{{item.product}}</td>
           <td class="border px-2 py-3">{{item.type}}</td>
           <td class="border px-2 py-3">
-            <a :href="item.full_path" class="px-3 bg-[#644DED] underline px-3 py-2 rounded bg-opacity-80 text-[#644DED] bg-opacity-20">View Link</a>
+            <a :href="baseURL + item.full_path" class="px-3 bg-[#644DED] underline px-3 py-2 rounded bg-opacity-80 text-[#644DED] bg-opacity-20">View Link</a>
           </td>
          </tr>
       </tbody>
     </table>
-      <!-- END DATATABLE SECTION -->
+      <!-- END DATATA + BLE SECTION -->
   </section>
 
   <!-- END PUBLICATIONS SECTION -->
@@ -143,26 +137,32 @@ export default {
       pageTitle: 'Bioinformatics Data Hub - Clinical Bioinformatics',
       pageSubTitle: "A portal to access and analyze Gilead's molecular data.",
         isSplideLoaded: false,
+        baseURL: 'http://sjggpappprdn09:8000/api/v1/publication/download/',
         searchTerm:null,
         filterTags:[
         {
           name:"BAR",
-
+          checked:false
         },
         {
           name:"BAP",
+          checked:false
         },
         {
           name:"Abstracts",
+          checked:false,
         },
         {
           name:"Manucripts",
+          checked:false,
         },
         {
           name:"Posters",
+          checked:false,
         },
         {
           name:"Oral Presentation",
+          checked:false,
         }
       ],
       publications:null,
@@ -174,6 +174,19 @@ export default {
     searchTerm(n) {
       this.filteredRows();
     }
+  },
+  computed: {
+   filteredData() {
+     if(this.filterTags.every(item => !item.checked)) {
+      return this.tableData;
+     }
+
+    const checkedFilters = this.filterTags.filter(item => item.checked);
+
+    return this.tableData.filter(pub => {
+      return checkedFilters.some(checkeditem => checkeditem.name.toLowerCase() ==pub.type.toLowerCase());
+    })
+   }
   },
 methods: {
       filteredRows() {
@@ -193,9 +206,11 @@ methods: {
 
 mounted() {
   newAPIService.getAllPublications(this.$axios).then((res) => {
-    console.log("All", res.data.length);
+    this.tableData = res.data;
+
+  })
+  newAPIService.getTrendingPublications(this.$axios).then((res) => {
     this.publications = res.data;
-    console.log("First", this.tableData[0]);
   })
 },
   head() {
