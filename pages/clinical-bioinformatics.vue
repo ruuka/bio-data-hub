@@ -102,7 +102,7 @@
           <td class="border px-2 py-3">{{item.product}}</td>
           <td class="border px-2 py-3">{{item.type}}</td>
           <td class="border px-2 py-3">
-            <a :href="baseURL + item.full_path" class="px-3 bg-[#644DED] underline px-3 py-2 rounded bg-opacity-80 text-[#644DED] bg-opacity-20">View Link</a>
+            <a :href="baseURL + item.id" target="_blank" class="px-3 bg-[#644DED] underline px-3 py-2 rounded bg-opacity-80 text-[#644DED] bg-opacity-20">Download</a>
           </td>
          </tr>
       </tbody>
