@@ -15,7 +15,7 @@ export default {
   },
   getAllPublications($axios) {
     return $axios
-      .get(`/publication/search?search=*`)
+      .get(`/publication/search?search=`)
       .catch((error) => {
         console.log('There was an error: ' + error.response)
       })
