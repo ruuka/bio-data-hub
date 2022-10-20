@@ -1,7 +1,9 @@
 <template>
-<div>
-  <div ref="plotlyDiv"></div>
-  <div class="w-full text-center text-lg font-bold my-2 py-2">Trace Results: {{total_trace_results}}</div>
+  <div>
+    <div ref="plotlyDiv"></div>
+    <div class="w-full text-center text-lg font-bold my-2 py-2">
+      Trace Results: {{ total_trace_results }}
+    </div>
   </div>
 </template>
 
@@ -28,7 +30,7 @@ export default {
   },
   data() {
     return {
-      total_trace_results:0,
+      total_trace_results: 0,
       response: [
         {
           // Example study for age group response to drug ( label/API endpoint -> request -> response)
@@ -182,52 +184,52 @@ export default {
   },
   computed: {
     plotData() {
-var formatted  = [];
-for (let i=0; i< this.boxPlotData.length; i++) {
+      var formatted = []
+      for (let i = 0; i < this.boxPlotData.length; i++) {
+        if (
+          this.checkPresent(formatted, this.boxPlotData[i].primaryGroup) == -1
+        ) {
+          const dataItem = {
+            name: this.boxPlotData[i].primaryGroup,
+            dataPoints: [
+              {
+                type: this.boxPlotData[i].secondaryGroup,
+                y: this.boxPlotData[i].values,
+              },
+            ],
+          }
+          formatted.push(dataItem)
+        } else {
+          const indx = this.checkPresent(
+            formatted,
+            this.boxPlotData[i].primaryGroup
+          )
 
-  if(this.checkPresent(formatted,this.boxPlotData[i].primaryGroup) == -1 ) {
-
-     const dataItem = {
-       name : this.boxPlotData[i].primaryGroup,
-       dataPoints: [{
-         type:this.boxPlotData[i].secondaryGroup,
-         y:this.boxPlotData[i].values
-       }]
-     }
-    formatted.push(dataItem);
-  }else {
-    const indx = this.checkPresent(formatted,this.boxPlotData[i].primaryGroup);
-
-     formatted[indx].dataPoints.push({
-         type:this.boxPlotData[i].secondaryGroup,
-         y:this.boxPlotData[i].values
-       });
-
-
-
-
-  }
-}
-return formatted;
-
+          formatted[indx].dataPoints.push({
+            type: this.boxPlotData[i].secondaryGroup,
+            y: this.boxPlotData[i].values,
+          })
+        }
+      }
+      return formatted
     },
   },
-    watch: {
-        boxPlotData: {
-            handler: function(newValue) {
-              this.reTraceDataForPlot()
-              console.log("retracing when chart data changes");
-            },
-            deep: true
-        }
+  watch: {
+    boxPlotData: {
+      handler: function (newValue) {
+        this.reTraceDataForPlot()
+        console.log('retracing when chart data changes')
+      },
+      deep: true,
     },
+  },
   mounted() {
     this.plotData
     this.reTraceDataForPlot()
   },
   methods: {
-    checkPresent(formatted, name)  {
-      return formatted.findIndex(item => item.name === name);
+    checkPresent(formatted, name) {
+      return formatted.findIndex((item) => item.name === name)
     },
     reTraceDataForPlot() {
       const colors = ['#C51F3F', '#F4992E', '#6DC981', '#36BCE7']
@@ -251,7 +253,7 @@ return formatted;
         type: 'box',
         boxpoints: 'all',
         jitter: 0.3,
-        pointpos: -10,
+        pointpos: -15,
       }
 
       this.plotData.forEach((dataGroup, i) => {
@@ -268,9 +270,9 @@ return formatted;
         })
       })
       console.log('Trace Results', result)
-        result.forEach(item => {
-          this.total_trace_results+=item.y.length
-        })
+      result.forEach((item) => {
+        this.total_trace_results += item.y.length
+      })
       const config = {
         responsive: true,
         displaylogo: false,

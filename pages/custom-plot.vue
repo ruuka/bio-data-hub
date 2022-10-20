@@ -280,11 +280,11 @@
                     <client-only>
                       <selectFilter
                         ref="selectFilter"
-                        v-if="selectedPrimary !==undefined"
+                        v-if="selectedPrimary !== undefined"
                         :SelectedFilterOptions="SelectedFilterOptions"
-                        :selectedPrimary = "selectedPrimary"
-                        :savedFiltersOptions = "savedFiltersOptions"
-                        @reset-saved-filters = "savedFiltersOptions = []"
+                        :selectedPrimary="selectedPrimary"
+                        :savedFiltersOptions="savedFiltersOptions"
+                        @reset-saved-filters="savedFiltersOptions = []"
                       />
                     </client-only>
 
@@ -303,7 +303,7 @@
                           :filter-index="idx"
                           :activeloadingSpinner="activeloadingSpinner"
                           :filter="axisFilter"
-                          :showSuggestions = "showSuggestions"
+                          :showSuggestions="showSuggestions"
                           :deselected-dropdown-ids="deselectedDropdownIds"
                           @ON_SELECT_CHANGE="handleOnSelectChange"
                           @ON_SELECT_STUDY_TYPE="handleOnSelectedStudy"
@@ -353,7 +353,7 @@
             v-if="boxPlotData && selectedPrimary"
             :boxPlotData="boxPlotData"
             :key="boxPlotKey"
-            :plot-title="'Treatment Log (2) TPM vs ' +  selectedPrimary.name"
+            :plot-title="'Treatment Log (2) TPM vs ' + selectedPrimary.name"
             y-axis-title="Log (2) Treatment"
           />
           <!--          <PlotlyBoxPlotFigure-->
@@ -370,11 +370,10 @@
 </template>
 
 <script>
-import newAPIService from '~/services/newAPIService.js'
 import NewBoxPlot from '../components/plotly_components/NewBoxPlot'
 import selectInput from '../components/layout_components/selectInput'
 import selectFilter from '../components/layout_components/selectFilter'
-import { parse } from '@fortawesome/fontawesome-svg-core'
+import newAPIService from '~/services/newAPIService.js'
 
 export default {
   name: 'CustomPlot',
@@ -472,12 +471,14 @@ export default {
     return {
       boxPlotData: null,
       showLogTransform: false,
-      showSuggestions:false,
-      boxPlotKey:0,
-      datatypeToggles:['has_biomarker',
-              'has_geneExpression',
-              'has_pathwayExpression'],
-      activeloadingSpinner:null,
+      showSuggestions: false,
+      boxPlotKey: 0,
+      datatypeToggles: [
+        'has_biomarker',
+        'has_geneExpression',
+        'has_pathwayExpression',
+      ],
+      activeloadingSpinner: null,
       currentlyActiveLogTransformDetails: {
         id: '',
         axis: '',
@@ -487,7 +488,7 @@ export default {
         'horizontal-axis': false,
       },
       SelectedFilterOptions: {},
-      savedFiltersOptions:[],
+      savedFiltersOptions: [],
       isLogTransformSelected: true,
       isLog: false,
       mainSelection: null,
@@ -530,7 +531,7 @@ export default {
         'clinical-attribute-vertical',
         'biomarker-vertical',
         'gene-expression-vertical',
-        'pathway-expression-vertical'
+        'pathway-expression-vertical',
       ],
       selectedSubDropdowns: {
         'horizontal-axis': null,
@@ -714,9 +715,8 @@ export default {
           groupParentId: ['gene-expression-vertical'],
           label: '- Select Gene(s) -',
           selectedValue: [],
-          isMultipleSelect: false
+          isMultipleSelect: false,
 
-          ,
           options: [],
         },
         // {
@@ -788,7 +788,8 @@ export default {
   },
   computed: {
     selectedPrimary() {
-      return this.axisFilterOptions.filter(item =>item.id ==='primary')[0].selectedValue[0];
+      return this.axisFilterOptions.filter((item) => item.id === 'primary')[0]
+        .selectedValue[0]
     },
     shouldShowLogTransformCheckbox() {
       const horizontalBiomarkerItem = this.axisFilterOptions.find(
@@ -950,10 +951,10 @@ export default {
         this.axisFilterOptions[0].selectedValue[0].name
       )
     }
-    this.activeloadingSpinner="study-id";
+    this.activeloadingSpinner = 'study-id'
     // localStorage.clear(); to clear local storage in console
     newAPIService.getAllStudies(this.$axios).then((response) => {
-      this.activeloadingSpinner=null;
+      this.activeloadingSpinner = null
       const formatted = response.data.map((item, index) => {
         return {
           name: item.study_id,
@@ -965,39 +966,36 @@ export default {
       })
       this.axisFilterOptions[0].options = formatted
     })
-
-
-
-
   },
   methods: {
     getAllBioMarkerNames(studyID) {
-       //get Biomarker Data
- // this.activeloadingSpinner="bio-marker";
-  newAPIService.getAllBiomarkerNames(this.$axios, studyID).then((response) => {
-  this.activeloadingSpinner=null;
-  console.log("Biomarker", response.data)
-  const formattedBioMarkerNames =     response.data.map(item => {
-    return {
-      name:item.name,
-      value:item.name,
-      description:item.unit,
-      //description: `Description for ${item.name?.split(" ")[0]}`
-    }
-  })
-     // console.log("formattedBioMarkerNames", formattedBioMarkerNames);
+      //get Biomarker Data
+      // this.activeloadingSpinner="bio-marker";
+      newAPIService
+        .getAllBiomarkerNames(this.$axios, studyID)
+        .then((response) => {
+          this.activeloadingSpinner = null
+          console.log('Biomarker', response.data)
+          const formattedBioMarkerNames = response.data.map((item) => {
+            return {
+              name: item.name,
+              value: item.name,
+              description: item.unit,
+              //description: `Description for ${item.name?.split(" ")[0]}`
+            }
+          })
+          // console.log("formattedBioMarkerNames", formattedBioMarkerNames);
 
-      this.axisFilterOptions = this.axisFilterOptions.map(item => {
-        if(item.id  === 'biomarker' || item.id ==='biomarker-vertical') {
-          item.options = formattedBioMarkerNames
-        }
-        return item;
-
-      });
-    })
+          this.axisFilterOptions = this.axisFilterOptions.map((item) => {
+            if (item.id === 'biomarker' || item.id === 'biomarker-vertical') {
+              item.options = formattedBioMarkerNames
+            }
+            return item
+          })
+        })
     },
     getLocalStorageAxisFilters() {
-            this.$eventBus.$emit('OPEN_MODAL', {
+      this.$eventBus.$emit('OPEN_MODAL', {
         icon: ['far', 'save'],
         title: 'Loading...Please Wait',
         subtitle: 'This will only take a moment',
@@ -1007,7 +1005,7 @@ export default {
         this.localStorageFilterKey
       )
       if (!localStorageFilters) {
-          this.$eventBus.$emit('CLOSE_MODAL')
+        this.$eventBus.$emit('CLOSE_MODAL')
         return
       }
 
@@ -1016,7 +1014,7 @@ export default {
       const selectedStudy = parsed?.selectedStudy || {}
       const logTransformDetails = parsed?.logTransformDetails
       const isLogTransformSelected = parsed?.isLogTransformSelected
-       this.savedFiltersOptions = parsed?.filters
+      this.savedFiltersOptions = parsed?.filters
 
       this.isLogTransformSelected = isLogTransformSelected
 
@@ -1025,10 +1023,9 @@ export default {
         : this.axisFilterOptions
 
       this.selectedStudy = selectedStudy
-      if(axisFilters[0]?.selectedValue?.length > 0) {
-          // this.updateStudyFilterOptions(axisFilters.filter(item => item.id ==='study-id')[0].selectedValue[0].name)
-           this.updateStudyFilterOptions(selectedStudy.study_name)
-
+      if (axisFilters[0]?.selectedValue?.length > 0) {
+        // this.updateStudyFilterOptions(axisFilters.filter(item => item.id ==='study-id')[0].selectedValue[0].name)
+        this.updateStudyFilterOptions(selectedStudy.study_name)
       }
 
       if (logTransformDetails) {
@@ -1039,13 +1036,13 @@ export default {
           ...logTransformDetails.logTransformDetails,
         }
       }
-       this.$eventBus.$emit('CLOSE_MODAL')
+      this.$eventBus.$emit('CLOSE_MODAL')
     },
     handleOnSelectedStudy(study) {
       this.selectedStudy = study
-      console.log("study changed",study);
+      console.log('study changed', study)
       this.updateStudyFilterOptions(study.study_name)
-      this.savedFiltersOptions = [];
+      this.savedFiltersOptions = []
     },
     toggleSubfilterDropdownsVisibility(subFilter, selectedOptions) {
       if (this.selectedSubDropdowns[subFilter.parentId] === undefined) return
@@ -1102,7 +1099,7 @@ export default {
       this.getAllGeneIds(text_to_search, type)
     },
     handleOnSelectChange({ value, subFilterId, subFilter }) {
-      console.log("SubFilter",subFilterId)
+      console.log('SubFilter', subFilterId)
 
       //Clear any selected
       this.clearSelectedStudyIdChange()
@@ -1175,22 +1172,27 @@ export default {
         'clinical-attribute-vertical',
         'biomarker-vertical',
         'gene-expression-vertical',
-        'pathway-expression-vertical']
+        'pathway-expression-vertical',
+      ]
 
-      const isEligible =  typesAllowed.includes(dataFilters.axisFilters.filter(item => item.id =='data-type-vertical')[0].selectedValue[0]?.id)
-        // dataFilters.axisFilters.filter((item) => item.id === 'data-type')[0]
-        //   .selectedValue[0]?.id == 'biomarker'||
-        // dataFilters.axisFilters.filter((item) => item.id === 'data-type')[0]
-        //   .selectedValue[0]?.id == 'gene-expression' || dataFilters.axisFilters.filter((item) => item.id === 'data-type')[0]
-        //   .selectedValue[0]?.id == 'pathway-expression-vertical'
-        console.log("Is eligile",isEligible);
+      const isEligible = typesAllowed.includes(
+        dataFilters.axisFilters.filter(
+          (item) => item.id == 'data-type-vertical'
+        )[0].selectedValue[0]?.id
+      )
+      // dataFilters.axisFilters.filter((item) => item.id === 'data-type')[0]
+      //   .selectedValue[0]?.id == 'biomarker'||
+      // dataFilters.axisFilters.filter((item) => item.id === 'data-type')[0]
+      //   .selectedValue[0]?.id == 'gene-expression' || dataFilters.axisFilters.filter((item) => item.id === 'data-type')[0]
+      //   .selectedValue[0]?.id == 'pathway-expression-vertical'
+      console.log('Is eligile', isEligible)
 
       const type = dataFilters.axisFilters
         .filter((item) => item.id === 'data-type-vertical')[0]
         .selectedValue[0]?.name.split(' ')
         .join('')
 
-      console.log("Selected filter options", this.SelectedFilterOptions);
+      console.log('Selected filter options', this.SelectedFilterOptions)
       const formattedData = {
         study: dataFilters.axisFilters[0].selectedValue[0]?.name,
         primaryGroup: dataFilters.axisFilters
@@ -1198,16 +1200,21 @@ export default {
           .selectedValue[0]?.name?.toLowerCase(),
         secondaryGroup: 'treatment',
         filter: {
-          'treatment':this.SelectedFilterOptions['treatment'],
-          ...this.getFiltersFromDataFilters(dataFilters.filters) == {} ? this.SelectedFilterOptions : this.getFiltersFromDataFilters(dataFilters.filters)},
+          treatment: this.SelectedFilterOptions['treatment'],
+          ...(this.getFiltersFromDataFilters(dataFilters.filters) == {}
+            ? this.SelectedFilterOptions
+            : this.getFiltersFromDataFilters(dataFilters.filters)),
+        },
         value: {
           type: isEligible ? type.charAt(0).toLowerCase() + type.slice(1) : '',
-          filterTo: this.getFilterTo(dataFilters) ?? this.getFilterToTissue(dataFilters),
+          filterTo:
+            this.getFilterTo(dataFilters) ??
+            this.getFilterToTissue(dataFilters),
         },
       }
 
-      console.log(" formatted data Filters:");
-      console.log(formattedData);
+      console.log(' formatted data Filters:')
+      console.log(formattedData)
 
       newAPIService
         .getNewBoxPlotData(
@@ -1216,20 +1223,22 @@ export default {
         )
         .then((response) => {
           this.boxPlotData = response.data
-          this.boxPlotKey++;
+          this.boxPlotKey++
           this.$eventBus.$emit('CLOSE_MODAL')
-        // this.$eventBus.$emit('REMOVE_NOTIFICATION_LOADING', notificationObj)
+          // this.$eventBus.$emit('REMOVE_NOTIFICATION_LOADING', notificationObj)
 
-        this.$eventBus.$emit('ADD_NEW_NOTIFICATION', {
-          type: 'info',
-          title: 'Filters saved successfully',
-          duration: 5000,
-        })
+          this.$eventBus.$emit('ADD_NEW_NOTIFICATION', {
+            type: 'info',
+            title: 'Filters saved successfully',
+            duration: 5000,
+          })
         })
     },
     loadInitialBoxPlotData() {
-      console.log("selected", this.SelectedFilterOptions);
-      const stringifiedFilters = localStorage.getItem(this.localStorageFilterKey);
+      console.log('selected', this.SelectedFilterOptions)
+      const stringifiedFilters = localStorage.getItem(
+        this.localStorageFilterKey
+      )
 
       // this.$eventBus.$emit('OPEN_MODAL', {
       //   icon: ['far', 'save'],
@@ -1239,20 +1248,23 @@ export default {
       // })
 
       this.getboxPlotData(JSON.parse(stringifiedFilters))
-
-
     },
-     getFilterTo(dataFilters) {
-         return dataFilters.axisFilters.filter(
-
-            (item) =>item.parentId =='vertical-axis' && item.groupParentId?.includes((dataFilters.axisFilters.filter(item => item.id =='data-type-vertical')[0].selectedValue[0]?.id))
-          )[0]?.selectedValue[0]?.name
+    getFilterTo(dataFilters) {
+      return dataFilters.axisFilters.filter(
+        (item) =>
+          item.parentId == 'vertical-axis' &&
+          item.groupParentId?.includes(
+            dataFilters.axisFilters.filter(
+              (item) => item.id == 'data-type-vertical'
+            )[0].selectedValue[0]?.id
+          )
+      )[0]?.selectedValue[0]?.name
     },
 
-      getFilterToTissue(dataFilters) {
-         return dataFilters.axisFilters.filter(
-           (item) =>item.id =='tissue-type'
-          )[0]?.selectedValue[0]?.name
+    getFilterToTissue(dataFilters) {
+      return dataFilters.axisFilters.filter(
+        (item) => item.id == 'tissue-type'
+      )[0]?.selectedValue[0]?.name
     },
     handleSaveFilters() {
       if (this.deselectedDropdownIds.length > 0) {
@@ -1295,7 +1307,6 @@ export default {
       this.getboxPlotData(JSON.parse(stringifiedFilters))
       localStorage.setItem(this.localStorageFilterKey, stringifiedFilters)
 
-
       // const notificationObj = {
       //   ref: 'TEST_LOADING',
       //   isLoading: true,
@@ -1330,154 +1341,168 @@ export default {
           })
         })
 
-     // console.log("Formatted Genes",formattedGenes)
+      // console.log("Formatted Genes",formattedGenes)
       return formattedGenes
     },
-     autocompleteMatch(input) {
-  if (input == '') {
-    return [];
-  }
-  var reg = new RegExp(input)
-  return search_terms.filter(function(term) {
-	  if (term.match(reg)) {
-  	  return term;
-	  }
-  });
-},
+    autocompleteMatch(input) {
+      if (input == '') {
+        return []
+      }
+      var reg = new RegExp(input)
+      return search_terms.filter(function (term) {
+        if (term.match(reg)) {
+          return term
+        }
+      })
+    },
 
     async getAllGeneIds(text_to_search, type) {
-      this.activeloadingSpinner=type;
+      this.activeloadingSpinner = type
       const result = await this.getGeneAliases(text_to_search)
-      this.activeloadingSpinner=null;
+      this.activeloadingSpinner = null
       this.axisFilterOptions = this.axisFilterOptions.map((item) => {
         if (item.id === type) {
-    const options  = result.map((geneItem) => {
-            return {
-              name: geneItem.name ?? 'NONE',
-              value: geneItem.value,
-              description: `Alt. names: ${geneItem.aliases}`,
-            }
-          }).filter((gitem) => {
+          const options = result
+            .map((geneItem) => {
+              return {
+                name: geneItem.name ?? 'NONE',
+                value: geneItem.value,
+                description: `Alt. names: ${geneItem.aliases}`,
+              }
+            })
+            .filter((gitem) => {
               // var reg = new RegExp(text_to_search)
-              let re = new RegExp(`${text_to_search.toUpperCase()}`);
-             // console.log("Matching-", re, re.test(gitem.name?.toUpperCase()))
+              let re = new RegExp(`${text_to_search.toUpperCase()}`)
+              // console.log("Matching-", re, re.test(gitem.name?.toUpperCase()))
 
-              return gitem.name?.toUpperCase().startsWith(text_to_search.toUpperCase()) || re.test(gitem.name?.toUpperCase());
-          }).sort((a, b) => {
-                  return a.name?.toLowerCase().indexOf(text_to_search?.toLowerCase()) < b.name?.toLowerCase().indexOf(text_to_search?.toLowerCase()) ? -1 : 1;
-          });
+              return (
+                gitem.name
+                  ?.toUpperCase()
+                  .startsWith(text_to_search.toUpperCase()) ||
+                re.test(gitem.name?.toUpperCase())
+              )
+            })
+            .sort((a, b) => {
+              return a.name
+                ?.toLowerCase()
+                .indexOf(text_to_search?.toLowerCase()) <
+                b.name?.toLowerCase().indexOf(text_to_search?.toLowerCase())
+                ? -1
+                : 1
+            })
 
-       if(options.length ===0) {
-       //do some result suggestions
-       this.showSuggestions = true
-       item.options = result.map((geneItem) => {
-            return {
-              name: geneItem.name ?? 'NONE',
-              value: geneItem.value,
-              description: `Alt. names: ${geneItem.aliases}`,
-            }
-          }).filter((gitem) => {
-              // var reg = new RegExp(text_to_search)
-              let re = new RegExp(`${text_to_search.substring(0,3).toUpperCase()}`);
-             // console.log("Matching-", re, re.test(gitem.name?.toUpperCase()))
+          if (options.length === 0) {
+            //do some result suggestions
+            this.showSuggestions = true
+            item.options = result
+              .map((geneItem) => {
+                return {
+                  name: geneItem.name ?? 'NONE',
+                  value: geneItem.value,
+                  description: `Alt. names: ${geneItem.aliases}`,
+                }
+              })
+              .filter((gitem) => {
+                // var reg = new RegExp(text_to_search)
+                let re = new RegExp(
+                  `${text_to_search.substring(0, 3).toUpperCase()}`
+                )
+                // console.log("Matching-", re, re.test(gitem.name?.toUpperCase()))
 
-              return gitem.name?.toUpperCase().startsWith(text_to_search.substring(0,3).toUpperCase()) || re.test(gitem.name?.toUpperCase());
-          });
-
-     }else {
-       item.options = options
-       this.showSuggestions = false
-     }
+                return (
+                  gitem.name
+                    ?.toUpperCase()
+                    .startsWith(text_to_search.substring(0, 3).toUpperCase()) ||
+                  re.test(gitem.name?.toUpperCase())
+                )
+              })
+          } else {
+            item.options = options
+            this.showSuggestions = false
+          }
         }
         return item
       })
     },
     setTissueType(res) {
-  
-  //get tissue types
-  const formatedTissueData =     res['tissue'].map(item => {
-    return {
-      name:item,
-      value:item.toLowerCase()
-    }
-    })
-      this.axisFilterOptions = this.axisFilterOptions.map(item => {
-        if(item.id ==='tissue-type' || item.id ==='tissue-type-vertical') {
+      //get tissue types
+      const formatedTissueData = res['tissue'].map((item) => {
+        return {
+          name: item,
+          value: item.toLowerCase(),
+        }
+      })
+      this.axisFilterOptions = this.axisFilterOptions.map((item) => {
+        if (item.id === 'tissue-type' || item.id === 'tissue-type-vertical') {
           item.options = formatedTissueData
         }
-        return item;
-
-      });
-    
-
-
+        return item
+      })
     },
     setTimePoint(res) {
-      this.axisFilterOptions =this.axisFilterOptions.map(item => {
-          if(item.id ==='time-point') {
-            console.log("Item",  item)
-            item.options =res['time'].map(item => {
-              return  {
+      this.axisFilterOptions = this.axisFilterOptions.map((item) => {
+        if (item.id === 'time-point') {
+          console.log('Item', item)
+          item.options = res['time'].map((item) => {
+            return {
               id: item,
               name: item,
               value: item,
-             }
-            })
-          }
-           return item;
+            }
+          })
+        }
+        return item
       })
     },
     setDataTypeVertical() {
-        console.log("Called set vertical")
-        let options = [];
-        let index = this.axisFilterOptions.findIndex((item) => item.id ==='data-type-vertical');
-        this.axisFilterOptions[index].options = []
-          if(this.SelectedFilterOptions.has_geneExpression) {
-            options.push(            {
-              id: 'gene-expression-vertical',
-              name: 'Gene Expression',
-              value: 'gene-expression',
-            })
-          }
+      console.log('Called set vertical')
+      let options = []
+      let index = this.axisFilterOptions.findIndex(
+        (item) => item.id === 'data-type-vertical'
+      )
+      this.axisFilterOptions[index].options = []
+      if (this.SelectedFilterOptions.has_geneExpression) {
+        options.push({
+          id: 'gene-expression-vertical',
+          name: 'Gene Expression',
+          value: 'gene-expression',
+        })
+      }
 
-          if(this.SelectedFilterOptions.has_biomarker) {
-            options.push({
-              id: 'biomarker-vertical',
-              name: 'Biomarker',
-              value: 'biomarker',
-            })
-          }
+      if (this.SelectedFilterOptions.has_biomarker) {
+        options.push({
+          id: 'biomarker-vertical',
+          name: 'Biomarker',
+          value: 'biomarker',
+        })
+      }
 
-          if(this.SelectedFilterOptions.has_pathwayExpression) {
-            options.push(
-            {
-              id: 'pathway-expression-vertical', // new: pathwayExpression leads to tissue_source
-              name: 'Pathway Expression',
-              value: 'pathway-expression',
-            })
-          }
-       this.axisFilterOptions[index].options =options
-      
-
+      if (this.SelectedFilterOptions.has_pathwayExpression) {
+        options.push({
+          id: 'pathway-expression-vertical', // new: pathwayExpression leads to tissue_source
+          name: 'Pathway Expression',
+          value: 'pathway-expression',
+        })
+      }
+      this.axisFilterOptions[index].options = options
     },
     updateStudyFilterOptions(study) {
-      
       if (!study) {
         this.SelectedFilterOptions = {}
         return
       }
       newAPIService
-        .getScatterPlotParametersByStudyID(this.$axios,study)
+        .getScatterPlotParametersByStudyID(this.$axios, study)
         .then((response) => {
           this.SelectedFilterOptions = response.data
-           console.log("Called updateStudyFilterOptions Func")
+          console.log('Called updateStudyFilterOptions Func')
           this.setTimePoint(response.data)
           this.setTissueType(response.data)
           this.setDataTypeVertical()
         })
 
-    this.getAllBioMarkerNames(study);
-     },
+      this.getAllBioMarkerNames(study)
+    },
   },
 }
 </script>
