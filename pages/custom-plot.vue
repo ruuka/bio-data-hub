@@ -955,7 +955,7 @@ export default {
     // localStorage.clear(); to clear local storage in console
     newAPIService.getAllStudies(this.$axios).then((response) => {
       this.activeloadingSpinner = null
-      const formatted = response.data.map((item, index) => {
+      const formatted = response.data.map((item) => {
         return {
           name: item.study_id,
           value: item.study_id.toLowerCase(),
@@ -1177,7 +1177,7 @@ export default {
 
       const isEligible = typesAllowed.includes(
         dataFilters.axisFilters.filter(
-          (item) => item.id == 'data-type-vertical'
+          (item) => item.id === 'data-type-vertical'
         )[0].selectedValue[0]?.id
       )
       // dataFilters.axisFilters.filter((item) => item.id === 'data-type')[0]
@@ -1223,6 +1223,17 @@ export default {
         )
         .then((response) => {
           this.boxPlotData = response.data
+
+          if (!this.boxPlotData || this.boxPlotData.length === 0) {
+            this.$eventBus.$emit('CLOSE_MODAL')
+            this.$eventBus.$emit('ADD_NEW_NOTIFICATION', {
+              type: 'error',
+              title: 'Sorry no data at this moment!',
+              duration: 5000,
+            })
+
+            return
+          }
           this.boxPlotKey++
           this.$eventBus.$emit('CLOSE_MODAL')
           // this.$eventBus.$emit('REMOVE_NOTIFICATION_LOADING', notificationObj)
@@ -1230,6 +1241,15 @@ export default {
           this.$eventBus.$emit('ADD_NEW_NOTIFICATION', {
             type: 'info',
             title: 'Filters saved successfully',
+            duration: 5000,
+          })
+        })
+        .catch(() => {
+          this.$eventBus.$emit('CLOSE_MODAL')
+
+          this.$eventBus.$emit('ADD_NEW_NOTIFICATION', {
+            type: 'warning',
+            title: 'Opps,Sorry !Internal problem occured!',
             duration: 5000,
           })
         })
@@ -1345,14 +1365,15 @@ export default {
       return formattedGenes
     },
     autocompleteMatch(input) {
-      if (input == '') {
+      if (input === '') {
         return []
       }
-      var reg = new RegExp(input)
+      const reg = new RegExp(input)
       return search_terms.filter(function (term) {
         if (term.match(reg)) {
-          return term
+          return true
         }
+        return false
       })
     },
 

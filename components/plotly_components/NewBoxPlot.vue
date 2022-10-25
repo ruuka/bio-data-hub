@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div
+      v-if="total_trace_results < 1"
+      class="bg-red-200 text-red-500 p-2 rounded"
+    >
+      No data Available
+    </div>
     <div ref="plotlyDiv"></div>
     <div class="w-full text-center text-lg font-bold my-2 py-2">
       Trace Results: {{ total_trace_results }}
@@ -184,7 +190,7 @@ export default {
   },
   computed: {
     plotData() {
-      var formatted = []
+      let formatted = []
       for (let i = 0; i < this.boxPlotData.length; i++) {
         if (
           this.checkPresent(formatted, this.boxPlotData[i].primaryGroup) == -1
@@ -216,7 +222,8 @@ export default {
   },
   watch: {
     boxPlotData: {
-      handler: function (newValue) {
+      // eslint-disable-next-line object-shorthand
+      handler: function () {
         this.reTraceDataForPlot()
         console.log('retracing when chart data changes')
       },
@@ -306,16 +313,16 @@ export default {
           title: this.$props.yAxisTitle,
           // type: this.$props.plotSetup.axisScale,
           zeroline: false,
-          //autorange: true,
-          //showgrid: true,
-          //dtick: 5,
-          //gridcolor: 'rgb(255, 255, 255)',
-          //gridwidth: 1,
-          //zerolinecolor: 'rgb(255, 255, 255)',
-          //zerolinewidth: 2
+          // autorange: true,
+          // showgrid: true,
+          // dtick: 5,
+          // gridcolor: 'rgb(255, 255, 255)',
+          // gridwidth: 1,
+          // zerolinecolor: 'rgb(255, 255, 255)',
+          // zerolinewidth: 2
         },
-        //boxmode: 'group',
-        //margin: { t: 25, b: 150, l: 50, r: 15 },
+        // boxmode: 'group',
+        // margin: { t: 25, b: 150, l: 50, r: 15 },
       }
       if (this.$props.plotTitle > 50) {
         layout.titlefont = { size: 12 }
