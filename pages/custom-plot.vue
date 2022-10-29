@@ -336,7 +336,8 @@
 
                   <button
                     type="submit"
-                    class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-700 border border-transparent rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                    :disabled="deselectedDropdownIds.length > 0"
+                    class="inline-flex disabled:bg-opacity-50 justify-center px-4 py-2 text-sm font-medium text-white bg-red-700 border border-transparent rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                   >
                     Save Filters
                   </button>
@@ -351,8 +352,8 @@
         <div class="p-20 rounded bg-base-100 place-items-center">
           <NewBoxPlot
             v-if="boxPlotData && selectedPrimary"
-            :boxPlotData="boxPlotData"
             :key="boxPlotKey"
+            :box-plot-data="boxPlotData"
             :plot-title="'Treatment Log (2) TPM vs ' + selectedPrimary.name"
             y-axis-title="Log (2) Treatment"
           />
@@ -1099,9 +1100,9 @@ export default {
       this.getAllGeneIds(text_to_search, type)
     },
     handleOnSelectChange({ value, subFilterId, subFilter }) {
-      console.log('SubFilter', subFilterId)
+      console.log('DESELEEED', this.deselectedDropdownIds.length)
 
-      //Clear any selected
+      // Clear any selected
       this.clearSelectedStudyIdChange()
       // .selectedValue[0].name
 
