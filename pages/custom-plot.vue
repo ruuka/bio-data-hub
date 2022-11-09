@@ -336,7 +336,7 @@
 
                   <button
                     type="submit"
-                    :disabled="deselectedDropdownIds.length > 0"
+                    :disabled="disabledForSeconds || disabledInput"
                     class="inline-flex disabled:bg-opacity-50 justify-center px-4 py-2 text-sm font-medium text-white bg-red-700 border border-transparent rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
                   >
                     Save Filters
@@ -471,6 +471,7 @@ export default {
   data() {
     return {
       boxPlotData: null,
+      disabledForSeconds: false,
       showLogTransform: false,
       showSuggestions: false,
       boxPlotKey: 0,
@@ -792,6 +793,11 @@ export default {
       return this.axisFilterOptions.filter((item) => item.id === 'primary')[0]
         .selectedValue[0]
     },
+    disabledInput() {
+      return this.allAxisFilters.some((item) => {
+        return item.axisSubFilters.some((sub) => sub.selectedValue.length === 0)
+      })
+    },
     shouldShowLogTransformCheckbox() {
       const horizontalBiomarkerItem = this.axisFilterOptions.find(
         (o) => o.id === 'data-type'
@@ -945,6 +951,11 @@ export default {
     },
   },
   mounted() {
+    this.disabledForSeconds = true
+    // let that=this;
+    setTimeout(() => {
+      this.disabledForSeconds = false
+    }, 4000)
     this.getLocalStorageAxisFilters() // disable when changing field names
     // console.log(this.axisFilterOptions[0])
     if (this.axisFilterOptions[0].selectedValue.length > 0) {
@@ -1100,8 +1111,6 @@ export default {
       this.getAllGeneIds(text_to_search, type)
     },
     handleOnSelectChange({ value, subFilterId, subFilter }) {
-      console.log('DESELEEED', this.deselectedDropdownIds.length)
-
       // Clear any selected
       this.clearSelectedStudyIdChange()
       // .selectedValue[0].name
