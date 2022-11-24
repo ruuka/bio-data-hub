@@ -14,18 +14,14 @@ export default {
       })
   },
   getAllPublications($axios) {
-    return $axios
-      .get(`/publication/search?search=`)
-      .catch((error) => {
-        console.log('There was an error: ' + error.response)
-      })
+    return $axios.get(`/publication/search?search=`).catch((error) => {
+      console.log('There was an error: ' + error.response)
+    })
   },
   getTrendingPublications($axios) {
-    return $axios
-      .get(`/publications`)
-      .catch((error) => {
-        console.log('There was an error: ' + error.response)
-      })
+    return $axios.get(`/publications`).catch((error) => {
+      console.log('There was an error: ' + error.response)
+    })
   },
   getScatterPlotParametersByStudyID($axios, studyID) {
     return $axios
@@ -40,14 +36,11 @@ export default {
     })
   },
   postFile($axios, formData) {
-    return $axios.post('/icf-codification/upload',
-    formData,
-    {
+    return $axios.post('/icf-codification/upload', formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
-      }
-    }
-    )
+        'Content-Type': 'multipart/form-data',
+      },
+    })
   },
   getAllGeneAliases($axios, searchString, limit = 20) {
     return $axios
@@ -61,18 +54,27 @@ export default {
       console.log('There was an error: ' + error.response)
     })
   },
+  getAllNewStudies($axios) {
+    return $axios.get(`/plot-options/study-data/`).catch((error) => {
+      console.log('There was an error: ' + error.response)
+    })
+  },
 
   getTissueTypes($axios) {
+    return (
+      $axios
+        // .get(`/plot-options/gene-expression/`)
+        .get(`/plot-options/differential-gene-expression/`)
+        .catch((error) => {
+          console.log('There was an error: ' + error.response)
+        })
+    )
+  },
+  getAllBiomarkerNames($axios, studyID) {
     return $axios
-      // .get(`/plot-options/gene-expression/`)
-      .get(`/plot-options/differential-gene-expression/`)
+      .get(`/plot-options/all-biomarker-names?study=${studyID}`)
       .catch((error) => {
         console.log('There was an error: ' + error.response)
       })
-  },
-  getAllBiomarkerNames($axios, studyID) {
-    return $axios.get(`/plot-options/all-biomarker-names?study=${studyID}`).catch((error) => {
-      console.log('There was an error: ' + error.response)
-    })
   },
 }
