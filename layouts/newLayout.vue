@@ -6,12 +6,9 @@
     <NavBars />
     <NotificationGroup />
     <DialogModal />
-    <div class="flex">
-      <leftMenu
-        v-if="$route.path !== '/tableau' || $route.path !== '/new-ui'"
-      />
-      <nuxt />
-    </div>
+
+    <nuxt />
+
     <footerComponent />
   </div>
 </template>
@@ -21,7 +18,7 @@ import NotificationGroup from '@/components/layout_components/notification-group
 import DialogModal from '@/components/layout_components/dialog-modal'
 
 export default {
-  name: 'Default',
+  name: 'NewLayout',
   components: {
     NotificationGroup,
     DialogModal,

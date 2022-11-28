@@ -4,158 +4,153 @@
     <div
       class="flex flex-col items-center h-full px-2 py-2 overflow-hidden text-gray-600 bg-white lg:w-72"
     >
-      <div class="w-full px-2">
-        <div class="flex flex-col items-center w-full mt-3">
-          <NuxtLink
-            to="/"
-            class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-rose-50"
-          >
-            <svg
-              class="w-6 h-6 stroke-current"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-              />
-            </svg>
-            <span class="ml-2 text-sm font-medium">Home</span>
-          </NuxtLink>
+      <!-- SIDEBAR -->
+      <aside class="bg-white h-full flex flex-col gap-6 px-3 pt-3">
+        <header>
+          <div class="flex px-5 items-center justify-between">
+            <div class="flex items-center gap-2">
+              <svg
+                class="fill-red h-5"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 0 30 30"
+              >
+                <path
+                  d="M11 4 A 1.0001 1.0001 0 1 0 11 6L11 12L11 13L11 14L4.4511719 22.734375L4.4511719 22.736328 A 2 2 0 0 0 4 24 A 2 2 0 0 0 6 26L15 26L24 26 A 2 2 0 0 0 26 24 A 2 2 0 0 0 25.548828 22.736328 A 2 2 0 0 0 25.548828 22.734375L19 14L19 13L19 12L19 6 A 1.0001 1.0001 0 1 0 19 4L11 4 z M 13 6L17 6L17 12L13 12L13 6 z M 14 14C14.552 14 15 14.448 15 15C15 15.552 14.552 16 14 16C13.448 16 13 15.552 13 15C13 14.448 13.448 14 14 14 z M 17.5 20C18.328 20 19 20.672 19 21.5C19 22.328 18.328 23 17.5 23C16.672 23 16 22.328 16 21.5C16 20.672 16.672 20 17.5 20 z"
+                />
+              </svg>
 
-          <NuxtLink
-            to="/custom-plot"
-            class="flex items-center w-full h-12 px-3 mt-2 rounded bg-rose-50 text-primary"
+              <p class="text-red font-semibold">Data Summary</p>
+            </div>
+
+            <button>
+              <svg
+                class="fill-dark-1 h-5 rotate-180"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 0 30 30"
+              >
+                <path
+                  d="M3,12v-2c0-0.386,0.223-0.738,0.572-0.904s0.762-0.115,1.062,0.13L15,17.708l10.367-8.482 c0.299-0.245,0.712-0.295,1.062-0.13C26.779,9.261,27,9.614,27,10v2c0,0.3-0.135,0.584-0.367,0.774l-11,9 c-0.369,0.301-0.898,0.301-1.267,0l-11-9C3.135,12.584,3,12.3,3,12z"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <div
+            class="input-group py-1 px-2 mt-2 flex items-center gap-2 justify-between bg-[#f3f3f8]"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-            </svg>
-            <span class="ml-2 text-sm font-medium">Clinical Trial Data</span>
-          </NuxtLink>
-          <NuxtLink
-            to="/public-data-sets"
-            class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-rose-50"
-          >
-            <svg
-              class="w-6 h-6 stroke-current"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
-            </svg>
-            <span class="ml-2 text-sm font-medium">Public Datasets</span>
-          </NuxtLink>
-          <NuxtLink
-            to="/clinical-bioinformatics"
-            class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-rose-50"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-            </svg>
-            <span class="ml-2 text-sm font-medium"
-              >Clinical Bioinformatics</span
-            >
-          </NuxtLink>
-        </div>
-        <div
-          class="flex flex-col items-center w-full mt-2 border-t border-gray-300"
+            <input
+              type="text"
+              placeholder="Search ID, indication, component, nickname..."
+              class="bg-transparent px-2 text-xs"
+            />
+            <button class="h-5 aspect-square mr-2">
+              <svg
+                class="h-5 fill-dark-1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 0 48 48"
+              >
+                <path
+                  d="M20.5 6C12.509634 6 6 12.50964 6 20.5C6 28.49036 12.509634 35 20.5 35C23.956359 35 27.133709 33.779044 29.628906 31.75L39.439453 41.560547 A 1.50015 1.50015 0 1 0 41.560547 39.439453L31.75 29.628906C33.779044 27.133709 35 23.956357 35 20.5C35 12.50964 28.490366 6 20.5 6 z M 20.5 9C26.869047 9 32 14.130957 32 20.5C32 23.602612 30.776198 26.405717 28.791016 28.470703 A 1.50015 1.50015 0 0 0 28.470703 28.791016C26.405717 30.776199 23.602614 32 20.5 32C14.130953 32 9 26.869043 9 20.5C9 14.130957 14.130953 9 20.5 9 z"
+                />
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <section
+          v-if="allStudies && allStudies.length > 0"
+          class="overflow-y-scroll flex flex-col gap-6 max-h-[640px]"
         >
-<!--          <NuxtLink-->
-<!--            to="/other-tools"-->
-<!--            class="flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-rose-50"-->
-<!--          >-->
-<!--            <svg-->
-<!--              class="w-6 h-6 stroke-current"-->
-<!--              xmlns="http://www.w3.org/2000/svg"-->
-<!--              fill="none"-->
-<!--              viewBox="0 0 24 24"-->
-<!--              stroke="currentColor"-->
-<!--            >-->
-<!--              <path-->
-<!--                stroke-linecap="round"-->
-<!--                stroke-linejoin="round"-->
-<!--                stroke-width="2"-->
-<!--                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"-->
-<!--              />-->
-<!--            </svg>-->
-<!--            <span class="ml-2 text-sm font-medium"-->
-<!--              >Other Tools-->
-<!--              <font-awesome-icon :icon="['far', 'angle-down']" />-->
-<!--            </span>-->
-<!--          </NuxtLink>-->
-<!--          <NuxtLink-->
-<!--            to=""-->
-<!--            class="relative flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-rose-50"-->
-<!--          >-->
-<!--            <svg-->
-<!--              class="w-6 h-6 stroke-current"-->
-<!--              xmlns="http://www.w3.org/2000/svg"-->
-<!--              fill="none"-->
-<!--              viewBox="0 0 24 24"-->
-<!--              stroke="currentColor"-->
-<!--            >-->
-<!--              <path-->
-<!--                stroke-linecap="round"-->
-<!--                stroke-linejoin="round"-->
-<!--                stroke-width="2"-->
-<!--                d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"-->
-<!--              />-->
-<!--            </svg>-->
-<!--            <span class="ml-2 text-sm font-medium">News</span>-->
-<!--            <span-->
-<!--              class="absolute top-0 left-0 w-2 h-2 mt-2 ml-2 bg-red-600 rounded-full"-->
-<!--            ></span>-->
-<!--          </NuxtLink>-->
-<!--          <NuxtLink-->
-<!--            to="upload"-->
-<!--            class="relative flex items-center w-full h-12 px-3 mt-2 rounded hover:bg-rose-50"-->
-<!--          >-->
-<!--            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">-->
-<!--              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />-->
-<!--            </svg>-->
-<!--            <span class="ml-2 text-sm font-medium">ICF Upload Portal</span>-->
-<!--          </NuxtLink>-->
-        </div>
-      </div>
-<!--      <a-->
-<!--        class="flex items-center justify-start w-full h-16 pl-6 mt-auto bg-gray-200 rounded hover:bg-rose-50"-->
-<!--      >-->
-<!--        <svg-->
-<!--          class="w-6 h-6 stroke-current"-->
-<!--          xmlns="http://www.w3.org/2000/svg"-->
-<!--          fill="none"-->
-<!--          viewBox="0 0 24 24"-->
-<!--          stroke="currentColor"-->
-<!--        >-->
-<!--          <path-->
-<!--            stroke-linecap="round"-->
-<!--            stroke-linejoin="round"-->
-<!--            stroke-width="2"-->
-<!--            d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"-->
-<!--          />-->
-<!--        </svg>-->
-<!--        <span class="ml-2 text-sm font-medium">Support</span>-->
-<!--      </a>-->
+          <!-- SELECTIONS -->
+
+          <div
+            v-for="item in t_areas"
+            :key="item"
+            class="flex flex-col gap-2 px-5"
+          >
+            <p class="uppercase text-sm font-bold text-dark-1">{{ item }}</p>
+
+            <!-- check -->
+            <div
+              v-for="protocol in getStudiesByTheraputicArea(item)"
+              :key="protocol.PROTOCOLNUMBER"
+              class="input-group"
+            >
+              <label>
+                <input
+                  type="checkbox"
+                  name="check"
+                  class="accent-red flex-none h-5 w-5 disabled:opacity-20 rounded aspect-square"
+                  :checked="
+                    selectedProtocol &&
+                    selectedProtocol == protocol.PROTOCOLNUMBER
+                  "
+                  @click="handleClick(protocol)"
+                />
+                <span class="flex items-center text-sm">{{
+                  protocol.PROTOCOLNUMBER
+                }}</span></label
+              >
+            </div>
+
+            <a href="" class="uppercase text-sm text-center mt-2 text-dark-2"
+              >show more</a
+            >
+          </div>
+        </section>
+      </aside>
     </div>
     <!-- Left Menu End  -->
   </div>
 </template>
 
 <script>
+import newAPIService from '~/services/newAPIService'
+
 export default {
   name: 'LeftMenu',
   components: {},
   props: [],
+  data() {
+    return {
+      allStudies: [],
+      selectedProtocol: null,
+    }
+  },
+  head() {
+    const title = 'Home'
+    return {
+      title,
+    }
+  },
+  computed: {
+    t_areas() {
+      const tAreas = this.allStudies.map((item) => {
+        return item.THERAPEUTICAREA
+      })
+      return [...new Set(tAreas)]
+    },
+  },
+  mounted() {
+    newAPIService.getAllNewStudies(this.$axios).then((res) => {
+      //  const result = res.data.group(({ THERAPEUTICAREA }) => THERAPEUTICAREA)
+      this.allStudies = res.data
+      console.log(this.getStudiesByTheraputicArea(res.data[0].THERAPEUTICAREA))
+    })
+  },
+  methods: {
+    getStudiesByTheraputicArea(therapeuticarea) {
+      return this.allStudies.filter((item) => {
+        return item.THERAPEUTICAREA === therapeuticarea
+      })
+    },
+    handleClick(protocol) {
+      this.selectedProtocol = protocol.PROTOCOLNUMBER
+      this.$emit('selected-study', protocol)
+    },
+  },
 }
 </script>
