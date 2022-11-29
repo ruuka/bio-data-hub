@@ -76,22 +76,21 @@
             <!-- check -->
             <div
               v-for="protocol in getStudiesByTheraputicArea(item)"
-              :key="protocol.PROTOCOLNUMBER"
+              :key="protocol.study_id"
               class="input-group"
             >
               <label>
                 <input
                   type="checkbox"
                   name="check"
-                  class="accent-red flex-none h-5 w-5 disabled:opacity-20 rounded aspect-square"
+                  class="accent-red flex-none h-5 w-5 disabled:opacity-20 rounded"
                   :checked="
-                    selectedProtocol &&
-                    selectedProtocol == protocol.PROTOCOLNUMBER
+                    selectedProtocol && selectedProtocol == protocol.study_id
                   "
                   @click="handleClick(protocol)"
                 />
                 <span class="flex items-center text-sm">{{
-                  protocol.PROTOCOLNUMBER
+                  protocol.study_id
                 }}</span></label
               >
             </div>
@@ -129,7 +128,7 @@ export default {
   computed: {
     t_areas() {
       const tAreas = this.allStudies.map((item) => {
-        return item.THERAPEUTICAREA
+        return item.therapeutic_area
       })
       return [...new Set(tAreas)]
     },
@@ -138,17 +137,17 @@ export default {
     newAPIService.getAllNewStudies(this.$axios).then((res) => {
       //  const result = res.data.group(({ THERAPEUTICAREA }) => THERAPEUTICAREA)
       this.allStudies = res.data
-      console.log(this.getStudiesByTheraputicArea(res.data[0].THERAPEUTICAREA))
+      console.log(this.getStudiesByTheraputicArea(res.data[0].therapeutic_area))
     })
   },
   methods: {
     getStudiesByTheraputicArea(therapeuticarea) {
       return this.allStudies.filter((item) => {
-        return item.THERAPEUTICAREA === therapeuticarea
+        return item.therapeutic_area === therapeuticarea
       })
     },
     handleClick(protocol) {
-      this.selectedProtocol = protocol.PROTOCOLNUMBER
+      this.selectedProtocol = protocol.study_id
       this.$emit('selected-study', protocol)
     },
   },

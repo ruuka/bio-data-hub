@@ -91,11 +91,11 @@
                 </div>
                 <p class="py-1.5 px-2.5 rounded bg-red text-white">
                   Therapeutic Area:
-                  {{ selectedProtocol && selectedProtocol.THERAPEUTICAREA }}
+                  {{ selectedProtocol && selectedProtocol.study_id }}
                 </p>
                 <p class="py-1.5 px-2.5 rounded bg-red text-white">
                   Indication:
-                  {{ selectedProtocol && selectedProtocol.PROTOCOLINDICATION }}
+                  {{ selectedProtocol && selectedProtocol.indication }}
                 </p>
               </div>
               <!-- right -->

@@ -65,3 +65,43 @@
 .vue-tags-input .ti-autocomplete {
   border: none !important;
 }
+
+.input-group > label > input[type='checkbox'] {
+  display: none;
+}
+.input-group > label > input[type='checkbox'] + *::before {
+  content: '';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 10%;
+  border: 0.1rem solid #e28f9f;
+  margin-right: 10px;
+}
+
+.input-group > label > input[type='checkbox']:checked + *::before {
+  content: '✓';
+  color: white;
+  text-align: center;
+  background: #c51f3f;
+  border-color: #c51f3f;
+}
+.input-group > label > input[type='checkbox']:checked + * {
+  color: #333333;
+  cursor: pointer;
+}
+.input-group > label > input[type='checkbox'] + * {
+  color: rgba(61, 61, 61, 0.8);
+  cursor: pointer;
+}
+.input-group label span {
+  background: #fff;
+}
+.dropdown .dropdown-item {
+  @apply hidden;
+}
+.dropdown:focus-within .dropdown-item {
+  @apply block;
+}
