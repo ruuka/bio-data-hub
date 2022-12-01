@@ -91,11 +91,11 @@
                 </div>
                 <p class="py-1.5 px-2.5 rounded bg-red text-white">
                   Therapeutic Area:
-                  {{ selectedProtocol && selectedProtocol.study_id }}
+                  {{ selectedStudy && selectedStudy.study_id }}
                 </p>
                 <p class="py-1.5 px-2.5 rounded bg-red text-white">
                   Indication:
-                  {{ selectedProtocol && selectedProtocol.indication }}
+                  {{ selectedStudy && selectedStudy.indication }}
                 </p>
               </div>
               <!-- right -->
@@ -192,13 +192,14 @@
                   >
                     Plot Type
                   </div>
-                  <div
+                  <label
                     class="custom-select w-full relative [box-shadow:0px1px10pxrgba(84,86,91,0.2)]"
+                    tabindex="1"
                   >
                     <button
                       class="py-1.5 w-full px-2.5 rounded border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] flex justify-between items-center gap-2 text-dark-2 group hover:text-purple"
                     >
-                      Select Type
+                      {{ plotType.selectedValue.name || 'Select Type' }}
                       <svg
                         class="fill-dark-2 h-4 group-hover:fill-purple transition-transform duration-200"
                         xmlns="http://www.w3.org/2000/svg"
@@ -211,7 +212,7 @@
                       </svg>
                     </button>
                     <ul
-                      class="menu hidden relative w-max mt-1 drop-shadow-md rounded-xl bg-white"
+                      class="menu relative w-max mt-1 drop-shadow-md rounded-xl bg-white"
                     >
                       <p
                         class="menu-item px-3 py-1.5 cursor-none pointer-events-none hover:bg-gray-100"
@@ -219,22 +220,15 @@
                         Select Type
                       </p>
                       <li
+                        v-for="item in plotType.options"
+                        :key="item.id"
+                        @click="plotType.selectedValue = item"
                         class="menu-item px-3 relative py-1.5 hover:bg-white bg-[#f3f3f8] cursor-pointer"
                       >
-                        Gene Expression
-                      </li>
-                      <li
-                        class="menu-item px-3 py-1.5 relative hover:bg-white bg-[#f3f3f8] cursor-pointer"
-                      >
-                        Biomarker
-                      </li>
-                      <li
-                        class="menu-item px-3 py-1.5 hover:bg-white bg-[#f3f3f8] cursor-pointer"
-                      >
-                        Customization
+                        {{ item.name }}
                       </li>
                     </ul>
-                  </div>
+                  </label>
                 </div>
                 <!-- filter -->
                 <div class="flex p-2 gap-2.5 flex-col max-w-[140px] text-sm">
@@ -249,7 +243,9 @@
 
                     <!-- END DROPDOWN -->
                     <input
+                      v-model="searchQuery"
                       type="text"
+                      @input="updateGeneAlias()"
                       class="py-1.5 px-2.5 rounded border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 w-[140px] hover:text-purple"
                     />
                     <div
@@ -279,22 +275,21 @@
                       </div>
                       <!-- grayed -->
                       <section
+                        v-if="geneAliases && geneAliases.length > 0"
                         class="mt-2 bg-[#f3f3f8] px-4 py-2 flex flex-col gap-2"
                       >
                         <!-- item -->
-                        <div class="text-sm">
-                          <p class="font-semibold text-[#32324d]">ERBB2</p>
-                          <p class="text-[#32324d]">Alt. Names: HER3</p>
-                        </div>
-                        <!-- item -->
-                        <div class="text-sm">
-                          <p class="font-semibold text-[#32324d]">ERBB2</p>
-                          <p class="text-[#32324d]">Alt. Names: HER3</p>
-                        </div>
-                        <!-- item -->
-                        <div class="text-sm">
-                          <p class="font-semibold text-[#32324d]">ERBB2</p>
-                          <p class="text-[#32324d]">Alt. Names: HER3</p>
+                        <div
+                          v-for="gene in geneAliases"
+                          :key="gene.value"
+                          class="text-sm"
+                        >
+                          <p class="font-semibold text-[#32324d]">
+                            {{ gene.name }}
+                          </p>
+                          <p class="text-[#32324d]">
+                            {{ gene.description }}
+                          </p>
                         </div>
                       </section>
                     </div>
@@ -369,6 +364,8 @@
 
 <script>
 import leftMenu from '~/components/layout_components/leftMenu.vue'
+import newAPIService from '~/services/newAPIService.js'
+
 export default {
   name: 'NewUi',
   components: {
@@ -377,17 +374,148 @@ export default {
   layout: 'newLayout',
   data() {
     return {
-      selectedProtocol: null,
+      selectedStudy: null,
+      SelectedFilterOptions: null,
+      plotType: {
+        selectedValue: [],
+        options: [
+          {
+            id: 'biomarker',
+            name: 'Biomarker',
+            value: 'biomarker',
+          },
+          {
+            id: 'gene-expression',
+            name: 'Gene Expression',
+            value: 'gene-expression',
+          },
+        ],
+      },
+      geneAliases: [],
+      searchQuery: '',
     }
   },
+  mounted() {
+    this.getAllGeneIds('ERBB2')
+    // this.geneAliases = [
+    //   {
+    //     name: 'ERBB2',
+    //     value: 'ERBB2',
+    //     description: 'Alt. names: NEU, HER-2, CD340, HER2',
+    //   },
+    // ]
+  },
   methods: {
+    updateGeneAlias() {
+      if (this.searchQuery.length > 2) {
+        this.getAllGeneIds(this.searchQuery)
+      }
+    },
     getStudiesByTheraputicArea(therapeuticarea) {
       return this.allStudies.filter((item) => {
         return item.THERAPEUTICAREA === therapeuticarea
       })
     },
-    handleSelectedStudy(protocol) {
-      this.selectedProtocol = protocol
+    handleSelectedStudy(study) {
+      this.selectedStudy = study
+      console.log('study changed', study)
+      // this.updateStudyFilterOptions(study.study_name)
+    },
+    async getGeneAliases(textToSearch) {
+      const formattedGenes = []
+      // for(let i=0; i< genes.length; i++) {
+      // Conditional logic: Gene IDs only query when the user has typed at least 3 letters to start searching to avoid overloading.
+
+      await newAPIService
+        .getAllGeneAliases(this.$axios, textToSearch)
+        .then((response) => {
+          response.data.forEach((item) => {
+            formattedGenes.push({
+              name: item.gene_id,
+              value: item?.gene_value,
+              aliases: item?.alias_symbols,
+            })
+          })
+        })
+
+      // console.log("Formatted Genes",formattedGenes)
+      return formattedGenes
+    },
+    // eslint-disable-next-line camelcase
+    async getAllGeneIds(textToSearch) {
+      // this.activeloadingSpinner = type
+      const result = await this.getGeneAliases(textToSearch)
+      // this.activeloadingSpinner = null
+      this.geneAliases = result
+        .map((geneItem) => {
+          return {
+            name: geneItem.name ?? 'NONE',
+            value: geneItem.value,
+            description: `Alt. names: ${geneItem.aliases}`,
+          }
+        })
+        .filter((gitem) => {
+          // var reg = new RegExp(textToSearch)
+          const re = new RegExp(`${textToSearch.toUpperCase()}`)
+          // console.log("Matching-", re, re.test(gitem.name?.toUpperCase()))
+
+          return (
+            gitem.name?.toUpperCase().startsWith(textToSearch.toUpperCase()) ||
+            re.test(gitem.name?.toUpperCase())
+          )
+        })
+        .sort((a, b) => {
+          return a.name?.toLowerCase().indexOf(textToSearch?.toLowerCase()) <
+            b.name?.toLowerCase().indexOf(textToSearch?.toLowerCase())
+            ? -1
+            : 1
+        })
+
+      // if (options.length === 0) {
+      //   //do some result suggestions
+      //   this.showSuggestions = true
+      //   item.options = result
+      //     .map((geneItem) => {
+      //       return {
+      //         name: geneItem.name ?? 'NONE',
+      //         value: geneItem.value,
+      //         description: `Alt. names: ${geneItem.aliases}`,
+      //       }
+      //     })
+      //     .filter((gitem) => {
+      //       // var reg = new RegExp(textToSearch)
+      //       let re = new RegExp(`${textToSearch.substring(0, 3).toUpperCase()}`)
+      //       // console.log("Matching-", re, re.test(gitem.name?.toUpperCase()))
+
+      //       return (
+      //         gitem.name
+      //           ?.toUpperCase()
+      //           .startsWith(textToSearch.substring(0, 3).toUpperCase()) ||
+      //         re.test(gitem.name?.toUpperCase())
+      //       )
+      //     })
+      // } else {
+      //   item.options = options
+      //   this.showSuggestions = false
+      // }
+      console.log('This aliases', this.geneAliases)
+    },
+    updateStudyFilterOptions(study) {
+      if (!study) {
+        this.SelectedFilterOptions = {}
+        return
+      }
+      newAPIService
+        .getScatterPlotParametersByStudyID(this.$axios, study)
+        .then((response) => {
+          this.SelectedFilterOptions = response.data
+          console.log('Called updateStudyFilterOptions Func', response.data)
+          // this.setTimePoint(response.data)
+          // this.setTissueType(response.data)
+          // this.setDataTypeVertical()
+        })
+
+      this.getAllBioMarkerNames(study)
     },
   },
 }

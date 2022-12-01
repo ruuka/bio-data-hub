@@ -105,3 +105,9 @@
 .dropdown:focus-within .dropdown-item {
   @apply block;
 }
+.custom-select .menu {
+  @apply hidden;
+}
+.custom-select:focus-within .menu {
+  @apply block;
+}
