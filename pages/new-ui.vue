@@ -254,12 +254,20 @@
                       <p class="text-sm mb-2 text-[#32324D]">
                         Search Filter: Gene Expression
                       </p>
-                      <div class="bg-[#f3f3f8] py-1 px-1.5">
+                      <!-- SELECTED -->
+                      <div
+                        class="bg-[#f3f3f8] py-1 px-1.5 flex gap-2 max-w-md overflow-x-auto"
+                      >
                         <section
+                          v-for="(gitem, index) in selectedGeneAliases"
+                          :key="index + 'gene'"
                           class="tag py-0.5 px-2.5 text-sm flex items-center rounded bg-white w-max text-dark-1"
                         >
-                          ERBB2
-                          <button class="p-1">
+                          {{ gitem.name }}
+                          <button
+                            class="p-1"
+                            @click="removeSelectedGene(gitem)"
+                          >
                             <svg
                               class="h-4 fill-dark-3"
                               xmlns="http://www.w3.org/2000/svg"
@@ -275,14 +283,15 @@
                       </div>
                       <!-- grayed -->
                       <section
-                        v-if="geneAliases && geneAliases.length > 0"
-                        class="mt-2 bg-[#f3f3f8] px-4 py-2 flex flex-col gap-2"
+                        v-if="formattedGeneAliases"
+                        class="mt-2 bg-[#f3f3f8] flex flex-col gap-2"
                       >
                         <!-- item -->
                         <div
-                          v-for="gene in geneAliases"
+                          v-for="gene in formattedGeneAliases"
                           :key="gene.value"
-                          class="text-sm"
+                          class="text-sm hover:bg-white px-4 py-1 cursor-pointer"
+                          @click="selectGene(gene)"
                         >
                           <p class="font-semibold text-[#32324d]">
                             {{ gene.name }}
@@ -391,9 +400,30 @@ export default {
           },
         ],
       },
+      selectedGeneAliases: [
+        {
+          name: 'ERBB2',
+          value: 'ERBB2',
+          description: 'Alt. names: NEU, HER-2, CD340, HER2',
+        },
+      ],
       geneAliases: [],
       searchQuery: '',
     }
+  },
+  computed: {
+    formattedGeneAliases() {
+      if (this.geneAliases && this.geneAliases.length > 0) {
+        return this.geneAliases.filter(
+          ({ value: id1 }) =>
+            !this.selectedGeneAliases.some(({ value: id2 }) => id2 === id1)
+        )
+        // return this.geneAliases.filter(
+        //   (i) => !this.selectedGeneAliases.some((x) => i !== x)
+        // )
+      }
+      return false
+    },
   },
   mounted() {
     this.getAllGeneIds('ERBB2')
@@ -406,10 +436,18 @@ export default {
     // ]
   },
   methods: {
+    removeSelectedGene(gene) {
+      this.selectedGeneAliases = this.selectedGeneAliases.filter(
+        (item) => item.value !== gene.value
+      )
+    },
     updateGeneAlias() {
       if (this.searchQuery.length > 2) {
         this.getAllGeneIds(this.searchQuery)
       }
+    },
+    selectGene(gene) {
+      this.selectedGeneAliases = [...this.selectedGeneAliases, gene]
     },
     getStudiesByTheraputicArea(therapeuticarea) {
       return this.allStudies.filter((item) => {
