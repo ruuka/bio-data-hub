@@ -186,7 +186,7 @@
               <!-- filter-group -->
               <div class="grid grid-cols-4 gap-3 w-max">
                 <!-- filter -->
-                <div class="flex p-2 gap-2.5 flex-col max-w-[150px] text-sm">
+                <div class="flex p-2 gap-2.5 flex-col max-w-[180px] text-sm">
                   <div
                     class="text-center bg-dark-1 font-semibold text-white py-1.5 px-2.5 rounded"
                   >
@@ -231,7 +231,7 @@
                   </label>
                 </div>
                 <!-- filter -->
-                <div class="flex p-2 gap-2.5 flex-col max-w-[140px] text-sm">
+                <div class="flex p-2 gap-2.5 flex-col max-w-[200px] text-sm">
                   <div
                     class="text-center bg-dark-1 font-semibold text-white py-1.5 px-2.5 rounded"
                   >
@@ -246,13 +246,13 @@
                       v-model="searchQuery"
                       type="text"
                       @input="updateGeneAlias()"
-                      class="py-1.5 px-2.5 rounded border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 w-[140px] hover:text-purple"
+                      class="py-1.5 px-2.5 rounded border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 w-[180px] hover:text-purple"
                     />
                     <div
                       class="absolute dropdown-item -left-1/4 top-10 w-max mt-2 px-3 py-2.5 [box-shadow:0px1px10pxrgba(84,86,91,0.2)] rounded-xl bg-white"
                     >
                       <p class="text-sm mb-2 text-[#32324D]">
-                        Search Filter: Gene Expression
+                        Search Filter:
                       </p>
                       <!-- SELECTED -->
                       <div
@@ -315,7 +315,7 @@
                   </div>
                 </div>
                 <!-- filter -->
-                <div class="flex gap-2.5 p-2 flex-col max-w-[140px] text-sm">
+                <div class="flex gap-2.5 p-2 flex-col max-w-[180px] text-sm">
                   <div
                     class="text-center bg-dark-1 font-semibold text-white py-1.5 px-2.5 rounded"
                   >
@@ -336,7 +336,7 @@
                 </div>
                 <!-- filter -->
                 <div
-                  class="flex border border-purple border-dashed p-2 border-gray-400 gap-2.5 flex-col max-w-[140px] text-sm"
+                  class="flex border border-purple border-dashed p-2 border-gray-400 gap-2.5 flex-col max-w-[180px] text-sm"
                 >
                   <div
                     class="text-center bg-dark-1 font-semibold text-white py-1.5 px-2.5 rounded"
