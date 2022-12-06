@@ -41,6 +41,7 @@
             class="input-group py-1 px-2 mt-2 flex items-center gap-2 justify-between bg-[#f3f3f8]"
           >
             <input
+              v-model="searchTerm"
               type="text"
               placeholder="Search ID, indication, component, nickname..."
               class="bg-transparent px-2 text-xs"
@@ -61,7 +62,7 @@
         </header>
 
         <section
-          v-if="allStudies && allStudies.length > 0"
+          v-if="tableData && tableData.length > 0"
           class="overflow-y-scroll flex flex-col gap-6 max-h-[640px]"
         >
           <!-- SELECTIONS -->
@@ -108,7 +109,7 @@
 
 <script>
 import newAPIService from '~/services/newAPIService'
-
+import jsonData from '~/store/simulated_data_for_ruuka.json'
 export default {
   name: 'LeftMenu',
   components: {},
@@ -117,6 +118,9 @@ export default {
     return {
       allStudies: [],
       selectedProtocol: null,
+      jsonData,
+      searchTerm: '',
+      tableData: [],
     }
   },
   head() {
@@ -127,25 +131,54 @@ export default {
   },
   computed: {
     t_areas() {
-      const tAreas = this.allStudies.map((item) => {
-        return item.therapeutic_area
+      const tAreas = this.tableData.map((item) => {
+        return item.TA
       })
       return [...new Set(tAreas)]
     },
+    filteredData() {
+      return this.tableData
+    },
+  },
+  watch: {
+    searchTerm() {
+      this.filteredRows()
+    },
   },
   mounted() {
-    newAPIService.getAllNewStudies(this.$axios).then((res) => {
-      //  const result = res.data.group(({ THERAPEUTICAREA }) => THERAPEUTICAREA)
-      this.allStudies = res.data
-      console.log(this.getStudiesByTheraputicArea(res.data[0].therapeutic_area))
-    })
+    this.tableData = jsonData
   },
   methods: {
     getStudiesByTheraputicArea(therapeuticarea) {
-      return this.allStudies.filter((item) => {
-        return item.therapeutic_area === therapeuticarea
+      return this.tableData.filter((item) => {
+        return item.TA === therapeuticarea
       })
     },
+    filteredRows() {
+      this.searchTerm = this.searchTerm ? this.searchTerm.toLowerCase() : ''
+
+      const searchTerm =
+        this.searchTerm !== null ? this.searchTerm?.toLowerCase() : ''
+
+      if (searchTerm === '') {
+        this.tableData = this.jsonData
+      }
+      const data = this.jsonData.filter((item) => {
+        const values = Object.values(item)
+        console.log('values', values)
+        for (let index = 0; index < values.length; index++) {
+          const element = values[index]?.toString().toLowerCase()
+          if (element.includes(searchTerm)) {
+            return true
+          }
+        }
+        return false
+      })
+
+      this.tableData = data
+      return data
+    },
+
     handleClick(protocol) {
       this.selectedProtocol = protocol.study_id
       this.$emit('selected-study', protocol)
