@@ -23,7 +23,7 @@
       <!-- END CAROUSEL -->
 
       <!-- START PUBLICATIONS SECTION -->
-      <section class="my-10">
+      <section class="my-5">
         <!-- START SEARCH COMPONENT  -->
         <div class="flex w-1/2 gap-4 items-center">
           <input
@@ -55,7 +55,7 @@
               />
             </svg>
           </span>
-          <!-- START FILTER ITEM -->
+          <!-- START FILTER TAGS -->
           <div
             class="flex items-center gap-2"
             v-for="(item, index) in filterTags"
@@ -70,7 +70,7 @@
             />
             <p class="text-sm">{{ item.name }}</p>
           </div>
-          <!-- START FILTER ITEM -->
+          <!-- END FILTER TAGS -->
         </div>
         <!-- END FILTERS SECTION -->
 
@@ -196,7 +196,7 @@
             <tr>
               <td class="border px-2 py-3" colspan="7">
                 <div class="flex items-center justify-between">
-                  <p>showing {{ currentPage }} of {{ pages }}</p>
+                  <p>Page {{ currentPage }} of {{ pages }} (20 Results per page)</p>
                   <div class="flex gap-4">
                     <button
                       class="bg-primary text-sm flex items-center justify-center rounded text-white h-6 w-6 rounded-full shadow disabled:opacity-50"
@@ -274,7 +274,7 @@ export default {
       isSplideLoaded: false,
       baseURL: 'http://sjggpappprdn09:8000/api/v1/publication/download/',
       searchTerm: null,
-      perPage: 8,
+      perPage: 20,
       currentPage: 1,
       filterTags: [
         {
