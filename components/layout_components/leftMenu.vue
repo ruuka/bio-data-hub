@@ -62,7 +62,7 @@
         </header>
 
         <section
-          v-if="tableData && tableData.length > 0"
+          v-if="filteredData && filteredData.length > 0"
           class="overflow-y-scroll flex flex-col gap-6 max-h-[640px]"
         >
           <!-- SELECTIONS -->
