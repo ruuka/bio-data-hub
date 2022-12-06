@@ -2,7 +2,7 @@
   <div class="lg:flex">
     <!-- Left Menu Start -->
     <div
-      class="flex flex-col items-center h-full px-2 py-2 overflow-hidden text-gray-600 bg-white lg:w-72"
+      class="flex flex-col items-center h-full overflow-hidden text-gray-600 bg-white lg:w-64"
     >
       <!-- SIDEBAR -->
       <aside class="bg-white h-full flex flex-col gap-6 px-3 pt-3">
@@ -38,12 +38,12 @@
           </div>
 
           <div
-            class="input-group py-1 px-2 mt-2 flex items-center gap-2 justify-between bg-[#f3f3f8]"
+            class="input-group px-2 mt-2 flex items-center gap-2 justify-between bg-[#f3f3f8]"
           >
             <input
               type="text"
               placeholder="Search ID, indication, component, nickname..."
-              class="bg-transparent px-2 text-xs"
+              class="bg-transparent p-1 text-xs"
             />
             <button class="h-5 aspect-square mr-2">
               <svg
@@ -62,14 +62,14 @@
 
         <section
           v-if="allStudies && allStudies.length > 0"
-          class="overflow-y-scroll flex flex-col gap-6 max-h-[640px]"
+          class="overflow-y-scroll flex flex-col gap-6 max-h-[640px] text-sm"
         >
           <!-- SELECTIONS -->
 
           <div
             v-for="item in t_areas"
             :key="item"
-            class="flex flex-col gap-2 px-5"
+            class="flex flex-col gap-1 px-1 text-sm"
           >
             <p class="uppercase text-sm font-bold text-dark-1">{{ item }}</p>
 
@@ -90,13 +90,13 @@
                   @click="handleClick(protocol)"
                 />
                 <span class="flex items-center text-sm">{{
-                  protocol.study_id
-                }}</span></label
+                    protocol.study_id
+                  }}</span></label
               >
             </div>
 
-            <a href="" class="uppercase text-sm text-center mt-2 text-dark-2"
-              >show more</a
+            <a href="" class="uppercase font-bold text-center mt-2 text-dark-2 text-xs"
+            >show more</a
             >
           </div>
         </section>
