@@ -19,24 +19,43 @@
 
           <!-- START SUMMARY TABLE SECTION -->
           <div class="w-full mt-2">
-            <h4 class="font-medium px-3 py-2 leading-tight text-black">
-              Indication: Nash - TA: Inflammation/Respiratory
-            </h4>
+<!--            <h4 class="font-medium px-3 py-2 leading-tight text-black">-->
+<!--              Indication: Nash - TA: Inflammation/Respiratory-->
+<!--            </h4>-->
           </div>
           <table class="w-full border border-collapse">
             <thead>
               <tr class="text-[12px] font-bold">
                 <td class="w-1/4 border bg-[#644ded14] px-2 py-3">
-                  <div class="flex justify-between items-center">
+                  <div class="flex justify-between">
                     <div class="flex-1 flex gap-2 items-center">
                       <span>Study ID</span>
+                      <span class="tooltip tooltip-left" data-tip="Coming Soon" href="">
+                        <svg class="h-[10px] float-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M150.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L96 141.3V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.3l41.4 41.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-96-96zm352 333.3c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L416 370.7V64c0-17.7-14.3-32-32-32s-32 14.3-32 32V370.7l-41.4-41.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0l96-96z"/></svg>
+                      </span>
                     </div>
                   </div>
                 </td>
-                <td class="border px-2 py-3">Phase</td>
-                <td class="border px-2 py-3">TA</td>
-                <td class="border px-2 py-3">Product</td>
-                <td class="border px-2 py-3">Samples</td>
+                <td class="border px-2 py-3 gap-2 items-center">Phase
+                  <span>
+                    <svg class="h-[10px] float-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M150.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L96 141.3V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.3l41.4 41.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-96-96zm352 333.3c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L416 370.7V64c0-17.7-14.3-32-32-32s-32 14.3-32 32V370.7l-41.4-41.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0l96-96z"/></svg>
+                  </span>
+                </td>
+                <td class="border px-2 py-3 gap-2 items-center">TA
+                  <span>
+                    <svg class="h-[10px] float-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M150.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L96 141.3V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.3l41.4 41.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-96-96zm352 333.3c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L416 370.7V64c0-17.7-14.3-32-32-32s-32 14.3-32 32V370.7l-41.4-41.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0l96-96z"/></svg>
+                  </span>
+                </td>
+                <td class="border px-2 py-3">Product
+                  <span>
+                    <svg class="h-[10px] float-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M150.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L96 141.3V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.3l41.4 41.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-96-96zm352 333.3c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L416 370.7V64c0-17.7-14.3-32-32-32s-32 14.3-32 32V370.7l-41.4-41.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0l96-96z"/></svg>
+                  </span>
+                </td>
+                <td class="border px-2 py-3">Samples
+                  <span>
+                    <svg class="h-[10px] float-right" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M150.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-96 96c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L96 141.3V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.3l41.4 41.4c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-96-96zm352 333.3c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L416 370.7V64c0-17.7-14.3-32-32-32s-32 14.3-32 32V370.7l-41.4-41.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l96 96c12.5 12.5 32.8 12.5 45.3 0l96-96z"/></svg>
+                  </span>
+                </td>
                 <td class="border px-2 py-3"></td>
               </tr>
             </thead>
@@ -47,7 +66,7 @@
                 class="text-[12px]"
               >
                 <td class="w-1/4 border bg-[#644ded14] px-2 py-3">
-                  <div class="flex gap-2 utems-center">
+                  <div class="flex gap-2 items-center">
                     <span>{{ item.study_id }}</span>
                   </div>
                 </td>
@@ -55,12 +74,11 @@
                 <td class="border px-2 py-3">{{ item.TA }}</td>
                 <td class="border px-2 py-3">{{ item.product }}</td>
                 <td class="border px-2 py-3">{{ item.samples }}</td>
-                <td class="border px-2 py-3">
+                <td class="border px-2 py-3 justify-items-center">
                   <a
-                    :href="baseURL + item.id"
-                    target="_blank"
-                    class="text-[#644DED]"
-                    title="A Phase 2, Randomized, Double-blind, Placebo-Controlled Study evaluating the safety and efficacy of Selonsertib, GS-0976, GS-9674, and Combinations in subjects with bridging (F3) Fibrosis or Compensated Cirrhosis (F4) due to Nonalcoholic Steatohepatitis (NASH)"
+                    href=""
+                    class="tooltip tooltip-left"
+                    :data-tip="item.Title"
                     ><svg
                       class="h-[16px]"
                       xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +88,7 @@
                         d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-144c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32z"
                       /></svg
                   ></a>
-                  <a href="">
+                  <a :href="baseURL" class="tooltip tooltip-left float-right" data-tip="Coming Soon" target="_blank">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -90,9 +108,9 @@
               </tr>
               <tr>
                 <td class="border px-2 py-3" colspan="7">
-                  <div class="flex items-center justify-between">
+                  <div class="flex items-center justify-between text-xs">
                     <p>
-                      Page {{ currentPage }} of {{ pages }} (10 results per
+                      Page {{ currentPage }} of {{ pages }} (20 results per
                       page)
                     </p>
                     <div class="flex gap-4">
@@ -276,92 +294,41 @@
 </template>
 
 <script>
-import Carousel from '../components/publication_components/Carousel.vue'
-import WhatsTrending from '../components/publication_components/WhatsTrending.vue'
-import publicationsCard from '../components/publication_components/publicationsCard.vue'
 import breadcrumbs from '../components/layout_components/breadcrumbs.vue'
 import jsonData from '../store/simulated_data_for_ruuka.json'
-import newAPIService from '~/services/newAPIService.js'
+// import newAPIService from '~/services/newAPIService.js'
 import leftMenu from '~/components/layout_components/leftMenu.vue'
 export default {
-  name: 'ClinicalBioinformatics',
+  name: 'Summary',
   components: {
-    Carousel,
-    WhatsTrending,
-    publicationsCard,
     breadcrumbs,
     leftMenu,
   },
   layout: 'newLayout',
   data() {
     return {
-      pageTitle: 'Bioinformatics Data Hub - Clinical Bioinformatics',
+      pageTitle: 'Bioinformatics Data Hub - Summary',
       pageSubTitle: "A portal to access and analyze Gilead's molecular data.",
       isSplideLoaded: false,
-      baseURL: 'http://sjggpappprdn09:8000/api/v1/publication/download/',
+      baseURL: '',
       searchTerm: null,
-      perPage: 5,
+      perPage: 20,
       currentPage: 1,
       jsonData,
-      filterTags: [
-        {
-          name: 'BAR',
-          checked: false,
-        },
-        {
-          name: 'BAP',
-          checked: false,
-        },
-        {
-          name: 'Abstracts',
-          checked: false,
-        },
-        {
-          name: 'Manucripts',
-          checked: false,
-        },
-        {
-          name: 'Posters',
-          checked: false,
-        },
-        {
-          name: 'Oral Presentation',
-          checked: false,
-        },
-      ],
+      filterTags: [],
       publications: null,
       tableData: [],
       data: [
-        {
-          study_id: 'GS-US-454-4378',
-          phase: 'P2',
-          indication: 'NASH',
-          TA: 'Inflammation/Respiratory',
-          Title:
-            'A Phase 2, Randomized, Double-blind, Placebo-Controlled Study evaluating the safety and efficacy of Selonsertib, GS-0976, GS-9674, and Combinations in subjects with bridging (F3) Fibrosis or Compensated Cirrhosis (F4) due to Nonalcoholic Steatohepatitis (NASH)',
-          product: 'NASH Combination',
-          samples: 425,
-        },
-        {
-          study_id: 'GS-US-464-4437',
-          phase: 'P2',
-          indication: 'HBV Cure',
-          TA: 'Virology',
-          Title:
-            'A Phase 2, Randomized, Open-Label, Active-Controlled Study to Evaluate the Antiviral Activity of GS-9992 Plus Tenofovir Alafenamide (TAF) for 12 Weeks in Chronic Hepatitis B (CHB) Subjects',
-          product: 'GS-9992 Inarigivir (IRIG)',
-          samples: 842,
-        },
-        {
-          study_id: 'GS-US-439-4660',
-          phase: 'P1',
-          indication: 'HBV Cure',
-          TA: 'Virology',
-          Title:
-            'A Phase 1 Study to Evaluate the Safety, Tolerability,\nPharmacokinetics (PK) and Pharmacodynamics (PD) of GS-4224 in\nHealthy Volunteers and Subjects with the Chronic Hepatitis B (CHB)\nVirus',
-          product: 'GS-4224 PD-L1 SM',
-          samples: 974,
-        },
+        // {
+        //   study_id: 'GS-US-454-4378',
+        //   phase: 'P2',
+        //   indication: 'NASH',
+        //   TA: 'Inflammation/Respiratory',
+        //   Title:
+        //     'A Phase 2, Randomized, Double-blind, Placebo-Controlled Study evaluating the safety and efficacy of Selonsertib, GS-0976, GS-9674, and Combinations in subjects with bridging (F3) Fibrosis or Compensated Cirrhosis (F4) due to Nonalcoholic Steatohepatitis (NASH)',
+        //   product: 'NASH Combination',
+        //   samples: 425,
+        // }
       ],
     }
   },

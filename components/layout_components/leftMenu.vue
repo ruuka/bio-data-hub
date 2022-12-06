@@ -96,11 +96,11 @@
               >
             </div>
 
-            <a
-              href=""
-              class="uppercase font-bold text-center mt-2 text-dark-2 text-xs"
-              >show more</a
-            >
+<!--            <a-->
+<!--              href=""-->
+<!--              class="uppercase font-bold text-center mt-2 text-dark-2 text-xs"-->
+<!--              >show more</a-->
+<!--            >-->
           </div>
         </section>
       </aside>
