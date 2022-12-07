@@ -158,11 +158,11 @@
 <script>
 import breadcrumbs from '../components/layout_components/breadcrumbs.vue'
 import jsonData from '../store/simulated_data_for_ruuka.json'
-import newAPIService from '~/services/newAPIService.js'
+// import newAPIService from '~/services/newAPIService.js'
 import leftMenu from '~/components/layout_components/leftMenu.vue'
 import TableComponent from '~/components/home_components/TableComponent.vue'
 export default {
-  name: 'ClinicalBioinformatics',
+  name: 'SummaryPage',
   components: {
     TableComponent,
     breadcrumbs,
@@ -171,73 +171,28 @@ export default {
   layout: 'newLayout',
   data() {
     return {
-      pageTitle: 'Bioinformatics Data Hub - Clinical Bioinformatics',
+      pageTitle: 'Bioinformatics Data Hub - Summary',
       pageSubTitle: "A portal to access and analyze Gilead's molecular data.",
       isSplideLoaded: false,
-      baseURL: 'http://sjggpappprdn09:8000/api/v1/publication/download/',
+      baseURL: '',
       searchTerm: null,
-      perPage: 5,
+      perPage: 20,
       currentPage: 1,
       jsonData,
-      filterTags: [
-        {
-          name: 'BAR',
-          checked: false,
-        },
-        {
-          name: 'BAP',
-          checked: false,
-        },
-        {
-          name: 'Abstracts',
-          checked: false,
-        },
-        {
-          name: 'Manucripts',
-          checked: false,
-        },
-        {
-          name: 'Posters',
-          checked: false,
-        },
-        {
-          name: 'Oral Presentation',
-          checked: false,
-        },
-      ],
+      filterTags: [],
       publications: null,
       tableData: [],
       data: [
-        {
-          study_id: 'GS-US-454-4378',
-          phase: 'P2',
-          indication: 'NASH',
-          TA: 'Inflammation/Respiratory',
-          Title:
-            'A Phase 2, Randomized, Double-blind, Placebo-Controlled Study evaluating the safety and efficacy of Selonsertib, GS-0976, GS-9674, and Combinations in subjects with bridging (F3) Fibrosis or Compensated Cirrhosis (F4) due to Nonalcoholic Steatohepatitis (NASH)',
-          product: 'NASH Combination',
-          samples: 425,
-        },
-        {
-          study_id: 'GS-US-464-4437',
-          phase: 'P2',
-          indication: 'HBV Cure',
-          TA: 'Virology',
-          Title:
-            'A Phase 2, Randomized, Open-Label, Active-Controlled Study to Evaluate the Antiviral Activity of GS-9992 Plus Tenofovir Alafenamide (TAF) for 12 Weeks in Chronic Hepatitis B (CHB) Subjects',
-          product: 'GS-9992 Inarigivir (IRIG)',
-          samples: 842,
-        },
-        {
-          study_id: 'GS-US-439-4660',
-          phase: 'P1',
-          indication: 'HBV Cure',
-          TA: 'Virology',
-          Title:
-            'A Phase 1 Study to Evaluate the Safety, Tolerability,\nPharmacokinetics (PK) and Pharmacodynamics (PD) of GS-4224 in\nHealthy Volunteers and Subjects with the Chronic Hepatitis B (CHB)\nVirus',
-          product: 'GS-4224 PD-L1 SM',
-          samples: 974,
-        },
+        // {
+        //   study_id: 'GS-US-454-4378',
+        //   phase: 'P2',
+        //   indication: 'NASH',
+        //   TA: 'Inflammation/Respiratory',
+        //   Title:
+        //     'A Phase 2, Randomized, Double-blind, Placebo-Controlled Study evaluating the safety and efficacy of Selonsertib, GS-0976, GS-9674, and Combinations in subjects with bridging (F3) Fibrosis or Compensated Cirrhosis (F4) due to Nonalcoholic Steatohepatitis (NASH)',
+        //   product: 'NASH Combination',
+        //   samples: 425,
+        // }
       ],
     }
   },
@@ -296,7 +251,7 @@ export default {
       return this.tableData.filter((pub) => {
         return checkedFilters.some(
           (checkeditem) =>
-            checkeditem.name.toLowerCase() == pub.type.toLowerCase()
+            checkeditem.name.toLowerCase() === pub.type.toLowerCase()
         )
       })
     },
