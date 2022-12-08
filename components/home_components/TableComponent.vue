@@ -20,7 +20,7 @@
             </div>
           </td>
           <td class="border px-2 py-3">Phase</td>
-          <td class="border px-2 py-3">TA</td>
+
           <td class="border px-2 py-3">Product</td>
           <td class="border px-2 py-3">Samples</td>
           <td class="border px-2 py-3"></td>
@@ -33,45 +33,57 @@
           class="text-[12px]"
         >
           <td class="w-1/4 border bg-[#644ded14] px-2 py-3">
-            <div class="flex gap-2 utems-center">
+            <div
+              class="flex gap-2 hover:text-primary cursor-pointer items-center"
+              :class="äctiveId === item.study_id ? 'text-primary' : ''"
+              @click="äctiveId = item.study_id"
+            >
               <span>{{ item.study_id }}</span>
             </div>
           </td>
           <td class="border px-2 py-3">{{ item.phase }}</td>
-          <td class="border px-2 py-3">{{ item.TA }}</td>
+
           <td class="border px-2 py-3">{{ item.product }}</td>
           <td class="border px-2 py-3">{{ item.samples }}</td>
           <td class="border px-2 py-3">
-            <a
-              :href="baseURL + item.id"
-              target="_blank"
-              class="text-[#644DED]"
-              title="A Phase 2, Randomized, Double-blind, Placebo-Controlled Study evaluating the safety and efficacy of Selonsertib, GS-0976, GS-9674, and Combinations in subjects with bridging (F3) Fibrosis or Compensated Cirrhosis (F4) due to Nonalcoholic Steatohepatitis (NASH)"
-              ><svg
-                class="h-[16px]"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 512 512"
+            <div class="flex gap-2 items-center">
+              <a
+                :href="baseURL + item.id"
+                target="_blank"
+                class="text-[#644DED]"
+                title="A Phase 2, Randomized, Double-blind, Placebo-Controlled Study evaluating the safety and efficacy of Selonsertib, GS-0976, GS-9674, and Combinations in subjects with bridging (F3) Fibrosis or Compensated Cirrhosis (F4) due to Nonalcoholic Steatohepatitis (NASH)"
+                ><svg
+                  class="h-[16px]"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
+                >
+                  <path
+                    d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-144c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32z"
+                  /></svg
+              ></a>
+              <a href="">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  class="w-4 h-4"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                  />
+                </svg>
+              </a>
+              <button
+                v-if="äctiveId === item.study_id"
+                class="px-2 py-1 text-sm bg-primary rounded text-white"
               >
-                <path
-                  d="M256 512c141.4 0 256-114.6 256-256S397.4 0 256 0S0 114.6 0 256S114.6 512 256 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-144c-17.7 0-32-14.3-32-32s14.3-32 32-32s32 14.3 32 32s-14.3 32-32 32z"
-                /></svg
-            ></a>
-            <a href="">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-4 h-4"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
-                />
-              </svg>
-            </a>
+                Make Plot
+              </button>
+            </div>
           </td>
         </tr>
         <tr>
@@ -152,6 +164,7 @@ export default {
       searchTerm: null,
       perPage: 5,
       currentPage: 1,
+      äctiveId: null,
     }
   },
   computed: {
