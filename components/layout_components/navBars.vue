@@ -23,10 +23,16 @@
             <div class="flex space-x-4">
               <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
               <NuxtLink
+                to="/summary"
+                class="px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-md"
+                aria-current="page"
+              >Summary</NuxtLink
+              >
+              <NuxtLink
                 to="/new-ui"
                 class="px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-md"
                 aria-current="page"
-                >New UI</NuxtLink
+                >Custom Plot New</NuxtLink
               >
               <NuxtLink
                 to="/custom-plot"

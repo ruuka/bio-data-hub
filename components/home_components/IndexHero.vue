@@ -6,10 +6,10 @@
       class="font-light tracking-tighter text-3xl 2xl:text-5xl text-gray-900 mt-4"
     >
       <span class="text-2xl lg:text-5xl 2xl:text-7xl font-light">
-        Welcome, <span class="text-red-700">John</span></span
+        Welcome</span
       >
       <br />
-      to Bioinformatics Data Hub
+      to CBEA
     </h4>
 
     <p class="text-base pb-12 text-gray-800 text-sm w-[500px]">
@@ -119,30 +119,31 @@ export default {
           src: require('~/static/link1.svg'),
           href: '/custom-plot',
         },
+        // {
+        //   name: 'COVID-19 Publication Search',
+        //   description:
+        //     'Utilize advanced ML methods to search a large database of 200,000+ COVID-19 related publications for specific insights.',
+        //   src: require('~/static/link2.svg'),
+        //   href: '#',
+        // },
         {
-          name: 'COVID-19 Publication Search',
-          description:
-            'Utilize advanced ML methods to search a large database of 200,000+ COVID-19 related publications for specific insights.',
-          src: require('~/static/link2.svg'),
-          href: '#',
-        },
-        {
-          name: 'CommonKnowledge',
-          description: 'Lorem Ipsum...',
+          name: 'Common Practice',
+          description: 'A knowledge base for internal staff.',
           src: require('~/static/icon-common-knowledge.svg'),
-          href: '/knowledge-base',
+          href: 'http://bioinfo.na.gilead.com/CPD/',
         },
         {
           name: 'Tableau Dashboards',
-          description: 'Lorem Ipsum...',
+          description: '',
           src: require('~/static/icon-tableau.svg'),
-          href: '#',
+          href: 'http://bioinfo.na.gilead.com/tableau/',
         },
         {
           name: 'Additional Resources',
-          description: 'You can find links to other useful resources for molecular data analysis, such as cBioPortal and our Single Cell Visualizer platform.',
+          description:
+            'You can find links to other useful resources for molecular data analysis, such as cBioPortal and our Single Cell Visualizer platform.',
           src: require('~/static/icon-additional-resources.svg'),
-          href: '/other-tools',
+          href: 'https://cbioportal.org',
         },
       ],
     }

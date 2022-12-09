@@ -1,14 +1,14 @@
 <template>
   <div
     class="hub-body"
-    :class="$route.path !== '/tableau' ? 'bg-gray-100' : 'bg-white'"
+    :class="$route.path !== '' ? 'bg-gray-100' : 'bg-white'"
   >
     <NavBars />
-    <NotificationGroup />
-    <DialogModal />
+<!--    <NotificationGroup />-->
+<!--    <DialogModal />-->
     <div class="flex">
       <leftMenu
-        v-if="$route.path !== '/tableau' || $route.path !== '/new-ui'"
+        v-if="$route.path == '/custom-plot' || $route.path !== '/'"
       />
       <nuxt />
     </div>
@@ -17,14 +17,14 @@
 </template>
 
 <script>
-import NotificationGroup from '@/components/layout_components/notification-group'
-import DialogModal from '@/components/layout_components/dialog-modal'
+// import NotificationGroup from '@/components/layout_components/notification-group'
+// import DialogModal from '@/components/layout_components/dialog-modal'
 
 export default {
   name: 'Default',
   components: {
-    NotificationGroup,
-    DialogModal,
+    // NotificationGroup,
+    // DialogModal,
   },
   data() {
     return {
