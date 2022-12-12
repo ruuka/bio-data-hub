@@ -224,7 +224,13 @@ export default {
       const tAreas = this.tableData.map((item) => {
         return item.TA
       })
-      return [...new Set(tAreas)]
+      return [...new Set(tAreas)].sort(function (a, b) {
+        const nameA = a.toLowerCase()
+        const nameB = b.toLowerCase()
+        if (nameA < nameB) return -1
+        if (nameA > nameB) return 1
+        return 0
+      })
     },
     totalRecords() {
       return this.tableData.length

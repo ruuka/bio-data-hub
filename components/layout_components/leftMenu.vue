@@ -96,11 +96,11 @@
               >
             </div>
 
-<!--            <a-->
-<!--              href=""-->
-<!--              class="uppercase font-bold text-center mt-2 text-dark-2 text-xs"-->
-<!--              >show more</a-->
-<!--            >-->
+            <!--            <a-->
+            <!--              href=""-->
+            <!--              class="uppercase font-bold text-center mt-2 text-dark-2 text-xs"-->
+            <!--              >show more</a-->
+            <!--            >-->
           </div>
         </section>
       </aside>
@@ -136,7 +136,13 @@ export default {
       const tAreas = this.tableData.map((item) => {
         return item.TA
       })
-      return [...new Set(tAreas)]
+      return [...new Set(tAreas)].sort(function (a, b) {
+        const nameA = a.toLowerCase()
+        const nameB = b.toLowerCase()
+        if (nameA < nameB) return -1
+        if (nameA > nameB) return 1
+        return 0
+      })
     },
     filteredData() {
       return this.tableData
