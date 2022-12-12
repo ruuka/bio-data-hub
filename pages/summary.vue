@@ -4,7 +4,6 @@
     <div class="flex w-full bg-[#F9F9FC]">
       <div class="w-full h-full overflow-y-auto px-2 py-4">
         <breadcrumbs title="breadcrumb" />
-
         <section class="my-5">
           <!-- START SEARCH COMPONENT  -->
           <div class="flex w-1/2 gap-4 items-center mb-2">
