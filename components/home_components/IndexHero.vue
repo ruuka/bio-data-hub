@@ -5,11 +5,13 @@
     <h4
       class="font-light tracking-tighter text-3xl 2xl:text-5xl text-gray-900 mt-4"
     >
-      <span class="text-2xl lg:text-5xl 2xl:text-7xl font-light">
-        Welcome</span
-      >
-      <br />
-      to CBEA
+      <span class="text-gray-600 text-3xl lg:text-3xl 2xl:text-4xl font-light">
+        Welcome to
+      </span>
+      <br>
+      <span class="text-primary text-7xl lg:text-7xl 2xl:text-7xl font-bold">
+        CBEA Portal
+      </span>
     </h4>
 
     <p class="text-base pb-12 text-gray-800 text-sm w-[500px]">
@@ -24,8 +26,8 @@
     <div
       class="absolute right-0 w-3/4 rounded-3xl bg-[#C51F3F1A] bg-opacity-10 h-[500px] 2xl:h-[650px] 2xl:mt-20"
     >
-      <div class="relative ml-40 pt-10">
-        <div class="absolute -ml-40 2xl:ml-[8rem] left-[6rem] top-10">
+      <div class="relative ml-[17rem] pt-10">
+        <div class="absolute -ml-40 2xl:ml-[10rem] left-[6rem] top-10">
           <svg
             width="54"
             height="54"

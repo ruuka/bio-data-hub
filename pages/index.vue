@@ -1,13 +1,14 @@
 <template>
-  <main class="bg-gray-100 pt-6 px-4 w-full">
-    <index-hero />
-    <index-details />
+  <main className="bg-gray-100 pt-6 px-4 w-full">
+    <index-hero/>
+    <index-details/>
   </main>
 </template>
 
 <script>
 import IndexDetails from '~/components/home_components/IndexDetails.vue'
 import IndexHero from '~/components/home_components/IndexHero.vue'
+
 export default {
   name: 'Index',
   components: {
@@ -16,12 +17,12 @@ export default {
   },
   data() {
     return {
-      pageTitle: 'Bioinformatics Data Hub',
+      pageTitle: 'Welcome to CBEA Portal',
       pageSubTitle: "A portal to access and analyze Gilead's molecular data.",
     }
   },
   head() {
-    const title = 'Home'
+    const title = 'Welcome to CBEA Portal'
     return {
       title,
       script: [

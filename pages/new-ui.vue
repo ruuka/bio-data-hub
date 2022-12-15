@@ -235,7 +235,7 @@
                   <div
                     class="text-center bg-dark-1 font-semibold text-white py-1.5 px-2.5 rounded"
                   >
-                    Analyt
+                    Analyte
                   </div>
 
                   <div class="dropdown flex items-center relative" tabindex="1">
@@ -504,7 +504,7 @@ export default {
         })
         .sort((a, b) => {
           return a.name?.toLowerCase().indexOf(textToSearch?.toLowerCase()) <
-            b.name?.toLowerCase().indexOf(textToSearch?.toLowerCase())
+          b.name?.toLowerCase().indexOf(textToSearch?.toLowerCase())
             ? -1
             : 1
         })

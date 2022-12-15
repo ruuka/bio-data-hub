@@ -4,12 +4,12 @@
     :class="$route.path !== '' ? 'bg-gray-100' : 'bg-white'"
   >
     <NavBars />
-<!--    <NotificationGroup />-->
-<!--    <DialogModal />-->
+    <!--    <NotificationGroup />-->
+    <!--    <DialogModal />-->
     <div class="flex">
-      <leftMenu
-        v-if="$route.path == '/custom-plot' || $route.path !== '/'"
-      />
+      <!--      <leftMenu-->
+      <!--        v-if="$route.path == '/custom-plot' || $route.path !== '/'"-->
+      <!--      />-->
       <nuxt />
     </div>
     <footerComponent />
