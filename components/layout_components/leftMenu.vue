@@ -68,7 +68,7 @@
           <!-- SELECTIONS -->
 
           <div
-            v-for="item in t_areas"
+            v-for="item in columns"
             :key="item"
             class="flex flex-col gap-1 px-1 text-sm"
           >
@@ -76,8 +76,8 @@
 
             <!-- check -->
             <div
-              v-for="protocol in getStudiesByTheraputicArea(item)"
-              :key="protocol.study_id"
+              v-for="column in getColumnsData(item)"
+              :key="column"
               class="input-group"
             >
               <label>
@@ -86,12 +86,12 @@
                   name="check"
                   class="accent-red flex-none h-5 w-5 disabled:opacity-20 rounded"
                   :checked="
-                    selectedProtocol && selectedProtocol == protocol.study_id
+                    selectedProtocol.length > 0 && selectedProtocol == column
                   "
-                  @click="handleClick(protocol)"
+                  @click="handleClick(column, item)"
                 />
                 <span class="flex items-center text-sm">{{
-                  protocol.study_id
+                  column
                 }}</span></label
               >
             </div>
@@ -119,7 +119,8 @@ export default {
   data() {
     return {
       allStudies: [],
-      selectedProtocol: null,
+      columns: ['TA', 'phase', 'product'],
+      selectedProtocol: [],
       jsonData,
       searchTerm: '',
       tableData: [],
@@ -157,6 +158,12 @@ export default {
     this.tableData = jsonData
   },
   methods: {
+    getColumnsData(column) {
+      const tAreas = this.tableData.map((item) => {
+        return item[column]
+      })
+      return [...new Set(tAreas)]
+    },
     getStudiesByTheraputicArea(therapeuticarea) {
       return this.tableData.filter((item) => {
         return item.TA === therapeuticarea
@@ -187,9 +194,19 @@ export default {
       return data
     },
 
-    handleClick(protocol) {
-      this.selectedProtocol = protocol.study_id
-      this.$emit('selected-study', protocol)
+    handleClick(column, item) {
+      // const obj = {}
+      // obj[column] = item
+      let arr = this.selectedProtocol
+      if (arr.includes(column.toLowerCase())) {
+        arr = arr.filter((itm) => itm !== column.toLowerCase())
+      } else {
+        arr.push(column.toLowerCase())
+      }
+
+      this.selectedProtocol = [...new Set(arr)]
+      console.log(item)
+      this.$emit('selected-filters', this.selectedProtocol)
     },
   },
 }

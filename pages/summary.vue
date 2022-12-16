@@ -1,6 +1,6 @@
 <template>
   <div class="flex">
-    <leftMenu @selected-study="handleSelectedStudy" />
+    <leftMenu @selected-filters="handleSelectedFilters" />
     <div class="flex w-full bg-[#F9F9FC]">
       <div class="w-full h-full overflow-y-auto px-2 py-4">
         <breadcrumbs title="breadcrumb" />
@@ -17,10 +17,8 @@
           <!-- END SEARCH COMPONENT -->
 
           <TableComponent
-            v-for="item in t_areas"
-            :key="item"
-            :title="item"
-            :current-table-data="getStudiesByTheraputicArea(item)"
+            :title="'title'"
+            :current-table-data="getStudiesByTheraputicArea"
           />
 
           <!-- START SUMMARY TABLE SECTION -->
@@ -246,6 +244,9 @@ export default {
     pages() {
       return Math.ceil(this.totalRecords / this.perPage)
     },
+    getStudiesByTheraputicArea() {
+      return this.tableData
+    },
     filteredData() {
       if (this.filterTags.every((item) => !item.checked)) {
         return this.tableData
@@ -266,17 +267,20 @@ export default {
       this.filteredRows()
     },
   },
-
-  mounted() {
+  created() {
     this.tableData = jsonData
   },
   methods: {
-    handleSelectedStudy(study) {
-      console.log('study', study)
+    handleSelectedFilters(selectedFilters) {
+      console.log('study-1', this.getFilteredData(selectedFilters))
     },
-    getStudiesByTheraputicArea(therapeuticarea) {
+    getFilteredData(selectedFilters) {
       return this.tableData.filter((item) => {
-        return item.TA === therapeuticarea
+        return (
+          selectedFilters.includes(item.TA.toLowerCase()) ||
+          selectedFilters.includes(item.phase.toLowerCase()) ||
+          selectedFilters.includes(item.product.toLowerCase())
+        )
       })
     },
     filteredRows() {

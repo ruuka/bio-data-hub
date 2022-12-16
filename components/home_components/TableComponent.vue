@@ -104,8 +104,8 @@
               </a>
 
               <a
-                href="#"
                 v-if="äctiveId === item.study_id"
+                href="#"
                 class="tooltip tooltip-left"
                 data-tip="Make Plot Coming Soon"
               >
