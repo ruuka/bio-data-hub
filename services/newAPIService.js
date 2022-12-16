@@ -1,4 +1,7 @@
 export default {
+  postFiles($axios, formData) {
+    return $axios.post('/multi-images-upload', formData, {})
+  },
   getNewBoxPlotData($axios, data) {
     return $axios
       .get(`/plot-options/scatter-plot-query?study_param=${data}`)
@@ -32,6 +35,11 @@ export default {
   },
   getAllGeneIds($axios) {
     return $axios.get('/plot-options/all-gene-ids').catch((error) => {
+      console.log('There was an error: ' + error.response)
+    })
+  },
+  getJobId($axios) {
+    return $axios.get('/icf-codification/jobid').catch((error) => {
       console.log('There was an error: ' + error.response)
     })
   },
