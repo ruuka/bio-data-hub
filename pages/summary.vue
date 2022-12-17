@@ -16,10 +16,7 @@
           </div>
           <!-- END SEARCH COMPONENT -->
 
-          <TableComponent
-            :title="'title'"
-            :current-table-data="getStudiesByTheraputicArea"
-          />
+          <TableComponent :title="'title'" :current-table-data="tableData" />
 
           <!-- START SUMMARY TABLE SECTION -->
           <!--        <div class="w-full mt-2">-->
@@ -272,7 +269,11 @@ export default {
   },
   methods: {
     handleSelectedFilters(selectedFilters) {
-      console.log('study-1', this.getFilteredData(selectedFilters))
+      this.tableData =
+        this.filterTableData(selectedFilters, jsonData).length > 0
+          ? this.filterTableData(selectedFilters, jsonData)
+          : jsonData
+      console.log('study-1', this.tableData)
     },
     getFilteredData(selectedFilters) {
       return this.tableData.filter((item) => {
@@ -298,6 +299,22 @@ export default {
         for (let index = 0; index < values.length; index++) {
           const element = values[index]?.toString().toLowerCase()
           if (element.includes(searchTerm)) {
+            return true
+          }
+        }
+        return false
+      })
+
+      this.tableData = data
+      return data
+    },
+    filterTableData(filters, jsonData) {
+      const data = jsonData.filter((item) => {
+        const values = Object.values(item)
+
+        for (let index = 0; index < values.length; index++) {
+          const element = values[index]?.toString().toLowerCase()
+          if (filters.includes(element)) {
             return true
           }
         }
