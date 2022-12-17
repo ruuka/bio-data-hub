@@ -53,7 +53,7 @@
       </thead>
       <tbody>
         <tr
-          v-for="(item, index) in currentPageRecords"
+          v-for="(item, index) in currentTableData"
           :key="`item` + index"
           class="text-[12px] hover:bg-base-200"
         >
@@ -139,7 +139,7 @@
         <tr>
           <td class="px-2 py-3" colspan="7">
             <div class="flex items-center justify-between">
-              <!--              <p>Page {{ currentPage }} of {{ pages }} (10 results per page)</p>-->
+              <!-- <p>Page {{ currentPage }} of {{ pages }} (10 results per page)</p>-->
               <!--              <div class="flex gap-4">-->
               <!--                <button-->
               <!--                  class="bg-primary text-sm flex items-center justify-center rounded text-white h-6 w-6 rounded-full shadow disabled:opacity-50"-->
@@ -180,8 +180,8 @@
               <!--                      d="M8.25 4.5l7.5 7.5-7.5 7.5"-->
               <!--                    />-->
               <!--                  </svg>-->
-              <!--                </button>-->
-              <!--              </div>-->
+              <!-- </button>-->
+              <!--              </div> -->
             </div>
           </td>
         </tr>
@@ -212,7 +212,7 @@ export default {
   data() {
     return {
       searchTerm: null,
-      perPage: 9,
+      perPage: 50,
       currentPage: 1,
       äctiveId: null,
       sortedData: [],
