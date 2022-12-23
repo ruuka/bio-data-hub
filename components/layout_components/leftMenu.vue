@@ -77,7 +77,7 @@
             <!-- check -->
             <div
               v-for="column in getColumnsData(item)"
-              :key="column"
+              :key="column + 'id'"
               class="input-group"
             >
               <label>
@@ -115,7 +115,12 @@ import jsonData from '~/store/simulated_data_for_ruuka.json'
 export default {
   name: 'LeftMenu',
   components: {},
-  props: [],
+  props: {
+    order: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       allStudies: [],
@@ -158,11 +163,32 @@ export default {
     this.tableData = jsonData
   },
   methods: {
+    getColumns() {
+      return sortColumns(this.columns)
+    },
     getColumnsData(column) {
       const tAreas = this.tableData.map((item) => {
         return item[column]
       })
-      return [...new Set(tAreas)]
+      return [...new Set(this.sortColumns(tAreas))]
+    },
+    sortColumns(data) {
+      if (this.order === 'asc') {
+        return data.sort(function (a, b) {
+          const nameA = a.toLowerCase()
+          const nameB = b.toLowerCase()
+          if (nameA < nameB) return -1
+          if (nameA > nameB) return 1
+          return 0
+        })
+      }
+      return data.sort(function (a, b) {
+        const nameA = a.toLowerCase()
+        const nameB = b.toLowerCase()
+        if (nameA > nameB) return -1
+        if (nameA < nameB) return 1
+        return 0
+      })
     },
     getStudiesByTheraputicArea(therapeuticarea) {
       return this.tableData.filter((item) => {

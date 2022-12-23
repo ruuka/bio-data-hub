@@ -1,9 +1,9 @@
 <template>
   <div class="flex">
-    <leftMenu @selected-filters="handleSelectedFilters" />
+    <leftMenu :order="order" @selected-filters="handleSelectedFilters" />
     <div class="flex w-full bg-[#F9F9FC]">
       <div class="w-full h-full overflow-y-auto px-8 py-6">
-        <breadcrumbs title="breadcrumb" />
+        <breadcrumbs title="breadcrumb" @toggle-order="handleToggleOrder" />
         <section class="my-3">
           <!-- START SEARCH COMPONENT  -->
           <div class="flex w-1/2 gap-4 items-center mb-2">
@@ -171,6 +171,7 @@ export default {
       baseURL: '',
       searchTerm: null,
       perPage: 20,
+      order: 'asc',
       currentPage: 1,
       jsonData,
       filterTags: [],
@@ -244,6 +245,7 @@ export default {
     getStudiesByTheraputicArea() {
       return this.tableData
     },
+
     filteredData() {
       if (this.filterTags.every((item) => !item.checked)) {
         return this.tableData
@@ -268,6 +270,14 @@ export default {
     this.tableData = jsonData
   },
   methods: {
+    handleToggleOrder() {
+      console.log(this.order)
+      if (this.order === 'asc') {
+        this.order = 'desc'
+      } else {
+        this.order = 'asc'
+      }
+    },
     handleSelectedFilters(selectedFilters) {
       this.tableData =
         this.filterTableData(selectedFilters, jsonData).length > 0
