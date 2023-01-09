@@ -171,7 +171,7 @@ export default {
       baseURL: '',
       searchTerm: null,
       perPage: 20,
-      order: 'asc',
+      order: 'desc',
       currentPage: 1,
       jsonData,
       filterTags: [],
