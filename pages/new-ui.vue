@@ -1,6 +1,6 @@
 <template>
   <div class="flex">
-    <leftMenu @selected-study="handleSelectedStudy" />
+    <LeftMenuNew @selected-study="handleSelectedStudy" order="DESC" />
     <main class="bg-[#f5f5f5] w-full">
       <section class="w-full">
         <!-- NAV/BREADCRUMB AREA -->
@@ -251,9 +251,7 @@
                     <div
                       class="absolute dropdown-item -left-1/4 top-10 w-max mt-2 px-3 py-2.5 [box-shadow:0px1px10pxrgba(84,86,91,0.2)] rounded-xl bg-white"
                     >
-                      <p class="text-sm mb-2 text-[#32324D]">
-                        Search Filter:
-                      </p>
+                      <p class="text-sm mb-2 text-[#32324D]">Search Filter:</p>
                       <!-- SELECTED -->
                       <div
                         class="bg-[#f3f3f8] py-1 px-1.5 flex gap-2 max-w-md overflow-x-auto"
@@ -332,6 +330,16 @@
                     class="py-1.5 px-2.5 rounded border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
                   >
                     <option value="" class="text-purple">Tissue</option>
+                    <template v-if="scatterPlotParams">
+                      <option
+                        v-for="tissue in scatterPlotParams.tissue"
+                        :key="tissue"
+                        :value="tissue"
+                        class="text-purple"
+                      >
+                        {{ tissue }}
+                      </option>
+                    </template>
                   </select>
                 </div>
                 <!-- filter -->
@@ -348,12 +356,32 @@
                     class="py-1.5 px-2.5 rounded border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
                   >
                     <option value="" class="text-purple">Treatment</option>
+                    <template v-if="scatterPlotParams">
+                      <option
+                        v-for="treatment in scatterPlotParams.treatment"
+                        :key="treatment"
+                        :value="treatment"
+                        class="text-purple"
+                      >
+                        {{ treatment }}
+                      </option>
+                    </template>
                   </select>
                   <select
                     name="treatment"
                     class="py-1.5 px-2.5 rounded border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
                   >
                     <option value="" class="text-purple">Response</option>
+                    <template v-if="scatterPlotParams">
+                      <option
+                        v-for="response in scatterPlotParams.response"
+                        :key="response"
+                        :value="response"
+                        class="text-purple"
+                      >
+                        {{ response }}
+                      </option>
+                    </template>
                   </select>
                 </div>
               </div>
@@ -372,19 +400,20 @@
 </template>
 
 <script>
-import leftMenu from '~/components/layout_components/leftMenu.vue'
+import LeftMenuNew from '~/components/layout_components/leftMenuNew.vue'
 import newAPIService from '~/services/newAPIService.js'
 
 export default {
   name: 'NewUi',
   components: {
-    leftMenu,
+    LeftMenuNew,
   },
   layout: 'newLayout',
   data() {
     return {
       selectedStudy: null,
       SelectedFilterOptions: null,
+      scatterPlotParams: null,
       plotType: {
         selectedValue: [],
         options: [
@@ -427,13 +456,6 @@ export default {
   },
   mounted() {
     this.getAllGeneIds('ERBB2')
-    // this.geneAliases = [
-    //   {
-    //     name: 'ERBB2',
-    //     value: 'ERBB2',
-    //     description: 'Alt. names: NEU, HER-2, CD340, HER2',
-    //   },
-    // ]
   },
   methods: {
     removeSelectedGene(gene) {
@@ -458,6 +480,13 @@ export default {
       this.selectedStudy = study
       console.log('study changed', study)
       // this.updateStudyFilterOptions(study.study_name)
+      // Find scatter plot parameters
+      newAPIService
+        .getScatterPlotParametersByStudyID(this.$axios, study.study_id)
+        .then((res) => {
+          this.scatterPlotParams = res.data
+          console.log('Tissue', this.scatterPlotParams.tissue)
+        })
     },
     async getGeneAliases(textToSearch) {
       const formattedGenes = []
@@ -504,7 +533,7 @@ export default {
         })
         .sort((a, b) => {
           return a.name?.toLowerCase().indexOf(textToSearch?.toLowerCase()) <
-          b.name?.toLowerCase().indexOf(textToSearch?.toLowerCase())
+            b.name?.toLowerCase().indexOf(textToSearch?.toLowerCase())
             ? -1
             : 1
         })
