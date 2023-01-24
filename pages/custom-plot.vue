@@ -1162,14 +1162,14 @@ export default {
     getFiltersFromDataFilters(filters) {
       return filters
         .map((item) => {
-          let obj = {}
+          const obj = {}
           obj[item.name.toLowerCase()] = item.filterOptions.map(
             (optItem) => optItem.id
           )
           return obj
         })
         .reduce(function (result, item) {
-          var key = Object.keys(item)[0] //first property: a, b, c
+          const key = Object.keys(item)[0] // first property: a, b, c
           result[key] = item[key]
           return result
         }, {})
@@ -1210,8 +1210,8 @@ export default {
           .selectedValue[0]?.name?.toLowerCase(),
         secondaryGroup: 'treatment',
         filter: {
-          treatment: this.SelectedFilterOptions['treatment'],
-          ...(this.getFiltersFromDataFilters(dataFilters.filters) == {}
+          treatment: this.SelectedFilterOptions.treatment,
+          ...(this.getFiltersFromDataFilters(dataFilters.filters) === {}
             ? this.SelectedFilterOptions
             : this.getFiltersFromDataFilters(dataFilters.filters)),
         },

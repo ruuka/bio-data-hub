@@ -99,8 +99,10 @@
                 </p>
               </div>
               <!-- right -->
-              <div class="flex items-center gap-2.5">
-                <div class="filter px-2.5 py-1.5 w-max inline-block rounded">
+              <div class="flex-1 flex items-center gap-2.5">
+                <div
+                  class="filter px-2.5 py-1.5 w-max inline-block relative rounded"
+                >
                   <svg
                     class="h-5 fill-dark-1"
                     xmlns="http://www.w3.org/2000/svg"
@@ -113,44 +115,12 @@
                   </svg>
                 </div>
                 <div
+                  v-for="selectedItem in selectedScatterPlotParams"
+                  :key="selectedItem"
                   class="py-0.5 px-2.5 flex items-center rounded bg-[#e7e5ff] text-dark-1"
                 >
-                  Baseline
-                  <button class="p-1">
-                    <svg
-                      class="h-4 fill-dark-3"
-                      xmlns="http://www.w3.org/2000/svg"
-                      xmlns:xlink="http://www.w3.org/1999/xlink"
-                      viewBox="0 0 50 50"
-                    >
-                      <path
-                        d="M9.15625 6.3125L6.3125 9.15625L22.15625 25L6.21875 40.96875L9.03125 43.78125L25 27.84375L40.9375 43.78125L43.78125 40.9375L27.84375 25L43.6875 9.15625L40.84375 6.3125L25 22.15625Z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                <div
-                  class="py-0.5 px-2.5 flex whitespace-nowrap items-center text-sm rounded bg-[#e7e5ff] text-dark-1"
-                >
-                  Week 4
-                  <button class="p-1">
-                    <svg
-                      class="h-4 fill-dark-3"
-                      xmlns="http://www.w3.org/2000/svg"
-                      xmlns:xlink="http://www.w3.org/1999/xlink"
-                      viewBox="0 0 50 50"
-                    >
-                      <path
-                        d="M9.15625 6.3125L6.3125 9.15625L22.15625 25L6.21875 40.96875L9.03125 43.78125L25 27.84375L40.9375 43.78125L43.78125 40.9375L27.84375 25L43.6875 9.15625L40.84375 6.3125L25 22.15625Z"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                <div
-                  class="py-0.5 px-2.5 flex items-center text-sm whitespace-nowrap rounded bg-[#e7e5ff] text-dark-1"
-                >
-                  Week 8
-                  <button class="p-1">
+                  {{ selectedItem }}
+                  <button class="p-1" @click="toggleSelection(selectedItem)">
                     <svg
                       class="h-4 fill-dark-3"
                       xmlns="http://www.w3.org/2000/svg"
@@ -165,7 +135,9 @@
                 </div>
 
                 <button
-                  class="py-1.5 px-4 flex items-center rounded bg-[#ececec] text-dark-1"
+                  class="py-1.5 px-4 flex items-center relative rounded bg-[#ececec] text-dark-1"
+                  tabindex="1"
+                  @focus="openDropDown = !openDropDown"
                 >
                   <svg
                     class="h-5 fill-dark-3"
@@ -177,6 +149,37 @@
                       d="M14.970703 2.9726562 A 2.0002 2.0002 0 0 0 13 5L13 13L5 13 A 2.0002 2.0002 0 1 0 5 17L13 17L13 25 A 2.0002 2.0002 0 1 0 17 25L17 17L25 17 A 2.0002 2.0002 0 1 0 25 13L17 13L17 5 A 2.0002 2.0002 0 0 0 14.970703 2.9726562 z"
                     />
                   </svg>
+                  <div
+                    v-if="getFilteredScatterPlots && openDropDown"
+                    class="absolute w-64 h-80 overflow-y-scroll p-4 bg-white right-0 z-[99999] shadow top-10"
+                  >
+                    <div
+                      class="group py-2"
+                      v-for="keyItem in getFilteredScatterPlots"
+                      :key="keyItem"
+                    >
+                      <h4 class="text-left uppercase mb-2">{{ keyItem }}</h4>
+                      <div class="items">
+                        <div
+                          v-for="(subItem, index) in getSubItems(keyItem)"
+                          :key="index"
+                          class="option flex gap-2 items-center text-sm font-light whitespace-nowrap text-ellipsis truncate"
+                        >
+                          <input
+                            :id="subItem"
+                            type="checkbox"
+                            name=""
+                            class="h-4 w-4 flex-none"
+                            :checked="
+                              selectedScatterPlotParams.includes(subItem)
+                            "
+                            @click="toggleSelection(subItem)"
+                          />
+                          <label :for="subItem" class="">{{ subItem }}</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </button>
               </div>
             </header>
@@ -222,8 +225,8 @@
                       <li
                         v-for="item in plotType.options"
                         :key="item.id"
-                        @click="plotType.selectedValue = item"
                         class="menu-item px-3 relative py-1.5 hover:bg-white bg-[#f3f3f8] cursor-pointer"
+                        @click="plotType.selectedValue = item"
                       >
                         {{ item.name }}
                       </li>
@@ -245,8 +248,8 @@
                     <input
                       v-model="searchQuery"
                       type="text"
-                      @input="updateGeneAlias()"
                       class="py-1.5 px-2.5 rounded border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 w-[180px] hover:text-purple"
+                      @input="updateGeneAlias()"
                     />
                     <div
                       class="absolute dropdown-item -left-1/4 top-10 w-max mt-2 px-3 py-2.5 [box-shadow:0px1px10pxrgba(84,86,91,0.2)] rounded-xl bg-white"
@@ -413,7 +416,9 @@ export default {
     return {
       selectedStudy: null,
       SelectedFilterOptions: null,
+      selectedScatterPlotParams: [],
       scatterPlotParams: null,
+      openDropDown: false,
       plotType: {
         selectedValue: [],
         options: [
@@ -441,6 +446,22 @@ export default {
     }
   },
   computed: {
+    getRemainingFilters() {
+      const unwantedKeys = [
+        'tissue',
+        'treatment',
+        'has_geneExpression',
+        'has_biomarker',
+        'has_pathwayExpression',
+        'response',
+      ]
+      return Object.keys(this.scatterPlotParams)
+        .filter((key) => !unwantedKeys.includes(key))
+        .reduce((obj, key) => {
+          obj[key] = this.scatterPlotParams[key]
+          return obj
+        }, {})
+    },
     formattedGeneAliases() {
       if (this.geneAliases && this.geneAliases.length > 0) {
         return this.geneAliases.filter(
@@ -453,11 +474,26 @@ export default {
       }
       return false
     },
+    getFilteredScatterPlots() {
+      return this.scatterPlotParams && Object.keys(this.getRemainingFilters)
+    },
   },
   mounted() {
     this.getAllGeneIds('ERBB2')
   },
   methods: {
+    toggleSelection(param) {
+      if (this.selectedScatterPlotParams.includes(param)) {
+        this.selectedScatterPlotParams = this.selectedScatterPlotParams.filter(
+          (p) => p !== param
+        )
+      } else {
+        this.selectedScatterPlotParams.push(param)
+      }
+    },
+    getSubItems(key) {
+      return this.scatterPlotParams[key]
+    },
     removeSelectedGene(gene) {
       this.selectedGeneAliases = this.selectedGeneAliases.filter(
         (item) => item.value !== gene.value
