@@ -126,7 +126,7 @@ export default {
       allStudies: [],
       columns: ['TA', 'phase', 'product'],
       selectedProtocol: [],
-      jsonData,
+      jsonData: null,
       searchTerm: '',
       tableData: [],
     }
@@ -159,6 +159,7 @@ export default {
       this.filteredRows()
     },
   },
+
   mounted() {
     this.tableData = jsonData
   },

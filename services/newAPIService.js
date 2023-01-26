@@ -6,6 +6,35 @@ export default {
         console.log('There was an error: ' + error.response)
       })
   },
+  getClinicalBiomarkersById($axios, studyId) {
+    return $axios
+      .get(`/clinicaldata/study/${studyId}/biomarkers`)
+      .catch((error) => {
+        console.log('There was an error: ' + error.response)
+      })
+  },
+  getClinicalGenesById($axios, studyId) {
+    return $axios.get(`/clinicaldata/study/${studyId}/genes`).catch((error) => {
+      console.log('There was an error: ' + error.response)
+    })
+  },
+  getClinicalTissuesSourcesById($axios, studyId) {
+    return $axios
+      .get(`/clinicaldata/study/${studyId}/tissuesources`)
+      .catch((error) => {
+        console.log('There was an error: ' + error.response)
+      })
+  },
+  getClinicalSummaryById($axios, studyId) {
+    return $axios.get(`/clinicaldata/summary/${studyId}`).catch((error) => {
+      console.log('There was an error: ' + error.response)
+    })
+  },
+  getClinicalSummary($axios) {
+    return $axios.get(`/clinicaldata/summary`).catch((error) => {
+      console.log('There was an error: ' + error.response)
+    })
+  },
   getPublicationData($axios, searchString) {
     return $axios
       .get(`/publication/search?search=${searchString}`)

@@ -132,7 +132,7 @@ export default {
   computed: {
     t_areas() {
       const tAreas = this.tableData.map((item) => {
-        return item.TA
+        return item.therapeutic_area
       })
       return [...new Set(tAreas)]
     },
@@ -145,13 +145,16 @@ export default {
       this.filteredRows()
     },
   },
-  mounted() {
-    this.tableData = jsonData
+  created() {
+    newAPIService.getClinicalSummary(this.$axios).then((res) => {
+      this.tableData = res.data
+    })
   },
+
   methods: {
     getStudiesByTheraputicArea(therapeuticarea) {
       return this.tableData.filter((item) => {
-        return item.TA === therapeuticarea
+        return item.therapeutic_area === therapeuticarea
       })
     },
     filteredRows() {
