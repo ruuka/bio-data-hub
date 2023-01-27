@@ -95,7 +95,7 @@
                 </p>
                 <p class="py-1.5 px-2.5 rounded bg-red text-white">
                   Indication:
-                  {{ selectedStudy && selectedStudy.indication }}
+                  {{ selectedStudy && selectedStudy.therapeutic_area }}
                 </p>
               </div>
               <!-- right -->
@@ -264,7 +264,7 @@
                           :key="index + 'gene'"
                           class="tag py-0.5 px-2.5 text-sm flex items-center rounded bg-white w-max text-dark-1"
                         >
-                          {{ gitem.name }}
+                          {{ gitem }}
                           <button
                             class="p-1"
                             @click="removeSelectedGene(gitem)"
@@ -290,15 +290,12 @@
                         <!-- item -->
                         <div
                           v-for="gene in formattedGeneAliases"
-                          :key="gene.value"
+                          :key="gene"
                           class="text-sm hover:bg-white px-4 py-1 cursor-pointer"
                           @click="selectGene(gene)"
                         >
                           <p class="font-semibold text-[#32324d]">
-                            {{ gene.name }}
-                          </p>
-                          <p class="text-[#32324d]">
-                            {{ gene.description }}
+                            {{ gene }}
                           </p>
                         </div>
                       </section>
@@ -333,9 +330,9 @@
                     class="py-1.5 px-2.5 rounded border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
                   >
                     <option value="" class="text-purple">Tissue</option>
-                    <template v-if="scatterPlotParams">
+                    <template v-if="tissueSources.length > 0">
                       <option
-                        v-for="tissue in scatterPlotParams.tissue"
+                        v-for="tissue in tissueSources"
                         :key="tissue"
                         :value="tissue"
                         class="text-purple"
@@ -419,6 +416,7 @@ export default {
       selectedScatterPlotParams: [],
       scatterPlotParams: null,
       openDropDown: false,
+      tissueSources: ['meat'],
       plotType: {
         selectedValue: [],
         options: [
@@ -434,14 +432,9 @@ export default {
           },
         ],
       },
-      selectedGeneAliases: [
-        {
-          name: 'ERBB2',
-          value: 'ERBB2',
-          description: 'Alt. names: NEU, HER-2, CD340, HER2',
-        },
-      ],
+      selectedGeneAliases: ['ERBB2'],
       geneAliases: [],
+      allAliases: [],
       searchQuery: '',
     }
   },
@@ -464,22 +457,13 @@ export default {
     },
     formattedGeneAliases() {
       if (this.geneAliases && this.geneAliases.length > 0) {
-        return this.geneAliases.filter(
-          ({ value: id1 }) =>
-            !this.selectedGeneAliases.some(({ value: id2 }) => id2 === id1)
-        )
-        // return this.geneAliases.filter(
-        //   (i) => !this.selectedGeneAliases.some((x) => i !== x)
-        // )
+        return this.geneAliases.slice(0, 10)
       }
       return false
     },
     getFilteredScatterPlots() {
       return this.scatterPlotParams && Object.keys(this.getRemainingFilters)
     },
-  },
-  mounted() {
-    this.getAllGeneIds('ERBB2')
   },
   methods: {
     toggleSelection(param) {
@@ -496,12 +480,16 @@ export default {
     },
     removeSelectedGene(gene) {
       this.selectedGeneAliases = this.selectedGeneAliases.filter(
-        (item) => item.value !== gene.value
+        (item) => item !== gene
       )
     },
     updateGeneAlias() {
-      if (this.searchQuery.length > 2) {
-        this.getAllGeneIds(this.searchQuery)
+      //  const tempGenes=JSON.stringify(this.geneAliases)
+      this.geneAliases = this.geneAliases.filter((item) => {
+        return item.toLowerCase().includes(this.searchQuery.toLocaleLowerCase())
+      })
+      if (this.searchQuery === '') {
+        this.geneAliases = this.allAliases
       }
     },
     selectGene(gene) {
@@ -515,110 +503,47 @@ export default {
     handleSelectedStudy(study) {
       this.selectedStudy = study
       console.log('study changed', study)
-      // this.updateStudyFilterOptions(study.study_name)
-      // Find scatter plot parameters
-      newAPIService
-        .getScatterPlotParametersByStudyID(this.$axios, study.study_id)
-        .then((res) => {
-          this.scatterPlotParams = res.data
-          console.log('Tissue', this.scatterPlotParams.tissue)
-        })
+      this.updateStudyFilterOptions(study.study_id)
     },
-    async getGeneAliases(textToSearch) {
-      const formattedGenes = []
-      // for(let i=0; i< genes.length; i++) {
-      // Conditional logic: Gene IDs only query when the user has typed at least 3 letters to start searching to avoid overloading.
 
-      await newAPIService
-        .getAllGeneAliases(this.$axios, textToSearch)
-        .then((response) => {
-          response.data.forEach((item) => {
-            formattedGenes.push({
-              name: item.gene_id,
-              value: item?.gene_value,
-              aliases: item?.alias_symbols,
-            })
-          })
-        })
-
-      // console.log("Formatted Genes",formattedGenes)
-      return formattedGenes
-    },
     // eslint-disable-next-line camelcase
-    async getAllGeneIds(textToSearch) {
-      // this.activeloadingSpinner = type
-      const result = await this.getGeneAliases(textToSearch)
-      // this.activeloadingSpinner = null
-      this.geneAliases = result
-        .map((geneItem) => {
-          return {
-            name: geneItem.name ?? 'NONE',
-            value: geneItem.value,
-            description: `Alt. names: ${geneItem.aliases}`,
-          }
-        })
-        .filter((gitem) => {
-          // var reg = new RegExp(textToSearch)
-          const re = new RegExp(`${textToSearch.toUpperCase()}`)
-          // console.log("Matching-", re, re.test(gitem.name?.toUpperCase()))
-
-          return (
-            gitem.name?.toUpperCase().startsWith(textToSearch.toUpperCase()) ||
-            re.test(gitem.name?.toUpperCase())
-          )
-        })
-        .sort((a, b) => {
-          return a.name?.toLowerCase().indexOf(textToSearch?.toLowerCase()) <
-            b.name?.toLowerCase().indexOf(textToSearch?.toLowerCase())
-            ? -1
-            : 1
-        })
-
-      // if (options.length === 0) {
-      //   //do some result suggestions
-      //   this.showSuggestions = true
-      //   item.options = result
-      //     .map((geneItem) => {
-      //       return {
-      //         name: geneItem.name ?? 'NONE',
-      //         value: geneItem.value,
-      //         description: `Alt. names: ${geneItem.aliases}`,
-      //       }
-      //     })
-      //     .filter((gitem) => {
-      //       // var reg = new RegExp(textToSearch)
-      //       let re = new RegExp(`${textToSearch.substring(0, 3).toUpperCase()}`)
-      //       // console.log("Matching-", re, re.test(gitem.name?.toUpperCase()))
-
-      //       return (
-      //         gitem.name
-      //           ?.toUpperCase()
-      //           .startsWith(textToSearch.substring(0, 3).toUpperCase()) ||
-      //         re.test(gitem.name?.toUpperCase())
-      //       )
-      //     })
-      // } else {
-      //   item.options = options
-      //   this.showSuggestions = false
-      // }
-      console.log('This aliases', this.geneAliases)
+    async getAllGeneIds(study) {
+      this.geneAliases = await newAPIService.getClinicalGenesById(
+        this.$axios,
+        study
+      )
     },
-    updateStudyFilterOptions(study) {
+    async updateStudyFilterOptions(study) {
       if (!study) {
         this.SelectedFilterOptions = {}
         return
       }
-      newAPIService
-        .getScatterPlotParametersByStudyID(this.$axios, study)
-        .then((response) => {
-          this.SelectedFilterOptions = response.data
-          console.log('Called updateStudyFilterOptions Func', response.data)
-          // this.setTimePoint(response.data)
-          // this.setTissueType(response.data)
-          // this.setDataTypeVertical()
-        })
+      // Get Genes
+      const response = await newAPIService.getClinicalGenesById(
+        this.$axios,
+        study
+      )
+      this.geneAliases = response.data
+      this.allAliases = response.data
 
-      this.getAllBioMarkerNames(study)
+      // Get tissue sources
+      const TResponse = await newAPIService.getClinicalTissuesSourcesById(
+        this.$axios,
+        study
+      )
+      this.tissueSources = TResponse.data
+
+      // newAPIService
+      //   .getScatterPlotParametersByStudyID(this.$axios, study)
+      //   .then((response) => {
+      //     this.SelectedFilterOptions = response.data
+      //     console.log('Called updateStudyFilterOptions Func', response.data)
+      //     // this.setTimePoint(response.data)
+      //     // this.setTissueType(response.data)
+      //     // this.setDataTypeVertical()
+      //   })
+
+      //  this.getAllBioMarkerNames(study)
     },
   },
 }
