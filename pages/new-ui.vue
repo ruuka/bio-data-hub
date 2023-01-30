@@ -244,14 +244,17 @@
                   <div class="dropdown flex items-center relative" tabindex="1">
                     <!-- START DROPDOWN -->
 
-                    <!-- END DROPDOWN -->
-                    <input
+                    <vue-tags-input
                       v-model="searchQuery"
-                      type="text"
-                      class="py-1.5 px-2.5 rounded border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 w-[180px] hover:text-purple"
-                      @input="updateGeneAlias()"
+                      :tags="selectedGeneAliases"
+                      @tags-changed="
+                        (newTags) => (selectedGeneAliases = newTags)
+                      "
                     />
+
+                    <!-- END DROPDOWN -->
                     <div
+                      v-show="showDropdown"
                       class="absolute dropdown-item -left-1/4 top-10 w-max mt-2 px-3 py-2.5 [box-shadow:0px1px10pxrgba(84,86,91,0.2)] rounded-xl bg-white"
                     >
                       <p class="text-sm mb-2 text-[#32324D]">Search Filter:</p>
@@ -264,7 +267,7 @@
                           :key="index + 'gene'"
                           class="tag py-0.5 px-2.5 text-sm flex items-center rounded bg-white w-max text-dark-1"
                         >
-                          {{ gitem }}
+                          {{ gitem.text }}
                           <button
                             class="p-1"
                             @click="removeSelectedGene(gitem)"
@@ -356,9 +359,9 @@
                     class="py-1.5 px-2.5 rounded border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
                   >
                     <option value="" class="text-purple">Treatment</option>
-                    <template v-if="scatterPlotParams">
+                    <template v-if="treatments">
                       <option
-                        v-for="treatment in scatterPlotParams.treatment"
+                        v-for="treatment in treatments"
                         :key="treatment"
                         :value="treatment"
                         class="text-purple"
@@ -368,7 +371,7 @@
                     </template>
                   </select>
                   <select
-                    name="treatment"
+                    name="response"
                     class="py-1.5 px-2.5 rounded border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
                   >
                     <option value="" class="text-purple">Response</option>
@@ -416,7 +419,11 @@ export default {
       selectedScatterPlotParams: [],
       scatterPlotParams: null,
       openDropDown: false,
-      tissueSources: ['meat'],
+      showDropdown: true,
+      treatments: [],
+      tag: '',
+      tags: [],
+      tissueSources: [],
       plotType: {
         selectedValue: [],
         options: [
@@ -465,6 +472,11 @@ export default {
       return this.scatterPlotParams && Object.keys(this.getRemainingFilters)
     },
   },
+  watch: {
+    searchQuery() {
+      this.updateGeneAlias()
+    },
+  },
   methods: {
     toggleSelection(param) {
       if (this.selectedScatterPlotParams.includes(param)) {
@@ -480,7 +492,7 @@ export default {
     },
     removeSelectedGene(gene) {
       this.selectedGeneAliases = this.selectedGeneAliases.filter(
-        (item) => item !== gene
+        (item) => item.text !== gene.text
       )
     },
     updateGeneAlias() {
@@ -493,7 +505,7 @@ export default {
       }
     },
     selectGene(gene) {
-      this.selectedGeneAliases = [...this.selectedGeneAliases, gene]
+      this.selectedGeneAliases = [...this.selectedGeneAliases, { text: gene }]
     },
     getStudiesByTheraputicArea(therapeuticarea) {
       return this.allStudies.filter((item) => {
@@ -531,7 +543,15 @@ export default {
         this.$axios,
         study
       )
+
       this.tissueSources = TResponse.data
+
+      // Get Treatments
+      const TreatmentResponse = await newAPIService.getClinicalTreatments(
+        this.$axios,
+        study
+      )
+      this.treatments = TreatmentResponse.data
 
       // newAPIService
       //   .getScatterPlotParametersByStudyID(this.$axios, study)

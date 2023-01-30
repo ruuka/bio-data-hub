@@ -35,6 +35,17 @@ export default {
       console.log('There was an error: ' + error.response)
     })
   },
+
+  getClinicalTreatments($axios, studyId) {
+    return $axios
+      .get(
+        `clinicaldata/study/${studyId}/treatments/gene
+    `
+      )
+      .catch((error) => {
+        console.log('There was an error: ' + error.response)
+      })
+  },
   getPublicationData($axios, searchString) {
     return $axios
       .get(`/publication/search?search=${searchString}`)
