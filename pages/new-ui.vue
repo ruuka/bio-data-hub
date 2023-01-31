@@ -240,8 +240,97 @@
                   >
                     Analyte
                   </div>
+                  <!-- START BIOMARKER -->
+                  <div
+                    v-if="
+                      plotType.selectedValue &&
+                      plotType.selectedValue.id === 'biomarker'
+                    "
+                    class="dropdown flex items-center relative"
+                    tabindex="1"
+                  >
+                    <!-- START DROPDOWN -->
 
-                  <div class="dropdown flex items-center relative" tabindex="1">
+                    <vue-tags-input
+                      v-model="searchQuery"
+                      :tags="selectedBiomarkers"
+                      @tags-changed="
+                        (newTags) => (selectedBiomarkers = newTags)
+                      "
+                    />
+
+                    <!-- END DROPDOWN -->
+                    <div
+                      v-show="showDropdown"
+                      class="absolute dropdown-item -left-1/4 top-10 w-max mt-2 px-3 py-2.5 [box-shadow:0px1px10pxrgba(84,86,91,0.2)] rounded-xl bg-white"
+                    >
+                      <p class="text-sm mb-2 text-[#32324D]">Search Filter:</p>
+                      <!-- SELECTED -->
+                      <div
+                        class="bg-[#f3f3f8] py-1 px-1.5 flex gap-2 max-w-md overflow-x-auto"
+                      >
+                        <section
+                          v-for="(gitem, index) in selectedBiomarkers"
+                          :key="index + 'biomarker'"
+                          class="tag py-0.5 px-2.5 text-sm flex items-center rounded bg-white w-max text-dark-1"
+                        >
+                          {{ gitem.text }}
+                          <button
+                            class="p-1"
+                            @click="removeSelectedGene(gitem, 'biomarker')"
+                          >
+                            <svg
+                              class="h-4 fill-dark-3"
+                              xmlns="http://www.w3.org/2000/svg"
+                              xmlns:xlink="http://www.w3.org/1999/xlink"
+                              viewBox="0 0 50 50"
+                            >
+                              <path
+                                d="M9.15625 6.3125L6.3125 9.15625L22.15625 25L6.21875 40.96875L9.03125 43.78125L25 27.84375L40.9375 43.78125L43.78125 40.9375L27.84375 25L43.6875 9.15625L40.84375 6.3125L25 22.15625Z"
+                              />
+                            </svg>
+                          </button>
+                        </section>
+                      </div>
+                      <!-- grayed -->
+                      <section
+                        v-if="biomarkers"
+                        class="mt-2 bg-[#f3f3f8] flex flex-col gap-2"
+                      >
+                        <!-- item -->
+                        <div
+                          v-for="biomarker in biomarkers"
+                          :key="biomarker"
+                          class="text-sm hover:bg-white px-4 py-1 cursor-pointer"
+                          @click="selectGene(biomarkers, 'biomarker')"
+                        >
+                          <p class="font-semibold text-[#32324d]">
+                            {{ biomarker }}
+                          </p>
+                        </div>
+                      </section>
+                    </div>
+                    <svg
+                      class="h-4 fill-dark-1 absolute right-2.5"
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                      viewBox="0 0 48 48"
+                    >
+                      <path
+                        d="M20.5 6C12.509634 6 6 12.50964 6 20.5C6 28.49036 12.509634 35 20.5 35C23.956359 35 27.133709 33.779044 29.628906 31.75L39.439453 41.560547 A 1.50015 1.50015 0 1 0 41.560547 39.439453L31.75 29.628906C33.779044 27.133709 35 23.956357 35 20.5C35 12.50964 28.490366 6 20.5 6 z M 20.5 9C26.869047 9 32 14.130957 32 20.5C32 23.602612 30.776198 26.405717 28.791016 28.470703 A 1.50015 1.50015 0 0 0 28.470703 28.791016C26.405717 30.776199 23.602614 32 20.5 32C14.130953 32 9 26.869043 9 20.5C9 14.130957 14.130953 9 20.5 9 z"
+                      />
+                    </svg>
+                  </div>
+
+                  <!-- START GENE EXPRESSION -->
+                  <div
+                    v-if="
+                      plotType.selectedValue &&
+                      plotType.selectedValue.id === 'gene-expression'
+                    "
+                    class="dropdown flex items-center relative"
+                    tabindex="1"
+                  >
                     <!-- START DROPDOWN -->
 
                     <vue-tags-input
@@ -270,7 +359,9 @@
                           {{ gitem.text }}
                           <button
                             class="p-1"
-                            @click="removeSelectedGene(gitem)"
+                            @click="
+                              removeSelectedGene(gitem, 'gene-expression')
+                            "
                           >
                             <svg
                               class="h-4 fill-dark-3"
@@ -295,7 +386,7 @@
                           v-for="gene in formattedGeneAliases"
                           :key="gene"
                           class="text-sm hover:bg-white px-4 py-1 cursor-pointer"
-                          @click="selectGene(gene)"
+                          @click="selectGene(gene, 'gene-expression')"
                         >
                           <p class="font-semibold text-[#32324d]">
                             {{ gene }}
@@ -418,6 +509,7 @@ export default {
       SelectedFilterOptions: null,
       selectedScatterPlotParams: [],
       scatterPlotParams: null,
+      selectedBiomarkers: [],
       openDropDown: false,
       showDropdown: true,
       treatments: [],
@@ -425,7 +517,7 @@ export default {
       tags: [],
       tissueSources: [],
       plotType: {
-        selectedValue: [],
+        selectedValue: {},
         options: [
           {
             id: 'biomarker',
@@ -442,6 +534,8 @@ export default {
       selectedGeneAliases: ['ERBB2'],
       geneAliases: [],
       allAliases: [],
+      allBiomarkers: [],
+      biomarkers: [],
       searchQuery: '',
     }
   },
@@ -464,7 +558,7 @@ export default {
     },
     formattedGeneAliases() {
       if (this.geneAliases && this.geneAliases.length > 0) {
-        return this.geneAliases.slice(0, 10)
+        return this.geneAliases.slice(0, 10) //TODO: REMOVE THIS TO SHOW ALL
       }
       return false
     },
@@ -490,22 +584,45 @@ export default {
     getSubItems(key) {
       return this.scatterPlotParams[key]
     },
-    removeSelectedGene(gene) {
-      this.selectedGeneAliases = this.selectedGeneAliases.filter(
-        (item) => item.text !== gene.text
-      )
+    removeSelectedGene(gene, type) {
+      if (type === 'biomarker') {
+        this.selectedBiomarkers = this.selectedBiomarkers.filter(
+          (item) => item.text !== gene.text
+        )
+      } else {
+        this.selectedGeneAliases = this.selectedGeneAliases.filter(
+          (item) => item.text !== gene.text
+        )
+      }
     },
     updateGeneAlias() {
       //  const tempGenes=JSON.stringify(this.geneAliases)
-      this.geneAliases = this.geneAliases.filter((item) => {
-        return item.toLowerCase().includes(this.searchQuery.toLocaleLowerCase())
-      })
-      if (this.searchQuery === '') {
-        this.geneAliases = this.allAliases
+      if (this.plotType.selectedValue.id === 'gene-expression') {
+        this.geneAliases = this.geneAliases.filter((item) => {
+          return item
+            .toLowerCase()
+            .includes(this.searchQuery.toLocaleLowerCase())
+        })
+        if (this.searchQuery === '') {
+          this.geneAliases = this.allAliases
+        }
+      } else {
+        this.biomarkers = this.biomarkers.filter((item) => {
+          return item
+            .toLowerCase()
+            .includes(this.searchQuery.toLocaleLowerCase())
+        })
+        if (this.searchQuery === '') {
+          this.biomarkers = this.allBiomarkers
+        }
       }
     },
-    selectGene(gene) {
-      this.selectedGeneAliases = [...this.selectedGeneAliases, { text: gene }]
+    selectGene(item, type) {
+      if (type === 'biomarker') {
+        this.selectedBiomarkers = [...this.selectedBiomarkers, { text: item }]
+      } else {
+        this.selectedGeneAliases = [...this.selectedGeneAliases, { text: item }]
+      }
     },
     getStudiesByTheraputicArea(therapeuticarea) {
       return this.allStudies.filter((item) => {
@@ -552,6 +669,14 @@ export default {
         study
       )
       this.treatments = TreatmentResponse.data
+
+      // GET BIOMARKERS
+      const biomarkerResponse = await newAPIService.getClinicalBiomarkersById(
+        this.$axios,
+        study
+      )
+      this.biomarkers = biomarkerResponse.data
+      this.allBiomarkers = biomarkerResponse.data
 
       // newAPIService
       //   .getScatterPlotParametersByStudyID(this.$axios, study)
