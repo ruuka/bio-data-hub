@@ -414,24 +414,18 @@
                     Source
                   </div>
                   <select
-                    name="blood"
-                    class="py-1.5 px-2.5 rounded border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
-                  >
-                    <option value="" class="text-purple">Blood</option>
-                  </select>
-                  <select
                     name="tissue"
                     class="py-1.5 px-2.5 rounded border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
                   >
-                    <option value="" class="text-purple">Tissue</option>
-                    <template v-if="tissueSources.length > 0">
+                    <option value="" class="text-purple">Source</option>
+                    <template v-if="source.length > 0">
                       <option
-                        v-for="tissue in tissueSources"
-                        :key="tissue"
-                        :value="tissue"
+                        v-for="item in source"
+                        :key="item.id"
+                        :value="item.name"
                         class="text-purple"
                       >
-                        {{ tissue }}
+                        {{ item.name }}
                       </option>
                     </template>
                   </select>
@@ -449,31 +443,15 @@
                     name="stratification"
                     class="py-1.5 px-2.5 rounded border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
                   >
-                    <option value="" class="text-purple">Treatment</option>
-                    <template v-if="treatments">
+                    <option value="" class="text-purple">Stratification</option>
+                    <template v-if="stratification">
                       <option
-                        v-for="treatment in treatments"
-                        :key="treatment"
-                        :value="treatment"
+                        v-for="strat in stratification"
+                        :key="strat.id"
+                        :value="strat.name"
                         class="text-purple"
                       >
-                        {{ treatment }}
-                      </option>
-                    </template>
-                  </select>
-                  <select
-                    name="response"
-                    class="py-1.5 px-2.5 rounded border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
-                  >
-                    <option value="" class="text-purple">Response</option>
-                    <template v-if="scatterPlotParams">
-                      <option
-                        v-for="response in scatterPlotParams.response"
-                        :key="response"
-                        :value="response"
-                        class="text-purple"
-                      >
-                        {{ response }}
+                        {{ strat.name }}
                       </option>
                     </template>
                   </select>
@@ -531,12 +509,33 @@ export default {
           },
         ],
       },
-      selectedGeneAliases: ['ERBB2'],
+      selectedGeneAliases: [{ text: 'ERBB2' }],
       geneAliases: [],
       allAliases: [],
       allBiomarkers: [],
       biomarkers: [],
       searchQuery: '',
+      source: [
+        {
+          name: 'Whole Blood',
+          id: 'whole-blood',
+        },
+        {
+          name: 'Tissue',
+          id: 'tissue',
+        },
+      ],
+
+      stratification: [
+        {
+          name: 'Treatment',
+          id: 'treatment',
+        },
+        {
+          name: 'Response',
+          id: 'response',
+        },
+      ],
     }
   },
   computed: {
@@ -621,7 +620,12 @@ export default {
       if (type === 'biomarker') {
         this.selectedBiomarkers = [...this.selectedBiomarkers, { text: item }]
       } else {
-        this.selectedGeneAliases = [...this.selectedGeneAliases, { text: item }]
+        this.selectedGeneAliases = [
+          ...this.selectedGeneAliases.map((item) => {
+            return { text: item }
+          }),
+          { text: item },
+        ]
       }
     },
     getStudiesByTheraputicArea(therapeuticarea) {
@@ -652,8 +656,13 @@ export default {
         this.$axios,
         study
       )
-      this.geneAliases = response.data
-      this.allAliases = response.data
+      const formatedRes = response.data.map((item) => {
+        return {
+          text: item,
+        }
+      })
+      this.geneAliases = formatedRes
+      this.allAliases = formatedRes
 
       // Get tissue sources
       const TResponse = await newAPIService.getClinicalTissuesSourcesById(
