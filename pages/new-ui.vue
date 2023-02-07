@@ -90,8 +90,11 @@
                   </svg>
                 </div>
                 <p class="py-1.5 px-2.5 rounded bg-red text-white">
-                  Therapeutic Area:
+                  Study ID:
                   {{ selectedStudy && selectedStudy.study_id }}
+                </p>
+                <p class="py-1.5 px-2.5 rounded bg-red text-white">
+                  Therapeutic Area:
                 </p>
                 <p class="py-1.5 px-2.5 rounded bg-red text-white">
                   Indication:
@@ -253,10 +256,9 @@
 
                     <vue-tags-input
                       v-model="searchQuery"
-                      :tags="selectedBiomarkers"
-                      @tags-changed="
-                        (newTags) => (selectedBiomarkers = newTags)
-                      "
+                      class="w-64 overflow-x-auto"
+                      :tags="tags"
+                      @tags-changed="(newTags) => handleTags(newTags)"
                     />
 
                     <!-- END DROPDOWN -->
@@ -299,10 +301,10 @@
                       >
                         <!-- item -->
                         <div
-                          v-for="biomarker in biomarkers"
-                          :key="biomarker"
+                          v-for="(biomarker, index) in biomarkers"
+                          :key="index + 'biomarker'"
                           class="text-sm hover:bg-white px-4 py-1 cursor-pointer"
-                          @click="selectGene(biomarkers, 'biomarker')"
+                          @click="selectGene(biomarker, 'biomarker')"
                         >
                           <p class="font-semibold text-[#32324d]">
                             {{ biomarker }}
@@ -335,10 +337,9 @@
 
                     <vue-tags-input
                       v-model="searchQuery"
-                      :tags="selectedGeneAliases"
-                      @tags-changed="
-                        (newTags) => (selectedGeneAliases = newTags)
-                      "
+                      class="w-64 overflow-x-auto"
+                      :tags="tags"
+                      @tags-changed="(newTags) => handleTags(newTags)"
                     />
 
                     <!-- END DROPDOWN -->
@@ -384,12 +385,12 @@
                         <!-- item -->
                         <div
                           v-for="gene in formattedGeneAliases"
-                          :key="gene"
+                          :key="gene.text"
                           class="text-sm hover:bg-white px-4 py-1 cursor-pointer"
-                          @click="selectGene(gene, 'gene-expression')"
+                          @click="selectGene(gene.text, 'gene-expression')"
                         >
                           <p class="font-semibold text-[#32324d]">
-                            {{ gene }}
+                            {{ gene.text }}
                           </p>
                         </div>
                       </section>
@@ -594,6 +595,18 @@ export default {
         )
       }
     },
+
+    handleTags(newTags) {
+      const type = this.plotType.selectedValue.id
+
+      if (type === 'biomarker') {
+        console.log('selectedBiomarker', newTags)
+        this.tags = newTags
+      } else {
+        this.tags = newTags
+      }
+    },
+
     updateGeneAlias() {
       //  const tempGenes=JSON.stringify(this.geneAliases)
       if (this.plotType.selectedValue.id === 'gene-expression') {
@@ -617,12 +630,14 @@ export default {
       }
     },
     selectGene(item, type) {
+      console.log('gene', item)
+      this.tags = [{ text: item }]
       if (type === 'biomarker') {
-        this.selectedBiomarkers = [...this.selectedBiomarkers, { text: item }]
+        this.selectedBiomarkers.push({ text: item })
       } else {
         this.selectedGeneAliases = [
           ...this.selectedGeneAliases.map((item) => {
-            return { text: item }
+            return item
           }),
           { text: item },
         ]
