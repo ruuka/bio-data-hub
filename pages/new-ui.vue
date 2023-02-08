@@ -203,7 +203,7 @@
                     tabindex="1"
                   >
                     <button
-                      class="py-1.5 w-full px-2.5 rounded border disabled:opacity-50 outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] flex justify-between items-center gap-2 text-dark-2 group hover:text-purple"
+                      class="py-1.5 w-full px-2.5 rounded border disabled:opacity-30 outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] flex justify-between items-center gap-2 text-dark-2 group hover:text-purple"
                       :disabled="!selectedStudy"
                     >
                       {{ plotType.selectedValue.name || 'Select Type' }}
@@ -420,7 +420,7 @@
                   <select
                     name="tissue"
                     :disabled="!selectedStudy"
-                    class="py-1.5 px-2.5 rounded disabled:opacity-50 border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
+                    class="py-1.5 px-2.5 rounded disabled:opacity-30 border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
                   >
                     <option value="" class="text-purple">Source</option>
                     <template v-if="source.length > 0">
@@ -447,7 +447,7 @@
                   <select
                     name="stratification"
                     :disabled="!selectedStudy"
-                    class="py-1.5 px-2.5 rounded border disabled:opacity-50 outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
+                    class="py-1.5 px-2.5 rounded border disabled:opacity-30 outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
                   >
                     <option value="" class="text-purple">Stratification</option>
                     <template v-if="stratification">
