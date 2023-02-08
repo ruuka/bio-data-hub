@@ -203,7 +203,8 @@
                     tabindex="1"
                   >
                     <button
-                      class="py-1.5 w-full px-2.5 rounded border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] flex justify-between items-center gap-2 text-dark-2 group hover:text-purple"
+                      class="py-1.5 w-full px-2.5 rounded border disabled:opacity-50 outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] flex justify-between items-center gap-2 text-dark-2 group hover:text-purple"
+                      :disabled="!selectedStudy"
                     >
                       {{ plotType.selectedValue.name || 'Select Type' }}
                       <svg
@@ -229,7 +230,7 @@
                         v-for="item in plotType.options"
                         :key="item.id"
                         class="menu-item px-3 relative py-1.5 hover:bg-white bg-[#f3f3f8] cursor-pointer"
-                        @click="plotType.selectedValue = item"
+                        @click="setSelectedPlotType(item)"
                       >
                         {{ item.name }}
                       </li>
@@ -258,6 +259,7 @@
                       v-model="searchQuery"
                       class="w-64 overflow-x-auto"
                       :tags="tags"
+                      placeholder=""
                       @tags-changed="(newTags) => handleTags(newTags)"
                     />
 
@@ -338,6 +340,7 @@
                     <vue-tags-input
                       v-model="searchQuery"
                       class="w-64 overflow-x-auto"
+                      placeholder=""
                       :tags="tags"
                       @tags-changed="(newTags) => handleTags(newTags)"
                     />
@@ -416,7 +419,8 @@
                   </div>
                   <select
                     name="tissue"
-                    class="py-1.5 px-2.5 rounded border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
+                    :disabled="!selectedStudy"
+                    class="py-1.5 px-2.5 rounded disabled:opacity-50 border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
                   >
                     <option value="" class="text-purple">Source</option>
                     <template v-if="source.length > 0">
@@ -442,7 +446,8 @@
                   </div>
                   <select
                     name="stratification"
-                    class="py-1.5 px-2.5 rounded border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
+                    :disabled="!selectedStudy"
+                    class="py-1.5 px-2.5 rounded border disabled:opacity-50 outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
                   >
                     <option value="" class="text-purple">Stratification</option>
                     <template v-if="stratification">
@@ -558,7 +563,7 @@ export default {
     },
     formattedGeneAliases() {
       if (this.geneAliases && this.geneAliases.length > 0) {
-        return this.geneAliases.slice(0, 10) //TODO: REMOVE THIS TO SHOW ALL
+        return this.geneAliases.slice(0, 10) // TODO: REMOVE THIS TO SHOW ALL
       }
       return false
     },
@@ -572,6 +577,10 @@ export default {
     },
   },
   methods: {
+    setSelectedPlotType(item) {
+      this.plotType.selectedValue = item
+      this.tags = []
+    },
     toggleSelection(param) {
       if (this.selectedScatterPlotParams.includes(param)) {
         this.selectedScatterPlotParams = this.selectedScatterPlotParams.filter(
@@ -631,9 +640,10 @@ export default {
     },
     selectGene(item, type) {
       console.log('gene', item)
-      this.tags = [{ text: item }]
+
       if (type === 'biomarker') {
         this.selectedBiomarkers.push({ text: item })
+        this.tags = this.selectedBiomarkers
       } else {
         this.selectedGeneAliases = [
           ...this.selectedGeneAliases.map((item) => {
@@ -641,6 +651,8 @@ export default {
           }),
           { text: item },
         ]
+
+        this.tags = this.selectedGeneAliases
       }
     },
     getStudiesByTheraputicArea(therapeuticarea) {
@@ -649,7 +661,15 @@ export default {
       })
     },
     handleSelectedStudy(study) {
-      this.selectedStudy = study
+      if (
+        this.selectedStudy &&
+        this.selectedStudy.study_id === study.study_id
+      ) {
+        this.selectedStudy = null
+      } else {
+        this.selectedStudy = study
+      }
+
       console.log('study changed', study)
       this.updateStudyFilterOptions(study.study_id)
     },
