@@ -303,7 +303,7 @@
                       >
                         <!-- item -->
                         <div
-                          v-for="(biomarker, index) in biomarkers"
+                          v-for="(biomarker, index) in filteredBiomarkers"
                           :key="index + 'biomarker'"
                           class="text-sm hover:bg-white px-4 py-1 cursor-pointer"
                           @click="selectGene(biomarker, 'biomarker')"
@@ -382,12 +382,12 @@
                       </div>
                       <!-- grayed -->
                       <section
-                        v-if="formattedGeneAliases"
+                        v-if="filteredGeneAliases"
                         class="mt-2 bg-[#f3f3f8] flex flex-col gap-2"
                       >
                         <!-- item -->
                         <div
-                          v-for="gene in formattedGeneAliases"
+                          v-for="gene in filteredGeneAliases"
                           :key="gene.text"
                           class="text-sm hover:bg-white px-4 py-1 cursor-pointer"
                           @click="selectGene(gene.text, 'gene-expression')"
@@ -465,7 +465,10 @@
               </div>
 
               <div>
-                <button class="bg-red py-2.5 px-5 rounded text-white">
+                <button
+                  class="bg-red py-2.5 px-5 rounded text-white disabled:opacity-30"
+                  :disabled="!selectedStudy"
+                >
                   Make Plot
                 </button>
               </div>
@@ -545,6 +548,38 @@ export default {
     }
   },
   computed: {
+    filteredBiomarkers() {
+      return this.biomarkers.filter((item) => {
+        let isSelected = false
+        for (let i = 0; i < this.selectedBiomarkers.length; i++) {
+          if (
+            JSON.stringify(item) ===
+            JSON.stringify(this.selectedBiomarkers[i].text)
+          ) {
+            isSelected = true
+            break
+          }
+        }
+        return !isSelected
+      })
+    },
+    filteredGeneAliases() {
+      console.log('Yes filtering............')
+      return this.formattedGeneAliases.filter((item) => {
+        let isSelected = false
+        for (let i = 0; i < this.selectedGeneAliases.length; i++) {
+          console.log('Item', item)
+          if (
+            JSON.stringify(item.text) ===
+            JSON.stringify(this.selectedGeneAliases[i].text)
+          ) {
+            isSelected = true
+            break
+          }
+        }
+        return !isSelected
+      })
+    },
     getRemainingFilters() {
       const unwantedKeys = [
         'tissue',
@@ -598,11 +633,27 @@ export default {
         this.selectedBiomarkers = this.selectedBiomarkers.filter(
           (item) => item.text !== gene.text
         )
+        this.tags = this.selectedBiomarkers
       } else {
         this.selectedGeneAliases = this.selectedGeneAliases.filter(
           (item) => item.text !== gene.text
         )
+        this.tags = this.selectedGeneAliases
       }
+    },
+
+    updateArray(array, item) {
+      let exists = false
+      for (let i = 0; i < array.length; i++) {
+        if (JSON.stringify(array[i]) === JSON.stringify(item)) {
+          exists = true
+          break
+        }
+      }
+      if (!exists) {
+        array.push(item)
+      }
+      return array
     },
 
     handleTags(newTags) {
@@ -642,19 +693,12 @@ export default {
       console.log('gene', item)
 
       if (type === 'biomarker') {
-        this.selectedBiomarkers.push({ text: item })
-        this.tags = this.selectedBiomarkers
+        this.tags = this.updateArray(this.selectedBiomarkers, { text: item })
       } else {
-        this.selectedGeneAliases = [
-          ...this.selectedGeneAliases.map((item) => {
-            return item
-          }),
-          { text: item },
-        ]
-
-        this.tags = this.selectedGeneAliases
+        this.tags = this.updateArray(this.selectedGeneAliases, { text: item })
       }
     },
+
     getStudiesByTheraputicArea(therapeuticarea) {
       return this.allStudies.filter((item) => {
         return item.THERAPEUTICAREA === therapeuticarea
