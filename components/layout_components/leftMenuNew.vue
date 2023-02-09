@@ -91,14 +91,14 @@
                   @click="handleClick(protocol)"
                 />
                 <span class="flex items-center text-sm">{{
-                  protocol.study_id
-                }}</span></label
+                    protocol.study_id
+                  }}</span></label
               >
             </div>
 
-            <a href="" class="uppercase text-sm text-center mt-2 text-dark-2"
-              >show more</a
-            >
+            <!--            <a href="" class="uppercase text-sm text-center mt-2 text-dark-2"-->
+            <!--            >show more</a-->
+            <!--            >-->
           </div>
         </section>
       </aside>

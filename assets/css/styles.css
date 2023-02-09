@@ -111,3 +111,6 @@
 .custom-select:focus-within .menu {
   @apply block;
 }
+.dropdown:hover .dropdown-menu {
+  display: block;
+}

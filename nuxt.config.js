@@ -126,8 +126,9 @@ export default {
     // baseURL: 'http://sjggpappprdn09:8000/api/v1/',
     // baseURL: 'http://localhost:8000/api/v1/',
     // baseURL: 'http://localhost:8000/clinicaldata/',
-    baseURL: 'http://localhost:8000/',
+    // baseURL: 'http://localhost:8000/',
     // baseURL: 'https://bioinformatics.gilead.com/api/v1/',
+    baseURL: 'http://sjggpappprdn09.na.gilead.com:8090/',
   },
 
   // axios: {
