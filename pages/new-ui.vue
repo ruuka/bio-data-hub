@@ -201,6 +201,7 @@
                   <label
                     class="custom-select w-full relative [box-shadow:0px1px10pxrgba(84,86,91,0.2)]"
                     tabindex="1"
+                    :disabled="!selectedStudy"
                   >
                     <button
                       class="py-1.5 w-full px-2.5 rounded border disabled:opacity-30 disabled:cursor-not-allowed outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] flex justify-between items-center gap-2 text-dark-2 group hover:text-purple"
@@ -208,6 +209,7 @@
                     >
                       {{ plotType.selectedValue.name || 'Select Type' }}
                       <svg
+                        v-if="selectedStudy"
                         class="fill-dark-2 h-4 group-hover:fill-purple transition-transform duration-200"
                         xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -259,6 +261,7 @@
                       v-model="searchQuery"
                       class="w-64 overflow-x-auto"
                       :tags="tags"
+                      :disabled="!selectedStudy"
                       placeholder=""
                       @tags-changed="(newTags) => handleTags(newTags)"
                     />
@@ -341,6 +344,7 @@
                       v-model="searchQuery"
                       class="w-64 overflow-x-auto"
                       placeholder=""
+                      :disabled="!selectedStudy"
                       :tags="tags"
                       @tags-changed="(newTags) => handleTags(newTags)"
                     />
@@ -710,6 +714,7 @@ export default {
         this.selectedStudy.study_id === study.study_id
       ) {
         this.selectedStudy = null
+        this.plotType.selectedValue = {}
       } else {
         this.selectedStudy = study
       }
