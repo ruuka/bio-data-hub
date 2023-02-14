@@ -730,6 +730,23 @@ export default {
         study
       )
     },
+    formatBiomarkerBody() {
+      return {
+        study_id: this.selectedStudy.study_id,
+        biomarkers: this.selectedBiomarkers,
+        treatment: 'Placebo',
+        week: 0,
+      }
+    },
+    formatGeneExpressionbBody() {
+      return {
+        study_id: 'string',
+        genes: ['string'],
+        tissue_sources: ['string'],
+        treatment: 'string',
+        week: 0,
+      }
+    },
     async updateStudyFilterOptions(study) {
       if (!study) {
         this.SelectedFilterOptions = {}
