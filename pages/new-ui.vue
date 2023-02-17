@@ -472,6 +472,7 @@
                 <button
                   class="bg-red py-2.5 px-5 rounded text-white disabled:opacity-30"
                   :disabled="!selectedStudy"
+                  @click="postData()"
                 >
                   Make Plot
                 </button>
@@ -480,6 +481,10 @@
           </section>
         </section>
       </section>
+
+      <section>
+        <NewUIPlot v-if="result.length > 0" :box-plot-data="result" />
+      </section>
     </main>
   </div>
 </template>
@@ -487,11 +492,12 @@
 <script>
 import LeftMenuNew from '~/components/layout_components/leftMenuNew.vue'
 import newAPIService from '~/services/newAPIService.js'
-
+import NewUIPlot from '~/components/plotly_components/NewUIPlot.vue'
 export default {
   name: 'NewUi',
   components: {
     LeftMenuNew,
+    NewUIPlot,
   },
   layout: 'newLayout',
   data() {
@@ -528,6 +534,7 @@ export default {
       allBiomarkers: [],
       biomarkers: [],
       searchQuery: '',
+      result: [],
       source: [
         {
           name: 'Whole Blood',
@@ -616,9 +623,10 @@ export default {
     },
   },
   methods: {
-    setSelectedPlotType(item) {
+    async setSelectedPlotType(item) {
       this.plotType.selectedValue = item
       this.tags = []
+      await this.getTreatmentsByPlottype()
     },
     toggleSelection(param) {
       if (this.selectedScatterPlotParams.includes(param)) {
@@ -677,7 +685,7 @@ export default {
         this.geneAliases = this.geneAliases.filter((item) => {
           return item
             .toLowerCase()
-            .includes(this.searchQuery.toLocaleLowerCase())
+            .includes(this.searchQuery?.toLocaleLowerCase())
         })
         if (this.searchQuery === '') {
           this.geneAliases = this.allAliases
@@ -730,22 +738,96 @@ export default {
         study
       )
     },
+    async getPlotData(formData) {
+      this.result = []
+
+      if (this.plotType.selectedValue.id === 'biomarker') {
+        for (let i = 0; i < this.treatments.length; i++) {
+          const response = await newAPIService.postToBiomarkers(this.$axios, {
+            ...formData,
+            treatment: this.treatments[i],
+          })
+          this.result.push({
+            plotType: this.plotType.selectedValue.id,
+            data: response.data,
+            treatment: this.treatments[i],
+          })
+        }
+        console.log(`${this.plotType.selectedValue.id}`, this.result)
+      } else {
+        for (let i = 0; i < this.treatments.length; i++) {
+          const response = await newAPIService.postToGeneExpression(
+            this.$axios,
+            {
+              ...formData,
+              treatment: this.treatments[i],
+            }
+          )
+          this.result.push({
+            plotType: this.plotType.selectedValue.id,
+            data: response,
+          })
+        }
+        console.log(`${this.result.plotType}`, this.result)
+      }
+    },
+    async postData() {
+      const formData = this.formatBiomarkerBody()
+      await this.getPlotData(formData)
+      // if (this.plotType.selectedValue.id === 'biomarker') {
+      //   const formData = this.formatBiomarkerBody()
+      //   const response = await newAPIService.postToBiomarkers(
+      //     this.$axios,
+      //     formData
+      //   )
+      //   console.log('response', response)
+      // } else {
+      //   console.log('Gene body', this.formatGeneExpressionbBody())
+      // }
+    },
     formatBiomarkerBody() {
+      // return {
+      //   study_id: this.selectedStudy.study_id,
+      //   biomarkers: this.selectedBiomarkers,
+      //   treatment: 'Placebo',
+      //   week: 0,
+      // }
+
       return {
         study_id: this.selectedStudy.study_id,
         biomarkers: this.selectedBiomarkers,
-        treatment: 'Placebo',
+        analyte: ['string'],
+        // treatment: 'Placebo',
         week: 0,
       }
     },
     formatGeneExpressionbBody() {
+      // return {
+      //   study_id: 'string',
+      //   genes: ['string'],
+      //   tissue_sources: ['string'],
+      //   treatment: 'string',
+      //   week: 0,
+      // }
+
       return {
-        study_id: 'string',
-        genes: ['string'],
-        tissue_sources: ['string'],
-        treatment: 'string',
+        study_id: this.selectedStudy.study_id,
+        genes: this.selectedGeneAliases,
+        tissue_sources: ['Mucosal Biopsy'],
+        treatment: 'Placebo',
         week: 0,
       }
+    },
+
+    async getTreatmentsByPlottype() {
+      // Get Treatments
+      const TreatmentResponse = await newAPIService.getClinicalTreatments(
+        this.$axios,
+        this.selectedStudy.study_id,
+        this.plotType.selectedValue.id
+      )
+      this.treatments = TreatmentResponse.data
+      // console.log(this.plotType.selectedValue.id, this.treatments)
     },
     async updateStudyFilterOptions(study) {
       if (!study) {
@@ -772,13 +854,6 @@ export default {
       )
 
       this.tissueSources = TResponse.data
-
-      // Get Treatments
-      const TreatmentResponse = await newAPIService.getClinicalTreatments(
-        this.$axios,
-        study
-      )
-      this.treatments = TreatmentResponse.data
 
       // GET BIOMARKERS
       const biomarkerResponse = await newAPIService.getClinicalBiomarkersById(

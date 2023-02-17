@@ -126,7 +126,7 @@ export default {
       allStudies: [],
       columns: ['TA', 'phase', 'product'],
       selectedProtocol: [],
-      jsonData: null,
+      jsonData,
       searchTerm: '',
       tableData: [],
     }
@@ -160,7 +160,7 @@ export default {
     },
   },
 
-  mounted() {
+  created() {
     this.tableData = jsonData
   },
   methods: {
@@ -201,13 +201,13 @@ export default {
 
       const searchTerm =
         this.searchTerm !== null ? this.searchTerm?.toLowerCase() : ''
-
       if (searchTerm === '') {
         this.tableData = this.jsonData
+        return
       }
+
       const data = this.jsonData.filter((item) => {
         const values = Object.values(item)
-        console.log('values', values)
         for (let index = 0; index < values.length; index++) {
           const element = values[index]?.toString().toLowerCase()
           if (element.includes(searchTerm)) {

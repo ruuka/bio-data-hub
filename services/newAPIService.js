@@ -38,10 +38,11 @@ export default {
     })
   },
 
-  getClinicalTreatments($axios, studyId) {
+  getClinicalTreatments($axios, studyId, type) {
+    const url = type === 'biomaker' ? 'treatments/biomarker' : 'treatments/gene'
     return $axios
       .get(
-        `clinicaldata/study/${studyId}/treatments/gene
+        `clinicaldata/study/${studyId}/${url}
     `
       )
       .catch((error) => {
