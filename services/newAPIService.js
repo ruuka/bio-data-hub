@@ -104,14 +104,14 @@ export default {
   postToBiomarkers($axios, formData) {
     return $axios.post('/biostats/biomarker', formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
       },
     })
   },
   postToGeneExpression($axios, formData) {
     return $axios.post('/biostats/geneexpression', formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
       },
     })
   },
