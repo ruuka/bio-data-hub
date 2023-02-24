@@ -427,14 +427,14 @@
                     class="py-1.5 px-2.5 rounded disabled:opacity-30 border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
                   >
                     <option value="" class="text-purple">Source</option>
-                    <template v-if="source.length > 0">
+                    <template v-if="tissueSources.length > 0">
                       <option
-                        v-for="item in source"
-                        :key="item.id"
-                        :value="item.name"
+                        v-for="tissue in tissueSources"
+                        :key="tissue"
+                        :value="tissue"
                         class="text-purple"
                       >
-                        {{ item.name }}
+                        {{ tissue }}
                       </option>
                     </template>
                   </select>
@@ -454,14 +454,14 @@
                     class="py-1.5 px-2.5 rounded border disabled:opacity-30 outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
                   >
                     <option value="" class="text-purple">Stratification</option>
-                    <template v-if="tissueSources.length > 0">
+                    <template v-if="stratification">
                       <option
-                        v-for="tissue in tissueSources"
-                        :key="tissue"
-                        :value="tissue"
+                        v-for="strat in stratification"
+                        :key="strat.id"
+                        :value="strat.name"
                         class="text-purple"
                       >
-                        {{ tissue }}
+                        {{ strat.name }}
                       </option>
                     </template>
                   </select>
@@ -795,7 +795,7 @@ export default {
 
       return {
         study_id: this.selectedStudy.study_id,
-        biomarkers: this.selectedBiomarkers,
+        biomarkers: this.selectedBiomarkers.map(item => item.text),
         analyte: ['string'],
         // treatment: 'Placebo',
         week: 0,
