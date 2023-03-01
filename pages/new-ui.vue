@@ -120,9 +120,9 @@
                 <div
                   v-for="selectedItem in selectedScatterPlotParams"
                   :key="selectedItem"
-                  class="py-0.5 px-2.5 flex items-center rounded bg-[#e7e5ff] text-dark-1"
+                  class="py-0.5 px-2.5 text-sm flex items-center rounded bg-[#e7e5ff] text-dark-1"
                 >
-                  {{ selectedItem }}
+                  {{ selectedItem === 0 ? 'Baseline' : 'Week ' + selectedItem }}
                   <button class="p-1" @click="toggleSelection(selectedItem)">
                     <svg
                       class="h-4 fill-dark-3"
@@ -153,32 +153,31 @@
                     />
                   </svg>
                   <div
-                    v-if="getFilteredScatterPlots && openDropDown"
+                    v-if="weeks.length > 0 && openDropDown"
                     class="absolute w-64 h-80 overflow-y-scroll p-4 bg-white right-0 z-[99999] shadow top-10"
                   >
                     <div
                       class="group py-2"
-                      v-for="keyItem in getFilteredScatterPlots"
+                      v-for="keyItem in weeks"
                       :key="keyItem"
                     >
-                      <h4 class="text-left uppercase mb-2">{{ keyItem }}</h4>
                       <div class="items">
                         <div
-                          v-for="(subItem, index) in getSubItems(keyItem)"
-                          :key="index"
                           class="option flex gap-2 items-center text-sm font-light whitespace-nowrap text-ellipsis truncate"
                         >
                           <input
-                            :id="subItem"
+                            :id="keyItem"
                             type="checkbox"
                             name=""
                             class="h-4 w-4 flex-none"
                             :checked="
-                              selectedScatterPlotParams.includes(subItem)
+                              selectedScatterPlotParams.includes(keyItem)
                             "
-                            @click="toggleSelection(subItem)"
+                            @click="toggleSelection(keyItem)"
                           />
-                          <label :for="subItem" class="">{{ subItem }}</label>
+                          <label :for="keyItem" class="">{{
+                            keyItem === 0 ? 'Baseline' : 'Week ' + keyItem
+                          }}</label>
                         </div>
                       </div>
                     </div>
@@ -503,6 +502,7 @@ export default {
   data() {
     return {
       selectedStudy: null,
+      selectedStudyData: [],
       SelectedFilterOptions: null,
       selectedScatterPlotParams: [],
       scatterPlotParams: null,
@@ -559,6 +559,13 @@ export default {
     }
   },
   computed: {
+    weeks() {
+      const weeks = this.selectedStudyData.map((item) => {
+        return item.week
+      })
+
+      return [...new Set(weeks)]
+    },
     filteredBiomarkers() {
       return this.biomarkers.filter((item) => {
         let isSelected = false
@@ -726,7 +733,13 @@ export default {
       } else {
         this.selectedStudy = study
       }
+      newAPIService
+        .getClinicalSummaryById(this.$axios, study.study_id)
+        .then((res) => {
+          this.selectedStudyData = res.data
 
+          console.log('Weeks', this.weeks)
+        })
       console.log('study changed', study)
       this.updateStudyFilterOptions(study.study_id)
     },
@@ -795,7 +808,7 @@ export default {
 
       return {
         study_id: this.selectedStudy.study_id,
-        biomarkers: this.selectedBiomarkers.map(item => item.text),
+        biomarkers: this.selectedBiomarkers.map((item) => item.text),
         analyte: ['string'],
         // treatment: 'Placebo',
         week: 0,
