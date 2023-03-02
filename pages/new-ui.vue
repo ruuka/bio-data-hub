@@ -120,7 +120,7 @@
                 <div
                   v-for="selectedItem in selectedScatterPlotParams"
                   :key="selectedItem"
-                  class="py-0.5 px-2.5 text-sm flex items-center rounded bg-[#e7e5ff] text-dark-1"
+                  class="py-0.5 px-2.5 text-xs flex items-center rounded bg-[#e7e5ff] text-dark-1"
                 >
                   {{ selectedItem === 0 ? 'Baseline' : 'Week ' + selectedItem }}
                   <button class="p-1" @click="toggleSelection(selectedItem)">
@@ -163,7 +163,7 @@
                     >
                       <div class="items">
                         <div
-                          class="option flex gap-2 items-center text-sm font-light whitespace-nowrap text-ellipsis truncate"
+                          class="option flex gap-2 items-center text-xs font-light whitespace-nowrap text-ellipsis truncate"
                         >
                           <input
                             :id="keyItem"
@@ -206,7 +206,7 @@
                       class="py-1.5 w-full px-2.5 rounded border disabled:opacity-30 disabled:cursor-not-allowed outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] flex justify-between items-center gap-2 text-dark-2 group hover:text-purple"
                       :disabled="!selectedStudy"
                     >
-                      {{ plotType.selectedValue.name || 'Select Type' }}
+                      {{ plotType.selectedValue.name || '- Select Type -' }}
                       <svg
                         v-if="selectedStudy"
                         class="fill-dark-2 h-4 group-hover:fill-purple transition-transform duration-200"
@@ -425,7 +425,7 @@
                     :disabled="!selectedStudy"
                     class="py-1.5 px-2.5 rounded disabled:opacity-30 border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
                   >
-                    <option value="" class="text-purple">Source</option>
+                    <option value="" class="text-purple">- Source -</option>
                     <template v-if="tissueSources.length > 0">
                       <option
                         v-for="tissue in tissueSources"
@@ -452,7 +452,7 @@
                     :disabled="!selectedStudy"
                     class="py-1.5 px-2.5 rounded border disabled:opacity-30 outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
                   >
-                    <option value="" class="text-purple">Stratification</option>
+                    <option value="" class="text-purple">- Stratification -</option>
                     <template v-if="stratification">
                       <option
                         v-for="strat in stratification"
@@ -528,33 +528,24 @@ export default {
           },
         ],
       },
-      selectedGeneAliases: [{ text: 'ERBB2' }],
+      selectedGeneAliases: [{ text: '' }],
       geneAliases: [],
       allAliases: [],
       allBiomarkers: [],
       biomarkers: [],
       searchQuery: '',
       result: [],
-      source: [
-        {
-          name: 'Whole Blood',
-          id: 'whole-blood',
-        },
-        {
-          name: 'Tissue',
-          id: 'tissue',
-        },
-      ],
+      source: [],
 
       stratification: [
         {
           name: 'Treatment',
           id: 'treatment',
         },
-        {
-          name: 'Response',
-          id: 'response',
-        },
+        // {
+        //   name: 'Response',
+        //   id: 'response',
+        // },
       ],
     }
   },
