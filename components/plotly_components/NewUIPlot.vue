@@ -16,6 +16,10 @@ export default {
       type: Array,
       required: true,
     },
+    treatments: {
+      type: Array,
+      required: true,
+    },
   },
   data() {
     return {
@@ -31,83 +35,97 @@ export default {
     this.reTraceDataForPlot()
   },
   methods: {
+    flatten(arr) {
+      return arr.reduce(function (flat, toFlatten) {
+        return flat.concat(
+          Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten
+        )
+      }, [])
+    },
     reTraceDataForPlot() {
+      function flatten(arr) {
+        return arr.reduce(function (flat, toFlatten) {
+          return flat.concat(
+            Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten
+          )
+        }, [])
+      }
+
       //  const colors = ['#C51F3F', '#F4992E', '#6DC981', '#36BCE7']
+      const tempx = this.boxPlotData.map((item) =>
+        item.data.map(() =>
+          item.week === 0 ? 'Baseline' : 'week ' + item.week
+        )
+      )
+      const tempData = this.boxPlotData.map((item) => item.data)
+
+      const result = this.treatments.map((treatment) => {
+        console.log('Y to be' + treatment, flatten(tempData))
+        return {
+          y: flatten(tempData),
+          x: flatten(tempx),
+          name: treatment,
+          // marker: { color: '#3D9970' },
+          type: 'box',
+        }
+      })
+
+      console.log('RESULT', result)
+      const x = [
+        'Baseline',
+        'Baseline',
+        'Baseline',
+        'Baseline',
+        'Baseline',
+        'Baseline',
+        'week 4',
+      ]
 
       const trace1 = {
-        y: [
-          0.75, 5.25, 5.5, 6, 6.2, 6.6, 6.8, 7.0, 7.2, 7.5, 7.5, 7.75, 8.15,
-          8.15, 8.65, 8.93, 9.2, 9.5, 10, 10.25, 11.5, 12, 16, 20.9, 22.3,
-          23.25,
-        ],
+        y: [0.1, 0.3, 0.1, 0.9, 0.6, 0.6, 0.9, 1.0, 0.3, 0.6, 0.8, 0.5],
+        x,
+        name: 'kale',
+        marker: { color: '#3D9970' },
         type: 'box',
-        name: 'All Points',
-        jitter: 0.3,
-        pointpos: -1.8,
-        marker: {
-          color: 'rgb(7,40,89)',
-        },
-        boxpoints: 'all',
       }
 
       const trace2 = {
-        y: [
-          0.75, 5.25, 5.5, 6, 6.2, 6.6, 6.8, 7.0, 7.2, 7.5, 7.5, 7.75, 8.15,
-          8.15, 8.65, 8.93, 9.2, 9.5, 10, 10.25, 11.5, 12, 16, 20.9, 22.3,
-          23.25,
-        ],
+        y: [0.1, 0.3, 0.1, 0.9, 0.6, 0.6, 0.9],
+        x,
+        name: 'radishes',
+        marker: { color: '#FF4136' },
         type: 'box',
-        name: 'Only Wiskers',
-        marker: {
-          color: 'rgb(9,56,125)',
-        },
-        boxpoints: false,
       }
 
       const trace3 = {
-        y: [
-          0.75, 5.25, 5.5, 6, 6.2, 6.6, 6.8, 7.0, 7.2, 7.5, 7.5, 7.75, 8.15,
-          8.15, 8.65, 8.93, 9.2, 9.5, 10, 10.25, 11.5, 12, 16, 20.9, 22.3,
-          23.25,
-        ],
+        y: [0.1, 0.3, 0.1, 0.9, 0.6, 1.0, 0.3, 0.6, 0.8, 0.5],
+        x,
+        name: 'carrots',
+        marker: { color: '#FF851B' },
         type: 'box',
-        name: 'Suspected Outlier',
-        marker: {
-          color: 'rgb(8,81,156)',
-          outliercolor: 'rgba(219, 64, 82, 0.6)',
-          line: {
-            outliercolor: 'rgba(219, 64, 82, 1.0)',
-            outlierwidth: 2,
-          },
-        },
-        boxpoints: 'suspectedoutliers',
       }
 
-      const trace4 = {
-        y: [
-          0.75, 5.25, 5.5, 6, 6.2, 6.6, 6.8, 7.0, 7.2, 7.5, 7.5, 7.75, 8.15,
-          8.15, 8.65, 8.93, 9.2, 9.5, 10, 10.25, 11.5, 12, 16, 20.9, 22.3,
-          23.25,
-        ],
-        type: 'box',
-        name: 'Wiskers and Outliers',
-        marker: {
-          color: 'rgb(107,174,214)',
+      const data = [trace1, trace2, trace3]
+
+      const layout = {
+        yaxis: {
+          title: 'normalized moisture',
+          zeroline: false,
         },
-        boxpoints: 'Outliers',
+        boxmode: 'group',
       }
 
-      const result = this.boxPlotData.map((item) => {
-        return {
-          y: item.data,
-          type: 'box',
-          name: item.treatment,
-          marker: {
-            color: 'rgb(107,174,214)',
-          },
-          boxpoints: 'Outliers',
-        }
-      })
+      // const result = this.boxPlotData.map((item) => {
+      //   return {
+      //     y: item.data,
+      //     type: 'box',
+      //     name: item.treatment,
+      //     marker: {
+      //       color: 'rgb(107,174,214)',
+      //     },
+      //     boxpoints: 'Outliers',
+      //   }
+      // })
 
       const config = {
         responsive: true,
@@ -126,36 +144,37 @@ export default {
           'lasso2d',
         ],
       }
-      const layout = {
-        showlegend: true,
-        title: {
-          text: this.$props.plotTitle,
-        },
-        xaxis: {
-          title: this.$props.xAxisTitle,
-          // showgrid: false,
-          // zeroline: false,
-          // tickangle: 60,
-          // showticklabels: false
-        },
-        yaxis: {
-          title: this.$props.yAxisTitle,
-          // type: this.$props.plotSetup.axisScale,
-          zeroline: false,
-          // autorange: true,
-          // showgrid: true,
-          // dtick: 5,
-          // gridcolor: 'rgb(255, 255, 255)',
-          // gridwidth: 1,
-          // zerolinecolor: 'rgb(255, 255, 255)',
-          // zerolinewidth: 2
-        },
-        // boxmode: 'group',
-        // margin: { t: 25, b: 150, l: 50, r: 15 },
-      }
+      // const layout = {
+      //   showlegend: true,
+      //   title: {
+      //     text: this.$props.plotTitle,
+      //   },
+      //   xaxis: {
+      //     title: this.$props.xAxisTitle,
+      //     // showgrid: false,
+      //     // zeroline: false,
+      //     // tickangle: 60,
+      //     // showticklabels: false
+      //   },
+      //   yaxis: {
+      //     title: this.$props.yAxisTitle,
+      //     // type: this.$props.plotSetup.axisScale,
+      //     zeroline: false,
+      //     // autorange: true,
+      //     // showgrid: true,
+      //     // dtick: 5,
+      //     // gridcolor: 'rgb(255, 255, 255)',
+      //     // gridwidth: 1,
+      //     // zerolinecolor: 'rgb(255, 255, 255)',
+      //     // zerolinewidth: 2
+      //   },
+      //   // boxmode: 'group',
+      //   // margin: { t: 25, b: 150, l: 50, r: 15 },
+      // }
       if (this.$props.plotTitle > 50) {
         layout.titlefont = { size: 12 }
       }
+
       Plotly.newPlot(this.$refs.plotlyDiv, result, layout, config)
     },
   },

@@ -1,6 +1,6 @@
 <template>
   <div class="flex">
-    <LeftMenuNew @selected-study="handleSelectedStudy" order="DESC" />
+    <LeftMenuNew order="DESC" @selected-study="handleSelectedStudy" />
     <main class="bg-[#f5f5f5] w-full">
       <section class="w-full">
         <!-- NAV/BREADCRUMB AREA -->
@@ -157,9 +157,9 @@
                     class="absolute w-64 h-80 overflow-y-scroll p-4 bg-white right-0 z-[99999] shadow top-10"
                   >
                     <div
-                      class="group py-2"
                       v-for="keyItem in weeks"
                       :key="keyItem"
+                      class="group py-2"
                     >
                       <div class="items">
                         <div
@@ -421,6 +421,7 @@
                     Source
                   </div>
                   <select
+                    v-model="selectedTissueSource"
                     name="tissue"
                     :disabled="!selectedStudy"
                     class="py-1.5 px-2.5 rounded disabled:opacity-30 border outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
@@ -482,7 +483,11 @@
       </section>
 
       <section>
-        <NewUIPlot v-if="result.length > 0" :box-plot-data="result" />
+        <NewUIPlot
+          v-if="result.length > 0"
+          :box-plot-data="result"
+          :treatments="treatments"
+        />
       </section>
     </main>
   </div>
@@ -513,6 +518,7 @@ export default {
       tag: '',
       tags: [],
       tissueSources: [],
+      selectedTissueSource: [],
       plotType: {
         selectedValue: {},
         options: [
@@ -753,39 +759,54 @@ export default {
     },
     async getPlotData(formData) {
       this.result = []
-
+      const wks =
+        this.selectedScatterPlotParams.length > 0
+          ? this.selectedScatterPlotParams
+          : this.weeks
       if (this.plotType.selectedValue.id === 'biomarker') {
         for (let i = 0; i < this.treatments.length; i++) {
-          const response = await newAPIService.postToBiomarkers(this.$axios, {
-            ...formData,
-            treatment: this.treatments[i],
-          })
-          this.result.push({
-            plotType: this.plotType.selectedValue.id,
-            data: response.data,
-            treatment: this.treatments[i],
-          })
+          for (let k = 0; k < wks.length; k++) {
+            const response = await newAPIService.postToBiomarkers(this.$axios, {
+              ...formData,
+              treatment: this.treatments[i],
+              week: this.weeks[i],
+            })
+            this.result.push({
+              plotType: this.plotType.selectedValue.id,
+              data: response.data,
+              treatment: this.treatments[i],
+              week: this.weeks[i],
+            })
+          }
         }
         console.log(`${this.plotType.selectedValue.id}`, this.result)
       } else {
         for (let i = 0; i < this.treatments.length; i++) {
-          const response = await newAPIService.postToGeneExpression(
-            this.$axios,
-            {
-              ...formData,
+          for (let k = 0; k < wks.length; k++) {
+            const response = await newAPIService.postToGeneExpression(
+              this.$axios,
+              {
+                ...formData,
+                treatment: this.treatments[i],
+                week: this.weeks[i],
+              }
+            )
+            this.result.push({
+              plotType: this.plotType.selectedValue.id,
+              data: response.data,
               treatment: this.treatments[i],
-            }
-          )
-          this.result.push({
-            plotType: this.plotType.selectedValue.id,
-            data: response,
-          })
+              week: this.weeks[i],
+            })
+          }
         }
-        console.log(`${this.result.plotType}`, this.result)
+        console.log(`${this.plotType.selectedValue.id}`, this.result)
       }
     },
     async postData() {
-      const formData = this.formatBiomarkerBody()
+      const formData =
+        this.plotType.selectedValue.id === 'biomarker'
+          ? this.formatBiomarkerBody()
+          : this.formatGeneExpressionbBody()
       await this.getPlotData(formData)
       // if (this.plotType.selectedValue.id === 'biomarker') {
       //   const formData = this.formatBiomarkerBody()
@@ -799,13 +820,6 @@ export default {
       // }
     },
     formatBiomarkerBody() {
-      // return {
-      //   study_id: this.selectedStudy.study_id,
-      //   biomarkers: this.selectedBiomarkers,
-      //   treatment: 'Placebo',
-      //   week: 0,
-      // }
-
       return {
         study_id: this.selectedStudy.study_id,
         biomarkers: this.selectedBiomarkers.map((item) => item.text),
@@ -815,19 +829,11 @@ export default {
       }
     },
     formatGeneExpressionbBody() {
-      // return {
-      //   study_id: 'string',
-      //   genes: ['string'],
-      //   tissue_sources: ['string'],
-      //   treatment: 'string',
-      //   week: 0,
-      // }
-
       return {
         study_id: this.selectedStudy.study_id,
         genes: this.selectedGeneAliases,
-        tissue_sources: ['Mucosal Biopsy'],
-        treatment: 'Placebo',
+        tissue_sources: [this.selectedTissueSource],
+        // treatment: 'Placebo',
         week: 0,
       }
     },
