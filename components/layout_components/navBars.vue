@@ -27,11 +27,11 @@
                   <span class="mr-1">Visualization</span>
                   <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/> </svg>
                 </button>
-                <ul class="dropdown-menu absolute hidden text-gray-700 pt-1">
+                <ul class="dropdown-menu absolute hidden text-gray-700 text-sm pt-1 w-36">
                   <li class=""><NuxtLink to="/summary" aria-current="page" class="rounded-t text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Datasets</NuxtLink></li>
                   <li class=""><NuxtLink to="/new-ui" aria-current="page" class="text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Data-Hub</NuxtLink></li>
-                  <li class=""><a href="http://bioinfo.na.gilead.com/tableau/" target="_blank" aria-current="page" class="text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Tableau</a></li>
-                  <li class=""><a href="#" aria-current="page" class="rounded-b text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">cBioPortal</a></li>
+                  <li class=""><NuxtLink to="/tableau" aria-current="page" class="text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Tableau</NuxtLink></li>
+                  <li class=""><a href="http://cbioportal.na.gilead.com" aria-current="page" class="rounded-b text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">cBioPortal</a></li>
                 </ul>
               </div>
 
@@ -40,9 +40,9 @@
                   <span class="mr-1">Team</span>
                   <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/> </svg>
                 </button>
-                <ul class="dropdown-menu absolute hidden text-gray-700 pt-1">
-                  <li class=""><NuxtLink to="#" aria-current="page" class="rounded-t text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Profile</NuxtLink></li>
-                  <li class=""><NuxtLink to="#" aria-current="page" class="rounded-b text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">TA (Mission Statement)</NuxtLink></li>
+                <ul class="dropdown-menu absolute hidden text-gray-700 text-sm pt-1 w-40">
+                  <li class=""><NuxtLink to="/team" aria-current="page" class="rounded-t text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Profile</NuxtLink></li>
+                  <li class=""><NuxtLink to="/mission" aria-current="page" class="rounded-b text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">TA</NuxtLink></li>
                 </ul>
               </div>
 
@@ -51,8 +51,8 @@
                   <span class="mr-1">Document</span>
                   <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/> </svg>
                 </button>
-                <ul class="dropdown-menu absolute hidden text-gray-700 pt-1">
-                  <li class=""><a href="http://bioinfo.na.gilead.com/CPD/" target="_blank" aria-current="page" class="rounded-t text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Common Practice</a></li>
+                <ul class="dropdown-menu absolute hidden text-gray-700 text-sm pt-1">
+                  <li class=""><a href="http://bioinfo.na.gilead.com/CPD/" aria-current="page" class="rounded-t text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Common Practice</a></li>
                   <li class=""><NuxtLink to="/clinical-bioinformatics" aria-current="page" class="rounded-b text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Publications</NuxtLink></li>
                 </ul>
               </div>
@@ -62,8 +62,9 @@
                   <span class="mr-1">Resource</span>
                   <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/> </svg>
                 </button>
-                <ul class="dropdown-menu absolute hidden text-gray-700 pt-1">
-                  <li class=""><NuxtLink to="/custom-plot" aria-current="page" class="rounded text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Bioinformatics Data Hub</NuxtLink></li>
+                <ul class="dropdown-menu absolute hidden text-gray-700 text-sm pt-1">
+                  <li class=""><NuxtLink to="/upload" aria-current="page" class="rounded-t text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">ICF Upload</NuxtLink></li>
+                  <li class=""><NuxtLink to="/custom-plot" aria-current="page" class="rounded-b text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Bioinformatics Data Hub</NuxtLink></li>
                 </ul>
               </div>
               <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
