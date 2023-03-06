@@ -58,54 +58,17 @@ export default {
         )
       )
       const tempData = this.boxPlotData.map((item) => item.data)
-
-      const result = this.treatments.map((treatment) => {
+      const colors = ['#777777', '#C51F3F', '#B2AEFF']
+      const result = this.treatments.map((treatment, index) => {
         console.log('Y to be' + treatment, flatten(tempData))
         return {
           y: flatten(tempData),
           x: flatten(tempx),
           name: treatment,
-          // marker: { color: '#3D9970' },
+          marker: { color: colors[index] },
           type: 'box',
         }
       })
-
-      console.log('RESULT', result)
-      const x = [
-        'Baseline',
-        'Baseline',
-        'Baseline',
-        'Baseline',
-        'Baseline',
-        'Baseline',
-        'week 4',
-      ]
-
-      const trace1 = {
-        y: [0.1, 0.3, 0.1, 0.9, 0.6, 0.6, 0.9, 1.0, 0.3, 0.6, 0.8, 0.5],
-        x,
-        name: 'kale',
-        marker: { color: '#3D9970' },
-        type: 'box',
-      }
-
-      const trace2 = {
-        y: [0.1, 0.3, 0.1, 0.9, 0.6, 0.6, 0.9],
-        x,
-        name: 'radishes',
-        marker: { color: '#FF4136' },
-        type: 'box',
-      }
-
-      const trace3 = {
-        y: [0.1, 0.3, 0.1, 0.9, 0.6, 1.0, 0.3, 0.6, 0.8, 0.5],
-        x,
-        name: 'carrots',
-        marker: { color: '#FF851B' },
-        type: 'box',
-      }
-
-      const data = [trace1, trace2, trace3]
 
       const layout = {
         yaxis: {

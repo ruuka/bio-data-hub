@@ -173,6 +173,10 @@
                             :checked="
                               selectedScatterPlotParams.includes(keyItem)
                             "
+                            :disabled="
+                              !selectedScatterPlotParams.includes(keyItem) &&
+                              selectedScatterPlotParams.length > 2
+                            "
                             @click="toggleSelection(keyItem)"
                           />
                           <label :for="keyItem" class="">{{
@@ -268,7 +272,7 @@
                     <!-- END DROPDOWN -->
                     <div
                       v-show="showDropdown"
-                      class="absolute dropdown-item -left-1/4 top-10 w-max mt-2 px-3 py-2.5 [box-shadow:0px1px10pxrgba(84,86,91,0.2)] rounded-xl bg-white"
+                      class="absolute dropdown-item -left-1/4 top-10 z-50 w-max mt-2 px-3 py-2.5 [box-shadow:0px1px10pxrgba(84,86,91,0.2)] rounded-xl bg-white"
                     >
                       <p class="text-sm mb-2 text-[#32324D]">Search Filter:</p>
                       <!-- SELECTED -->
@@ -453,7 +457,9 @@
                     :disabled="!selectedStudy"
                     class="py-1.5 px-2.5 rounded border disabled:opacity-30 outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
                   >
-                    <option value="" class="text-purple">- Stratification -</option>
+                    <option value="" class="text-purple">
+                      - Stratification -
+                    </option>
                     <template v-if="stratification">
                       <option
                         v-for="strat in stratification"
@@ -754,6 +760,7 @@ export default {
         this.selectedScatterPlotParams.length > 0
           ? this.selectedScatterPlotParams
           : this.weeks
+      console.log('Selected', this.selectedScatterPlotParams.length, wks)
       if (this.plotType.selectedValue.id === 'biomarker') {
         for (let i = 0; i < this.treatments.length; i++) {
           for (let k = 0; k < wks.length; k++) {
