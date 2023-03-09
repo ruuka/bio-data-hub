@@ -585,11 +585,9 @@ export default {
       })
     },
     filteredGeneAliases() {
-      console.log('Yes filtering............')
       return this.formattedGeneAliases.filter((item) => {
         let isSelected = false
         for (let i = 0; i < this.selectedGeneAliases.length; i++) {
-          console.log('Item', item)
           if (
             JSON.stringify(item.text) ===
             JSON.stringify(this.selectedGeneAliases[i].text)
@@ -682,7 +680,6 @@ export default {
       const type = this.plotType.selectedValue.id
 
       if (type === 'biomarker') {
-        console.log('selectedBiomarker', newTags)
         this.tags = newTags
       } else {
         this.tags = newTags
@@ -712,8 +709,6 @@ export default {
       }
     },
     selectGene(item, type) {
-      console.log('gene', item)
-
       if (type === 'biomarker') {
         this.tags = this.updateArray(this.selectedBiomarkers, { text: item })
       } else {
@@ -740,10 +735,7 @@ export default {
         .getClinicalSummaryById(this.$axios, study.study_id)
         .then((res) => {
           this.selectedStudyData = res.data
-
-          console.log('Weeks', this.weeks)
         })
-      console.log('study changed', study)
       this.updateStudyFilterOptions(study.study_id)
     },
 
@@ -760,24 +752,22 @@ export default {
         this.selectedScatterPlotParams.length > 0
           ? this.selectedScatterPlotParams
           : this.weeks
-      console.log('Selected', this.selectedScatterPlotParams.length, wks)
       if (this.plotType.selectedValue.id === 'biomarker') {
         for (let i = 0; i < this.treatments.length; i++) {
           for (let k = 0; k < wks.length; k++) {
             const response = await newAPIService.postToBiomarkers(this.$axios, {
               ...formData,
               treatment: this.treatments[i],
-              week: this.weeks[i],
+              week: this.weeks[k],
             })
             this.result.push({
               plotType: this.plotType.selectedValue.id,
               data: response.data,
               treatment: this.treatments[i],
-              week: this.weeks[i],
+              week: this.weeks[k],
             })
           }
         }
-        console.log(`${this.plotType.selectedValue.id}`, this.result)
       } else {
         for (let i = 0; i < this.treatments.length; i++) {
           for (let k = 0; k < wks.length; k++) {
@@ -797,7 +787,6 @@ export default {
             })
           }
         }
-        console.log(`${this.plotType.selectedValue.id}`, this.result)
       }
     },
     async postData() {

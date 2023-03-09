@@ -57,10 +57,13 @@ export default {
           item.week === 0 ? 'Baseline' : 'week ' + item.week
         )
       )
+
       const tempData = this.boxPlotData.map((item) => item.data)
+      console.log('Y', flatten(tempData))
+      console.log('X', flatten(tempx))
+
       const colors = ['#777777', '#C51F3F', '#B2AEFF']
       const result = this.treatments.map((treatment, index) => {
-        console.log('Y to be' + treatment, flatten(tempData))
         return {
           y: flatten(tempData),
           x: flatten(tempx),
@@ -137,8 +140,9 @@ export default {
       if (this.$props.plotTitle > 50) {
         layout.titlefont = { size: 12 }
       }
-
-      Plotly.newPlot(this.$refs.plotlyDiv, result, layout, config)
+      setTimeout(() => {
+        Plotly.newPlot(this.$refs.plotlyDiv, result, layout, config)
+      }, 1000)
     },
   },
 }
