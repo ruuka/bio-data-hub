@@ -70,14 +70,14 @@
           <section
             class="bg-white mt-5 [box-shadow:0px_4px_4px_rgba(9,11,33,0.02)] rounded-xl"
           >
-            <header class="flex items-center justify-between py-4 px-6">
+            <header class="flex items-center justify-between py-4 px-4">
               <!-- left -->
-              <div class="flex items-center gap-2.5">
+              <div class="flex items-center gap-2 text-xs">
                 <div
-                  class="hourglass px-2.5 py-1.5 w-max inline-block rounded bg-red"
+                  class="hourglass px-2 py-1.5 w-max inline-block rounded bg-red"
                 >
                   <svg
-                    class="h-5"
+                    class="h-4"
                     xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink"
                     viewBox="0 0 24 24"
@@ -89,25 +89,25 @@
                     />
                   </svg>
                 </div>
-                <p class="py-1.5 px-2.5 rounded bg-red text-white">
-                  Study ID:
+                <p class="py-1.5 px-2 rounded bg-red text-white">
+                  Study:
                   {{ selectedStudy && selectedStudy.study_id }}
                 </p>
-                <p class="py-1.5 px-2.5 rounded bg-red text-white">
-                  Therapeutic Area:
+                <p class="py-1.5 px-2 rounded bg-red text-white">
+                  Therapeutic Area: {{ selectedStudy && selectedStudy.therapeutic_area }}
                 </p>
-                <p class="py-1.5 px-2.5 rounded bg-red text-white">
-                  Indication:
-                  {{ selectedStudy && selectedStudy.therapeutic_area }}
+                <p class="py-1.5 px-2 rounded bg-red text-white">
+                  Name:
+                  {{ selectedStudy && selectedStudy.name }}
                 </p>
               </div>
               <!-- right -->
-              <div class="flex-1 flex items-center gap-2.5">
+              <div class="flex-1 flex items-center gap-2">
                 <div
-                  class="filter px-2.5 py-1.5 w-max inline-block relative rounded"
+                  class="filter px-4 py-1.5 w-max inline-block relative rounded"
                 >
                   <svg
-                    class="h-5 fill-dark-1"
+                    class="h-4 fill-dark-1"
                     xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink"
                     viewBox="0 0 32 32"
@@ -120,7 +120,7 @@
                 <div
                   v-for="selectedItem in selectedScatterPlotParams"
                   :key="selectedItem"
-                  class="py-0.5 px-2.5 text-xs flex items-center rounded bg-[#e7e5ff] text-dark-1"
+                  class="py-0.5 px-2 text-xs flex items-center rounded bg-[#e7e5ff] text-dark-1"
                 >
                   {{ selectedItem === 0 ? 'Baseline' : 'Week ' + selectedItem }}
                   <button class="p-1" @click="toggleSelection(selectedItem)">
@@ -143,7 +143,7 @@
                   @focus="openDropDown = !openDropDown"
                 >
                   <svg
-                    class="h-5 fill-dark-3"
+                    class="h-4 fill-dark-3"
                     xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink"
                     viewBox="0 0 30 30"
@@ -180,8 +180,8 @@
                             @click="toggleSelection(keyItem)"
                           />
                           <label :for="keyItem" class="">{{
-                            keyItem === 0 ? 'Baseline' : 'Week ' + keyItem
-                          }}</label>
+                              keyItem === 0 ? 'Baseline' : 'Week ' + keyItem
+                            }}</label>
                         </div>
                       </div>
                     </div>
@@ -190,12 +190,12 @@
               </div>
             </header>
             <section
-              class="filters border-t-4 flex justify-between items-end border-[#f5f5f5] py-4 px-6"
+              class="filters border-t-4 flex justify-between items-end border-[#f5f5f5] py-4 px-2"
             >
               <!-- filter-group -->
               <div class="grid grid-cols-4 gap-3 w-max">
                 <!-- filter -->
-                <div class="flex p-2 gap-2.5 flex-col max-w-[180px] text-sm">
+                <div class="flex p-2 gap-2 flex-col max-w-[180px] text-sm">
                   <div
                     class="text-center bg-dark-1 font-semibold text-white py-1.5 px-2.5 rounded"
                   >
@@ -476,7 +476,7 @@
 
               <div>
                 <button
-                  class="bg-red py-2.5 px-5 rounded text-white disabled:opacity-30"
+                  class="bg-red text-sm py-2 px-4 mr-1 rounded text-white disabled:opacity-30"
                   :disabled="!selectedStudy"
                   @click="postData()"
                 >
