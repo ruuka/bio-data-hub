@@ -687,9 +687,6 @@ export default {
     },
 
     updateGeneAlias() {
-      if (!this.geneAliases || this.geneAliases.length > 0) {
-        return
-      }
       //  const tempGenes=JSON.stringify(this.geneAliases)
       if (this.plotType.selectedValue.id === 'gene-expression') {
         this.geneAliases = this.geneAliases.filter((item) => {
@@ -761,13 +758,13 @@ export default {
             const response = await newAPIService.postToBiomarkers(this.$axios, {
               ...formData,
               treatment: this.treatments[i],
-              week: wks[k],
+              week: this.weeks[k],
             })
             this.result.push({
               plotType: this.plotType.selectedValue.id,
               data: response.data,
               treatment: this.treatments[i],
-              week: wks[k],
+              week: this.weeks[k],
             })
           }
         }
@@ -779,14 +776,14 @@ export default {
               {
                 ...formData,
                 treatment: this.treatments[i],
-                week: wks[k],
+                week: this.weeks[i],
               }
             )
             this.result.push({
               plotType: this.plotType.selectedValue.id,
               data: response.data,
               treatment: this.treatments[i],
-              week: wks[k],
+              week: this.weeks[i],
             })
           }
         }

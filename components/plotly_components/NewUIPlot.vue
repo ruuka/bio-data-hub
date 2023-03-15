@@ -75,7 +75,7 @@ export default {
 
       const layout = {
         yaxis: {
-          title: 'normalized moisture',
+          title: 'By Treatment',
           zeroline: false,
         },
         boxmode: 'group',
@@ -138,7 +138,7 @@ export default {
       //   // margin: { t: 25, b: 150, l: 50, r: 15 },
       // }
       if (this.$props.plotTitle > 50) {
-        layout.titlefont = { size: 12 }
+        layout.titlefont = { size: 10 }
       }
       setTimeout(() => {
         Plotly.newPlot(this.$refs.plotlyDiv, result, layout, config)
