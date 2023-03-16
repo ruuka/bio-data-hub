@@ -94,7 +94,8 @@
                   {{ selectedStudy && selectedStudy.study_id }}
                 </p>
                 <p class="py-1.5 px-2 rounded bg-red text-white">
-                  Therapeutic Area: {{ selectedStudy && selectedStudy.therapeutic_area }}
+                  Therapeutic Area:
+                  {{ selectedStudy && selectedStudy.therapeutic_area }}
                 </p>
                 <p class="py-1.5 px-2 rounded bg-red text-white">
                   Name:
@@ -180,8 +181,8 @@
                             @click="toggleSelection(keyItem)"
                           />
                           <label :for="keyItem" class="">{{
-                              keyItem === 0 ? 'Baseline' : 'Week ' + keyItem
-                            }}</label>
+                            keyItem === 0 ? 'Baseline' : 'Week ' + keyItem
+                          }}</label>
                         </div>
                       </div>
                     </div>
@@ -567,7 +568,7 @@ export default {
         return item.week
       })
 
-      return [...new Set(weeks)]
+      return [...new Set(weeks)].sort((a, b) => a - b)
     },
     filteredBiomarkers() {
       return this.biomarkers.filter((item) => {
@@ -687,7 +688,7 @@ export default {
     },
 
     updateGeneAlias() {
-      if (!this.geneAliases || this.geneAliases.length > 0) {
+      if (!this.geneAliases || this.geneAliases.length === 0) {
         return
       }
       //  const tempGenes=JSON.stringify(this.geneAliases)
