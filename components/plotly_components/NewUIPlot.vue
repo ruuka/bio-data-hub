@@ -75,7 +75,7 @@ export default {
 
       const layout = {
         yaxis: {
-          title: 'By Treatment',
+          // title: 'By Treatment',
           zeroline: false,
         },
         boxmode: 'group',

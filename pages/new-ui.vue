@@ -821,7 +821,7 @@ export default {
     formatGeneExpressionbBody() {
       return {
         study_id: this.selectedStudy.study_id,
-        genes: this.selectedGeneAliases,
+        genes: this.selectedGeneAliases.map((item) => item.text),
         tissue_sources: [this.selectedTissueSource],
         // treatment: 'Placebo',
         week: 0,
