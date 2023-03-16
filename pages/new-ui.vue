@@ -762,13 +762,13 @@ export default {
             const response = await newAPIService.postToBiomarkers(this.$axios, {
               ...formData,
               treatment: this.treatments[i],
-              week: wks[k],
+              week: this.weeks[k],
             })
             this.result.push({
               plotType: this.plotType.selectedValue.id,
               data: response.data,
               treatment: this.treatments[i],
-              week: wks[k],
+              week: this.weeks[k],
             })
           }
         }
@@ -780,14 +780,14 @@ export default {
               {
                 ...formData,
                 treatment: this.treatments[i],
-                week: wks[k],
+                week: this.weeks[i],
               }
             )
             this.result.push({
               plotType: this.plotType.selectedValue.id,
               data: response.data,
               treatment: this.treatments[i],
-              week: wks[k],
+              week: this.weeks[i],
             })
           }
         }
