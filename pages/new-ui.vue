@@ -541,7 +541,7 @@ export default {
           },
         ],
       },
-      selectedGeneAliases: [{ text: '' }],
+      selectedGeneAliases: [],
       geneAliases: [],
       allAliases: [],
       allBiomarkers: [],
@@ -586,19 +586,22 @@ export default {
       })
     },
     filteredGeneAliases() {
-      return this.formattedGeneAliases.filter((item) => {
-        let isSelected = false
-        for (let i = 0; i < this.selectedGeneAliases.length; i++) {
-          if (
-            JSON.stringify(item.text) ===
-            JSON.stringify(this.selectedGeneAliases[i].text)
-          ) {
-            isSelected = true
-            break
+      return (
+        this.formattedGeneAliases &&
+        this.formattedGeneAliases.filter((item) => {
+          let isSelected = false
+          for (let i = 0; i < this.selectedGeneAliases.length; i++) {
+            if (
+              JSON.stringify(item.text) ===
+              JSON.stringify(this.selectedGeneAliases[i].text)
+            ) {
+              isSelected = true
+              break
+            }
           }
-        }
-        return !isSelected
-      })
+          return !isSelected
+        })
+      )
     },
     getRemainingFilters() {
       const unwantedKeys = [
@@ -688,24 +691,20 @@ export default {
     },
 
     updateGeneAlias() {
-      if (!this.geneAliases || this.geneAliases.length === 0) {
-        return
-      }
       //  const tempGenes=JSON.stringify(this.geneAliases)
       if (this.plotType.selectedValue.id === 'gene-expression') {
-        this.geneAliases = this.geneAliases.filter((item) => {
-          return item
-            .toLowerCase()
-            .includes(this.searchQuery?.toLocaleLowerCase())
-        })
         if (this.searchQuery === '') {
           this.geneAliases = this.allAliases
+          return
         }
+        this.geneAliases = this.geneAliases.filter((item) => {
+          return item.text
+            ?.toLowerCase()
+            .includes(this.searchQuery?.toLowerCase())
+        })
       } else {
         this.biomarkers = this.biomarkers.filter((item) => {
-          return item
-            .toLowerCase()
-            .includes(this.searchQuery.toLocaleLowerCase())
+          return item?.toLowerCase().includes(this.searchQuery?.toLowerCase())
         })
         if (this.searchQuery === '') {
           this.biomarkers = this.allBiomarkers
@@ -762,13 +761,13 @@ export default {
             const response = await newAPIService.postToBiomarkers(this.$axios, {
               ...formData,
               treatment: this.treatments[i],
-              week: this.weeks[k],
+              week: wks[k],
             })
             this.result.push({
               plotType: this.plotType.selectedValue.id,
               data: response.data,
               treatment: this.treatments[i],
-              week: this.weeks[k],
+              week: wks[k],
             })
           }
         }
@@ -780,14 +779,14 @@ export default {
               {
                 ...formData,
                 treatment: this.treatments[i],
-                week: this.weeks[i],
+                week: wks[k],
               }
             )
             this.result.push({
               plotType: this.plotType.selectedValue.id,
               data: response.data,
               treatment: this.treatments[i],
-              week: this.weeks[i],
+              week: wks[k],
             })
           }
         }
