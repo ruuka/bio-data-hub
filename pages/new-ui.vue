@@ -339,7 +339,7 @@
                       plotType.selectedValue &&
                       plotType.selectedValue.id === 'gene-expression'
                     "
-                    class="dropdown flex items-center relative"
+                    class="dropdown flex items-center relative z-50"
                     tabindex="1"
                   >
                     <!-- START DROPDOWN -->
@@ -356,7 +356,7 @@
                     <!-- END DROPDOWN -->
                     <div
                       v-show="showDropdown"
-                      class="absolute dropdown-item -left-1/4 top-10 w-max mt-2 px-3 py-2.5 [box-shadow:0px1px10pxrgba(84,86,91,0.2)] rounded-xl bg-white"
+                      class="absolute dropdown-item -left-1/4 top-10 w-max mt-2 z-50 px-3 py-2.5 [box-shadow:0px1px10pxrgba(84,86,91,0.2)] rounded-xl bg-white"
                     >
                       <p class="text-sm mb-2 text-[#32324D]">Search Filter:</p>
                       <!-- SELECTED -->
@@ -638,6 +638,8 @@ export default {
     async setSelectedPlotType(item) {
       this.plotType.selectedValue = item
       this.tags = []
+      this.selectedBiomarkers = []
+      this.selectedGeneAliases = []
       await this.getTreatmentsByPlottype()
     },
     toggleSelection(param) {
@@ -684,9 +686,19 @@ export default {
       const type = this.plotType.selectedValue.id
 
       if (type === 'biomarker') {
-        this.tags = newTags
+        const filteredTags = newTags.filter((item) => {
+          return this.biomarkers.includes(
+            (itm) => itm.toLowerCase() === item.text.toLowerCase()
+          )
+        })
+        this.tags = filteredTags
       } else {
-        this.tags = newTags
+        const filteredTags = newTags.filter((item) => {
+          return this.allAliases.some(
+            (itm) => itm.text.toLowerCase() === item.text.toLowerCase()
+          )
+        })
+        this.tags = filteredTags
       }
     },
 
