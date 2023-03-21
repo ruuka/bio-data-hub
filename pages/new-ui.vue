@@ -273,7 +273,7 @@
                     <!-- END DROPDOWN -->
                     <div
                       v-show="showDropdown"
-                      class="absolute dropdown-item -left-1/4 top-10 z-50 w-max mt-2 px-3 py-2.5 [box-shadow:0px1px10pxrgba(84,86,91,0.2)] rounded-xl bg-white"
+                      class="absolute dropdown-item h-[80] overflow-y-auto -left-1/4 top-10 z-50 w-max mt-2 px-3 py-2.5 [box-shadow:0px1px10pxrgba(84,86,91,0.2)] rounded-xl bg-white"
                     >
                       <p class="text-sm mb-2 text-[#32324D]">Search Filter:</p>
                       <!-- SELECTED -->
@@ -356,7 +356,7 @@
                     <!-- END DROPDOWN -->
                     <div
                       v-show="showDropdown"
-                      class="absolute dropdown-item -left-1/4 top-10 w-max mt-2 z-50 px-3 py-2.5 [box-shadow:0px1px10pxrgba(84,86,91,0.2)] rounded-xl bg-white"
+                      class="absolute dropdown-item h-[80] overflow-y-auto -left-1/4 top-10 w-max mt-2 z-50 px-3 py-2.5 [box-shadow:0px1px10pxrgba(84,86,91,0.2)] rounded-xl bg-white"
                     >
                       <p class="text-sm mb-2 text-[#32324D]">Search Filter:</p>
                       <!-- SELECTED -->
@@ -899,3 +899,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.dropdown-item {
+  @apply h-80;
+}
+</style>
