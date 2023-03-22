@@ -27,23 +27,28 @@
             v-for="(item, index) in members"
             :key="'team' + index"
             :item="item"
+            @open-pop-up="openPopUp = true"
           />
         </div>
       </div>
     </div>
+    <PopUp v-if="openPopUp" @close-pop-up="openPopUp = false" />
   </div>
 </template>
 
 <script>
+import PopUp from '../components/team/PopUp.vue'
 import Card from '../components/team/Card.vue'
 import members from '../store/team.js'
 export default {
   components: {
     Card,
+    PopUp,
   },
   data() {
     return {
       members,
+      openPopUp: false,
     }
   },
 }

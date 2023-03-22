@@ -1,6 +1,7 @@
 <template>
   <div
-    class="flex flex-col items-start relative w-[350px] h-[473px] bg-[#fff] border border-[#eaecf0] rounded-[7px]"
+    class="flex flex-col items-start relative w-[350px] cursor-pointer h-[473px] bg-[#fff] border border-[#eaecf0] rounded-[7px]"
+    @click="$emit('open-pop-up')"
   >
     <div
       class="left-[0%] w-full h-[230px] rounded rounded-b-none"
