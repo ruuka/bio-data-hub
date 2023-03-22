@@ -677,7 +677,7 @@ export default {
         }
       }
       if (!exists) {
-        array.push(item)
+        array = [item]
       }
       return array
     },
@@ -726,8 +726,11 @@ export default {
     selectGene(item, type) {
       if (type === 'biomarker') {
         this.tags = this.updateArray(this.selectedBiomarkers, { text: item })
+
+        this.selectedBiomarkers = [{ text: item }]
       } else {
         this.tags = this.updateArray(this.selectedGeneAliases, { text: item })
+        this.selectedGeneAliases = [{ text: item }]
       }
     },
 
