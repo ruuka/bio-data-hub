@@ -16,12 +16,17 @@ export default [
     email: '',
     linkedin: '',
     image: '/team/jon.png',
+    largeImage: '/team/michael-lg.png',
+    description:
+      'Michael currently supports oncology programs, manages data transfer and organization, and administrates high performance computing. Before joining Gilead, Biao worked on pharmacogenomics projects at the Buck Institute for Research on Aging and machine learning projects at Indiana University, where he built a popular online tool MutPred for predicting pathogenicity of missense variants. Biao has strong interests in statistics, computing and cancer genomics, and is enthusiastic about some recent advancement in causal inference and numerical optimization. He got a PhD in Bioinformatics in 2006 from the Institute of Biophysics, CAS, China.',
   },
   {
     name: ' jane Doe',
     position: 'Software Engineer',
     bgColor: '#ECB6FF',
     tags: ['Data Scientist', 'Contractor'],
+    description:
+      'Michael currently supports oncology programs, manages data transfer and organization, and administrates high performance computing. Before joining Gilead, Biao worked on pharmacogenomics projects at the Buck Institute for Research on Aging and machine learning projects at Indiana University, where he built a popular online tool MutPred for predicting pathogenicity of missense variants. Biao has strong interests in statistics, computing and cancer genomics, and is enthusiastic about some recent advancement in causal inference and numerical optimization. He got a PhD in Bioinformatics in 2006 from the Institute of Biophysics, CAS, China.',
     expertise: [
       'Oncology',
       'Machine Learning',
@@ -34,6 +39,7 @@ export default [
     email: '',
     linkedin: '',
     image: '/team/jane.png',
+    largeImage: '/team/jane-lg.png',
   },
   {
     name: ' Ted Green',
@@ -52,6 +58,9 @@ export default [
     email: '',
     linkedin: '',
     image: '/team/ted.png',
+    largeImage: '/team/michael-lg.png',
+    description:
+      'Michael currently supports oncology programs, manages data transfer and organization, and administrates high performance computing. Before joining Gilead, Biao worked on pharmacogenomics projects at the Buck Institute for Research on Aging and machine learning projects at Indiana University, where he built a popular online tool MutPred for predicting pathogenicity of missense variants. Biao has strong interests in statistics, computing and cancer genomics, and is enthusiastic about some recent advancement in causal inference and numerical optimization. He got a PhD in Bioinformatics in 2006 from the Institute of Biophysics, CAS, China.',
   },
   {
     name: ' James Brown',
@@ -70,6 +79,9 @@ export default [
     email: '',
     linkedin: '',
     image: '/team/james.png',
+    largeImage: '/team/michael-lg.png',
+    description:
+      'Michael currently supports oncology programs, manages data transfer and organization, and administrates high performance computing. Before joining Gilead, Biao worked on pharmacogenomics projects at the Buck Institute for Research on Aging and machine learning projects at Indiana University, where he built a popular online tool MutPred for predicting pathogenicity of missense variants. Biao has strong interests in statistics, computing and cancer genomics, and is enthusiastic about some recent advancement in causal inference and numerical optimization. He got a PhD in Bioinformatics in 2006 from the Institute of Biophysics, CAS, China.',
   },
   {
     name: ' Michael joe',
@@ -88,6 +100,9 @@ export default [
     email: '',
     linkedin: '',
     image: '/team/michael.png',
+    largeImage: '/team/michael-lg.png',
+    description:
+      'Michael currently supports oncology programs, manages data transfer and organization, and administrates high performance computing. Before joining Gilead, Biao worked on pharmacogenomics projects at the Buck Institute for Research on Aging and machine learning projects at Indiana University, where he built a popular online tool MutPred for predicting pathogenicity of missense variants. Biao has strong interests in statistics, computing and cancer genomics, and is enthusiastic about some recent advancement in causal inference and numerical optimization. He got a PhD in Bioinformatics in 2006 from the Institute of Biophysics, CAS, China.',
   },
   {
     name: ' Michelle Lee',
@@ -106,5 +121,8 @@ export default [
     email: '',
     linkedin: '',
     image: '/team/mitchelle.png',
+    largeImage: '/team/michael-lg.png',
+    description:
+      'Michael currently supports oncology programs, manages data transfer and organization, and administrates high performance computing. Before joining Gilead, Biao worked on pharmacogenomics projects at the Buck Institute for Research on Aging and machine learning projects at Indiana University, where he built a popular online tool MutPred for predicting pathogenicity of missense variants. Biao has strong interests in statistics, computing and cancer genomics, and is enthusiastic about some recent advancement in causal inference and numerical optimization. He got a PhD in Bioinformatics in 2006 from the Institute of Biophysics, CAS, China.',
   },
 ]

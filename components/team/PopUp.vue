@@ -26,23 +26,14 @@
           <h4
             class="text-[#54565B] text-[36px] leading-[147.4%] font-black mb-5"
           >
-            Michael Joe <br />
+            {{ item.name }} <br />
             <hr class="w-[70px] h-1 bg-primary border-none" />
           </h4>
 
           <p
             class="w-2/3 pr-[6rem] text-base text-[#54655B] tracking-[0.005em] leading-[30px]"
           >
-            Michael currently supports oncology programs, manages data transfer
-            and organization, and administrates high performance computing.
-            Before joining Gilead, Biao worked on pharmacogenomics projects at
-            the Buck Institute for Research on Aging and machine learning
-            projects at Indiana University, where he built a popular online tool
-            MutPred for predicting pathogenicity of missense variants. Biao has
-            strong interests in statistics, computing and cancer genomics, and
-            is enthusiastic about some recent advancement in causal inference
-            and numerical optimization. He got a PhD in Bioinformatics in 2006
-            from the Institute of Biophysics, CAS, China.
+            {{ item.description }}
           </p>
         </div>
 
@@ -53,7 +44,7 @@
             ></div>
 
             <img
-              src="/team/michael-large.png"
+              :src="item.largeImage"
               class="absolute z-40 right-[9rem] aspect-square w-[620px]"
               alt=""
             />
@@ -76,14 +67,27 @@
           <div
             class="flex justify-between px-4 items-center w-full text-sm text-[#242533]"
           >
-            <a href="">Prev</a>
-            <a href="">Next</a>
+            <a href="" @click.prevent="$emit('prev')">Prev</a>
+            <a href="" @click.prevent="$emit('next')">Next</a>
           </div>
         </div>
       </div>
     </section>
   </transition>
 </template>
+
+<script lang="js">
+export default {
+  props: {
+    item:{
+          type:Object,
+          required:true,
+        }
+  },
+
+
+}
+</script>
 
 <style>
 .pop-up-enter-active,

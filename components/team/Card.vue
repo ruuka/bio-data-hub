@@ -1,7 +1,7 @@
 <template>
   <div
     class="flex flex-col items-start relative w-[350px] cursor-pointer h-[473px] bg-[#fff] border border-[#eaecf0] rounded-[7px]"
-    @click="$emit('open-pop-up')"
+    @click="$emit('open-pop-up', item, index)"
   >
     <div
       class="left-[0%] w-full h-[230px] rounded rounded-b-none"
@@ -22,8 +22,8 @@
       </h2>
       <div class="flex items-center gap-2">
         <button
-          v-for="(tag, index) in item.tags"
-          :key="index"
+          v-for="(tag, indx) in item.tags"
+          :key="indx"
           class="flex flex-row justify-center items-center py-[2px] px-[10px] gap-[5px] rounded-[6px] bg-[#5d42ff14] text-[#644DED] text-[10px]"
         >
           {{ tag }}
@@ -81,6 +81,10 @@ export default {
   props: {
     item: {
       type: Object,
+      required: true,
+    },
+    index: {
+      type: Number,
       required: true,
     },
   },

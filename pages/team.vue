@@ -27,12 +27,19 @@
             v-for="(item, index) in members"
             :key="'team' + index"
             :item="item"
-            @open-pop-up="openPopUp = true"
+            :index="index"
+            @open-pop-up="openPopUpFunc"
           />
         </div>
       </div>
     </div>
-    <PopUp v-if="openPopUp" @close-pop-up="openPopUp = false" />
+    <PopUp
+      v-if="openPopUp && activeItem"
+      :item="activeItem"
+      @close-pop-up="openPopUp = false"
+      @next="goNext"
+      @prev="goPrev"
+    />
   </div>
 </template>
 
@@ -49,7 +56,28 @@ export default {
     return {
       members,
       openPopUp: false,
+      activeItem: null,
     }
+  },
+  methods: {
+    goNext() {
+      this.activeIndex++
+      if (this.activeIndex < this.members.length) {
+        this.activeItem = this.members[this.activeIndex]
+      }
+    },
+    goPrev() {
+      this.activeIndex--
+      if (this.activeIndex >= 0) {
+        this.activeItem = this.members[this.activeIndex]
+      }
+    },
+
+    openPopUpFunc(item, index) {
+      this.activeItem = item
+      this.activeIndex = index
+      this.openPopUp = true
+    },
   },
 }
 </script>
