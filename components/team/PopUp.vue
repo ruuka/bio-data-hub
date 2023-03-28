@@ -24,7 +24,7 @@
             </svg>
           </div>
           <h4
-            class="text-[#54565B] text-[36px] leading-[147.4%] font-black mb-5"
+            class="text-[#54565B] font-inter capitalize text-[36px] leading-[147.4%] font-black mb-5"
           >
             {{ item.name }} <br />
             <hr class="w-[70px] h-1 bg-primary border-none" />
@@ -45,7 +45,7 @@
 
             <img
               :src="item.largeImage"
-              class="absolute z-40 right-[9rem] aspect-square w-[620px]"
+              class="absolute z-40 right-[9rem] aspect-square object-contain w-[620px]"
               alt=""
             />
 
