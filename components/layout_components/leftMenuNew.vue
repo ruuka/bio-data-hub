@@ -68,7 +68,7 @@
           <!-- SELECTIONS -->
 
           <div
-            v-for="item in t_areas"
+            v-for="item in datatypes"
             :key="item"
             class="flex flex-col gap-2 px-5"
           >
@@ -76,7 +76,7 @@
 
             <!-- check -->
             <div
-              v-for="protocol in getStudiesByTheraputicArea(item)"
+              v-for="protocol in getStudiesByDataType(item)"
               :key="protocol.study_id"
               class="input-group"
             >
@@ -91,8 +91,8 @@
                   @click="handleClick(protocol)"
                 />
                 <span class="flex items-center text-sm">{{
-                    protocol.study_id
-                  }}</span></label
+                  protocol.study_id
+                }}</span></label
               >
             </div>
 
@@ -130,11 +130,11 @@ export default {
     }
   },
   computed: {
-    t_areas() {
-      const tAreas = this.tableData.map((item) => {
-        return item.therapeutic_area
+    datatypes() {
+      const datatypes = this.tableData.map((item) => {
+        return item.datatype
       })
-      return [...new Set(tAreas)]
+      return [...new Set(datatypes)]
     },
     filteredData() {
       return this.tableData
@@ -146,15 +146,15 @@ export default {
     },
   },
   created() {
-    newAPIService.getClinicalSummary(this.$axios).then((res) => {
+    newAPIService.getClinicalTypeSummary(this.$axios).then((res) => {
       this.tableData = res.data
     })
   },
 
   methods: {
-    getStudiesByTheraputicArea(therapeuticarea) {
+    getStudiesByDataType(datatype) {
       return this.tableData.filter((item) => {
-        return item.therapeutic_area === therapeuticarea
+        return item.datatype === datatype
       })
     },
     filteredRows() {

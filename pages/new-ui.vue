@@ -91,15 +91,23 @@
                 </div>
                 <p class="py-1.5 px-2 rounded bg-red text-white">
                   Study:
-                  {{ selectedStudy && selectedStudy.study_id }}
+                  {{
+                    selectedStudyData.length > 0 &&
+                    selectedStudyData[0].study_id
+                  }}
                 </p>
                 <p class="py-1.5 px-2 rounded bg-red text-white">
                   Therapeutic Area:
-                  {{ selectedStudy && selectedStudy.therapeutic_area }}
+                  {{
+                    selectedStudyData.length > 0 &&
+                    selectedStudyData[0].therapeutic_area
+                  }}
                 </p>
                 <p class="py-1.5 px-2 rounded bg-red text-white">
                   Name:
-                  {{ selectedStudy && selectedStudy.name }}
+                  {{
+                    selectedStudyData.length > 0 && selectedStudyData[0].name
+                  }}
                 </p>
               </div>
               <!-- right -->
@@ -123,7 +131,7 @@
                   :key="selectedItem"
                   class="py-0.5 px-2 text-xs flex items-center rounded bg-[#e7e5ff] text-dark-1"
                 >
-                  {{ selectedItem === 0 ? 'Baseline' : 'Week ' + selectedItem }}
+                  {{ selectedItem }}
                   <button class="p-1" @click="toggleSelection(selectedItem)">
                     <svg
                       class="h-4 fill-dark-3"
@@ -180,9 +188,7 @@
                             "
                             @click="toggleSelection(keyItem)"
                           />
-                          <label :for="keyItem" class="">{{
-                            keyItem === 0 ? 'Baseline' : 'Week ' + keyItem
-                          }}</label>
+                          <label :for="keyItem" class="">{{ keyItem }}</label>
                         </div>
                       </div>
                     </div>
@@ -461,14 +467,14 @@
                     <option value="" class="text-purple">
                       - Stratification -
                     </option>
-                    <template v-if="stratification">
+                    <template v-if="study_strat_timepoints">
                       <option
-                        v-for="strat in stratification"
-                        :key="strat.id"
-                        :value="strat.name"
+                        v-for="strat in study_strat_timepoints.stratification"
+                        :key="strat"
+                        :value="strat"
                         class="text-purple"
                       >
-                        {{ strat.name }}
+                        {{ strat }}
                       </option>
                     </template>
                   </select>
@@ -542,6 +548,7 @@ export default {
         ],
       },
       selectedGeneAliases: [],
+      study_strat_timepoints: null,
       geneAliases: [],
       allAliases: [],
       allBiomarkers: [],
@@ -564,9 +571,9 @@ export default {
   },
   computed: {
     weeks() {
-      const weeks = this.selectedStudyData.map((item) => {
-        return item.week
-      })
+      const weeks = this.study_strat_timepoints
+        ? this.study_strat_timepoints.timepoints
+        : []
 
       return [...new Set(weeks)].sort((a, b) => a - b)
     },
@@ -734,11 +741,11 @@ export default {
       }
     },
 
-    getStudiesByTheraputicArea(therapeuticarea) {
-      return this.allStudies.filter((item) => {
-        return item.THERAPEUTICAREA === therapeuticarea
-      })
-    },
+    // getStudiesByTheraputicArea(therapeuticarea) {
+    //   return this.allStudies.filter((item) => {
+    //     return item.THERAPEUTICAREA === therapeuticarea
+    //   })
+    // },
     handleSelectedStudy(study) {
       if (
         this.selectedStudy &&
@@ -752,7 +759,19 @@ export default {
       newAPIService
         .getClinicalSummaryById(this.$axios, study.study_id)
         .then((res) => {
+          console.log('Previso study id', this.selectedStudy)
           this.selectedStudyData = res.data
+
+          console.log('selected Study frm api', res.data)
+        })
+      newAPIService
+        .getClinicalWeekAndStratification(
+          this.$axios,
+          study.study_id,
+          study.datatype
+        )
+        .then((res) => {
+          this.study_strat_timepoints = res.data[0]
         })
       this.updateStudyFilterOptions(study.study_id)
     },

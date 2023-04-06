@@ -53,9 +53,7 @@ export default {
 
       //  const colors = ['#C51F3F', '#F4992E', '#6DC981', '#36BCE7']
       const tempx = this.boxPlotData.map((item) =>
-        item.data.map(() =>
-          item.week === 0 ? 'Baseline' : 'week ' + item.week
-        )
+        item.data.map(() => item.week)
       )
 
       const tempData = this.boxPlotData.map((item) => item.data)

@@ -37,6 +37,22 @@ export default {
       console.log('There was an error: ' + error.response)
     })
   },
+  getClinicalTypeSummary($axios) {
+    return $axios.get(`/clinicaldata/typesummary`).catch((error) => {
+      console.log('There was an error: ' + error.response)
+    })
+  },
+ 
+  getClinicalWeekAndStratification($axios, studyId, datatype) {
+    
+    return $axios
+    .get(
+`/clinicaldata/${studyId}/${datatype}`
+    )
+    .catch((error) => {
+      console.log('There was an error: ' + error.response)
+    })
+  },
 
   getClinicalTreatments($axios, studyId, type) {
     const url = type === 'biomarker' ? 'treatments/biomarker' : 'treatments/gene'
