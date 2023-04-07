@@ -89,15 +89,21 @@
                     />
                   </svg>
                 </div>
-                <p class="py-1.5 px-2 rounded bg-red text-white">
+                <p
+                  class="py-1.5 px-2 max-w-xs truncate rounded bg-red text-white"
+                >
                   Study:
                   {{ selectedStudy && selectedStudy.study_id }}
                 </p>
-                <p class="py-1.5 px-2 rounded bg-red text-white">
+                <p
+                  class="py-1.5 px-2 max-w-xs truncate rounded bg-red text-white"
+                >
                   Therapeutic Area:
                   {{ selectedStudy && selectedStudy.therapeutic_area }}
                 </p>
-                <p class="py-1.5 px-2 rounded bg-red text-white">
+                <p
+                  class="py-1.5 px-2 rounded bg-red text-white max-w-xs truncate"
+                >
                   Name:
                   {{ selectedStudy && selectedStudy.name }}
                 </p>
@@ -123,7 +129,7 @@
                   :key="selectedItem"
                   class="py-0.5 px-2 text-xs flex items-center rounded bg-[#e7e5ff] text-dark-1"
                 >
-                  {{ selectedItem === 0 ? 'Baseline' : 'Week ' + selectedItem }}
+                  {{ selectedItem }}
                   <button class="p-1" @click="toggleSelection(selectedItem)">
                     <svg
                       class="h-4 fill-dark-3"
@@ -180,9 +186,7 @@
                             "
                             @click="toggleSelection(keyItem)"
                           />
-                          <label :for="keyItem" class="">{{
-                            keyItem === 0 ? 'Baseline' : 'Week ' + keyItem
-                          }}</label>
+                          <label :for="keyItem" class="">{{ keyItem }}</label>
                         </div>
                       </div>
                     </div>
@@ -464,11 +468,11 @@
                     <template v-if="stratification">
                       <option
                         v-for="strat in stratification"
-                        :key="strat.id"
-                        :value="strat.name"
+                        :key="strat"
+                        :value="strat"
                         class="text-purple"
                       >
-                        {{ strat.name }}
+                        {{ strat }}
                       </option>
                     </template>
                   </select>
@@ -548,28 +552,20 @@ export default {
       biomarkers: [],
       searchQuery: '',
       result: [],
+      typesummary: [],
       source: [],
-
-      stratification: [
-        {
-          name: 'Treatment',
-          id: 'treatment',
-        },
-        // {
-        //   name: 'Response',
-        //   id: 'response',
-        // },
-      ],
+      stratification: [],
+      weeks: [],
     }
   },
   computed: {
-    weeks() {
-      const weeks = this.selectedStudyData.map((item) => {
-        return item.week
-      })
+    // weeks() {
+    //   const weeks = this.selectedStudyData.map((item) => {
+    //     return item.week
+    //   })
 
-      return [...new Set(weeks)].sort((a, b) => a - b)
-    },
+    //   return [...new Set(weeks)].sort((a, b) => a - b)
+    // },
     filteredBiomarkers() {
       return this.biomarkers.filter((item) => {
         let isSelected = false
@@ -633,6 +629,12 @@ export default {
     searchQuery() {
       this.updateGeneAlias()
     },
+  },
+  mounted() {
+    newAPIService.getClinicalTypeSummary(this.$axios).then((res) => {
+      this.typesummary = res.data
+      console.log('TYPE SUMMARY', this.typesummary)
+    })
   },
   methods: {
     async setSelectedPlotType(item) {
@@ -739,6 +741,11 @@ export default {
         return item.THERAPEUTICAREA === therapeuticarea
       })
     },
+    getSummaryType(studyID) {
+      return this.typesummary.length > 0
+        ? this.typesummary.filter((item) => item.study_id === studyID)[0]
+        : ''
+    },
     handleSelectedStudy(study) {
       if (
         this.selectedStudy &&
@@ -753,6 +760,15 @@ export default {
         .getClinicalSummaryById(this.$axios, study.study_id)
         .then((res) => {
           this.selectedStudyData = res.data
+        })
+      // get the treatmentsandStratification
+      const type = this.getSummaryType(study.study_id).datatype
+      console.log('TYPE', type)
+      newAPIService
+        .getTreatmentAndTimePointsByID(this.$axios, study.study_id, type)
+        .then((res) => {
+          this.stratification = res.data[0].stratification
+          this.weeks = res.data[0].timepoints
         })
       this.updateStudyFilterOptions(study.study_id)
     },

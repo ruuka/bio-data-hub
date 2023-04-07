@@ -8,6 +8,20 @@ export default {
         console.log('There was an error: ' + error.response)
       })
   },
+  getClinicalTypeSummary($axios) {
+    return $axios
+      .get(`/clinicaldata/typesummary`)
+      .catch((error) => {
+        console.log('There was an error: ' + error.response)
+      })
+  },
+  getTreatmentAndTimePointsByID($axios, studyID, type) {
+    return $axios
+      .get(`/clinicaldata/${studyID}/${type}`)
+      .catch((error) => {
+        console.log('There was an error: ' + error.response)
+      })
+  },
   getClinicalBiomarkersById($axios, studyId) {
     return $axios
       .get(`/clinicaldata/study/${studyId}/biomarkers`)
