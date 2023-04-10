@@ -101,12 +101,18 @@
                   Therapeutic Area:
                   {{ selectedStudy && selectedStudy.therapeutic_area }}
                 </p>
-                <p
-                  class="py-1.5 px-2 rounded bg-red text-white max-w-xs truncate"
+                <a
+                  class="py-1.5 tooltip px-2 rounded bg-red text-white relative max-w-xs truncate"
+                  :data-tip="selectedStudy && selectedStudy.name"
                 >
+                  <div
+                    class="absolute -top-3 left-0 z-50 bg-black tool-tip-content"
+                  >
+                    {{ selectedStudy && selectedStudy.name }}
+                  </div>
                   Name:
                   {{ selectedStudy && selectedStudy.name }}
-                </p>
+                </a>
               </div>
               <!-- right -->
               <div class="flex-1 flex items-center gap-2">
@@ -785,7 +791,7 @@ export default {
       const wks =
         this.selectedScatterPlotParams.length > 0
           ? this.selectedScatterPlotParams
-          : this.weeks
+          : this.weeks.slice(0, 3)
       if (this.plotType.selectedValue.id === 'biomarker') {
         for (let i = 0; i < this.treatments.length; i++) {
           for (let k = 0; k < wks.length; k++) {
