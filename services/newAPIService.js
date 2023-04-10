@@ -10,14 +10,14 @@ export default {
   },
   getClinicalTypeSummary($axios) {
     return $axios
-      .get(`/clinicaldata/typesummary`)
+      .get(`/clinicaldata/summary/typesummary`)
       .catch((error) => {
         console.log('There was an error: ' + error.response)
       })
   },
   getTreatmentAndTimePointsByID($axios, studyID, type) {
     return $axios
-      .get(`/clinicaldata/${studyID}/${type}`)
+      .get(`/clinicaldata/summary/${studyID}/${type}`)
       .catch((error) => {
         console.log('There was an error: ' + error.response)
       })
