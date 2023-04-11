@@ -21,7 +21,7 @@ export default [
       'Michael currently supports oncology programs, manages data transfer and organization, and administrates high performance computing. Before joining Gilead, Biao worked on pharmacogenomics projects at the Buck Institute for Research on Aging and machine learning projects at Indiana University, where he built a popular online tool MutPred for predicting pathogenicity of missense variants. Biao has strong interests in statistics, computing and cancer genomics, and is enthusiastic about some recent advancement in causal inference and numerical optimization. He got a PhD in Bioinformatics in 2006 from the Institute of Biophysics, CAS, China.',
   },
   {
-    name: ' jane Doe',
+    name: 'Jane Doe',
     position: 'Software Engineer',
     bgColor: '#ECB6FF',
     tags: ['Data Scientist', 'Contractor'],
