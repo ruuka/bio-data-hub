@@ -91,8 +91,8 @@
                   @click="handleClick(protocol)"
                 />
                 <span class="flex items-center text-sm">{{
-                    protocol.study_id
-                  }}</span></label
+                  protocol.study_id
+                }}</span></label
               >
             </div>
 

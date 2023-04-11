@@ -90,29 +90,49 @@
                   </svg>
                 </div>
                 <p
-                  class="py-1.5 px-2 max-w-xs truncate rounded bg-red text-white"
+                  class="py-1.5 px-2 rounded inline-flex bg-red text-white relative"
                 >
                   Study:
-                  {{ selectedStudy && selectedStudy.study_id }}
+                  <a
+                    href="#"
+                    class="tooltip tooltip-top flex"
+                    :data-tip="selectedStudy && selectedStudy.study_id"
+                  >
+                    <span class="w-20 truncate text-ellipsis">{{
+                      selectedStudy && selectedStudy.study_id
+                    }}</span>
+                  </a>
                 </p>
                 <p
-                  class="py-1.5 px-2 max-w-xs truncate rounded bg-red text-white"
+                  class="py-1.5 px-2 rounded inline-flex bg-red text-white relative"
                 >
                   Therapeutic Area:
-                  {{ selectedStudy && selectedStudy.therapeutic_area }}
-                </p>
-                <a
-                  class="py-1.5 tooltip px-2 rounded bg-red text-white relative max-w-xs truncate"
-                  :data-tip="selectedStudy && selectedStudy.name"
-                >
-                  <div
-                    class="absolute -top-3 left-0 z-50 bg-black tool-tip-content"
+                  <a
+                    href="#"
+                    class="tooltip tooltip-top flex"
+                    :data-tip="selectedStudy && selectedStudy.therapeutic_area"
                   >
-                    {{ selectedStudy && selectedStudy.name }}
-                  </div>
+                    <span class="w-20 truncate text-ellipsis">
+                      {{
+                        selectedStudy && selectedStudy.therapeutic_area
+                      }}</span
+                    >
+                  </a>
+                </p>
+                <div
+                  class="py-1.5 px-2 rounded inline-flex bg-red text-white relative"
+                >
                   Name:
-                  {{ selectedStudy && selectedStudy.name }}
-                </a>
+                  <a
+                    href="#"
+                    class="tooltip tooltip-top flex"
+                    :data-tip="selectedStudy && selectedStudy.name"
+                  >
+                    <span class="w-20 truncate text-ellipsis">{{
+                      selectedStudy && selectedStudy.name
+                    }}</span>
+                  </a>
+                </div>
               </div>
               <!-- right -->
               <div class="flex-1 flex items-center gap-2">
