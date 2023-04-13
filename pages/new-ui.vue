@@ -488,9 +488,7 @@
                     :disabled="!selectedStudy"
                     class="py-1.5 px-2.5 rounded border disabled:opacity-30 outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
                   >
-                    <option value="" class="text-purple">
-                      - Stratification -
-                    </option>
+                    <option value="" class="text-purple">- Treatment -</option>
                     <template v-if="stratification">
                       <option
                         v-for="strat in stratification"

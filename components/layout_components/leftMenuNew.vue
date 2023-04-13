@@ -153,9 +153,23 @@ export default {
 
   methods: {
     getStudiesByTheraputicArea(therapeuticarea) {
-      return this.tableData.filter((item) => {
-        return item.therapeutic_area === therapeuticarea
-      })
+      return this.tableData
+        .filter((item) => {
+          return item.therapeutic_area === therapeuticarea
+        })
+        .sort((a, b) => {
+          const nameA = a.study_id.toUpperCase() // ignore upper and lowercase
+          const nameB = b.study_id.toUpperCase() // ignore upper and lowercase
+          if (nameA < nameB) {
+            return -1
+          }
+          if (nameA > nameB) {
+            return 1
+          }
+
+          // names must be equal
+          return 0
+        })
     },
     filteredRows() {
       this.searchTerm = this.searchTerm ? this.searchTerm.toLowerCase() : ''
