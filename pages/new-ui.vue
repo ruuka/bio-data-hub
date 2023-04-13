@@ -99,8 +99,8 @@
                     :data-tip="selectedStudy && selectedStudy.study_id"
                   >
                     <span class="w-20 truncate text-ellipsis">{{
-                      selectedStudy && selectedStudy.study_id
-                    }}</span>
+                        selectedStudy && selectedStudy.study_id
+                      }}</span>
                   </a>
                 </p>
                 <p
@@ -129,8 +129,8 @@
                     :data-tip="selectedStudy && selectedStudy.name"
                   >
                     <span class="w-20 truncate text-ellipsis">{{
-                      selectedStudy && selectedStudy.name
-                    }}</span>
+                        selectedStudy && selectedStudy.name
+                      }}</span>
                   </a>
                 </div>
               </div>

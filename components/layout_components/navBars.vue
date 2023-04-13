@@ -9,12 +9,12 @@
             <NuxtLink to="/">
               <img
                 class="block w-auto h-10 lg:hidden"
-                src="https://anima-uploads.s3.amazonaws.com/projects/61eb071259085a6271779ae5/releases/61eb07172db43d929ddc59c6/img/gilead-create-possible-svg-1@2x.svg"
+                src="~/static/gilead-create-possible-svg-1@2x.svg"
                 alt="Gilead"
               />
               <img
                 class="hidden w-auto h-10 mr-8 lg:block"
-                src="https://anima-uploads.s3.amazonaws.com/projects/61eb071259085a6271779ae5/releases/61eb07172db43d929ddc59c6/img/gilead-create-possible-svg-1@2x.svg"
+                src="~/static/gilead-create-possible-svg-1@2x.svg"
                 alt="Gilead"
               />
             </NuxtLink>
