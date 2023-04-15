@@ -148,10 +148,29 @@ export default {
   created() {
     newAPIService.getClinicalSummary(this.$axios).then((res) => {
       this.tableData = res.data
+
+      newAPIService.getClinicalTypeSummary(this.$axios).then((response) => {
+        this.typesummary = response.data
+        this.tableData = this.tableData.map((item) => {
+          const type = this.findtype(item, this.typesummary)
+            ? this.findtype(item, this.typesummary)
+            : ''
+          return {
+            ...item,
+            type,
+          }
+        })
+        console.log('MERGED SUMMARY', this.tableData)
+      })
     })
   },
 
   methods: {
+    findtype(item, summary) {
+      return summary.filter((itm) => {
+        return item.study_id === itm.study_id
+      })[0]?.datatype
+    },
     getStudiesByTheraputicArea(therapeuticarea) {
       return this.tableData
         .filter((item) => {

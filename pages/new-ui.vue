@@ -99,8 +99,8 @@
                     :data-tip="selectedStudy && selectedStudy.study_id"
                   >
                     <span class="w-20 truncate text-ellipsis">{{
-                        selectedStudy && selectedStudy.study_id
-                      }}</span>
+                      selectedStudy && selectedStudy.study_id
+                    }}</span>
                   </a>
                 </p>
                 <p
@@ -129,8 +129,8 @@
                     :data-tip="selectedStudy && selectedStudy.name"
                   >
                     <span class="w-20 truncate text-ellipsis">{{
-                        selectedStudy && selectedStudy.name
-                      }}</span>
+                      selectedStudy && selectedStudy.name
+                    }}</span>
                   </a>
                 </div>
               </div>
@@ -765,10 +765,8 @@ export default {
         return item.THERAPEUTICAREA === therapeuticarea
       })
     },
-    getSummaryType(studyID) {
-      return this.typesummary.length > 0
-        ? this.typesummary.filter((item) => item.study_id === studyID)[0]
-        : ''
+    getSummaryType() {
+      return this.selectedStudy.type ? this.selectedStudy.type : ''
     },
     handleSelectedStudy(study) {
       if (
@@ -786,7 +784,7 @@ export default {
           this.selectedStudyData = res.data
         })
       // get the treatmentsandStratification
-      const type = this.getSummaryType(study.study_id).datatype
+      const type = this.getSummaryType()
       console.log('TYPE', type)
       newAPIService
         .getTreatmentAndTimePointsByID(this.$axios, study.study_id, type)
