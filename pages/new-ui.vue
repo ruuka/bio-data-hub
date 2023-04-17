@@ -560,12 +560,12 @@ export default {
           {
             id: 'biomarker',
             name: 'Biomarker',
-            value: 'biomarker',
+            value: 'BIOMARKER',
           },
           {
             id: 'gene-expression',
             name: 'Gene Expression',
-            value: 'gene-expression',
+            value: 'GENE_EXPRESSION',
           },
         ],
       },
@@ -666,7 +666,7 @@ export default {
       this.tags = []
       this.selectedBiomarkers = []
       this.selectedGeneAliases = []
-      await this.getTreatmentsByPlottype()
+      await this.getTreatmentsByPlottype(item.value)
     },
     toggleSelection(param) {
       if (this.selectedScatterPlotParams.includes(param)) {
@@ -784,14 +784,7 @@ export default {
           this.selectedStudyData = res.data
         })
       // get the treatmentsandStratification
-      const type = this.getSummaryType()
-      console.log('TYPE', type)
-      newAPIService
-        .getTreatmentAndTimePointsByID(this.$axios, study.study_id, type)
-        .then((res) => {
-          this.stratification = res.data[0].stratification
-          this.weeks = res.data[0].timepoints
-        })
+
       this.updateStudyFilterOptions(study.study_id)
     },
 
@@ -801,6 +794,15 @@ export default {
         this.$axios,
         study
       )
+    },
+    getTreatmentsandTimePoint(type) {
+      console.log('TYPE', type)
+      newAPIService
+        .getTreatmentAndTimePointsByID(this.$axios, study.study_id, type)
+        .then((res) => {
+          this.stratification = res.data[0].stratification
+          this.weeks = res.data[0].timepoints
+        })
     },
     async getPlotData(formData) {
       this.result = []
@@ -881,15 +883,15 @@ export default {
       }
     },
 
-    async getTreatmentsByPlottype() {
-      // Get Treatments
-      const TreatmentResponse = await newAPIService.getClinicalTreatments(
+    async getTreatmentsByPlottype(type) {
+      const res = await newAPIService.getTreatmentAndTimePointsByID(
         this.$axios,
-        this.selectedStudy.study_id,
-        this.plotType.selectedValue.id
+        study.study_id,
+        type
       )
-      this.treatments = TreatmentResponse.data
-      // console.log(this.plotType.selectedValue.id, this.treatments)
+      console.log('TREATMENTS', res.data)
+      this.stratification = res.data[0].stratification
+      this.weeks = res.data[0].timepoints
     },
     async updateStudyFilterOptions(study) {
       if (!study) {
