@@ -784,7 +784,6 @@ export default {
           this.selectedStudyData = res.data
         })
       // get the treatmentsandStratification
-
       this.updateStudyFilterOptions(study.study_id)
     },
 
