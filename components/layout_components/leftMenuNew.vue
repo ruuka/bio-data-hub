@@ -148,9 +148,10 @@ export default {
   created() {
     newAPIService.getClinicalSummary(this.$axios).then((res) => {
       this.tableData = res.data
-
+      console.log('clinical summary', res.data)
       newAPIService.getClinicalTypeSummary(this.$axios).then((response) => {
         this.typesummary = response.data
+        console.log('type summary', response.data)
         this.tableData = this.tableData.map((item) => {
           const type = this.findtype(item, this.typesummary)
             ? this.findtype(item, this.typesummary)

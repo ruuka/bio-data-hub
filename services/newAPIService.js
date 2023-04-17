@@ -10,7 +10,7 @@ export default {
   },
   getClinicalTypeSummary($axios) {
     return $axios
-      .get(`/clinicaldata/summary/typesummary`)
+      .get(`/clinicaldata/typesummary`)
       .catch((error) => {
         console.log('There was an error: ' + error.response)
       })

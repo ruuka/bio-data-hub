@@ -790,6 +790,7 @@ export default {
         .getTreatmentAndTimePointsByID(this.$axios, study.study_id, type)
         .then((res) => {
           this.stratification = res.data[0].stratification
+          console.log('TREATMENTS',res.data)
           this.weeks = res.data[0].timepoints
         })
       this.updateStudyFilterOptions(study.study_id)
