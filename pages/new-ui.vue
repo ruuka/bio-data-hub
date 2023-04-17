@@ -521,7 +521,7 @@
         <NewUIPlot
           v-if="result.length > 0"
           :box-plot-data="result"
-          :treatments="treatments"
+          :treatments="stratification"
         />
       </section>
     </main>
@@ -666,7 +666,7 @@ export default {
       this.tags = []
       this.selectedBiomarkers = []
       this.selectedGeneAliases = []
-      await this.getTreatmentsByPlottype(item.value)
+      await this.getTreatmentsByPlottype(this.selectedStudy, item.value)
     },
     toggleSelection(param) {
       if (this.selectedScatterPlotParams.includes(param)) {
@@ -804,42 +804,44 @@ export default {
         })
     },
     async getPlotData(formData) {
+      console.log('Weeks', this.weeks)
       this.result = []
       const wks =
         this.selectedScatterPlotParams.length > 0
           ? this.selectedScatterPlotParams
           : this.weeks.slice(0, 3)
+
       if (this.plotType.selectedValue.id === 'biomarker') {
-        for (let i = 0; i < this.treatments.length; i++) {
+        for (let i = 0; i < this.stratification.length; i++) {
           for (let k = 0; k < wks.length; k++) {
             const response = await newAPIService.postToBiomarkers(this.$axios, {
               ...formData,
-              treatment: this.treatments[i],
+              treatment: this.stratification[i],
               week: wks[k],
             })
             this.result.push({
               plotType: this.plotType.selectedValue.id,
               data: response.data,
-              treatment: this.treatments[i],
+              treatment: this.stratification[i],
               week: wks[k],
             })
           }
         }
       } else {
-        for (let i = 0; i < this.treatments.length; i++) {
+        for (let i = 0; i < this.stratification.length; i++) {
           for (let k = 0; k < wks.length; k++) {
             const response = await newAPIService.postToGeneExpression(
               this.$axios,
               {
                 ...formData,
-                treatment: this.treatments[i],
+                treatment: this.stratification[i],
                 week: wks[k],
               }
             )
             this.result.push({
               plotType: this.plotType.selectedValue.id,
               data: response.data,
-              treatment: this.treatments[i],
+              treatment: this.stratification[i],
               week: wks[k],
             })
           }
@@ -851,6 +853,7 @@ export default {
         this.plotType.selectedValue.id === 'biomarker'
           ? this.formatBiomarkerBody()
           : this.formatGeneExpressionbBody()
+
       await this.getPlotData(formData)
       // if (this.plotType.selectedValue.id === 'biomarker') {
       //   const formData = this.formatBiomarkerBody()
@@ -882,7 +885,7 @@ export default {
       }
     },
 
-    async getTreatmentsByPlottype(type) {
+    async getTreatmentsByPlottype(study, type) {
       const res = await newAPIService.getTreatmentAndTimePointsByID(
         this.$axios,
         study.study_id,
