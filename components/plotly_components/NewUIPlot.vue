@@ -20,6 +20,10 @@ export default {
       type: Array,
       required: true,
     },
+    yTitle: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -73,7 +77,7 @@ export default {
 
       const layout = {
         yaxis: {
-          // title: 'By Treatment',
+          title: this.yTitle,
           zeroline: false,
         },
         boxmode: 'group',

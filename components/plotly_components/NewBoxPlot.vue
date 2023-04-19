@@ -303,14 +303,14 @@ export default {
           text: this.$props.plotTitle,
         },
         xaxis: {
-          title: this.$props.xAxisTitle,
+          title: 'x-axis title',
           // showgrid: false,
           // zeroline: false,
           // tickangle: 60,
           // showticklabels: false
         },
         yaxis: {
-          title: this.$props.yAxisTitle,
+          title: 'Y axis title',
           // type: this.$props.plotSetup.axisScale,
           zeroline: false,
           // autorange: true,

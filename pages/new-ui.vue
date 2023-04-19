@@ -98,7 +98,7 @@
                     class="tooltip tooltip-top flex"
                     :data-tip="selectedStudy && selectedStudy.study_id"
                   >
-                    <span class="w-20 truncate text-ellipsis">{{
+                    <span class="max-w-[10rem] truncate text-ellipsis">{{
                       selectedStudy && selectedStudy.study_id
                     }}</span>
                   </a>
@@ -293,12 +293,40 @@
 
                     <vue-tags-input
                       v-model="searchQuery"
-                      class="w-64 overflow-x-auto"
+                      class="w-full"
                       :tags="tags"
                       :disabled="!selectedStudy"
                       placeholder=""
                       @tags-changed="(newTags) => handleTags(newTags)"
-                    />
+                    >
+                      <div slot="tag-actions"></div>
+
+                      <div
+                        slot="tag-center"
+                        slot-scope="props"
+                        :data-tip="props.tag.text"
+                        class="gap-2 text-xs tooltip tooltip-right flex"
+                      >
+                        <span class="max-w-[8rem] truncate text-ellipsis">{{
+                          props.tag.text
+                        }}</span>
+
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          class="inline-block w-4 h-4 cursor-pointer stroke-current"
+                          @click.prevent="props.performDelete(props.index)"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"
+                          ></path>
+                        </svg>
+                      </div>
+                    </vue-tags-input>
 
                     <!-- END DROPDOWN -->
                     <div
@@ -313,9 +341,13 @@
                         <section
                           v-for="(gitem, index) in selectedBiomarkers"
                           :key="index + 'biomarker'"
-                          class="tag py-0.5 px-2.5 text-sm flex items-center rounded bg-white w-max text-dark-1"
+                          :data-tip="gitem.text"
+                          class="tooltip tooltip-right tag py-0.5 px-2.5 text-sm flex items-center rounded bg-white w-max text-dark-1"
                         >
-                          {{ gitem.text }}
+                          <span class="max-w-[10rem] truncate text-ellipsis">
+                            {{ gitem.text }}</span
+                          >
+
                           <button
                             class="p-1"
                             @click="removeSelectedGene(gitem, 'biomarker')"
@@ -381,7 +413,30 @@
                       :disabled="!selectedStudy"
                       :tags="tags"
                       @tags-changed="(newTags) => handleTags(newTags)"
-                    />
+                    >
+                      <div slot="tag-actions"></div>
+                      <div
+                        slot="tag-center"
+                        slot-scope="props"
+                        class="gap-2 text-xs"
+                      >
+                        {{ props.tag.text }}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          class="inline-block w-4 h-4 cursor-pointer stroke-current"
+                          @click.prevent="props.performDelete(props.index)"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"
+                          ></path>
+                        </svg>
+                      </div>
+                    </vue-tags-input>
 
                     <!-- END DROPDOWN -->
                     <div
@@ -476,7 +531,7 @@
                 </div>
                 <!-- filter -->
                 <div
-                  class="flex border border-purple border-dashed p-2 border-gray-400 gap-2.5 flex-col max-w-[180px] text-sm"
+                  class="flex border border-dashed p-2 border-gray-400 gap-2.5 flex-col max-w-[180px] text-sm"
                 >
                   <div
                     class="text-center bg-dark-1 font-semibold text-white py-1.5 px-2.5 rounded"
@@ -485,10 +540,12 @@
                   </div>
                   <select
                     name="stratification"
-                    :disabled="!selectedStudy"
+                    :disabled="true"
                     class="py-1.5 px-2.5 rounded border disabled:opacity-30 outline-none focus:outline-none focus:border-purple font-medium bg-[#f3f3f8] text-dark-2 hover:text-purple"
                   >
-                    <option value="" class="text-purple">- Treatment -</option>
+                    <option value="treatment" class="text-purple" selected>
+                      - Treatment -
+                    </option>
                     <template v-if="stratification">
                       <option
                         v-for="strat in stratification"
@@ -522,6 +579,11 @@
           v-if="result.length > 0"
           :box-plot-data="result"
           :treatments="stratification"
+          :y-title="
+            selectedGeneAliases.length > 0
+              ? selectedGeneAliases[0]
+              : selectedBiomarkers[0]
+          "
         />
       </section>
     </main>
