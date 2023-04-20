@@ -112,7 +112,7 @@
                     class="tooltip tooltip-top flex"
                     :data-tip="selectedStudy && selectedStudy.therapeutic_area"
                   >
-                    <span class="w-20 truncate text-ellipsis">
+                    <span class="max-w-[10rem] truncate text-ellipsis">
                       {{
                         selectedStudy && selectedStudy.therapeutic_area
                       }}</span
@@ -120,15 +120,14 @@
                   </a>
                 </p>
                 <div
-                  class="py-1.5 px-2 rounded inline-flex bg-red text-white relative"
+                  class="py-1.5 px-2 rounded inline-flex relative"
                 >
-                  Name:
                   <a
                     href="#"
                     class="tooltip tooltip-top flex"
                     :data-tip="selectedStudy && selectedStudy.name"
                   >
-                    <span class="w-20 truncate text-ellipsis">{{
+                    <span class="max-w-[14rem] truncate text-ellipsis">{{
                       selectedStudy && selectedStudy.name
                     }}</span>
                   </a>
@@ -333,7 +332,7 @@
                       v-show="showDropdown"
                       class="absolute dropdown-item h-[80] overflow-y-auto -left-1/4 top-10 z-50 w-max mt-2 px-3 py-2.5 [box-shadow:0px1px10pxrgba(84,86,91,0.2)] rounded-xl bg-white"
                     >
-                      <p class="text-sm mb-2 text-[#32324D]">Search Filter:</p>
+                      <p class="text-xs mb-2 text-[#32324D]">Search Filter:</p>
                       <!-- SELECTED -->
                       <div
                         class="bg-[#f3f3f8] py-1 px-1.5 flex gap-2 max-w-md overflow-x-auto"
@@ -342,9 +341,9 @@
                           v-for="(gitem, index) in selectedBiomarkers"
                           :key="index + 'biomarker'"
                           :data-tip="gitem.text"
-                          class="tooltip tooltip-right tag py-0.5 px-2.5 text-sm flex items-center rounded bg-white w-max text-dark-1"
+                          class="tooltip tooltip-right tag py-0.5 px-2.5 text-xs flex items-center rounded bg-white w-max text-dark-1"
                         >
-                          <span class="max-w-[10rem] truncate text-ellipsis">
+                          <span class="max-w-[25rem] truncate text-ellipsis">
                             {{ gitem.text }}</span
                           >
 
@@ -377,7 +376,7 @@
                           class="text-sm hover:bg-white px-4 py-1 cursor-pointer"
                           @click="selectGene(biomarker, 'biomarker')"
                         >
-                          <p class="font-semibold text-[#32324d]">
+                          <p class="text-xs text-[#32324d]">
                             {{ biomarker }}
                           </p>
                         </div>

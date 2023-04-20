@@ -27,7 +27,7 @@ export default {
   },
   data() {
     return {
-      name: 'Test',
+      name: '',
     }
   },
   watch: {
@@ -83,18 +83,6 @@ export default {
         boxmode: 'group',
       }
 
-      // const result = this.boxPlotData.map((item) => {
-      //   return {
-      //     y: item.data,
-      //     type: 'box',
-      //     name: item.treatment,
-      //     marker: {
-      //       color: 'rgb(107,174,214)',
-      //     },
-      //     boxpoints: 'Outliers',
-      //   }
-      // })
-
       const config = {
         responsive: true,
         displaylogo: false,
@@ -112,35 +100,8 @@ export default {
           'lasso2d',
         ],
       }
-      // const layout = {
-      //   showlegend: true,
-      //   title: {
-      //     text: this.$props.plotTitle,
-      //   },
-      //   xaxis: {
-      //     title: this.$props.xAxisTitle,
-      //     // showgrid: false,
-      //     // zeroline: false,
-      //     // tickangle: 60,
-      //     // showticklabels: false
-      //   },
-      //   yaxis: {
-      //     title: this.$props.yAxisTitle,
-      //     // type: this.$props.plotSetup.axisScale,
-      //     zeroline: false,
-      //     // autorange: true,
-      //     // showgrid: true,
-      //     // dtick: 5,
-      //     // gridcolor: 'rgb(255, 255, 255)',
-      //     // gridwidth: 1,
-      //     // zerolinecolor: 'rgb(255, 255, 255)',
-      //     // zerolinewidth: 2
-      //   },
-      //   // boxmode: 'group',
-      //   // margin: { t: 25, b: 150, l: 50, r: 15 },
-      // }
-      if (this.$props.plotTitle > 50) {
-        layout.titlefont = { size: 10 }
+      if (this.$props.plotTitle > 10) {
+        layout.titlefont = { size: 9 }
       }
       setTimeout(() => {
         Plotly.newPlot(this.$refs.plotlyDiv, result, layout, config)
