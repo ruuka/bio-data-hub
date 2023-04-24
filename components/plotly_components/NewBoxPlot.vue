@@ -324,8 +324,8 @@ export default {
         // boxmode: 'group',
         // margin: { t: 25, b: 150, l: 50, r: 15 },
       }
-      if (this.$props.plotTitle > 50) {
-        layout.titlefont = { size: 12 }
+      if (this.$props.plotTitle > 10) {
+        layout.titlefont = { size: 8 }
       }
       Plotly.newPlot(this.$refs.plotlyDiv, result, layout, config)
     },
