@@ -290,61 +290,41 @@
                     tabindex="1"
                   >
                     <!-- START DROPDOWN -->
-
                     <vue-tags-input
                       v-model="searchQuery"
-                      class="w-full"
-                      :tags="tags"
-                      :disabled="!selectedStudy"
+                      class="w-10/12"
                       placeholder=""
+                      :disabled="!selectedStudy"
+                      :tags="tags"
                       @tags-changed="(newTags) => handleTags(newTags)"
                     >
-                      <div slot="tag-actions"></div>
-
                       <div
                         slot="tag-center"
                         slot-scope="props"
                         :data-tip="props.tag.text"
-                        class="gap-2 text-xs tooltip tooltip-right flex"
+                        class="gap-2 text-xs cursor-pointer tooltip tooltip-right flex"
                       >
                         <span class="max-w-[8rem] truncate text-ellipsis">{{
                           props.tag.text
                         }}</span>
-
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          class="inline-block w-4 h-4 cursor-pointer stroke-current"
-                          @click.prevent="props.performDelete(props.index)"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12"
-                          ></path>
-                        </svg>
                       </div>
                     </vue-tags-input>
 
                     <!-- END DROPDOWN -->
                     <div
                       v-show="showDropdown"
-                      class="absolute dropdown-item h-[80] overflow-y-auto -left-1/4 top-10 z-50 w-max mt-2 px-3 py-2.5 [box-shadow:0px1px10pxrgba(84,86,91,0.2)] rounded-xl bg-white"
+                      class="absolute dropdown-item -left-1/4 top-10 z-50 w-max mt-2 px-3 py-2.5 [box-shadow:0px1px10pxrgba(84,86,91,0.2)] rounded-xl bg-white"
                     >
                       <p class="text-sm mb-2 text-[#32324D]">Search Filter:</p>
                       <!-- SELECTED -->
-                      <div
-                        class="bg-[#f3f3f8] py-1 px-1.5 flex gap-2 max-w-md overflow-x-auto"
-                      >
+                      <div class="bg-[#f3f3f8] py-1 px-1.5 flex gap-2">
                         <section
                           v-for="(gitem, index) in selectedBiomarkers"
                           :key="index + 'biomarker'"
                           :data-tip="gitem.text"
                           class="tooltip tooltip-right tag py-0.5 px-2.5 text-sm flex items-center rounded bg-white w-max text-dark-1"
                         >
-                          <span class="max-w-[10rem] truncate text-ellipsis">
+                          <span class="max-w-[20rem] truncate text-ellipsis">
                             {{ gitem.text }}</span
                           >
 
@@ -368,7 +348,7 @@
                       <!-- grayed -->
                       <section
                         v-if="biomarkers"
-                        class="mt-2 bg-[#f3f3f8] flex flex-col gap-2"
+                        class="mt-2 bg-[#f3f3f8] max-h-64 overflow-y-auto flex flex-col gap-2"
                       >
                         <!-- item -->
                         <div
@@ -377,7 +357,9 @@
                           class="text-sm hover:bg-white px-4 py-1 cursor-pointer"
                           @click="selectGene(biomarker, 'biomarker')"
                         >
-                          <p class="font-semibold text-[#32324d]">
+                          <p
+                            class="font-semibold text-[#32324d] max-w-[20rem] truncate overflow-ellipsis"
+                          >
                             {{ biomarker }}
                           </p>
                         </div>
@@ -408,33 +390,21 @@
 
                     <vue-tags-input
                       v-model="searchQuery"
-                      class="w-64 overflow-x-auto"
+                      class="w-10/12"
                       placeholder=""
                       :disabled="!selectedStudy"
                       :tags="tags"
                       @tags-changed="(newTags) => handleTags(newTags)"
                     >
-                      <div slot="tag-actions"></div>
                       <div
                         slot="tag-center"
                         slot-scope="props"
-                        class="gap-2 text-xs"
+                        :data-tip="props.tag.text"
+                        class="gap-2 text-xs cursor-pointer tooltip tooltip-right flex"
                       >
-                        {{ props.tag.text }}
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          class="inline-block w-4 h-4 cursor-pointer stroke-current"
-                          @click.prevent="props.performDelete(props.index)"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M6 18L18 6M6 6l12 12"
-                          ></path>
-                        </svg>
+                        <span class="max-w-[8rem] truncate text-ellipsis">{{
+                          props.tag.text
+                        }}</span>
                       </div>
                     </vue-tags-input>
 
@@ -715,11 +685,17 @@ export default {
     searchQuery() {
       this.updateGeneAlias()
     },
+    tags(n) {
+      if (this.plotType.selectedValue.id === 'biomarker') {
+        this.selectedBiomarkers = n
+      } else {
+        this.selectedGeneAliases = n
+      }
+    },
   },
   mounted() {
     newAPIService.getClinicalTypeSummary(this.$axios).then((res) => {
       this.typesummary = res.data
-      console.log('TYPE SUMMARY', this.typesummary)
     })
   },
   methods: {
@@ -775,9 +751,9 @@ export default {
 
       if (type === 'biomarker') {
         const filteredTags = newTags.filter((item) => {
-          return this.biomarkers.includes(
-            (itm) => itm.toLowerCase() === item.text.toLowerCase()
-          )
+          return this.biomarkers.some((itm) => {
+            return itm.toLowerCase() === item.text.toLowerCase()
+          })
         })
         this.tags = filteredTags
       } else {
@@ -1009,6 +985,6 @@ export default {
 
 <style scoped>
 .dropdown-item {
-  @apply h-[18rem] z-50;
+  @apply h-auto z-50;
 }
 </style>

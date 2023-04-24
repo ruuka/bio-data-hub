@@ -79,7 +79,20 @@ export default {
         yaxis: {
           title: this.yTitle,
           zeroline: false,
+
+          // type: this.$props.plotSetup.axisScale,
+
+          autorange: true,
+          // showgrid: true,
+          dtick: 5,
+          // gridcolor: 'rgb(255, 255, 255)',
+          // gridwidth: 1,
+          // zerolinecolor: 'rgb(255, 255, 255)',
+          // zerolinewidth: 2
         },
+        // boxmode: 'group',
+        margin: { t: 25, b: 150, l: 50, r: 15 },
+
         boxmode: 'group',
       }
 
@@ -98,6 +111,8 @@ export default {
       const config = {
         responsive: true,
         displaylogo: false,
+        jitter: 0.3,
+        pointpos: -15,
         modeBarButtonsToRemove: [
           'sendDataToCloud',
           'zoom2d',

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-wrap items-center gap-2 relative">
+  <div class="flex flex-wrap items-center gap-2 s-input relative">
     <vue-tags-input
       v-for="(subFilter, idx) in filteredSubfilters"
       :key="subFilter.label + idx + subFilter.parentId"
@@ -34,7 +34,6 @@
         slot-scope="props"
         class="gap-2 text-xs font-medium"
       >
-     
         {{ props.tag.text }}
 
         <font-awesome-icon
@@ -42,29 +41,38 @@
           :icon="['far', 'times']"
           @click.prevent="props.performDelete(props.index)"
         />
-            
       </div>
 
       <div
         slot="autocomplete-item"
         slot-scope="props"
-        v-if="props.item.disabled && props.item.text=='disabled'"
+        v-if="props.item.disabled && props.item.text == 'disabled'"
         class="hover:bg-white hover:text-black cursor-normal"
-        :class="props.item.indication =='not_found' ? 'text-red-500':''"
+        :class="props.item.indication == 'not_found' ? 'text-red-500' : ''"
         @click.prevent=""
       >
-        <ProgressBarLoading class="w-56" v-if="props.item.name=='loading' && ( filterSearchTextObj[subFilter.id] !==undefined && filterSearchTextObj[subFilter.id].length > 0 ) && (subFilter.id !=='gene' || subFilter.id !=='gene-vertical')"></ProgressBarLoading>
-        <p 
-        v-else
-         :class="props.item.indication =='not_found' ? 'text-red-500':''"
-         class="text-xs text-gray-500 ">
-         <span v-if="(subFilter.id ==='gene' || subFilter.id ==='gene-vertical')">
-           {{ props.item.description  }}
-         </span>
-         
+        <ProgressBarLoading
+          class="w-56"
+          v-if="
+            props.item.name == 'loading' &&
+            filterSearchTextObj[subFilter.id] !== undefined &&
+            filterSearchTextObj[subFilter.id].length > 0 &&
+            (subFilter.id !== 'gene' || subFilter.id !== 'gene-vertical')
+          "
+        ></ProgressBarLoading>
+        <p
+          v-else
+          :class="props.item.indication == 'not_found' ? 'text-red-500' : ''"
+          class="text-xs text-gray-500"
+        >
+          <span
+            v-if="subFilter.id === 'gene' || subFilter.id === 'gene-vertical'"
+          >
+            {{ props.item.description }}
+          </span>
         </p>
       </div>
-            <div
+      <div
         v-else
         slot="autocomplete-item"
         slot-scope="props"
@@ -72,10 +80,10 @@
         @click.prevent="props.performAdd(props.item)"
       >
         <h6 class="text-xs font-semibold">
-          {{ props.item.text}}
+          {{ props.item.text }}
         </h6>
         <p class="text-xs text-gray-500">
-          {{ props.item.description}}
+          {{ props.item.description }}
         </p>
       </div>
     </vue-tags-input>
@@ -90,12 +98,12 @@ export default {
   },
   props: {
     showSuggestions: {
-      type:Boolean,
-      required:true,
+      type: Boolean,
+      required: true,
     },
     activeLoadingSpinner: {
-      type:String,
-      default:null
+      type: String,
+      default: null,
     },
     filterIndex: {
       type: Number,
@@ -188,9 +196,9 @@ export default {
       }))
     },
     onTagsChanged(newTags, filter) {
-      if (filter.id === 'study-type' && newTags.length > 0 ) {
-        console.log("filter",filter)
-         console.log("newtags",newTags)
+      if (filter.id === 'study-type' && newTags.length > 0) {
+        console.log('filter', filter)
+        console.log('newtags', newTags)
         this.$emit('ON_SELECT_STUDY_TYPE', {
           therapeuticArea: newTags[0]?.therapeuticArea,
           indication: newTags[0]?.indication,
@@ -242,11 +250,9 @@ export default {
       }
     },
     getAutocompleteItems(subFilter, options = { isInputDisabled: false }) {
-
       if (options.isInputDisabled) return []
       // if the input is disabled, return an empty array so that the autocomplete dropdown won't show up when an item is already selected
       const subFilterId = subFilter.id
-
 
       if (
         !this.deselectedDropdownIds.includes(subFilter.id) &&
@@ -284,84 +290,94 @@ export default {
         this.filterSearchTextObj[subFilterId] === undefined
           ? ''
           : this.filterSearchTextObj[subFilterId]?.toLowerCase()
-         
-         //CHECK whether the input being searched is gene
-         if(this.focusedInputId ==="gene" || this.focusedInputId ==="gene-vertical") {
-       const text_to_search = this.filterSearchTextObj[this.focusedInputId ];
+
+      //CHECK whether the input being searched is gene
+      if (
+        this.focusedInputId === 'gene' ||
+        this.focusedInputId === 'gene-vertical'
+      ) {
+        const text_to_search = this.filterSearchTextObj[this.focusedInputId]
         //check if characters are more or equal to 3
-        if(text_to_search && text_to_search.length >=3) {
-         //EMIT AN EVENT TO SEARCH THE GENEIDS
-         this.$emit("get-gene-ids", text_to_search,subFilterId)
+        if (text_to_search && text_to_search.length >= 3) {
+          //EMIT AN EVENT TO SEARCH THE GENEIDS
+          this.$emit('get-gene-ids', text_to_search, subFilterId)
         }
-         }
-        
+      }
 
-      if(subFilterId ==="gene" || subFilterId==="gene-vertical") {
-      console.log("Autocomplete");
-      if(subFilter.options.length===0 && this.filterSearchTextObj[this.focusedInputId ]?.length > 2) {
-          return  [
+      if (subFilterId === 'gene' || subFilterId === 'gene-vertical') {
+        console.log('Autocomplete')
+        if (
+          subFilter.options.length === 0 &&
+          this.filterSearchTextObj[this.focusedInputId]?.length > 2
+        ) {
+          return [
             {
-                name:"Not found",
-                indication:"not_found",
-                description:"Not Found",
-                text:"disabled",
-                disabled: true,
-            }
-      ]
-      }
-      if(subFilter.options.length===0 && (this.activeloadingSpinner !==null)) {
-           return  [
+              name: 'Not found',
+              indication: 'not_found',
+              description: 'Not Found',
+              text: 'disabled',
+              disabled: true,
+            },
+          ]
+        }
+        if (
+          subFilter.options.length === 0 &&
+          this.activeloadingSpinner !== null
+        ) {
+          return [
             {
-                name:"gene",
-                indication:"loading",
-                description:"Enter more than 3 letters",
-                text:"disabled",
+              name: 'gene',
+              indication: 'loading',
+              description: 'Enter more than 3 letters',
+              text: 'disabled',
+              disabled: true,
+            },
+          ]
+        }
+
+        if (this.showSuggestions) {
+          console.log('show suggestions', this.showSuggestions)
+          if (subFilter.options.length > 0) {
+            return [
+              {
+                name: 'Did you mean?',
+                indication: 'Did you mean?',
+                description: 'Did you mean?',
+                text: 'disabled',
                 disabled: true,
-            }
-      ]
+              },
+              ...subFilter.options.filter(
+                (s) =>
+                  s.name.toLowerCase() ||
+                  s.indication?.toLowerCase() ||
+                  s.description?.toLowerCase()
+              ),
+            ]
+          }
+        }
+        if (subFilter.options.length > 0) {
+          return subFilter.options.filter(
+            (s) =>
+              s.name.toLowerCase() ||
+              s.indication?.toLowerCase() ||
+              s.description?.toLowerCase()
+          )
+        }
       }
 
-
-      if(this.showSuggestions) {
-        console.log("show suggestions", this.showSuggestions)
-              if(subFilter.options.length>0) {
-      return [
-      {
-        name:"Did you mean?",
-         indication:"Did you mean?",
-          description:"Did you mean?",
-          text:"disabled",
-           disabled: true,
-      },
-          ...subFilter.options.filter(
-        (s) =>
-          s.name.toLowerCase() ||
-          s.indication?.toLowerCase() ||
-          s.description?.toLowerCase()
-      )]
-
-      }
-      }
-      if(subFilter.options.length>0) {
-        return subFilter.options.filter(
-        (s) =>
-          s.name.toLowerCase() ||
-          s.indication?.toLowerCase() ||
-          s.description?.toLowerCase()
-      )
-      }
-      }
-
-      if(subFilter.options.length===0 && (this.activeloadingSpinner !==subFilter.id)) {
-           return  [
-            {
-                name:"loading",
-                indication:"loading",
-                description:"loading",
-                text:"disabled",
-                disabled: true,
-            }
-      ]
+      if (
+        subFilter.options.length === 0 &&
+        this.activeloadingSpinner !== subFilter.id
+      ) {
+        return [
+          {
+            name: 'loading',
+            indication: 'loading',
+            description: 'loading',
+            text: 'disabled',
+            disabled: true,
+          },
+        ]
       }
       return subFilter.options.filter(
         (s) =>
@@ -432,6 +448,9 @@ export default {
 
 .vue-tags-input .ti-tags {
   flex-wrap: nowrap !important;
+}
+
+.s-input .vue-tags-input .ti-tags {
   overflow-x: auto;
 }
 
