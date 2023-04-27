@@ -548,8 +548,8 @@
           :treatments="stratification"
           :y-title="
             selectedGeneAliases.length > 0
-              ? selectedGeneAliases[0]
-              : selectedBiomarkers[0]
+              ? selectedGeneAliases[0].text
+              : selectedBiomarkers[0].text
           "
         />
       </section>

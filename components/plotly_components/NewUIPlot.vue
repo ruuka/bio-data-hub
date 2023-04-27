@@ -79,19 +79,20 @@ export default {
         yaxis: {
           title: this.yTitle,
           zeroline: false,
-
+          automargin: true,
           // type: this.$props.plotSetup.axisScale,
 
           autorange: true,
           // showgrid: true,
-          dtick: 5,
+          dtick: 10,
+          // range: [-10, 40],
           // gridcolor: 'rgb(255, 255, 255)',
           // gridwidth: 1,
           // zerolinecolor: 'rgb(255, 255, 255)',
           // zerolinewidth: 2
         },
-        // boxmode: 'group',
-        margin: { t: 25, b: 150, l: 50, r: 15 },
+
+        // margin: { t: 25, b: 150, l: 50, r: 15 },
 
         boxmode: 'group',
       }
