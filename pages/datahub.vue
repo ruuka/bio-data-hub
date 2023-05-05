@@ -21,7 +21,7 @@
                 />
               </svg>
               <!-- link -->
-              <li><a href="#">Clinical Data</a></li>
+              <li><a href="#">Visualization</a></li>
               <!-- arrow -->
               <svg
                 class="fill-[#a19cff] h-5"
@@ -34,7 +34,7 @@
                 />
               </svg>
               <!-- link -->
-              <li><a href="#">Default Plot</a></li>
+              <li><a href="#">Data-Hub</a></li>
             </ul>
           </nav>
 
@@ -99,8 +99,8 @@
                     :data-tip="selectedStudy && selectedStudy.study_id"
                   >
                     <span class="max-w-[10rem] truncate text-ellipsis">{{
-                      selectedStudy && selectedStudy.study_id
-                    }}</span>
+                        selectedStudy && selectedStudy.study_id
+                      }}</span>
                   </a>
                 </p>
                 <p
@@ -126,8 +126,8 @@
                     :data-tip="selectedStudy && selectedStudy.name"
                   >
                     <span class="max-w-[14rem] truncate text-ellipsis">{{
-                      selectedStudy && selectedStudy.name
-                    }}</span>
+                        selectedStudy && selectedStudy.name
+                      }}</span>
                   </a>
                 </div>
               </div>
@@ -302,8 +302,8 @@
                         class="gap-2 text-xs cursor-pointer tooltip tooltip-right flex"
                       >
                         <span class="max-w-[8rem] truncate text-ellipsis">{{
-                          props.tag.text
-                        }}</span>
+                            props.tag.text
+                          }}</span>
                       </div>
                     </vue-tags-input>
 
@@ -400,8 +400,8 @@
                         class="gap-2 text-xs cursor-pointer tooltip tooltip-right flex"
                       >
                         <span class="max-w-[8rem] truncate text-ellipsis">{{
-                          props.tag.text
-                        }}</span>
+                            props.tag.text
+                          }}</span>
                       </div>
                     </vue-tags-input>
 

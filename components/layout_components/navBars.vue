@@ -29,7 +29,7 @@
                 </button>
                 <ul class="dropdown-menu absolute hidden text-gray-700 text-sm pt-1 w-36">
                   <li class=""><NuxtLink to="/summary" aria-current="page" class="rounded-t text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Datasets</NuxtLink></li>
-                  <li class=""><NuxtLink to="/new-ui" aria-current="page" class="text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Data-Hub</NuxtLink></li>
+                  <li class=""><NuxtLink to="/datahub" aria-current="page" class="text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Data-Hub</NuxtLink></li>
                   <li class=""><NuxtLink to="/tableau" aria-current="page" class="text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">Tableau</NuxtLink></li>
                   <li class=""><a href="http://cbioportal.na.gilead.com" aria-current="page" class="rounded-b text-white bg-gray-700 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap">cBioPortal</a></li>
                 </ul>
