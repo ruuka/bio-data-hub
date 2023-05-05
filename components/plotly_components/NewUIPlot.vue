@@ -76,6 +76,7 @@ export default {
       })
 
       const layout = {
+        height: 800,
         yaxis: {
           title: this.yTitle,
           zeroline: false,

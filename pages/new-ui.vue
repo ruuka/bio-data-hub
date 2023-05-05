@@ -794,7 +794,6 @@ export default {
         this.selectedGeneAliases = [{ text: item }]
       }
     },
-
     getStudiesByTheraputicArea(therapeuticarea) {
       return this.allStudies.filter((item) => {
         return item.THERAPEUTICAREA === therapeuticarea
