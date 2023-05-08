@@ -21,7 +21,7 @@
                 />
               </svg>
               <!-- link -->
-              <li><a href="#">Visualization</a></li>
+              <li><a href="#">Clinical Data</a></li>
               <!-- arrow -->
               <svg
                 class="fill-[#a19cff] h-5"
@@ -34,7 +34,7 @@
                 />
               </svg>
               <!-- link -->
-              <li><a href="#">Data-Hub</a></li>
+              <li><a href="#">Default Plot</a></li>
             </ul>
           </nav>
 
