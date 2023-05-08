@@ -1,6 +1,11 @@
 <template>
   <div>
-    <div ref="plotlyDiv"></div>
+    <div v-if="isBoxPlotDataPresent" ref="plotlyDiv"></div>
+    <div v-else class="">
+      <p class="bg-gilead-red bg-opacity-20 text-gilead-red px-4 py-2.5">
+        No data
+      </p>
+    </div>
   </div>
 </template>
 
@@ -30,12 +35,18 @@ export default {
       name: '',
     }
   },
+  computed: {
+    isBoxPlotDataPresent() {
+      return this.boxPlotData.every((item) => item.data.length > 0)
+    },
+  },
   watch: {
     boxPlotData() {
       this.reTraceDataForPlot()
     },
   },
   mounted() {
+    console.log('Result', this.isBoxPlotDataPresent)
     this.reTraceDataForPlot()
   },
   methods: {
@@ -120,9 +131,11 @@ export default {
       if (this.$props.plotTitle > 10) {
         layout.titlefont = { size: 9 }
       }
-      setTimeout(() => {
-        Plotly.newPlot(this.$refs.plotlyDiv, result, layout, config)
-      }, 1000)
+      if (this.isBoxPlotDataPresent) {
+        setTimeout(() => {
+          Plotly.newPlot(this.$refs.plotlyDiv, result, layout, config)
+        }, 1000)
+      }
     },
   },
 }
