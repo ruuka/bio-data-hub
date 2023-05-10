@@ -50,6 +50,46 @@ export default {
     this.reTraceDataForPlot()
   },
   methods: {
+    changeTitleToTwoLines() {
+      // Get the SVG text element
+      const svgText = document.querySelector('text.ytitle')
+
+      // Define the maximum width for the text
+      const maxWidth = 250
+
+      // Get the current text content
+      const textContent = svgText.textContent
+
+      // Calculate the actual text width
+      const textWidth = svgText.getComputedTextLength()
+
+      // Calculate the number of lines needed based on the width
+      const numLines = Math.ceil(textWidth / maxWidth)
+
+      // Split the text into multiple lines
+      const words = textContent.split(' ')
+      let line = ''
+      let wrappedText = ''
+
+      for (let i = 0; i < words.length; i++) {
+        const word = words[i]
+        const testLine = line + word + ' '
+        const testWidth = svgText.getSubStringLength(0, testLine.length)
+
+        if (testWidth > maxWidth) {
+          wrappedText += `<tspan x="0" dy="1em">${line}</tspan>`
+          line = word + ' '
+        } else {
+          line = testLine
+        }
+      }
+
+      // Add the last line of text
+      wrappedText += `<tspan x="0" dy="1em">${line}</tspan>`
+
+      // Replace the original text with the wrapped text
+      svgText.innerHTML = wrappedText
+    },
     flatten(arr) {
       return arr.reduce(function (flat, toFlatten) {
         return flat.concat(
@@ -134,6 +174,8 @@ export default {
       if (this.isBoxPlotDataPresent) {
         setTimeout(() => {
           Plotly.newPlot(this.$refs.plotlyDiv, result, layout, config)
+
+          this.changeTitleToTwoLines()
         }, 1000)
       }
     },
